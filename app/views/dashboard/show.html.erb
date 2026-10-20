@@ -46,7 +46,7 @@
             </p>
           </div>
           <div class="flex flex-none gap-1.5">
-            <%= link_to "Mensagem", message_templates_path(job_application_id: application.id), class: "btn btn-sm" %>
+            <%= link_to "Follow-up", MessageTemplate.follow_up_path(application), class: "btn btn-sm" %>
             <%= link_to "Editar", edit_job_application_path(application), class: "btn btn-ghost btn-sm" %>
           </div>
         </div>

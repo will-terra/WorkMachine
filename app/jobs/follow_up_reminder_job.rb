@@ -1,5 +1,6 @@
-# Every morning: applications sent more than 5 days ago without any answer get a
-# follow-up date for today, so they show up on the dashboard.
+# Every morning at 8am: applications sent more than 5 days ago without any answer get a
+# follow-up date for today, and a notification lists the follow-ups due, opening the
+# follow-up message already filled in.
 class FollowUpReminderJob < ApplicationJob
   queue_as :default
 
@@ -7,5 +8,20 @@ class FollowUpReminderJob < ApplicationJob
     JobApplication.waiting_answer(date).find_each do |application|
       application.update!(next_follow_up_on: date)
     end
+    notify(JobApplication.follow_up_due(date).order(:applied_on).to_a)
   end
+
+  private
+    def notify(due)
+      return if due.empty? || !Setting.current.notify_follow_ups?
+
+      names = due.first(3).map(&:company).to_sentence(last_word_connector: " e ")
+      names += " e mais #{due.size - 3}" if due.size > 3
+      PushSender.deliver_all(
+        title: due.one? ? "Follow-up hoje: #{due.first.company}" : "#{due.size} follow-ups para hoje",
+        body: "Sem resposta há #{JobApplication::FOLLOW_UP_AFTER.in_days.to_i}+ dias: #{names}. A mensagem de follow-up já vem preenchida.",
+        path: due.one? ? MessageTemplate.follow_up_path(due.first) : "/",
+        tag: "follow-ups"
+      )
+    end
 end

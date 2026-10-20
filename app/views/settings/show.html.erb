@@ -40,6 +40,10 @@
       <%= form.check_box :notify_replies, class: "size-4 accent-accent" %>
       <%= form.label :notify_replies, "Notificar quando uma empresa responder", class: "text-sm" %>
     </div>
+    <div class="flex items-center gap-2">
+      <%= form.check_box :notify_follow_ups, class: "size-4 accent-accent" %>
+      <%= form.label :notify_follow_ups, "Às 8h, notificar os follow-ups do dia (candidaturas sem resposta há 5+ dias)", class: "text-sm" %>
+    </div>
     <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
   <% end %>
 

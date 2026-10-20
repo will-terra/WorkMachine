@@ -25,7 +25,7 @@
   <div class="grid gap-4 md:grid-cols-2">
     <% @message_templates.each do |template| %>
       <% text = template.render(@values) %>
-      <article id="<%= dom_id(template) %>" class="card grid content-start gap-3 p-4"
+      <article id="<%= dom_id(template) %>" class="card grid scroll-mt-20 content-start gap-3 p-4 target:ring-2 target:ring-accent"
                data-message-target="template" data-body="<%= template.body %>" data-max="<%= template.max_chars %>" data-controller="clipboard">
         <header class="flex items-start justify-between gap-3">
           <div>
