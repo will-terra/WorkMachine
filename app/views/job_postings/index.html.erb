@@ -1,3 +1,6 @@
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<div data-controller="refresh-on-return" hidden></div>
+
 <%= page_header eyebrow: "Triagem", title: "Vagas",
                 intro: "Vagas do agregador, dos alertas do LinkedIn e da extensão. Salve as que valem a pena e descarte o resto." do %>
   <%= button_to "Buscar agora", fetch_job_postings_path, class: "btn btn-sm" %>
