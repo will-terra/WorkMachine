@@ -31,6 +31,9 @@
 /tmp/storage/*
 !/tmp/storage/.keep
 
+# Ignore database backups.
+/backups
+
 # Ignore assets.
 /node_modules/
 /app/assets/builds/*

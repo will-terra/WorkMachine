@@ -195,11 +195,20 @@ Depois de mudar os pesos, recalcule as vagas já salvas com
 
 ## Backup
 
-O banco é um arquivo SQLite dentro do volume do Docker. Para copiar para fora:
+A cada hora (no minuto 30) o WorkMachine copia o banco para a pasta de `WORKMACHINE_BACKUP_DIR` no
+`.env`, por exemplo `/mnt/c/Users/<você>/Documents/WorkMachine/backups` (sem a variável, vai para
+`backups/` do projeto). Ficam todas as cópias das últimas 24 horas e uma por dia dos últimos 14 dias.
+Em **Ajustes** aparecem o último backup e o botão **Fazer backup agora**; pelo terminal,
+`docker compose exec web bin/rails backup:now`. Depois de mudar a pasta no `.env`, rode
+`docker compose up -d` para o container montar a pasta nova.
+
+Para restaurar uma cópia (troque o nome do arquivo):
 
 ```bash
-docker compose exec web sqlite3 storage/development.sqlite3 ".backup storage/backup.sqlite3"
-docker compose cp web:/rails/storage/backup.sqlite3 ./workmachine-backup.sqlite3
+docker compose stop web
+docker compose run --rm --no-deps --entrypoint sh web -c \
+  'cp backups/workmachine-AAAA-MM-DD-HHMM.sqlite3 storage/development.sqlite3 && rm -f storage/development.sqlite3-wal storage/development.sqlite3-shm'
+docker compose start web
 ```
 
 A planilha das candidaturas também sai em **Candidaturas → Exportar .xlsx** ou **Exportar CSV**.

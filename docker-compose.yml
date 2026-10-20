@@ -16,8 +16,15 @@ services:
     volumes:
       - .:/rails
       - storage:/rails/storage
+      # Daily database backups (DatabaseBackupJob). Point it to a Windows folder in .env.
+      - ${WORKMACHINE_BACKUP_DIR:-./backups}:/rails/backups
     restart: unless-stopped
     stop_grace_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   storage:

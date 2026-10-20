@@ -23,7 +23,9 @@ Rails.application.routes.draw do
     end
   end
   resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
-  resource :settings, path: "ajustes", only: %i[ show update ]
+  resource :settings, path: "ajustes", only: %i[ show update ] do
+    post :backup
+  end
   resources :push_subscriptions, only: %i[ create destroy ] do
     collection do
       delete :unsubscribe

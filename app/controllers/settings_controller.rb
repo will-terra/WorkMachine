@@ -3,6 +3,14 @@ class SettingsController < ApplicationController
 
   def show
     @push_subscriptions = PushSubscription.order(:created_at)
+    @backups = DatabaseBackup.files
+  end
+
+  def backup
+    path = DatabaseBackup.call
+    redirect_to settings_path, notice: "Backup feito: #{path.basename}."
+  rescue StandardError => e
+    redirect_to settings_path, alert: "O backup falhou: #{e.message.truncate(200)}"
   end
 
   def update
@@ -10,6 +18,7 @@ class SettingsController < ApplicationController
       redirect_to settings_path, notice: "Ajustes salvos."
     else
       @push_subscriptions = PushSubscription.order(:created_at)
+      @backups = DatabaseBackup.files
       render :show, status: :unprocessable_content
     end
   end

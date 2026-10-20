@@ -24,6 +24,7 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+/backups
 /public/assets
 /app/assets/builds/*
 !/app/assets/builds/.keep

@@ -17,6 +17,27 @@ RSpec.describe "Settings and push subscriptions" do
     expect(response).to have_http_status(:unprocessable_content)
   end
 
+  it "shows the backups and runs one on demand" do
+    dir = Pathname(Dir.mktmpdir)
+    allow(DatabaseBackup).to receive(:dir).and_return(dir)
+
+    get settings_path
+    expect(response.body).to include("Backup do banco", "Nenhum backup ainda")
+
+    post backup_settings_path
+    expect(response).to redirect_to(settings_path)
+    expect(flash[:notice]).to start_with("Backup feito: workmachine-")
+
+    get settings_path
+    expect(response.body).to include("1 cópia guardadas")
+
+    allow(DatabaseBackup).to receive(:call).and_raise(Errno::EACCES, "/rails/backups")
+    post backup_settings_path
+    expect(flash[:alert]).to include("O backup falhou")
+  ensure
+    FileUtils.rm_rf(dir)
+  end
+
   it "subscribes, updates and unsubscribes a browser" do
     body = { endpoint: "https://fcm.googleapis.com/fcm/send/xyz", keys: { p256dh: "key1", auth: "auth1" } }
 
