@@ -26,7 +26,12 @@ Rails.application.routes.draw do
       post :test
     end
   end
-  resources :target_companies, path: "empresas-alvo", except: :show
+  resources :target_companies, path: "empresas-alvo", except: :show do
+    member do
+      post :activate
+      post :dismiss
+    end
+  end
 
   resource :radar, only: :show, controller: "radar"
   resources :consultancies, only: :update

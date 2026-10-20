@@ -1,0 +1,561 @@
+{
+ "meta": {
+  "total": 3
+ },
+ "data": [
+  {
+   "id": 167097,
+   "companyId": 50,
+   "companyDisplayName": null,
+   "companyDisplayLink": null,
+   "companyDisplayAbout": null,
+   "title": "Desenvolvedor(a) Fullstack",
+   "subtitle": "Vue.js/Nuxt.js, Ruby on Rails/Golang e PostgreSQL",
+   "description": "<p>A Clicksign, empresa líder em assinaturas eletrônicas no Brasil, busca uma pessoa Desenvolvedora Fullstack Pleno para construir produtos digitais de alta qualidade, unindo o desenvolvimento backend robusto à excelência na experiência do usuário no frontend. O profissional atuará em sistemas escaláveis de ponta a ponta, garantindo um ecossistema seguro, estável e centrado nas necessidades do usuário.</p><h2>Responsabilidades</h2><ul><li>Desenvolvimento e manutenção de ponta a ponta (Fullstack) de funcionalidades de média e alta complexidade, impactando diretamente na escalabilidade do produto.</li><li>Escrita de código limpo, eficiente e organizado, aplicando boas práticas arquiteturais e padrões de design tanto no client-side quanto no server-side.</li><li>Refinamento técnico de soluções em parceria com os times de Produto e Design, garantindo a viabilidade técnica e a fidelidade visual a partir do Figma.</li><li>Planejamento e execução de testes automatizados (unitários e de integração) para assegurar a estabilidade de todo o sistema.</li><li>Monitoramento e melhoria contínua de aplicações em produção, promovendo a troca de conhecimento técnico através de code reviews construti",
+   "moreInfos": "Selecionamos as principais informações da posição. Para conferir o descritivo completo, clique em \"acessar\"",
+   "countryId": null,
+   "city": null,
+   "state": null,
+   "type": "remote",
+   "expiresAt": null,
+   "expires": false,
+   "expired": false,
+   "externalLink": "https://clicksign.gupy.io/job/eyJqb2JJZCI6MTI3NTA5MTQsInNvdXJjZSI6InJlbW90YXIifQ==?jobBoardSource=remotar",
+   "isExternalLink": true,
+   "isPromoted": false,
+   "active": true,
+   "ignoreCompanyBenefits": false,
+   "createdAt": "2026-10-20T09:14:58.615-03:00",
+   "updatedAt": "2026-10-20T09:15:01.891-03:00",
+   "thumbnailUrl": "job-thumbnails/167097.png",
+   "integrationSource": "gupy",
+   "country": null,
+   "company": {
+    "id": 50,
+    "name": "Clicksign",
+    "link": "https://www.clicksign.com/?utm_source=remotar",
+    "about": "<p>A Clicksign foi a primeira empresa de assinatura eletrônica no Brasil. Nossas soluções são ideais para quem deseja reduzir os custos e agilizar a assinatura de documentos. Estamos em conformidade com a legislação brasileira e internacional. E nossa tecnologia, com diferentes pontos de autenticação, potencializa a validade jurídica dos documentos on-line.&nbsp;</p>",
+    "active": true,
+    "createdAt": "2022-05-19T11:43:14.025-03:00",
+    "updatedAt": "2025-08-11T18:18:18.689-03:00",
+    "brandColor": "#ff6c0a",
+    "companyProfilePicture": {
+     "id": 49,
+     "companyId": 50,
+     "url": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/cmbpccwky008x02yj18cb1dan.jpeg",
+     "mediumUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/PuqLPxnssZcWr776K0_RGjXTqOGjy4mKQqux9bK7dZSA6brHdZbaj-M48-9G0wtOywnbq_3UyyzlcHW8.jpeg",
+     "smallUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/Ne5aQUu9g8xnI2o8ijR-7-HL8yUPoAl1Gqeayd5YqW2TphLFQG4pzwhl6Ax1p9biP4Vat8apUtJkdVYy.jpeg",
+     "createdAt": "2022-05-19T11:43:45.315-03:00",
+     "updatedAt": "2025-06-09T14:03:48.885-03:00"
+    },
+    "companyProfileCover": {
+     "id": 49,
+     "companyId": 50,
+     "url": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-covers/cmg9qednq003p02zu7yel9d9f.png",
+     "mediumUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-covers/9oKew4eKam_SfGahky7VcwfaTgWCW6nrf1LcnQPlcjcOd19j8LlEuGL_z42GT_PphgzB44cfpErmF2y4.png",
+     "smallUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-covers/ASyRl8wkYLxiz6Ryx9B0zXmfjW-yO2lund_jf4f4WzoxilwNu4b5YRCTKmUPVQry88Lzv9-3hoQis6iY.png",
+     "createdAt": "2022-05-19T11:43:43.425-03:00",
+     "updatedAt": "2025-10-02T15:11:05.839-03:00"
+    },
+    "companyJobBenefits": [],
+    "companyLinks": [
+     {
+      "id": 23636,
+      "companyId": 50,
+      "title": "Glassdoor",
+      "url": "https://www.glassdoor.com.br/Vis%C3%A3o-geral/Trabalhar-na-Clicksign-EI_IE2682338.13,22.htm",
+      "createdAt": "2025-10-21T02:22:27.965-03:00",
+      "updatedAt": "2025-10-21T02:22:27.965-03:00"
+     },
+     {
+      "id": 23637,
+      "companyId": 50,
+      "title": "Twitter",
+      "url": "https://twitter.com/Clicksign",
+      "createdAt": "2025-10-21T02:22:27.973-03:00",
+      "updatedAt": "2025-10-21T02:22:27.973-03:00"
+     },
+     {
+      "id": 23638,
+      "companyId": 50,
+      "title": "Youtube",
+      "url": "https://www.youtube.com/clicksign_brasil",
+      "createdAt": "2025-10-21T02:22:27.977-03:00",
+      "updatedAt": "2025-10-21T02:22:27.977-03:00"
+     },
+     {
+      "id": 23639,
+      "companyId": 50,
+      "title": "Instagram",
+      "url": "https://www.instagram.com/clicksign/",
+      "createdAt": "2025-10-21T02:22:27.981-03:00",
+      "updatedAt": "2025-10-21T02:22:27.981-03:00"
+     },
+     {
+      "id": 23640,
+      "companyId": 50,
+      "title": "Facebook",
+      "url": "https://www.facebook.com/clicksign",
+      "createdAt": "2025-10-21T02:22:27.984-03:00",
+      "updatedAt": "2025-10-21T02:22:27.984-03:00"
+     },
+     {
+      "id": 23641,
+      "companyId": 50,
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/company/clicksign",
+      "createdAt": "2025-10-21T02:22:27.987-03:00",
+      "updatedAt": "2025-10-21T02:22:27.987-03:00"
+     }
+    ]
+   },
+   "jobTags": [
+    {
+     "id": 559069,
+     "jobId": 167097,
+     "tagId": 6,
+     "createdAt": "2026-10-20T09:14:58.690-03:00",
+     "updatedAt": "2026-10-20T09:14:58.690-03:00",
+     "tag": {
+      "id": 6,
+      "name": "♿ PcD",
+      "createdAt": "2022-06-14T20:58:34.934-03:00",
+      "updatedAt": "2025-12-20T16:22:03.543-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 559070,
+     "jobId": 167097,
+     "tagId": 21,
+     "createdAt": "2026-10-20T09:14:58.693-03:00",
+     "updatedAt": "2026-10-20T09:14:58.694-03:00",
+     "tag": {
+      "id": 21,
+      "name": "😎 Pleno",
+      "createdAt": "2022-12-13T12:03:10.889-03:00",
+      "updatedAt": "2022-12-13T12:03:10.889-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 559071,
+     "jobId": 167097,
+     "tagId": 1,
+     "createdAt": "2026-10-20T09:14:58.696-03:00",
+     "updatedAt": "2026-10-20T09:14:58.696-03:00",
+     "tag": {
+      "id": 1,
+      "name": "💼 CLT",
+      "createdAt": "2022-06-14T20:58:34.928-03:00",
+      "updatedAt": "2022-06-14T20:58:34.928-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 559072,
+     "jobId": 167097,
+     "tagId": 4,
+     "createdAt": "2026-10-20T09:14:58.700-03:00",
+     "updatedAt": "2026-10-20T09:14:58.700-03:00",
+     "tag": {
+      "id": 4,
+      "name": "🌍 100% Remoto",
+      "createdAt": "2022-06-14T20:58:34.932-03:00",
+      "updatedAt": "2022-06-14T20:58:34.932-03:00",
+      "type": "job"
+     }
+    }
+   ],
+   "jobSalary": {
+    "id": 154880,
+    "jobId": 167097,
+    "from": null,
+    "to": null,
+    "currency": null,
+    "type": "uninformed",
+    "createdAt": "2026-10-20T09:14:58.650-03:00",
+    "updatedAt": "2026-10-20T09:14:58.650-03:00"
+   },
+   "jobCategories": [
+    {
+     "id": 208837,
+     "jobId": 167097,
+     "categoryId": 13,
+     "createdAt": "2026-10-20T09:14:58.708-03:00",
+     "updatedAt": "2026-10-20T09:14:58.708-03:00",
+     "category": {
+      "id": 13,
+      "name": "Programação",
+      "createdAt": "2022-06-14T20:58:34.917-03:00",
+      "updatedAt": "2022-06-14T20:58:34.917-03:00"
+     }
+    }
+   ],
+   "jobRequirements": [
+    {
+     "id": 151963,
+     "jobId": 167097,
+     "description": "Sólida atuação como pessoa desenvolvedora (preferencialmente entre 3 a 5 anos), com histórico de entregas autônomas e vivência em ambientes ágeis.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.989-03:00",
+     "updatedAt": "2026-10-20T09:14:58.989-03:00"
+    },
+    {
+     "id": 151964,
+     "jobId": 167097,
+     "description": "Domínio avançado de desenvolvimento frontend utilizando Vue.js e/ou Nuxt.js.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.993-03:00",
+     "updatedAt": "2026-10-20T09:14:58.993-03:00"
+    },
+    {
+     "id": 151965,
+     "jobId": 167097,
+     "description": "Proficiência em TypeScript, HTML5 e CSS3 moderno.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.995-03:00",
+     "updatedAt": "2026-10-20T09:14:58.995-03:00"
+    },
+    {
+     "id": 151966,
+     "jobId": 167097,
+     "description": "Experiência prática no backend com Ruby on Rails e/ou Golang, em ambientes de alta performance.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.996-03:00",
+     "updatedAt": "2026-10-20T09:14:58.996-03:00"
+    },
+    {
+     "id": 151967,
+     "jobId": 167097,
+     "description": "Experiência com bancos de dados relacionais como PostgreSQL ou MySQL.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.998-03:00",
+     "updatedAt": "2026-10-20T09:14:58.998-03:00"
+    },
+    {
+     "id": 151968,
+     "jobId": 167097,
+     "description": "Experiência com consumo, desenvolvimento e manutenção de APIs RESTful.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:58.999-03:00",
+     "updatedAt": "2026-10-20T09:14:58.999-03:00"
+    },
+    {
+     "id": 151969,
+     "jobId": 167097,
+     "description": "Prática na escrita de testes automatizados com frameworks como RSpec, Vitest, Cypress ou similares.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:59.000-03:00",
+     "updatedAt": "2026-10-20T09:14:59.000-03:00"
+    },
+    {
+     "id": 151970,
+     "jobId": 167097,
+     "description": "Proficiência com Git (Gitflow/Pull Requests) e ambiente Linux.",
+     "mandatory": true,
+     "createdAt": "2026-10-20T09:14:59.002-03:00",
+     "updatedAt": "2026-10-20T09:14:59.002-03:00"
+    },
+    {
+     "id": 151971,
+     "jobId": 167097,
+     "description": "Experiência com ferramentas de monitoramento e observabilidade (Datadog, Posthog, Prometheus ou Grafana).",
+     "mandatory": false,
+     "createdAt": "2026-10-20T09:14:59.003-03:00",
+     "updatedAt": "2026-10-20T09:14:59.003-03:00"
+    },
+    {
+     "id": 151972,
+     "jobId": 167097,
+     "description": "Conhecimento em arquitetura de Micro-frontends e sistemas de mensageria.",
+     "mandatory": false,
+     "createdAt": "2026-10-20T09:14:59.004-03:00",
+     "updatedAt": "2026-10-20T09:14:59.004-03:00"
+    },
+    {
+     "id": 151973,
+     "jobId": 167097,
+     "description": "Conhecimento em infraestrutura de nuvem, Docker, Kubernetes e AWS.",
+     "mandatory": false,
+     "createdAt": "2026-10-20T09:14:59.005-03:00",
+     "updatedAt": "2026-10-20T09:14:59.005-03:00"
+    },
+    {
+     "id": 151974,
+     "jobId": 167097,
+     "description": "Experiência prática com processamento de PDFs.",
+     "mandatory": false,
+     "createdAt": "2026-10-20T09:14:59.007-03:00",
+     "updatedAt": "2026-10-20T09:14:59.007-03:00"
+    },
+    {
+     "id": 151975,
+     "jobId": 167097,
+     "description": "Vivência com cultura AI-first e uso de ferramentas de produtividade baseadas em IA.",
+     "mandatory": false,
+     "createdAt": "2026-10-20T09:14:59.008-03:00",
+     "updatedAt": "2026-10-20T09:14:59.008-03:00"
+    }
+   ]
+  },
+  {
+   "id": 167027,
+   "companyId": 8447,
+   "companyDisplayName": null,
+   "companyDisplayLink": null,
+   "companyDisplayAbout": null,
+   "title": "Backend Engineer (Ruby on Rails / PostgreSQL / LLM Pipelines), Product Testing Data",
+   "subtitle": "Build data ingestion and LLM pipelines with Ruby on Rails and PostgreSQL for a venture-backed early-stage US startup.",
+   "description": "<h3>ABOUT SIERRA STUDIO</h3>\n<p>When you apply to Sierra, you join an ecosystem. We specialize in connecting talented Brazilian professionals with exciting career opportunities in a highly-vetted small community of growing companies in the US. Applying to Sierra seamlessly integrates you into this ecosystem, granting automatic eligibility for all relevant opportunities we offer.</p>\n<h3>ABOUT OUR HIRING PARTNER</h3>\n<p>Our hiring partner is a venture-backed early-stage US startup building software and data infrastructure for product testing and compliance. Their customers are consumer brands and manufacturers who need to verify what is actually in the products they sell, prove it to regulators and marketplaces, and share it openly with their own customers.</p>\n<p>Testing today is slow, expensive, and the results end up buried in PDFs that nobody can compare or act on. Our partner is building the layer that changes that: a platform where testing results become structured, comparable data — data that automates compliance work, and that brands can publish to differentiate themselves.</p>\n<p>The team is small, technical, and founded by people who have built and scaled companies before.",
+   "moreInfos": null,
+   "countryId": null,
+   "city": null,
+   "state": null,
+   "type": "remote",
+   "expiresAt": null,
+   "expires": false,
+   "expired": false,
+   "externalLink": "https://jobs.ashbyhq.com/sierra-studio/30a83060-c31b-474a-add1-15137ae4570f/application?utm_source=remotar",
+   "isExternalLink": true,
+   "isPromoted": false,
+   "active": true,
+   "ignoreCompanyBenefits": true,
+   "createdAt": "2026-10-19T17:40:43.977-03:00",
+   "updatedAt": "2026-10-19T17:40:46.963-03:00",
+   "thumbnailUrl": "job-thumbnails/167027.png",
+   "integrationSource": null,
+   "country": null,
+   "company": {
+    "id": 8447,
+    "name": "Sierra Studio",
+    "link": "https://sierra.studio/?utm_source=remotar",
+    "about": "<p>Make your company AI-First. The pace of change is accelerating. We help business leaders and founders embed AI-first systems, tools, and talent, turning disruption into a competitive advantage.</p>\n<p>Our AI engineers embed directly with your team, accelerating your roadmap while protecting your IP.</p>",
+    "active": true,
+    "createdAt": "2026-10-19T14:10:24.826-03:00",
+    "updatedAt": "2026-10-19T14:10:24.826-03:00",
+    "brandColor": "#000000",
+    "companyProfilePicture": {
+     "id": 7047,
+     "companyId": 8447,
+     "url": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/cmvfift08008101o3hmj68rvp.png",
+     "mediumUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/9ee0bb406c79d5e59ed51c6291702f366195d87cbe3836b8fc26ef28971894aa01d24ad1f1afb245.png",
+     "smallUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/20d6b5f2c3aeb1f6ee526cf9b1b8849abca5d8034200abb1d4104ce7193da6ffea86e578a163cd1e.png",
+     "createdAt": "2026-10-19T14:10:26.925-03:00",
+     "updatedAt": "2026-10-19T14:10:26.925-03:00"
+    },
+    "companyProfileCover": null,
+    "companyJobBenefits": [],
+    "companyLinks": [
+     {
+      "id": 27364,
+      "companyId": 8447,
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/company/sierra-studio-ss/",
+      "createdAt": "2026-10-19T14:10:24.837-03:00",
+      "updatedAt": "2026-10-19T14:10:24.837-03:00"
+     }
+    ]
+   },
+   "jobTags": [
+    {
+     "id": 558781,
+     "jobId": 167027,
+     "tagId": 13,
+     "createdAt": "2026-10-19T17:40:44.013-03:00",
+     "updatedAt": "2026-10-19T17:40:44.013-03:00",
+     "tag": {
+      "id": 13,
+      "name": "✈️ Vaga internacional",
+      "createdAt": "2022-06-14T20:58:34.941-03:00",
+      "updatedAt": "2022-07-30T19:33:05.066-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 558782,
+     "jobId": 167027,
+     "tagId": 9,
+     "createdAt": "2026-10-19T17:40:44.019-03:00",
+     "updatedAt": "2026-10-19T17:40:44.019-03:00",
+     "tag": {
+      "id": 9,
+      "name": "💬 Inglês",
+      "createdAt": "2022-06-14T20:58:34.937-03:00",
+      "updatedAt": "2022-06-14T20:58:34.937-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 558783,
+     "jobId": 167027,
+     "tagId": 4,
+     "createdAt": "2026-10-19T17:40:44.022-03:00",
+     "updatedAt": "2026-10-19T17:40:44.022-03:00",
+     "tag": {
+      "id": 4,
+      "name": "🌍 100% Remoto",
+      "createdAt": "2022-06-14T20:58:34.932-03:00",
+      "updatedAt": "2022-06-14T20:58:34.932-03:00",
+      "type": "job"
+     }
+    }
+   ],
+   "jobSalary": {
+    "id": 154810,
+    "jobId": 167027,
+    "from": 0,
+    "to": 0,
+    "currency": "BRL",
+    "type": "uninformed",
+    "createdAt": "2026-10-19T17:40:44.028-03:00",
+    "updatedAt": "2026-10-19T17:40:44.028-03:00"
+   },
+   "jobCategories": [
+    {
+     "id": 208751,
+     "jobId": 167027,
+     "categoryId": 13,
+     "createdAt": "2026-10-19T17:40:44.024-03:00",
+     "updatedAt": "2026-10-19T17:40:44.024-03:00",
+     "category": {
+      "id": 13,
+      "name": "Programação",
+      "createdAt": "2022-06-14T20:58:34.917-03:00",
+      "updatedAt": "2022-06-14T20:58:34.917-03:00"
+     }
+    }
+   ],
+   "jobRequirements": []
+  },
+  {
+   "id": 167026,
+   "companyId": 8447,
+   "companyDisplayName": null,
+   "companyDisplayLink": null,
+   "companyDisplayAbout": null,
+   "title": "Full Stack Engineer (Ruby On Rails)",
+   "subtitle": "Build the modern lab-testing platform for consumers with Ruby on Rails, as a full stack engineer at an early-stage US startup.",
+   "description": "<h3>About Sierra Studio</h3>\n<p>When you apply to Sierra, you join an ecosystem. We specialize in connecting talented Brazilian professionals with exciting career opportunities in a highly-vetted small community of growing companies in the US. Applying to Sierra seamlessly integrates you into this ecosystem, granting automatic eligibility for all relevant opportunities we offer.</p>\n<h3>About our hiring partner</h3>\n<p>Our hiring partner is building the modern platform for lab testing, starting with consumer goods brands. They help companies test more cheaply and quickly, and enable them to use lab results to automate regulatory compliance and grow revenue.</p>\n<p>They believe consumers deserve to know the purity and accuracy of every product that affects their families' health. Improving our food system starts with increasing transparency and creating a more informed customer. Not only are they building a lab that makes testing faster, cheaper, and easier, but also the infrastructure that allows brands to:</p>\n<ul>\n  <li>Market and highlight their lab results by making it easy to push lab data directly to product display pages. Here, brands will highlight what's in their product (",
+   "moreInfos": null,
+   "countryId": null,
+   "city": null,
+   "state": null,
+   "type": "remote",
+   "expiresAt": null,
+   "expires": false,
+   "expired": false,
+   "externalLink": "https://jobs.ashbyhq.com/sierra-studio/ac6ca2a0-d84c-4878-ad5d-6cddceb97048/application?utm_source=remotar",
+   "isExternalLink": true,
+   "isPromoted": false,
+   "active": true,
+   "ignoreCompanyBenefits": true,
+   "createdAt": "2026-10-19T17:40:32.076-03:00",
+   "updatedAt": "2026-10-19T17:40:34.640-03:00",
+   "thumbnailUrl": "job-thumbnails/167026.png",
+   "integrationSource": null,
+   "country": null,
+   "company": {
+    "id": 8447,
+    "name": "Sierra Studio",
+    "link": "https://sierra.studio/?utm_source=remotar",
+    "about": "<p>Make your company AI-First. The pace of change is accelerating. We help business leaders and founders embed AI-first systems, tools, and talent, turning disruption into a competitive advantage.</p>\n<p>Our AI engineers embed directly with your team, accelerating your roadmap while protecting your IP.</p>",
+    "active": true,
+    "createdAt": "2026-10-19T14:10:24.826-03:00",
+    "updatedAt": "2026-10-19T14:10:24.826-03:00",
+    "brandColor": "#000000",
+    "companyProfilePicture": {
+     "id": 7047,
+     "companyId": 8447,
+     "url": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/cmvfift08008101o3hmj68rvp.png",
+     "mediumUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/9ee0bb406c79d5e59ed51c6291702f366195d87cbe3836b8fc26ef28971894aa01d24ad1f1afb245.png",
+     "smallUrl": "https://remotar-assets-prod.s3.sa-east-1.amazonaws.com/company-profile-pictures/20d6b5f2c3aeb1f6ee526cf9b1b8849abca5d8034200abb1d4104ce7193da6ffea86e578a163cd1e.png",
+     "createdAt": "2026-10-19T14:10:26.925-03:00",
+     "updatedAt": "2026-10-19T14:10:26.925-03:00"
+    },
+    "companyProfileCover": null,
+    "companyJobBenefits": [],
+    "companyLinks": [
+     {
+      "id": 27364,
+      "companyId": 8447,
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/company/sierra-studio-ss/",
+      "createdAt": "2026-10-19T14:10:24.837-03:00",
+      "updatedAt": "2026-10-19T14:10:24.837-03:00"
+     }
+    ]
+   },
+   "jobTags": [
+    {
+     "id": 558778,
+     "jobId": 167026,
+     "tagId": 13,
+     "createdAt": "2026-10-19T17:40:32.111-03:00",
+     "updatedAt": "2026-10-19T17:40:32.111-03:00",
+     "tag": {
+      "id": 13,
+      "name": "✈️ Vaga internacional",
+      "createdAt": "2022-06-14T20:58:34.941-03:00",
+      "updatedAt": "2022-07-30T19:33:05.066-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 558779,
+     "jobId": 167026,
+     "tagId": 9,
+     "createdAt": "2026-10-19T17:40:32.115-03:00",
+     "updatedAt": "2026-10-19T17:40:32.115-03:00",
+     "tag": {
+      "id": 9,
+      "name": "💬 Inglês",
+      "createdAt": "2022-06-14T20:58:34.937-03:00",
+      "updatedAt": "2022-06-14T20:58:34.937-03:00",
+      "type": "job"
+     }
+    },
+    {
+     "id": 558780,
+     "jobId": 167026,
+     "tagId": 4,
+     "createdAt": "2026-10-19T17:40:32.118-03:00",
+     "updatedAt": "2026-10-19T17:40:32.118-03:00",
+     "tag": {
+      "id": 4,
+      "name": "🌍 100% Remoto",
+      "createdAt": "2022-06-14T20:58:34.932-03:00",
+      "updatedAt": "2022-06-14T20:58:34.932-03:00",
+      "type": "job"
+     }
+    }
+   ],
+   "jobSalary": {
+    "id": 154809,
+    "jobId": 167026,
+    "from": 6000000,
+    "to": 11000000,
+    "currency": "USD",
+    "type": "yearly",
+    "createdAt": "2026-10-19T17:40:32.125-03:00",
+    "updatedAt": "2026-10-19T17:40:32.125-03:00"
+   },
+   "jobCategories": [
+    {
+     "id": 208750,
+     "jobId": 167026,
+     "categoryId": 13,
+     "createdAt": "2026-10-19T17:40:32.121-03:00",
+     "updatedAt": "2026-10-19T17:40:32.121-03:00",
+     "category": {
+      "id": 13,
+      "name": "Programação",
+      "createdAt": "2022-06-14T20:58:34.917-03:00",
+      "updatedAt": "2022-06-14T20:58:34.917-03:00"
+     }
+    }
+   ],
+   "jobRequirements": []
+  }
+ ]
+}

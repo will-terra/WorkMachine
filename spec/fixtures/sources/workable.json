@@ -1,0 +1,66 @@
+{
+ "name": "Zipdev",
+ "description": "<p>Zipdev offers the opportunity to work remotely with clients based in the United States. Zipdev recruits and hires the best Developers, Designers, QA Testers, and Project Managers in Latin America. ",
+ "jobs": [
+  {
+   "title": "QA Engineer (Automation and AI tooling)",
+   "shortcode": "82F5B11EBB",
+   "code": "Engineering",
+   "employment_type": "Full-time",
+   "telecommuting": true,
+   "department": "Engineering",
+   "url": "https://apply.workable.com/j/82F5B11EBB",
+   "shortlink": "https://apply.workable.com/j/82F5B11EBB",
+   "application_url": "https://apply.workable.com/j/82F5B11EBB/apply",
+   "published_on": "2026-10-15",
+   "created_at": "2026-10-15",
+   "country": "Colombia",
+   "city": "",
+   "state": "",
+   "education": "",
+   "experience": "",
+   "function": "Engineering",
+   "industry": "Computer Software",
+   "locations": [
+    {
+     "country": "Colombia",
+     "countryCode": "CO",
+     "city": "",
+     "region": null,
+     "hidden": false
+    }
+   ],
+   "description": "<p><strong>About the Role</strong></p><p>Our client is looking for a Senior QA Engineer to ensure the quality, reliability, security, and compliance of a modern, cloud-based dental practice management platform. The application includes a Ruby on Rails backend and a React frontend.</p><p>This role will focus on manual and automated testing, improving test coverage, identifying defects, and ensuring software quality throughout the development lifecycle. The ideal candidate has hands-on experience with Ranorex, Mabl, Postman, Selenium, or similar automation frameworks, along with experience using AI tools to improve testing efficiency and coverage.</p><p>You will work closely with developers and other stakeholders to identify issues early, strengthen regression testing, and establish reliable quality processes. Since the platform operates in a healthcare environment, a strong understanding of data privacy and the importance of protecting sensitive patient information is essential.</p><p><"
+  },
+  {
+   "title": "Customer Service Representative",
+   "shortcode": "9D0E6DEBAC",
+   "code": "",
+   "employment_type": "Full-time",
+   "telecommuting": true,
+   "department": "CSD",
+   "url": "https://apply.workable.com/j/9D0E6DEBAC",
+   "shortlink": "https://apply.workable.com/j/9D0E6DEBAC",
+   "application_url": "https://apply.workable.com/j/9D0E6DEBAC/apply",
+   "published_on": "2026-08-28",
+   "created_at": "2026-08-28",
+   "country": "Mexico",
+   "city": "",
+   "state": "",
+   "education": "Bachelor's Degree",
+   "experience": "Associate",
+   "function": "Customer Service",
+   "industry": "Furniture",
+   "locations": [
+    {
+     "country": "Mexico",
+     "countryCode": "MX",
+     "city": "",
+     "region": null,
+     "hidden": false
+    }
+   ],
+   "description": "<p>We are seeking a proactive, empathetic, and detail-oriented Customer Support Representative to join our team. In this role, you will take ownership of the post-purchase customer lifecycle, serving as the central point of contact once purchase orders are transmitted to our vendors. You will bridge operations across Sales, Accounts Payable, Accounts Receivable, logistics partners, and freight carriers to ensure seamless order execution, issue resolution, and exceptional customer satisfaction.</p><p><strong>Key Responsibilities</strong></p><ul><li><strong>Order Validation &amp; Discrepancy Auditing:</strong> Review vendor order acknowledgments against internal POs to ensure absolute data accuracy. Proactively identify product, specification, or delivery inconsistencies (e.g., mismatched sizing for specific grade levels or missing liftgate requirements for large shipments).</li><li><strong>Order Modifications &amp; Cancellations:</strong> Manage change requests for quantities, finishes,"
+  }
+ ]
+}

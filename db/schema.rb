@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_184917) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_190218) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -177,7 +177,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_184917) do
     t.datetime "last_fetched_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "discovered_at"
+    t.integer "discovered_from_id"
     t.index ["ats", "board_slug"], name: "index_target_companies_on_ats_and_board_slug", unique: true
+    t.index ["discovered_from_id"], name: "index_target_companies_on_discovered_from_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -191,4 +194,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_184917) do
   add_foreign_key "ai_artifacts", "job_postings", on_delete: :cascade
   add_foreign_key "job_applications", "job_postings", on_delete: :nullify
   add_foreign_key "sessions", "users"
+  add_foreign_key "target_companies", "job_postings", column: "discovered_from_id", on_delete: :nullify
 end

@@ -1,8 +1,9 @@
 class TargetCompaniesController < ApplicationController
-  before_action :set_target_company, only: %i[ edit update destroy ]
+  before_action :set_target_company, only: %i[ edit update destroy activate dismiss ]
 
   def index
-    @target_companies = TargetCompany.alphabetical
+    @suggestions = TargetCompany.suggested.includes(:discovered_from).order(discovered_at: :desc)
+    @target_companies = TargetCompany.alphabetical.where.not(id: @suggestions.select(:id))
   end
 
   def new
@@ -33,6 +34,17 @@ class TargetCompaniesController < ApplicationController
   def destroy
     @target_company.destroy!
     redirect_to target_companies_path, notice: "Empresa removida.", status: :see_other
+  end
+
+  def activate
+    @target_company.update!(active: true)
+    redirect_to target_companies_path, notice: "#{@target_company.name} ativada. Ela entra na próxima busca."
+  end
+
+  # Keeps the company (inactive) so it is not suggested again.
+  def dismiss
+    @target_company.update!(discovered_at: nil)
+    redirect_to target_companies_path, notice: "Sugestão ignorada.", status: :see_other
   end
 
   private

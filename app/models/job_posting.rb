@@ -1,6 +1,6 @@
 class JobPosting < ApplicationRecord
-  SOURCES = %w[remotive remote_ok we_work_remotely backend_br frontend_br hacker_news gorails
-               greenhouse lever ashby linkedin_alert extension manual].freeze
+  SOURCES = %w[remotive remote_ok we_work_remotely working_nomads himalayas remotar backend_br frontend_br
+               hacker_news gorails greenhouse lever ashby workable linkedin_alert extension manual].freeze
   REMOTE_SCOPES = %w[brazil latam worldwide us_only europe_only unknown].freeze
   SENIORITIES = %w[junior mid senior unknown].freeze
   TRIAGES = %w[new saved dismissed].freeze
@@ -12,6 +12,8 @@ class JobPosting < ApplicationRecord
 
   has_one :job_application, dependent: :nullify
   has_many :ai_artifacts, dependent: :destroy
+  has_many :discovered_target_companies, class_name: "TargetCompany", foreign_key: :discovered_from_id,
+                                         inverse_of: :discovered_from, dependent: :nullify
 
   normalizes :url, with: ->(url) { UrlNormalizer.call(url) }
   normalizes :title, :company, with: ->(value) { value.to_s.squish.presence }

@@ -22,9 +22,9 @@ como aplicativo no Windows.
 
 De onde vêm as vagas, sozinhas:
 
-- **Agregador**, a cada 3 horas: Remotive, Remote OK, We Work Remotely, backend-br/vagas, frontendbr/vagas
-  (plano B), Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse, Lever e Ashby das
-  empresas-alvo. Cada fonte respeita um intervalo mínimo (o Remotive, por exemplo, pede no máximo 4
+- **Agregador**, a cada 3 horas: Remotive, Remote OK, We Work Remotely, Remotar, Himalayas, Working
+  Nomads, backend-br/vagas, frontendbr/vagas (plano B), Hacker News "Who is hiring", GoRails Jobs e os
+  quadros Greenhouse, Lever, Ashby e Workable das empresas-alvo. Cada fonte respeita um intervalo mínimo (o Remotive, por exemplo, pede no máximo 4
   chamadas por dia) e toda vaga guarda o link e o crédito da fonte.
 - **Alertas do LinkedIn**, a cada hora: os e-mails de alerta que chegam no Gmail são lidos por IMAP.
 - **Extensão do navegador**: botão "Salvar no WorkMachine" na vaga aberta (LinkedIn, Greenhouse, Lever,
@@ -160,14 +160,20 @@ página de extensões. Detalhes em [extension/README.md](extension/README.md).
 
 ## Empresas-alvo
 
-São as empresas que usam Rails e publicam vagas num quadro público do Greenhouse, Lever ou Ashby. O
+São as empresas que publicam vagas num quadro público do Greenhouse, Lever, Ashby ou Workable. O
 agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia.
+
+Elas também entram sozinhas: quando qualquer vaga nova (do agregador, de um alerta ou salva pela
+extensão) aponta para o quadro de uma empresa, ela é cadastrada. Se a vaga tiver nota igual ou maior
+que a nota mínima de **Ajustes**, a empresa já entra ativa; senão aparece em **Sugestões**, com os botões
+Ativar e Ignorar.
 
 1. Abra **Empresas-alvo** → **Adicionar empresa**.
 2. Escolha o sistema e informe o *slug*, que é o trecho do endereço da página de vagas:
    - Greenhouse: `job-boards.greenhouse.io/`**`gitlab`**
    - Lever: `jobs.lever.co/`**`empresa`**
    - Ashby: `jobs.ashbyhq.com/`**`empresa`**
+   - Workable: `apply.workable.com/`**`empresa`**
 3. Salve. A empresa entra na próxima busca (ou clique em **Buscar agora** em Vagas).
 
 As 7 empresas do seed estão marcadas como "exemplo"; edite, desative ou apague à vontade. Se o slug

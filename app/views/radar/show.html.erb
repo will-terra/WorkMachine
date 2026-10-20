@@ -40,7 +40,7 @@
 <section id="plataformas" class="mt-12 scroll-mt-20">
   <p class="eyebrow">Onde procurar</p>
   <h2 class="mt-1">Plataformas para visitar</h2>
-  <p class="muted mt-1 max-w-prose text-sm">Sites sem API ou RSS aberto, ou que funcionam por cadastro. Os que o WorkMachine já lê estão em <a href="#automatico">Automático</a>.</p>
+  <p class="muted mt-1 max-w-prose text-sm">Sites que não dá para ler automaticamente: sem API ou RSS aberto, que bloqueiam acesso automático ou que funcionam por cadastro. Os que o WorkMachine já lê estão em <a href="#automatico">Automático</a>.</p>
   <% @config["platforms"].each do |group| %>
     <h3 class="mt-6 mb-2"><%= group["title"] %></h3>
     <% if group["note"] %><p class="muted mb-2 text-sm"><%= group["note"] %></p><% end %>

@@ -1,6 +1,29 @@
 <%= page_header eyebrow: "Agregador", title: "Empresas-alvo",
-                intro: "Empresas que usam Rails e publicam vagas num quadro público do Greenhouse, Lever ou Ashby. O agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia." do %>
+                intro: "Empresas com quadro público no Greenhouse, Lever, Ashby ou Workable. O agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia. Quando uma vaga nova aponta para um desses quadros, a empresa entra aqui sozinha: ativa se a vaga tiver nota boa, ou como sugestão." do %>
   <%= link_to "Adicionar empresa", new_target_company_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<% if @suggestions.any? %>
+  <section class="mb-8" aria-labelledby="suggestions_title">
+    <h2 id="suggestions_title" class="mb-2 text-base">Sugestões encontradas nas vagas</h2>
+    <div class="card divide-y divide-line">
+      <% @suggestions.each do |company| %>
+        <div id="<%= dom_id(company) %>" class="flex flex-wrap items-center justify-between gap-3 px-4 py-3">
+          <div class="min-w-0">
+            <p class="font-semibold"><%= company.name %> <span class="chip ml-1"><%= company.human_enum(:ats) %></span></p>
+            <p class="muted text-sm">
+              <%= external_link company.board_url, company.board_url, class: "font-mono text-xs" %>
+              <% if company.discovered_from %> · vista em <%= link_to company.discovered_from.title.truncate(60), job_posting_path(company.discovered_from) %><% end %>
+            </p>
+          </div>
+          <div class="flex gap-1.5">
+            <%= button_to "Ativar", activate_target_company_path(company), class: "btn btn-primary btn-sm" %>
+            <%= button_to "Ignorar", dismiss_target_company_path(company), class: "btn btn-ghost btn-sm" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </section>
 <% end %>
 
 <div class="card overflow-x-auto">
@@ -9,7 +32,11 @@
     <tbody>
       <% @target_companies.each do |company| %>
         <tr id="<%= dom_id(company) %>">
-          <td class="font-semibold"><%= company.name %><% if company.example? %> <span class="chip ml-1">exemplo</span><% end %></td>
+          <td class="font-semibold">
+            <%= company.name %>
+            <% if company.example? %> <span class="chip ml-1">exemplo</span><% end %>
+            <% if company.discovered_at %> <span class="chip chip-ok ml-1" title="Encontrada numa vaga">descoberta</span><% end %>
+          </td>
           <td><%= company.human_enum(:ats) %></td>
           <td><%= external_link company.board_slug, company.board_url, class: "font-mono text-xs" %></td>
           <td><%= company.active? ? "Sim" : "Não" %></td>
@@ -20,4 +47,4 @@
     </tbody>
   </table>
 </div>
-<p class="muted mt-3 max-w-prose text-sm">Para achar o slug, abra a página de vagas da empresa: em <span class="font-mono">job-boards.greenhouse.io/<b>gitlab</b></span>, <span class="font-mono">jobs.lever.co/<b>empresa</b></span> ou <span class="font-mono">jobs.ashbyhq.com/<b>empresa</b></span>, o slug é a parte em negrito.</p>
+<p class="muted mt-3 max-w-prose text-sm">Para achar o slug, abra a página de vagas da empresa: em <span class="font-mono">job-boards.greenhouse.io/<b>gitlab</b></span>, <span class="font-mono">jobs.lever.co/<b>empresa</b></span>, <span class="font-mono">jobs.ashbyhq.com/<b>empresa</b></span> ou <span class="font-mono">apply.workable.com/<b>empresa</b></span>, o slug é a parte em negrito.</p>

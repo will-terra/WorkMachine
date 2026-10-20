@@ -2,7 +2,8 @@ class TargetCompany < ApplicationRecord
   BOARD_URLS = {
     "greenhouse" => "https://job-boards.greenhouse.io/%s",
     "lever" => "https://jobs.lever.co/%s",
-    "ashby" => "https://jobs.ashbyhq.com/%s"
+    "ashby" => "https://jobs.ashbyhq.com/%s",
+    "workable" => "https://apply.workable.com/%s"
   }.freeze
 
   enum :ats, BOARD_URLS.keys.index_by(&:itself), validate: true
@@ -12,7 +13,10 @@ class TargetCompany < ApplicationRecord
   validates :name, :board_slug, presence: true
   validates :board_slug, format: { with: /\A[a-z0-9][a-z0-9._-]*\z/ }, uniqueness: { scope: :ats }
 
+  belongs_to :discovered_from, class_name: "JobPosting", optional: true
+
   scope :active, -> { where(active: true) }
+  scope :suggested, -> { where(active: false).where.not(discovered_at: nil) }
   scope :alphabetical, -> { order(:name) }
 
   def board_url

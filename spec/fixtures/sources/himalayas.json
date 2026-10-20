@@ -1,0 +1,141 @@
+{
+ "comments": "trimmed",
+ "totalCount": 3,
+ "jobs": [
+  {
+   "title": "Ruby on Rails Developer",
+   "excerpt": "Ruby on Rails DeveloperPosition Type: Full-Time, Remote Working Hours: U.",
+   "companyName": "Pavago",
+   "companySlug": "pavago",
+   "companyLogo": "https://cdn-images.himalayas.app/q1g70vrjd2dhofu56e7xj9wodx8e",
+   "employmentType": "Full Time",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Mid-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Brazil"
+   ],
+   "timezoneRestrictions": [
+    -5,
+    -4,
+    -3,
+    -2
+   ],
+   "categories": [
+    "Ruby-On-Rails-Developer",
+    "Backend-Engineer",
+    "Web-Developer",
+    "Rails-Engineer",
+    "Full-Stack-Developer",
+    "API-Development",
+    "Rails-Developer",
+    "Ruby-Developer",
+    "Ruby-on-Rails-Development",
+    "Ruby-Rails-Development",
+    "Ruby-On-Rails-Engineer",
+    "Rails-Development"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<h3><strong>Ruby on Rails Developer</strong></h3><p><strong>Position Type:</strong> Full-Time, Remote<br><strong>Working Hours:</strong> U.S. Business Hours<br><strong>Location:</strong> Remote (LATAM, Eastern Europe, Pakistan, and South Africa Preferred)</p><h3><strong>About the Role</strong></h3><p>At <a href=\"https://himalayas.app/companies/pavago\">Pavago</a>, one of our clients is hiring a <strong>Ruby on Rails Developer</strong> to build, optimize, and maintain scalable web applications that power growing businesses and modern SaaS products.</p><p>This role is ideal for an engineer who has deep expertise in the Ruby on Rails ecosystem and enjoys building reliable, secure, and high-performing applications. You’ll work across backend architecture, APIs, databases, and application performance while collaborating closely with product, engineering, and design teams to deliver production-ready features.</p><p>If you’re passionate about clean code, scalable architecture, and taking ownership from development through deployment, this is an excellent opportunity to make a meaningful impact.</p><h3><strong>Responsibilities</strong></h3><h3><strong>Ruby on Rails Development</strong></h3>",
+   "pubDate": 1789359207,
+   "expiryDate": 1794543206,
+   "applicationLink": "https://himalayas.app/companies/pavago/jobs/ruby-on-rails-developer-8688179440?utm_source=api",
+   "guid": "https://himalayas.app/companies/pavago/jobs/ruby-on-rails-developer-8688179440"
+  },
+  {
+   "title": "Ruby on Rails Developer",
+   "excerpt": "Ruby on Rails Developer – Remote | U. S.  HoursPosition Type: Full-Time, Remote Working Hours: U.",
+   "companyName": "Pavago",
+   "companySlug": "pavago",
+   "companyLogo": "https://cdn-images.himalayas.app/q1g70vrjd2dhofu56e7xj9wodx8e",
+   "employmentType": "Full Time",
+   "minSalary": null,
+   "maxSalary": null,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Mid-level"
+   ],
+   "currency": null,
+   "locationRestrictions": [
+    "Pakistan"
+   ],
+   "timezoneRestrictions": [
+    5
+   ],
+   "categories": [
+    "Ruby-On-Rails-Developer",
+    "Backend-Engineer",
+    "Software-Engineer",
+    "Full-Stack-Engineer",
+    "Rails-Developer",
+    "Ruby-on-Rails-Development",
+    "Ruby-Rails-Development",
+    "Ruby-On-Rails-Engineer",
+    "Rails-Development"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<h3><strong>Ruby on Rails Developer – Remote | U.S. Hours</strong></h3><p><strong>Position Type:</strong> Full-Time, Remote<br><strong>Working Hours:</strong> U.S. Client Business Hours<br><strong>Schedule:</strong> Flexibility for sprint reviews, deployments, and occasional on-call support</p><h3><strong>About the Role</strong></h3><p>At <a href=\"https://himalayas.app/companies/pavago\">Pavago</a>, one of our clients is hiring a <strong>Ruby on Rails Developer</strong> to build, maintain, and scale modern web applications and APIs.</p><p>This is a hands-on software engineering role focused on:</p><ul>\n<li>Ruby on Rails development</li>\n<li>Backend systems and REST APIs</li>\n<li>PostgreSQL / MySQL</li>\n<li>Background jobs with Sidekiq or Resque</li>\n<li>Application performance and scalability</li>\n<li>Testing and code quality</li>\n<li>Third-party integrations</li>\n<li>Production reliability</li>\n</ul><p>You’ll collaborate with product managers, designers, and frontend engineers to ship secure, scalable, and maintainable features.</p><p>If you have <strong>3+ years of professional Ruby on Rails experience</strong> and enjoy writing clean, well-tested code, this role is a strong fit.<",
+   "pubDate": 1792261733,
+   "expiryDate": 1797445733,
+   "applicationLink": "https://himalayas.app/companies/pavago/jobs/ruby-on-rails-developer-6128504508?utm_source=api",
+   "guid": "https://himalayas.app/companies/pavago/jobs/ruby-on-rails-developer-6128504508"
+  },
+  {
+   "title": "Technical Lead – Ruby / Ruby on Rails",
+   "excerpt": "Capital Technology Group provides expert consulting services software development, digital transformation, human-centered design, data analytics and visualization, and cybersecurity.",
+   "companyName": "Capital Technology Group",
+   "companySlug": "capital-technology-group",
+   "companyLogo": "https://cdn-images.himalayas.app/tc9pme8jlcu01qmp9cs586b28znc",
+   "employmentType": "Full Time",
+   "minSalary": 120000,
+   "maxSalary": 165000,
+   "salaryPeriod": "annual",
+   "seniority": [
+    "Senior"
+   ],
+   "currency": "USD",
+   "locationRestrictions": [
+    "United States"
+   ],
+   "timezoneRestrictions": [
+    -10,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    14
+   ],
+   "categories": [
+    "Ruby-On-Rails-Developer",
+    "Ruby-Developer",
+    "Backend-Engineer",
+    "Software-Engineer",
+    "Technical-Lead",
+    "Senior-Ruby-On-Rails-Tech-Lead",
+    "Senior-Ruby-On-Rails-Engineer",
+    "Ruby-On-Rails-Team-Lead",
+    "Senior-Ruby-On-Rails-Developer",
+    "Senior-Ruby-Developer",
+    "Senior-Ruby-Backend-Engineer",
+    "Senior-Rails-Developer"
+   ],
+   "parentCategories": [
+    "Developer"
+   ],
+   "description": "<div class=\"content-intro\">\n<p><img class=\"image-9\" alt=\"\" width=\"150\"></p>\n<p><strong><a href=\"https://himalayas.app/companies/capital-technology-group\">Capital Technology Group</a> provides expert consulting services software development, digital transformation, human-centered design, data analytics and visualization, and cybersecurity. </strong></p>\n<p>Our multidisciplinary teams use agile methodologies to rapidly and incrementally deliver value in close collaboration with our clients. For over a decade, we have been trusted by both federal and commercial clients to solve complex, mission-critical business challenges. The quality of our work has been recognized by our partners and peers through our inclusion in the Digital Services Coalition, a group of forward- thinking firms recognized for excellence in delivering IT services.</p>\n</div><p><strong>Client Requirements:</strong> applicants <strong>MUST BE</strong> US Citizens and be able to obtain Public Trust clearance</p><h3><strong>The CTG Experience</strong></h3><p>At <a href=\"https://himalayas.app/companies/capital-technology-group\">Capital Technology Group</a> (CTG), our teams are passionate about modernizing how the feder",
+   "pubDate": 1790801602,
+   "expiryDate": 1795985600,
+   "applicationLink": "https://himalayas.app/companies/capital-technology-group/jobs/technical-lead-ruby-ruby-on-rails-5629132872?utm_source=api",
+   "guid": "https://himalayas.app/companies/capital-technology-group/jobs/technical-lead-ruby-ruby-on-rails-5629132872"
+  }
+ ]
+}
