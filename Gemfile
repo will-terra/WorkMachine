@@ -22,6 +22,11 @@ gem "jbuilder"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 
+# Spreadsheet export (.xlsx) and CSV import/export of applications
+gem "caxlsx"
+gem "caxlsx_rails"
+gem "csv"
+
 # pt-BR translations for validation messages, dates and numbers
 gem "rails-i18n", "~> 8.0"
 

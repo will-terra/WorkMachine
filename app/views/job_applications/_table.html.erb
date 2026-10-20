@@ -1,0 +1,62 @@
+<div class="mb-4 flex flex-wrap items-end justify-between gap-4">
+  <%= form_with url: job_applications_path, method: :get, class: "flex flex-wrap items-end gap-2" do |form| %>
+    <%= form.hidden_field :view, value: "table" %>
+    <div>
+      <%= form.label :q, "Buscar", class: "label" %>
+      <%= form.search_field :q, value: params[:q], placeholder: "Empresa, vaga ou contato", class: "input w-56" %>
+    </div>
+    <div>
+      <%= form.label :status, "Status", class: "label" %>
+      <%= form.select :status, JobApplication.enum_options(:status), { include_blank: "Todos", selected: params[:status] }, class: "input" %>
+    </div>
+    <%= form.submit "Filtrar", class: "btn" %>
+  <% end %>
+
+  <div class="flex flex-wrap items-end gap-2">
+    <%= link_to "Exportar CSV", job_applications_path(format: :csv, status: params[:status], q: params[:q]), class: "btn btn-sm", data: { turbo: false } %>
+    <%= form_with url: import_job_applications_path, multipart: true, class: "flex items-end gap-2" do |form| %>
+      <div>
+        <%= form.label :file, "Importar CSV", class: "label" %>
+        <%= form.file_field :file, accept: ".csv,text/csv", class: "input py-1.5 text-xs w-56" %>
+      </div>
+      <%= form.submit "Importar", class: "btn btn-sm" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="card overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Empresa</th>
+        <th>Vaga</th>
+        <th>Origem</th>
+        <th>Status</th>
+        <th>Aplicou</th>
+        <th>Follow-up</th>
+        <th>Contato</th>
+        <th>Faixa</th>
+        <th><span class="sr-only">Ações</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @job_applications.latest_first.each do |application| %>
+        <tr id="<%= dom_id(application, :row) %>">
+          <td class="font-semibold"><%= application.company %></td>
+          <td><%= external_link application.role, application.url %></td>
+          <td><%= application.origin %></td>
+          <td><span class="chip"><%= application.human_enum(:status) %></span></td>
+          <td class="whitespace-nowrap"><%= short_date(application.applied_on) %></td>
+          <td class="whitespace-nowrap"><%= short_date(application.next_follow_up_on) %></td>
+          <td><%= application.contact_name %></td>
+          <td><%= application.salary_range %></td>
+          <td class="whitespace-nowrap text-right"><%= link_to "Editar", edit_job_application_path(application, return_view: "table") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @job_applications.none? %>
+    <p class="muted p-6 text-center text-sm">Nenhuma candidatura por aqui ainda.</p>
+  <% end %>
+</div>
+<p class="muted mt-2 text-xs">O CSV usa as colunas: <%= JobApplicationCsv::COLUMNS.keys.join(", ") %>. Status aceita o nome em português; datas em 20/10/2026 ou 2026-10-20.</p>

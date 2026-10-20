@@ -1,0 +1,4 @@
+<%= turbo_stream.replace @job_application, partial: "job_applications/card", locals: { job_application: @job_application } %>
+<% [ @previous_status, @job_application.status ].uniq.each do |status| %>
+  <%= turbo_stream.update "column_count_#{status}", @counts.fetch(status, 0).to_s %>
+<% end %>

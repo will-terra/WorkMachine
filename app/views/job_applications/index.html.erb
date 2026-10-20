@@ -1,0 +1,10 @@
+<%= page_header eyebrow: "A planilha", title: "Candidaturas" do %>
+  <div class="flex rounded-md border border-line bg-surface p-0.5" role="group" aria-label="Visualização">
+    <%= link_to "Kanban", job_applications_path(view: "board"), class: [ "btn btn-sm border-0", ("bg-code" if @view == "board") ], aria: { current: (@view == "board") } %>
+    <%= link_to "Tabela", job_applications_path(view: "table"), class: [ "btn btn-sm border-0", ("bg-code" if @view == "table") ], aria: { current: (@view == "table") } %>
+  </div>
+  <%= link_to "Exportar .xlsx", job_applications_path(format: :xlsx, status: params[:status], q: params[:q]), class: "btn btn-sm", data: { turbo: false } %>
+  <%= link_to "Nova candidatura", new_job_application_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<%= render @view == "board" ? "board" : "table" %>

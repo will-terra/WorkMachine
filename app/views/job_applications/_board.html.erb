@@ -1,0 +1,17 @@
+<p class="muted mb-3 text-sm">Arraste os cartões entre as colunas para mudar o status. A ordem dentro da coluna também fica salva.</p>
+
+<div class="-mx-4 flex gap-3 overflow-x-auto px-4 pb-4" data-controller="kanban">
+  <% JobApplication::STATUSES.each do |status| %>
+    <% cards = @columns.fetch(status, []) %>
+    <section class="flex w-64 flex-none flex-col rounded-xl border border-line bg-code/50 p-2" aria-labelledby="column_title_<%= status %>">
+      <header class="flex items-center justify-between px-1 pb-2">
+        <h2 id="column_title_<%= status %>" class="text-sm font-bold"><%= JobApplication.human_enum(:status, status) %></h2>
+        <span id="column_count_<%= status %>" class="chip"><%= cards.size %></span>
+      </header>
+      <ol class="grid min-h-20 flex-1 content-start gap-2" data-kanban-target="column" data-status="<%= status %>">
+        <%= render partial: "card", collection: cards, as: :job_application %>
+      </ol>
+      <%= link_to "+ Adicionar", new_job_application_path(status:), class: "btn btn-ghost btn-sm mt-2 justify-start text-muted" %>
+    </section>
+  <% end %>
+</div>

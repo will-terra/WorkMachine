@@ -16,6 +16,7 @@ class JobApplication < ApplicationRecord
 
   scope :in_progress, -> { where(status: OPEN_STATUSES) }
   scope :ordered, -> { order(:position, :id) }
+  scope :latest_first, -> { order(Arel.sql("applied_on IS NULL, applied_on DESC"), created_at: :desc) }
   scope :follow_up_due, ->(date = Date.current) { in_progress.where(next_follow_up_on: ..date) }
   # Applied more than FOLLOW_UP_AFTER ago, still without any answer or follow-up date.
   scope :waiting_answer, ->(date = Date.current) {

@@ -1,0 +1,50 @@
+<%= form_with model: job_application, class: "card grid gap-4 p-5 sm:grid-cols-2" do |form| %>
+  <div class="sm:col-span-2"><%= render "shared/errors", record: job_application %></div>
+  <%= hidden_field_tag :return_view, params[:return_view] if params[:return_view] %>
+
+  <div>
+    <%= form.label :company, class: "label" %>
+    <%= form.text_field :company, required: true, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :role, class: "label" %>
+    <%= form.text_field :role, required: true, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :status, class: "label" %>
+    <%= form.select :status, JobApplication.enum_options(:status), {}, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :origin, class: "label" %>
+    <%= form.text_field :origin, placeholder: "LinkedIn, indicação, Gupy…", class: "input" %>
+  </div>
+  <div>
+    <%= form.label :applied_on, class: "label" %>
+    <%= form.date_field :applied_on, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :next_follow_up_on, class: "label" %>
+    <%= form.date_field :next_follow_up_on, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :contact_name, class: "label" %>
+    <%= form.text_field :contact_name, class: "input" %>
+  </div>
+  <div>
+    <%= form.label :contact_url, class: "label" %>
+    <%= form.url_field :contact_url, placeholder: "https://", class: "input" %>
+  </div>
+  <div>
+    <%= form.label :salary_range, class: "label" %>
+    <%= form.text_field :salary_range, placeholder: "R$ 9–12 mil ou US$ 3–4k", class: "input" %>
+  </div>
+  <div class="sm:col-span-2">
+    <%= form.label :notes, class: "label" %>
+    <%= form.text_area :notes, rows: 4, class: "input" %>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2 sm:col-span-2">
+    <%= form.submit "Salvar", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", job_applications_path(view: params[:return_view]), class: "btn btn-ghost" %>
+  </div>
+<% end %>
