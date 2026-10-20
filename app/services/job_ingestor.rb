@@ -25,7 +25,10 @@ class JobIngestor
 
     posting = JobPosting.new(@attributes)
     apply_score(posting)
-    return Result.new(posting:, status: :created) if posting.save
+    if posting.save
+      TargetCompanyDiscovery.call(posting)
+      return Result.new(posting:, status: :created)
+    end
 
     taken = posting.errors.of_kind?(:url, :taken)
     taken ? Result.new(posting: JobPosting.find_by(url: posting.url), status: :duplicate) : Result.new(posting:, status: :invalid)

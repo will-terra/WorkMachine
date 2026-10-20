@@ -56,8 +56,22 @@ RSpec.describe "ATS board sources" do
     end
   end
 
+  describe Sources::Workable do
+    it "maps the public job widget" do
+      create(:target_company, name: "Zipdev", ats: "workable", board_slug: "zipdev")
+      stub_source("https://apply.workable.com/api/v1/widget/accounts/zipdev?details=true", "workable.json")
+
+      postings = described_class.new.fetch
+
+      expect(postings.map { it[:title] }).to eq([ "QA Engineer (Automation and AI tooling)" ])
+      expect(postings.first).to include(company: "Zipdev", source: "workable", location_text: "Remote · Colombia")
+      expect(postings.first[:url]).to start_with("https://apply.workable.com/j/")
+    end
+  end
+
   it "registers every source" do
-    expect(Sources.all.map(&:key)).to eq(%w[remotive remote_ok we_work_remotely backend_br frontend_br hacker_news gorails greenhouse lever ashby])
+    expect(Sources.all.map(&:key)).to eq(%w[remotive remote_ok we_work_remotely working_nomads himalayas remotar backend_br frontend_br
+                                            hacker_news gorails greenhouse lever ashby workable])
     expect(Sources.find("lever")).to eq(Sources::Lever)
     expect { Sources::Base.new.fetch }.to raise_error(NotImplementedError)
   end

@@ -25,6 +25,25 @@ RSpec.describe "Target companies" do
     expect { delete target_company_path(company) }.to change(TargetCompany, :count).by(-1)
   end
 
+  it "lists discovered suggestions and activates or dismisses them" do
+    posting = create(:job_posting, title: "Rails Engineer na Globex")
+    suggestion = create(:target_company, name: "Globex", board_slug: "globex", active: false, discovered_at: Time.current, discovered_from: posting)
+    other = create(:target_company, name: "Initech", board_slug: "initech", active: false, discovered_at: Time.current)
+
+    get target_companies_path
+    expect(response.body).to include("Sugestões encontradas nas vagas", "Rails Engineer na Globex")
+
+    post activate_target_company_path(suggestion)
+    expect(suggestion.reload).to be_active
+
+    post dismiss_target_company_path(other)
+    expect(other.reload).to have_attributes(active: false, discovered_at: nil)
+    expect(TargetCompany.suggested).to be_empty
+
+    get target_companies_path
+    expect(response.body).to include("descoberta")
+  end
+
   it "re-renders the forms with errors" do
     post target_companies_path, params: { target_company: { name: "", ats: "lever", board_slug: "a b" } }
     expect(response).to have_http_status(:unprocessable_content)
