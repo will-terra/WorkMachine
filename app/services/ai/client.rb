@@ -1,0 +1,101 @@
+module Ai
+  # Calls DeepSeek V4 Pro through OpenRouter (OPENROUTER_API_KEY) for one AiArtifact; any other
+  # OpenRouter model can be set in OPENROUTER_MODEL. Runs only from GenerateAiArtifactJob, after Ana clicks.
+  class Client
+    URL = "https://openrouter.ai/api/v1/chat/completions".freeze
+    DEFAULT_MODEL = "deepseek/deepseek-v4-pro-0813".freeze
+    EFFORT = "medium"
+    MAX_TOKENS = 16_000
+    READ_TIMEOUT = 180
+
+    class Error < StandardError
+      attr_reader :status
+
+      def initialize(message, status: nil)
+        super(message)
+        @status = status
+      end
+    end
+
+    Result = Data.define(:text, :model, :finish_reason, :input_tokens, :output_tokens,
+                         :cache_read_tokens, :cache_write_tokens, :cost) do
+      def refused? = finish_reason.in?(%w[content_filter refusal])
+      def truncated? = finish_reason == "length"
+    end
+
+    def self.configured?
+      ENV["OPENROUTER_API_KEY"].present?
+    end
+
+    def self.model
+      ENV["OPENROUTER_MODEL"].presence || DEFAULT_MODEL
+    end
+
+    def generate(kind, posting, language: "pt")
+      response = HttpClient.post_json(URL, payload(kind, posting, language), headers:, read_timeout: READ_TIMEOUT)
+      raise Error.new(response.dig("error", "message") || "Erro do OpenRouter", status: response.dig("error", "code")) if response["error"]
+
+      result(response)
+    rescue HttpClient::Error => e
+      raise Error.new(error_message(e), status: e.status)
+    end
+
+    # Text the request sends, for the token estimate (OpenRouter has no token-counting endpoint).
+    def self.request_text(kind, posting, language: "pt")
+      [ Prompt.system_text, Prompt.user_text(kind, posting, language:) ].join("\n")
+    end
+
+    private
+      def payload(kind, posting, language)
+        {
+          model: self.class.model,
+          messages: [
+            { role: "system", content: system_content },
+            { role: "user", content: Prompt.user_text(kind, posting, language:) }
+          ],
+          max_tokens: MAX_TOKENS,
+          reasoning: { effort: EFFORT },
+          usage: { include: true }
+        }
+      end
+
+      # DeepSeek and GLM cache a repeated prefix on their own; Claude needs an explicit breakpoint.
+      def system_content
+        return Prompt.system_text unless self.class.model.start_with?("anthropic/")
+
+        [ { type: "text", text: Prompt.system_text, cache_control: { type: "ephemeral" } } ]
+      end
+
+      def headers
+        {
+          "Authorization" => "Bearer #{ENV.fetch("OPENROUTER_API_KEY")}",
+          "HTTP-Referer" => "https://github.com/will-terra/WorkMachine",
+          "X-Title" => "WorkMachine"
+        }
+      end
+
+      def result(response)
+        choice = response.fetch("choices").first
+        usage = response["usage"] || {}
+        details = usage["prompt_tokens_details"] || {}
+        finish = choice["native_finish_reason"] == "refusal" ? "refusal" : choice["finish_reason"]
+
+        Result.new(
+          text: choice.dig("message", "content").to_s.strip,
+          model: response["model"],
+          finish_reason: finish,
+          input_tokens: usage["prompt_tokens"],
+          output_tokens: usage["completion_tokens"],
+          cache_read_tokens: details["cached_tokens"],
+          cache_write_tokens: details["cache_write_tokens"],
+          cost: usage["cost"]
+        )
+      end
+
+      def error_message(error)
+        JSON.parse(error.body.to_s).dig("error", "message").presence || error.message
+      rescue JSON::ParserError
+        error.message
+      end
+  end
+end

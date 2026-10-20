@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_172534) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_173616) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -23,6 +23,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_172534) do
     t.text "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cache_write_tokens"
+    t.integer "cache_read_tokens"
+    t.decimal "cost_usd", precision: 10, scale: 6
     t.index ["job_posting_id", "kind"], name: "index_ai_artifacts_on_job_posting_id_and_kind"
     t.index ["job_posting_id"], name: "index_ai_artifacts_on_job_posting_id"
   end

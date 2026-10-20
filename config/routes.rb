@@ -14,7 +14,11 @@ Rails.application.routes.draw do
       post :dismiss
       post :restore
     end
+    resources :ai_artifacts, path: "ia", only: :create do
+      collection { get :estimate, path: "estimativa" }
+    end
   end
+  resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
   resources :target_companies, path: "empresas-alvo", except: :show
 
   resource :radar, only: :show, controller: "radar"

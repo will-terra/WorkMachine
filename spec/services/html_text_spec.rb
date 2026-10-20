@@ -4,7 +4,15 @@ RSpec.describe HtmlText do
   it "keeps paragraphs and list items" do
     html = "<p>We use <b>Rails</b>.</p><ul><li>Hotwire</li><li>Sidekiq</li></ul><script>alert(1)</script>Line<br>break&nbsp;here"
 
-    expect(described_class.call(html)).to eq("We use Rails.\n• Hotwire\n• Sidekiq\n\nLine\nbreak here")
+    expect(described_class.call(html)).to eq("We use Rails.\n\n• Hotwire\n• Sidekiq\n\nLine\nbreak here")
+  end
+
+  it "starts block elements on a new line" do
+    expect(described_class.call("<td><a>Rails Dev</a><p>Acme · Remoto</p></td>")).to eq("Rails Dev\nAcme · Remoto")
+  end
+
+  it "treats source line breaks as spaces" do
+    expect(described_class.call("<ul>\n  <li>\n    <p>Job training\n and mentorship</p>\n  </li>\n</ul>")).to eq("• Job training and mentorship")
   end
 
   it "repairs UTF-8 decoded as Latin-1" do
