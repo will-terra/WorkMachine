@@ -6,7 +6,7 @@ ARG RUBY_VERSION=4.0.5
 FROM docker.io/library/ruby:$RUBY_VERSION-slim
 
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libyaml-dev pkg-config sqlite3 && \
+    apt-get install --no-install-recommends -y build-essential curl git libssl-dev libyaml-dev pkg-config sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 ARG UID=1000
