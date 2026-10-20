@@ -1,0 +1,266 @@
+# Buscas e lugares do Radar, portados de docs/radar-vagas-rails.html.
+# Cada busca tem um "builder", que monta a URL na página com os filtros escolhidos
+# (app/javascript/controllers/radar_controller.js):
+#   li_jobs        LinkedIn Vagas, com o local e o período escolhidos
+#   li_jobs_world  LinkedIn Vagas, sempre em "Mundo · remoto"
+#   li_posts       LinkedIn Publicações, com o período escolhido
+#   li_people_br   LinkedIn Pessoas, filtrado para o Brasil
+#   li_people      LinkedIn Pessoas, sem filtro de país
+#   google         Google, com o período de indexação escolhido
+#   google_jobs    painel Google Empregos (ignora o período)
+#   x              X (Twitter), aba "Mais recentes"
+
+target:
+  titles_pt:
+    hot: ["Desenvolvedor Ruby on Rails", "Desenvolvedor Full Stack Ruby"]
+    other: ["Desenvolvedor Back-end Ruby", "Desenvolvedor Ruby Pleno", "Engenheiro de Software Ruby"]
+  titles_en:
+    hot: ["Ruby on Rails Developer", "Full Stack Engineer (Rails/React)"]
+    other: ["Rails Engineer", "Ruby Engineer", "Backend Engineer (Ruby)", "Product Engineer", "Software Engineer II"]
+  keywords: ["Rails 8", "Hotwire / Turbo", "Sidekiq", "Solid Queue", "multi-tenant", "PostgreSQL", "RSpec",
+             "upgrade de Rails", "Docker", "Kubernetes", "GitHub Actions", "pagamentos", "LGPD", "GovTech", "WCAG"]
+  plan_b: ["Front-end Engineer React", "Next.js / TypeScript", "Full Stack React + Node"]
+
+filters:
+  li_region:
+    label: Local
+    default: br_remote
+    options:
+      - { value: br_remote, label: "Brasil · remoto" }
+      - { value: world_remote, label: "Mundo · remoto" }
+      - { value: rs, label: "Paraná" }
+      - { value: br_all, label: "Brasil · todos" }
+  li_period:
+    label: Publicadas
+    default: r86400
+    options:
+      - { value: r86400, label: "24 h" }
+      - { value: r604800, label: "7 dias" }
+      - { value: r2592000, label: "30 dias" }
+  post_period:
+    label: Publicados
+    default: past-24h
+    options:
+      - { value: past-24h, label: "24 h" }
+      - { value: past-week, label: "Semana" }
+      - { value: past-month, label: "Mês" }
+  g_period:
+    label: Indexadas
+    default: w
+    options:
+      - { value: w, label: "Semana" }
+      - { value: m, label: "Mês" }
+      - { value: "", label: "Qualquer data" }
+
+sections:
+  - key: linkedin
+    eyebrow: "LinkedIn · aba Vagas"
+    title: "Buscas na aba Vagas"
+    intro: "Escolha o local e o período uma vez e todos os links se ajustam. Em cada busca que trouxer bons resultados, clique em “Criar alerta” no LinkedIn: os alertas chegam no Gmail e o WorkMachine importa sozinho."
+    filters: [li_region, li_period]
+    searches:
+      - title: "1 · Rails, geral"
+        note: "A busca principal. Crie alerta."
+        query: '"ruby on rails" OR "rails developer" OR "ruby developer" OR "desenvolvedor ruby"'
+        builder: li_jobs
+      - title: "2 · Full stack Rails + React"
+        note: "O seu perfil exato."
+        query: '("ruby on rails" OR rails) AND (react OR "full stack" OR fullstack)'
+        builder: li_jobs
+      - title: "3 · Pleno / mid-level"
+        note: "Corta parte das vagas de sênior e de júnior."
+        query: '("ruby on rails" OR ruby) AND (pleno OR "mid-level" OR "mid level")'
+        builder: li_jobs
+      - title: "4 · Back-end Ruby"
+        note: "Vagas que dizem back-end em vez de full stack."
+        query: '(ruby OR rails) AND (backend OR "back-end" OR "back end")'
+        builder: li_jobs
+      - title: "5 · Seus diferenciais"
+        note: "Menos concorrência: pouca gente tem Rails 8 e Hotwire em produção."
+        query: 'rails AND (hotwire OR sidekiq OR "rails 8" OR "multi-tenant")'
+        builder: li_jobs
+      - title: "6 · GovTech / setor público"
+        note: "Seu nicho da Empresa A: ERP municipal, cadastro social, LGPD."
+        query: '(rails OR ruby OR "full stack") AND (govtech OR "setor público" OR "gestão pública")'
+        builder: li_jobs
+      - title: "7 · Plano B: front React"
+        note: "React, Next.js e TypeScript, como na Cliente E."
+        query: '(react OR "next.js") AND typescript AND (pleno OR "mid-level")'
+        builder: li_jobs
+      - title: "8 · Internacional para LATAM"
+        note: "Sempre abre em Mundo · remoto."
+        query: '("ruby on rails" OR rails) AND (LATAM OR "Latin America" OR Brazil)'
+        builder: li_jobs_world
+
+  - key: feed
+    eyebrow: "LinkedIn · Publicações"
+    title: "Vagas que aparecem no feed antes da aba Vagas"
+    intro: "É a estratégia das “10 buscas secretas” da mentora, adaptada para Rails. Recrutadores e gestores postam aqui antes de abrir a vaga oficial, e o contato costuma ser direto com quem contrata."
+    filters: [post_period]
+    searches:
+      - title: "Contratando (PT)"
+        query: '"ruby on rails" AND (vaga OR contratando OR "estamos contratando")'
+        builder: li_posts
+      - title: "Hiring (EN)"
+        query: '(rails OR ruby) AND (hiring OR "we are hiring" OR "we''re hiring")'
+        builder: li_posts
+      - title: "“Looking for”"
+        note: "Muito usado por gestores."
+        query: '"looking for" AND ("rails developer" OR "ruby developer" OR "rails engineer")'
+        builder: li_posts
+      - title: "Gestor com time crescendo"
+        query: '("my team is hiring" OR "my team is growing" OR "meu time está crescendo") AND (rails OR ruby)'
+        builder: li_posts
+      - title: "Indicação / referral"
+        note: "Funcionários oferecendo indicação interna."
+        query: '(indicação OR referral) AND ("ruby on rails" OR rails)'
+        builder: li_posts
+      - title: "Full stack Rails + React"
+        query: '(vaga OR hiring) AND "full stack" AND rails AND react'
+        builder: li_posts
+      - title: "Remoto para Brasil/LATAM"
+        query: '(rails OR ruby) AND (remoto OR remote) AND (LATAM OR Brasil OR Brazil)'
+        builder: li_posts
+      - title: "Links de grupos de vagas"
+        note: "Dica da mentora para achar grupos de WhatsApp e Telegram de recrutadores."
+        query: '("grupo de whatsapp" OR "link do grupo" OR "grupo do telegram") AND vagas AND (desenvolvedor OR dev OR TI)'
+        builder: li_posts
+
+  - key: pessoas
+    eyebrow: "LinkedIn · Pessoas"
+    title: "Quem contrata Rails"
+    intro: "Busque pessoas, não só vagas. Conecte com quem recruta para a sua stack e abra o perfil delas de vez em quando: muita vaga aparece primeiro no post de alguém do time."
+    searches:
+      - title: "Tech recruiters de Rails"
+        note: "Filtrado para o Brasil."
+        query: '("tech recruiter" OR "technical recruiter" OR recrutador) AND (ruby OR rails)'
+        builder: li_people_br
+      - title: "Talent acquisition"
+        note: "Filtrado para o Brasil."
+        query: '"talent acquisition" AND ("ruby on rails" OR rails)'
+        builder: li_people_br
+      - title: "Gestores de times Rails"
+        note: "Engineering managers e tech leads postam vagas do próprio time."
+        query: '("engineering manager" OR "tech lead" OR CTO) AND "ruby on rails"'
+        builder: li_people_br
+      - title: "Recrutadores das consultorias tech"
+        note: "Consultorias especializadas da lista da mentora."
+        query: '(recruiter OR recrutador) AND (Yoctoo OR Hunter4Tech OR Rehva OR Huntz OR GeekHunter OR Intera)'
+        builder: li_people
+      - title: "Recrutadores internacionais para LATAM"
+        note: "Sem filtro de país."
+        query: '("technical recruiter" OR "talent acquisition") AND (LATAM OR "Latin America") AND (ruby OR rails)'
+        builder: li_people
+    callout:
+      text: "Planilha de recrutadores da mentora: use as colunas Ruby (3 perfis), React (cerca de 25) e Full Stack (cerca de 38). As outras colunas são de outras stacks."
+      link_label: "Abrir a lista de recrutadores"
+      url: "https://docs.google.com/spreadsheets/d/1Geg0ETL00kLKzdaIGPudXe2IIMjqII8T92N9YAuXFe4/edit?usp=sharing"
+
+  - key: google
+    eyebrow: "Google"
+    title: "Vagas escondidas nos sistemas de recrutamento"
+    intro: "Muitas empresas publicam a vaga só na própria página de carreiras (Greenhouse, Lever, Ashby, Gupy…) e nunca no LinkedIn. O operador site: busca direto nesses sistemas."
+    filters: [g_period]
+    searches:
+      - title: "1 · Greenhouse"
+        note: "Muito usado por startups dos EUA."
+        query: '(site:boards.greenhouse.io OR site:job-boards.greenhouse.io) "ruby on rails" (brazil OR brasil OR latam OR "latin america")'
+        builder: google
+      - title: "2 · Lever"
+        query: 'site:jobs.lever.co ("ruby on rails" OR rails) (brazil OR latam OR "latin america")'
+        builder: google
+      - title: "3 · Ashby"
+        query: 'site:jobs.ashbyhq.com ("ruby on rails" OR rails) (brazil OR latam OR "latin america" OR americas)'
+        builder: google
+      - title: "4 · Workable"
+        query: 'site:apply.workable.com "ruby on rails" (brazil OR brasil OR latam OR remote)'
+        builder: google
+      - title: "5 · Gupy"
+        note: "Encontra vagas de Rails que a busca do portal não mostra."
+        query: 'site:gupy.io ("ruby on rails" OR "ruby")'
+        builder: google
+      - title: "6 · InHire, Recrutei, Sólides"
+        note: "Sistemas usados por empresas brasileiras."
+        query: '(site:inhire.app OR site:jobs.recrutei.com.br OR site:vagas.solides.com.br) ("ruby on rails" OR ruby)'
+        builder: google
+      - title: "7 · “Trabalhe conosco”"
+        note: "Dica da mentora: página de carreiras das próprias empresas."
+        query: '"trabalhe conosco" "ruby on rails"'
+        builder: google
+      - title: "8 · Google Empregos"
+        note: "Abre o painel de vagas do Google (não usa o filtro de data)."
+        query: "vagas ruby on rails remoto"
+        builder: google_jobs
+
+  - key: x
+    eyebrow: "X (Twitter)"
+    title: "Buscas no X"
+    intro: "Os links já abrem na aba “Mais recentes”. Escolha 3 a 5 destas e passe por elas algumas vezes por semana."
+    searches:
+      - title: "Vaga em português"
+        query: '"ruby on rails" (vaga OR contratando OR "estamos contratando") -filter:replies'
+        builder: x
+      - title: "Hiring remoto"
+        query: '(rails OR "ruby on rails") (hiring OR "we''re hiring" OR "join our team") remote -filter:replies'
+        builder: x
+      - title: "Por título"
+        query: '("rails developer" OR "rails engineer" OR "ruby engineer") hiring'
+        builder: x
+      - title: "Remoto em PT"
+        query: '(ruby OR rails) (vaga OR remoto) lang:pt -filter:replies'
+        builder: x
+      - title: "Full stack Rails + React"
+        query: '"full stack" rails react (hiring OR vaga)'
+        builder: x
+
+platforms:
+  - title: "Foco em Ruby on Rails"
+    sites:
+      - { name: "Ruby on Remote", url: "https://rubyonremote.com/", tag: "Rails", note: "Só vagas remotas de Ruby. Use o filtro de local “Remote – South America” e “Remote – Anywhere”. Ignore as marcadas só como US." }
+      - { name: "GoRails Jobs", url: "https://jobs.gorails.com/", tag: "Rails", note: "Quadro de vagas da comunidade GoRails, atualizado toda semana. Algumas aceitam Brasil." }
+      - { name: "RailsDevs", url: "https://railsdevs.com/", tag: "Rails", note: "Funciona ao contrário: você cria um perfil e as empresas entram em contato. Coloque Rails 8, Hotwire e o fuso de Brasília." }
+      - { name: "Programathor · Ruby on Rails", url: "https://programathor.com.br/jobs-ruby-on-rails", tag: "BR", note: "Vagas de tech no Brasil já filtradas por Rails, incluindo remotas com pagamento em dólar." }
+      - { name: "backend-br/vagas", url: "https://github.com/backend-br/vagas/issues?q=is%3Aissue+is%3Aopen+ruby", tag: "BR", note: "Empresas abrem issues com vagas de back-end. O WorkMachine já importa as que falam de Ruby." }
+      - { name: "Hacker News · Who is hiring", url: "https://news.ycombinator.com/submitted?id=whoishiring", tag: "Mensal", note: "Thread do primeiro dia útil de cada mês. O WorkMachine importa os comentários com Rails e remote." }
+  - title: "Remoto internacional (pagamento em dólar)"
+    sites:
+      - { name: "Turing", url: "https://www.turing.com/pt/jobs/vagas-ruby-on-rails", note: "Vagas de Rails para empresas dos EUA. Pedem 3+ anos, inglês fluente e 4 h de sobreposição de fuso. Você atende aos três." }
+      - { name: "Strider", url: "https://www.onstrider.com/", note: "Conecta devs da América Latina a empresas americanas. Crie o perfil e faça as avaliações." }
+      - { name: "Revelo", url: "https://www.revelo.com/", note: "Vagas internacionais para brasileiros e boa fonte de faixa salarial em dólar." }
+      - { name: "Remotar · moeda estrangeira", url: "https://remotar.com.br/search/jobs?t=12", note: "Remotas para brasileiros, na tag “pagamento em moeda estrangeira”. A tag “vaga internacional” é a t=13." }
+      - { name: "We Work Remotely", url: "https://weworkremotely.com/", note: "Já entra no agregador. Leia a restrição de país de cada vaga." }
+      - { name: "Remotive", url: "https://remotive.com/", note: "Já entra no agregador. Remotas selecionadas, com filtro de região." }
+      - { name: "Remote OK", url: "https://remoteok.com/", note: "Já entra no agregador. Grande volume; filtre por “ruby” e “worldwide”." }
+      - { name: "Wellfound", url: "https://www.wellfound.com/", note: "Startups (antigo AngelList Talent). Muitas usam Rails." }
+      - { name: "Working Nomads", url: "https://www.workingnomads.com/", note: "Agregador de remotas; dá para receber por e-mail." }
+      - { name: "Otta", url: "https://otta.com/", note: "Hoje faz parte do Welcome to the Jungle. Forte em startups do Reino Unido e da Europa." }
+  - title: "Nacionais e agregadores"
+    sites:
+      - { name: "Gupy", url: "https://portal.gupy.io/job-search/term=ruby", note: "Pouca vaga de Rails no portal; a busca 5 do Google encontra mais. Mantenha o cadastro completo." }
+      - { name: "GeekHunter", url: "https://www.geekhunter.com.br/", note: "Só tech. Empresas fazem a proposta para você." }
+      - { name: "Indeed Brasil", url: "https://br.indeed.com/q-ruby-on-rails-vagas.html", note: "Agregador. O link já busca “ruby on rails”." }
+      - { name: "InHire", url: "https://www.inhire.com.br/", note: "Sistema usado por muitas empresas de tech brasileiras. Veja também a busca 6 do Google." }
+      - { name: "Intera", url: "https://www.byintera.com/", note: "Plataforma “digital” da lista da mentora. Faça o cadastro uma vez." }
+      - { name: "Yellow.rec", url: "https://www.yellow.rec.br/", note: "Plataforma “digital” da lista da mentora. Faça o cadastro uma vez." }
+      - { name: "99jobs", url: "https://www.99jobs.com/", note: "Plataforma “digital” da lista da mentora. Faça o cadastro uma vez." }
+      - { name: "Glassdoor", url: "https://www.glassdoor.com/", note: "Agregador. Bom para alertas por e-mail com “ruby on rails”." }
+      - { name: "Jooble", url: "https://br.jooble.org/", note: "Agregador. Bom para alertas por e-mail com “ruby on rails”." }
+      - { name: "Vagas.com", url: "https://www.vagas.com.br/", note: "Agregador. Bom para alertas por e-mail com “ruby on rails”." }
+      - { name: "Workana", url: "https://www.workana.com/", note: "Freela remoto na América Latina, caso queira um projeto paralelo enquanto procura." }
+
+consultancies_note: "Consultoria não funciona como site de vaga: elas puxam candidatos do próprio banco quando aparece um processo. Cadastre-se uma vez, use as palavras-chave do perfil-alvo e conecte com os recrutadores de TI de cada uma. Pule as de executive search (Korn Ferry, Egon Zehnder, Spencer Stuart, Heidrick…), que trabalham com diretoria e C-level."
+
+groups:
+  intro: "Canais de Telegram com vagas de TI. Entre em vários, silencie todos e responda rápido quando aparecer algo com aderência."
+  sites:
+    - { name: "Vagas TI Brasil", url: "https://t.me/vagastibr", note: "Telegram · vagas de TI no Brasil." }
+    - { name: "Vagas Tech Remotas", url: "https://t.me/vagastechrn", note: "Telegram · remotas, Brasil e exterior." }
+    - { name: "Vagas Home Office Brasil", url: "https://t.me/vagashomeofficebr", note: "Telegram · remotas; mistura áreas, então busque “rails” dentro do canal." }
+    - { name: "Recrutei Empregos", url: "https://t.me/recrutei_empregos", note: "Telegram · da plataforma Recrutei, usada por várias empresas." }
+    - { name: "Cafeína Vagas", url: "https://t.me/CafeinaVagas", note: "Telegram · inclui remotas." }
+    - { name: "Kombo · grupos", url: "https://www2.kombo.com.br/grupos/", note: "Diretório de grupos de vagas no Telegram e no WhatsApp." }
+    - { name: "frontendbr/vagas", url: "https://github.com/frontendbr/vagas/issues", note: "Repositório irmão do backend-br, para o plano B em React." }
+    - { name: "RubyEvents · Brasil", url: "https://www.rubyevents.org/events/countries/brazil", note: "Agenda de eventos e meetups de Ruby no Brasil, incluindo o Tropical on Rails. Em evento você conversa com quem contrata Rails." }
+    - { name: "Fórum oficial do Rails", url: "https://discuss.rubyonrails.org/", note: "Às vezes aparecem vagas por lá, inclusive pedindo quem fala português." }
+  telegram_terms: ["Vagas Ruby", "Ruby on Rails Brasil", "Vagas Dev", "Vagas Back-end", "Vagas Remotas TI", "Filipe Deschamps"]
+  telegram_note: "O Telegram não tem alerta por palavra-chave. O que funciona é abrir cada grupo uma vez por dia e usar a busca interna com “rails”, “ruby” e “full stack”."

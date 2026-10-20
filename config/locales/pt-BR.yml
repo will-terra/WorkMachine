@@ -1,0 +1,128 @@
+pt-BR:
+  activerecord:
+    models:
+      user: Usuário
+      job_posting: Vaga
+      job_application: Candidatura
+      contact: Contato
+      target_company: Empresa-alvo
+      consultancy: Consultoria
+      message_template: Modelo de mensagem
+    attributes:
+      user:
+        email_address: E-mail
+        password: Senha
+        password_confirmation: Confirmação da senha
+      job_posting:
+        title: Título
+        company: Empresa
+        url: Link
+        source: Fonte
+        location_text: Local
+        remote_scope: Região
+        description: Descrição
+        salary_text: Salário
+        posted_at: Publicada em
+        score: Nota
+        seniority: Senioridade
+        triage: Triagem
+      job_application:
+        company: Empresa
+        role: Vaga
+        origin: Origem
+        status: Status
+        applied_on: Aplicou em
+        next_follow_up_on: Próximo follow-up
+        contact_name: Contato
+        contact_url: Link do contato ou da vaga
+        salary_range: Faixa salarial
+        notes: Notas
+      contact:
+        name: Nome
+        company: Empresa
+        linkedin_url: LinkedIn
+        kind: Tipo
+        last_contacted_on: Último contato
+        notes: Notas
+      target_company:
+        name: Nome
+        ats: Sistema (ATS)
+        board_slug: Slug do quadro
+        active: Ativa
+        example: Exemplo
+      consultancy:
+        name: Nome
+        url: Site
+        kind: Tipo
+        registered_on: Cadastrado em
+      message_template:
+        name: Nome
+        language: Idioma
+        body: Texto
+        max_chars: Limite de caracteres
+
+  enums:
+    job_posting:
+      source:
+        remotive: Remotive
+        remote_ok: Remote OK
+        we_work_remotely: We Work Remotely
+        backend_br: backend-br/vagas
+        frontend_br: frontendbr/vagas
+        hacker_news: Hacker News
+        greenhouse: Greenhouse
+        lever: Lever
+        ashby: Ashby
+        linkedin_alert: Alerta do LinkedIn
+        extension: Extensão
+        manual: Manual
+      remote_scope:
+        brazil: Brasil
+        latam: LATAM
+        worldwide: Mundo todo
+        us_only: Só EUA
+        europe_only: Só Europa
+        unknown: Não informada
+      seniority:
+        junior: Júnior
+        mid: Pleno
+        senior: Sênior
+        unknown: Não informada
+      triage:
+        new: Nova
+        saved: Salva
+        dismissed: Descartada
+    job_application:
+      status:
+        saved: Salva
+        applied: Aplicada
+        recruiter_contact: Contato do recrutador
+        hr_interview: Entrevista RH
+        tech_interview: Entrevista técnica
+        take_home: Teste prático
+        offer: Proposta
+        rejected: Recusada
+        no_response: Sem resposta
+        withdrawn: Desisti
+    contact:
+      kind:
+        recruiter: Recrutador(a)
+        manager: Gestor(a)
+    target_company:
+      ats:
+        greenhouse: Greenhouse
+        lever: Lever
+        ashby: Ashby
+    consultancy:
+      kind:
+        tech: Especializada em tecnologia
+        multinational: Multinacional com área de TI
+    message_template:
+      language:
+        pt: Português
+        en: Inglês
+    ai_artifact:
+      kind:
+        fit_analysis: Análise de fit
+        cv_summary: Resumo de CV
+        message: Mensagem para recrutador

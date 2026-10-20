@@ -10,7 +10,109 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_164600) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_165319) do
+  create_table "ai_artifacts", force: :cascade do |t|
+    t.integer "job_posting_id", null: false
+    t.string "kind", null: false
+    t.string "status", default: "pending", null: false
+    t.string "language"
+    t.text "content"
+    t.string "model"
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.text "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_posting_id", "kind"], name: "index_ai_artifacts_on_job_posting_id_and_kind"
+    t.index ["job_posting_id"], name: "index_ai_artifacts_on_job_posting_id"
+  end
+
+  create_table "consultancies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "url", null: false
+    t.string "kind", null: false
+    t.date "registered_on"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_consultancies_on_name", unique: true
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "company"
+    t.string "linkedin_url"
+    t.string "kind", default: "recruiter", null: false
+    t.date "last_contacted_on"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["linkedin_url"], name: "index_contacts_on_linkedin_url", unique: true, where: "linkedin_url IS NOT NULL"
+  end
+
+  create_table "job_applications", force: :cascade do |t|
+    t.integer "job_posting_id"
+    t.string "company", null: false
+    t.string "role", null: false
+    t.string "origin"
+    t.string "status", default: "saved", null: false
+    t.date "applied_on"
+    t.date "next_follow_up_on"
+    t.string "contact_name"
+    t.string "contact_url"
+    t.string "salary_range"
+    t.text "notes"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_posting_id"], name: "index_job_applications_on_job_posting_id"
+    t.index ["next_follow_up_on"], name: "index_job_applications_on_next_follow_up_on"
+    t.index ["status", "position"], name: "index_job_applications_on_status_and_position"
+  end
+
+  create_table "job_postings", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "company"
+    t.string "url", null: false
+    t.string "fingerprint", null: false
+    t.string "source", null: false
+    t.string "external_id"
+    t.string "location_text"
+    t.string "remote_scope", default: "unknown", null: false
+    t.text "description"
+    t.string "salary_text"
+    t.datetime "posted_at"
+    t.integer "score", default: 0, null: false
+    t.json "matched_keywords", default: [], null: false
+    t.string "seniority", default: "unknown", null: false
+    t.string "triage", default: "new", null: false
+    t.json "raw", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fingerprint"], name: "index_job_postings_on_fingerprint"
+    t.index ["source", "external_id"], name: "index_job_postings_on_source_and_external_id"
+    t.index ["triage", "score"], name: "index_job_postings_on_triage_and_score"
+    t.index ["url"], name: "index_job_postings_on_url", unique: true
+  end
+
+  create_table "message_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "language", default: "pt", null: false
+    t.text "body", null: false
+    t.integer "max_chars"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_message_templates_on_name", unique: true
+  end
+
+  create_table "routine_checks", force: :cascade do |t|
+    t.date "date", null: false
+    t.string "item_key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["date", "item_key"], name: "index_routine_checks_on_date_and_item_key", unique: true
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -18,6 +120,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_164600) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "target_companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "ats", null: false
+    t.string "board_slug", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "example", default: false, null: false
+    t.datetime "last_fetched_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ats", "board_slug"], name: "index_target_companies_on_ats_and_board_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,5 +142,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_164600) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "ai_artifacts", "job_postings", on_delete: :cascade
+  add_foreign_key "job_applications", "job_postings", on_delete: :nullify
   add_foreign_key "sessions", "users"
 end

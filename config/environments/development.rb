@@ -52,6 +52,9 @@ Rails.application.configure do
   # Append comments with runtime information tags to SQL queries in logs.
   config.active_record.query_log_tags_enabled = true
 
+  # Docker Compose reaches the app from its bridge network.
+  config.web_console.allowed_ips = "172.16.0.0/12"
+
   # Run jobs with Solid Queue, same as production (see config/database.yml).
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
