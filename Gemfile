@@ -27,6 +27,9 @@ gem "caxlsx"
 gem "caxlsx_rails"
 gem "csv"
 
+# LinkedIn job alerts read from Gmail over IMAP
+gem "net-imap"
+
 # pt-BR translations for validation messages, dates and numbers
 gem "rails-i18n", "~> 8.0"
 

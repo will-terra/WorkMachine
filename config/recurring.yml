@@ -5,6 +5,9 @@ default: &default
   fetch_jobs:
     class: FetchJobsJob
     schedule: every 3 hours
+  import_linkedin_alerts:
+    class: ImportLinkedinAlertsJob
+    schedule: every hour
   follow_up_reminder:
     class: FollowUpReminderJob
     schedule: every day at 8am America/Sao_Paulo

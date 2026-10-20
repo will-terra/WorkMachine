@@ -400,6 +400,7 @@ DEPENDENCIES
   factory_bot_rails
   importmap-rails
   jbuilder
+  net-imap
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)

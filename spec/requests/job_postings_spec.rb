@@ -87,4 +87,10 @@ RSpec.describe "Job postings (triage)" do
   it "starts a fetch in the background" do
     expect { post fetch_job_postings_path }.to have_enqueued_job(FetchJobsJob)
   end
+
+  it "also imports the LinkedIn alerts when Gmail is configured" do
+    allow(LinkedinAlerts::Importer).to receive(:configured?).and_return(true)
+
+    expect { post fetch_job_postings_path }.to have_enqueued_job(ImportLinkedinAlertsJob)
+  end
 end

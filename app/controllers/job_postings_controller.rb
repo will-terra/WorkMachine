@@ -35,6 +35,7 @@ class JobPostingsController < ApplicationController
 
   def fetch
     FetchJobsJob.perform_later
+    ImportLinkedinAlertsJob.perform_later if LinkedinAlerts::Importer.configured?
     redirect_to job_postings_path, notice: "Busca iniciada. As fontes respeitam o intervalo mínimo de cada uma; recarregue em um minuto."
   end
 
