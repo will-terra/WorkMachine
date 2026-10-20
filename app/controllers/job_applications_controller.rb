@@ -24,7 +24,7 @@ class JobApplicationsController < ApplicationController
     if @job_application.save
       redirect_to job_applications_path, notice: "Candidatura criada."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -35,7 +35,7 @@ class JobApplicationsController < ApplicationController
     if @job_application.update(job_application_params)
       redirect_to job_applications_path(view: params[:return_view].presence_in(VIEWS)), notice: "Candidatura atualizada."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -47,7 +47,7 @@ class JobApplicationsController < ApplicationController
   # Kanban drag and drop: PATCH status + position, answers with Turbo Streams for the touched columns.
   def move
     status = params.require(:status)
-    return head :unprocessable_entity unless JobApplication::STATUSES.include?(status)
+    return head :unprocessable_content unless JobApplication::STATUSES.include?(status)
 
     @previous_status = @job_application.status
     @job_application.move_to!(status, params.require(:position))

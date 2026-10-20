@@ -1,5 +1,67 @@
-<% content_for :title, "Painel" %>
+<%= page_header eyebrow: l(Date.current, format: "%A, %-d de %B"), title: "Painel" do %>
+  <%= link_to "Radar", radar_path, class: "btn btn-sm" %>
+  <%= link_to "Candidaturas", job_applications_path, class: "btn btn-sm" %>
+<% end %>
 
-<p class="eyebrow">Painel</p>
-<h1 class="mt-1">Bom dia, Ana</h1>
-<p class="muted mt-2">As telas do WorkMachine aparecem aqui conforme os marcos ficam prontos.</p>
+<div class="mb-8 flex flex-wrap gap-2 text-sm" aria-label="Candidaturas por status">
+  <% JobApplication::OPEN_STATUSES.each do |status| %>
+    <%= link_to job_applications_path(view: "table", status:), class: "chip gap-1.5 px-3 py-1 text-sm text-ink no-underline hover:border-ink" do %>
+      <%= JobApplication.human_enum(:status, status) %> <strong><%= @pipeline.fetch(status, 0) %></strong>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+  <section aria-labelledby="new_postings_title">
+    <div class="mb-2 flex items-baseline justify-between">
+      <h2 id="new_postings_title" class="text-base">Vagas novas por nota</h2>
+      <span class="muted text-sm"><%= @new_postings_count %> para triar</span>
+    </div>
+    <div class="card divide-y divide-line">
+      <% @new_postings.each do |posting| %>
+        <div class="flex items-center gap-3 px-4 py-3">
+          <span class="w-10 flex-none text-center font-mono text-lg font-semibold <%= posting.score >= 60 ? "text-ok" : "text-muted" %>"><%= posting.score %></span>
+          <div class="min-w-0">
+            <p class="truncate font-semibold"><%= external_link posting.title, posting.url, class: "text-ink no-underline hover:underline" %></p>
+            <p class="muted truncate text-sm"><%= posting.display_company %> · <%= posting.human_enum(:source) %> · <%= posting.human_enum(:remote_scope) %></p>
+          </div>
+        </div>
+      <% end %>
+      <% if @new_postings.empty? %>
+        <p class="muted p-6 text-center text-sm">Nenhuma vaga nova. O agregador roda a cada 3 horas.</p>
+      <% end %>
+    </div>
+  </section>
+
+  <section aria-labelledby="follow_ups_title">
+    <h2 id="follow_ups_title" class="mb-2 text-base">Follow-ups do dia</h2>
+    <div class="card divide-y divide-line">
+      <% (@follow_ups.to_a | @waiting_answer.to_a).each do |application| %>
+        <div class="flex items-center justify-between gap-3 px-4 py-3">
+          <div class="min-w-0">
+            <p class="truncate font-semibold"><%= application.company %></p>
+            <p class="muted truncate text-sm">
+              <%= application.role %> ·
+              <% if application.next_follow_up_on %>follow-up <%= short_date(application.next_follow_up_on) %><% else %>aplicou em <%= short_date(application.applied_on) %><% end %>
+            </p>
+          </div>
+          <div class="flex flex-none gap-1.5">
+            <%= link_to "Mensagem", message_templates_path(job_application_id: application.id), class: "btn btn-sm" %>
+            <%= link_to "Editar", edit_job_application_path(application), class: "btn btn-ghost btn-sm" %>
+          </div>
+        </div>
+      <% end %>
+      <% if @follow_ups.empty? && @waiting_answer.empty? %>
+        <p class="muted p-6 text-center text-sm">Nada para cobrar hoje.</p>
+      <% end %>
+    </div>
+  </section>
+</div>
+
+<section class="mt-10" aria-labelledby="routine_title">
+  <div class="mb-2 flex items-baseline justify-between">
+    <h2 id="routine_title" class="text-base">Rotina de hoje</h2>
+    <%= link_to "Ver regras", routine_path, class: "text-sm" %>
+  </div>
+  <%= render "routines/checklist", checked: @checked %>
+</section>

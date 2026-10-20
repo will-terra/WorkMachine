@@ -8,7 +8,7 @@ class MessageTemplate < ApplicationRecord
   validates :name, uniqueness: true
   validates :max_chars, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
-  scope :ordered, -> { order(:language, :name) }
+  scope :ordered, -> { in_order_of(:language, %w[pt en]).order(:name) }
 
   # Replaces {{nome}}, {{cargo}} and {{empresa}}. Blank values keep the placeholder visible.
   def render(values = {})

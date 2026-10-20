@@ -1,0 +1,11 @@
+<div class="card divide-y divide-line overflow-hidden">
+  <% sites.each do |site| %>
+    <div class="grid gap-x-5 gap-y-1 px-4 py-3 sm:grid-cols-[minmax(150px,0.8fr)_minmax(0,2.4fr)]">
+      <div>
+        <%= external_link site["name"], site["url"], class: "font-semibold no-underline hover:underline" %>
+        <% if site["tag"] %><span class="chip chip-hot ml-1 px-1.5 py-0 text-[11px] font-semibold uppercase"><%= site["tag"] %></span><% end %>
+      </div>
+      <p class="muted text-sm"><%= site["note"] %></p>
+    </div>
+  <% end %>
+</div>

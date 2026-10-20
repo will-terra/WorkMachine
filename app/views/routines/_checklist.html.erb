@@ -1,0 +1,13 @@
+<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <% Routine.slots.each do |slot| %>
+    <section class="card p-4">
+      <h3><%= slot.title %></h3>
+      <p class="mb-3 font-mono text-xs text-muted"><%= slot.time %></p>
+      <ul class="grid gap-2">
+        <% slot.items.each do |item| %>
+          <%= render "routines/item", item:, checked: checked.include?(item.key) %>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+</div>

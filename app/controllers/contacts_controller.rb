@@ -15,7 +15,7 @@ class ContactsController < ApplicationController
     if @contact.save
       redirect_to contacts_path, notice: "Contato salvo."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -26,7 +26,7 @@ class ContactsController < ApplicationController
     if @contact.update(contact_params)
       redirect_to contacts_path, notice: "Contato atualizado."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

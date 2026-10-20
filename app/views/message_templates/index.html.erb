@@ -1,0 +1,47 @@
+<%= page_header eyebrow: "Abordagem", title: "Mensagens",
+                intro: "Velocidade conta: quem responde primeiro sai na frente. Preencha os campos e copie. Evite responder só “tenho interesse”." do %>
+  <%= link_to "Novo modelo", new_message_template_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<div data-controller="message">
+  <div class="card mb-6 p-4">
+    <% if @context %>
+      <p class="mb-3 text-sm">
+        Preenchido a partir de <strong><%= @context.model_name.human.downcase %></strong>:
+        <%= @context.try(:company) || @context.try(:name) %> · <%= @context.try(:role) || @context.try(:title) || @context.try(:name) %>
+      </p>
+    <% end %>
+    <div class="grid gap-3 sm:grid-cols-3">
+      <% { "nome" => "Nome da pessoa", "cargo" => "Cargo / vaga", "empresa" => "Empresa" }.each do |key, label| %>
+        <div>
+          <%= label_tag "placeholder_#{key}", label, class: "label" %>
+          <%= text_field_tag key, @values[key], id: "placeholder_#{key}", class: "input", autocomplete: "off",
+                             data: { message_target: "input", action: "input->message#render" } %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-2">
+    <% @message_templates.each do |template| %>
+      <% text = template.render(@values) %>
+      <article id="<%= dom_id(template) %>" class="card grid content-start gap-3 p-4"
+               data-message-target="template" data-body="<%= template.body %>" data-max="<%= template.max_chars %>" data-controller="clipboard">
+        <header class="flex items-start justify-between gap-3">
+          <div>
+            <h2 class="text-sm font-bold"><%= template.name %></h2>
+            <span class="chip mt-1"><%= template.human_enum(:language) %></span>
+          </div>
+          <span class="whitespace-nowrap font-mono text-xs text-muted tabular-nums" data-role="counter">
+            <%= text.length %><%= " / #{template.max_chars}" if template.max_chars %> caracteres
+          </span>
+        </header>
+        <p class="whitespace-pre-line text-[15px]" data-role="preview" data-clipboard-target="source"><%= text %></p>
+        <div class="flex gap-2">
+          <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
+          <%= link_to "Editar modelo", edit_message_template_path(template), class: "btn btn-ghost btn-sm" %>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</div>

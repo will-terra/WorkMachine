@@ -21,7 +21,7 @@ RSpec.describe "Setups" do
   it "re-renders the form when the data is invalid" do
     post setup_path, params: { user: { email_address: "ana@example.com", password: "curta", password_confirmation: "outra" } }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
     expect(User.count).to eq(0)
   end
 

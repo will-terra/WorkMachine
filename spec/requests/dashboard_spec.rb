@@ -1,13 +1,25 @@
 require "rails_helper"
 
 RSpec.describe "Dashboard" do
-  it "shows the dashboard to the signed-in user" do
-    sign_in
+  before { sign_in }
+
+  it "shows new postings, follow-ups and the routine" do
+    create(:job_posting, title: "Senior Rails Engineer", score: 80)
+    create(:job_posting, title: "Descartada", triage: "dismissed")
+    create(:job_application, company: "Acme", status: "applied", next_follow_up_on: Date.current)
+    create(:job_application, company: "Globex", status: "applied", applied_on: 7.days.ago.to_date)
 
     get root_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Painel")
+    expect(response.body).to include("Senior Rails Engineer", "Acme", "Globex", "Rotina de hoje")
+    expect(response.body).not_to include("Descartada")
+  end
+
+  it "shows empty states" do
+    get root_path
+
+    expect(response.body).to include("Nenhuma vaga nova", "Nada para cobrar hoje")
   end
 end
 
