@@ -111,6 +111,22 @@ RSpec.describe "Job applications" do
     end
   end
 
+  it "checks the replies on demand and shows the company e-mails" do
+    application = create(:job_application, company: "Acme", status: "rejected", applied_on: Date.new(2026, 10, 1), responded_on: Date.new(2026, 10, 5))
+    create(:application_email, job_application: application, category: "rejection", summary: "Seguiram com outra pessoa.",
+                               status_before: "applied", status_after: "rejected")
+    create(:application_email, job_application: application, category: "unrelated", subject: "Newsletter da Acme")
+
+    expect { post check_replies_job_applications_path }.to have_enqueued_job(ImportApplicationRepliesJob)
+
+    get edit_job_application_path(application)
+    expect(response.body).to include("E-mails da empresa", "Seguiram com outra pessoa.", "Aplicada → <strong>Recusada</strong>", "4 dias depois de aplicar")
+    expect(response.body).not_to include("Newsletter da Acme")
+
+    get root_path
+    expect(response.body).to include("Respostas das empresas", "Seguiram com outra pessoa.")
+  end
+
   describe "POST /candidaturas/import" do
     it "imports a CSV file" do
       file = fixture_file_upload("candidaturas_excel.csv", "text/csv")

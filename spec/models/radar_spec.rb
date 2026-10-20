@@ -48,7 +48,7 @@ RSpec.describe Radar do
       automated = described_class.automated
       targets = automated.find { it.name == "Empresas-alvo" }
 
-      expect(automated.flat_map(&:sources)).to match_array(Sources.all.map(&:key) + [ "linkedin_alert" ])
+      expect(automated.flat_map(&:sources)).to match_array(Sources.all.map(&:key) + %w[linkedin_alert application_replies])
       expect(targets).to have_attributes(app_link: :target_companies_path, created_count: 3, failed: true, error_message: "HttpClient::Error: 404")
       expect(targets.last_run_at).to be_within(1.second).of(1.hour.ago)
       expect(automated.find { it.name == "Remotive" }).to have_attributes(last_run_at: nil, interval: 6.hours)
@@ -58,7 +58,7 @@ RSpec.describe Radar do
       expect(described_class.interval_for("linkedin_alert")).to eq(1.hour)
       expect(described_class.interval_for("hacker_news")).to eq(12.hours)
       expect(described_class.interval_for("remote_ok")).to eq(3.hours)
-      expect(described_class.automated.select(&:needs_gmail?).map(&:name)).to eq([ "Alertas do LinkedIn" ])
+      expect(described_class.automated.select(&:needs_gmail?).map(&:name)).to eq([ "Alertas do LinkedIn", "Respostas das empresas" ])
     end
 
     it "keeps automated sources out of the manual tasks" do

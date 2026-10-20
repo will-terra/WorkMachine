@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_210655) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -28,6 +28,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
     t.decimal "cost_usd", precision: 10, scale: 6
     t.index ["job_posting_id", "kind"], name: "index_ai_artifacts_on_job_posting_id_and_kind"
     t.index ["job_posting_id"], name: "index_ai_artifacts_on_job_posting_id"
+  end
+
+  create_table "application_emails", force: :cascade do |t|
+    t.integer "job_application_id", null: false
+    t.string "message_id", null: false
+    t.string "from_name"
+    t.string "from_address"
+    t.string "subject"
+    t.datetime "received_at"
+    t.string "category", null: false
+    t.text "summary"
+    t.string "status_before"
+    t.string "status_after"
+    t.string "classified_by", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["job_application_id"], name: "index_application_emails_on_job_application_id"
+    t.index ["message_id"], name: "index_application_emails_on_message_id", unique: true
   end
 
   create_table "consultancies", force: :cascade do |t|
@@ -69,6 +87,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "board_checked_at"
+    t.date "responded_on"
     t.index ["job_posting_id"], name: "index_job_applications_on_job_posting_id"
     t.index ["next_follow_up_on"], name: "index_job_applications_on_next_follow_up_on"
     t.index ["status", "position"], name: "index_job_applications_on_status_and_position"
@@ -160,6 +179,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
     t.text "last_backup_error"
     t.boolean "auto_dismiss_restricted", default: true, null: false
     t.integer "auto_dismiss_below_score"
+    t.boolean "track_replies", default: true, null: false
+    t.datetime "replies_checked_at"
+    t.boolean "notify_replies", default: true, null: false
+    t.boolean "notify_follow_ups", default: true, null: false
   end
 
   create_table "source_runs", force: :cascade do |t|
@@ -198,6 +221,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
   end
 
   add_foreign_key "ai_artifacts", "job_postings", on_delete: :cascade
+  add_foreign_key "application_emails", "job_applications", on_delete: :cascade
   add_foreign_key "job_applications", "job_postings", on_delete: :nullify
   add_foreign_key "sessions", "users"
   add_foreign_key "target_companies", "job_postings", column: "discovered_from_id", on_delete: :nullify

@@ -133,6 +133,16 @@ pt-BR:
       language:
         pt: Português
         en: Inglês
+    application_email:
+      category:
+        rejection: Recusa
+        interview: Entrevista
+        assessment: Teste
+        offer: Proposta
+        recruiter_contact: Contato do recrutador
+        confirmation: Confirmação
+        other: Outro
+        unrelated: Não relacionado
     ai_artifact:
       kind:
         fit_analysis: Análise de fit

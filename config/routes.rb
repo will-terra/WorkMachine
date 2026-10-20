@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resource :setup, only: %i[ new create ]
 
   resources :job_applications, path: "candidaturas", except: :show do
-    collection { post :import }
+    collection do
+      post :import
+      post :check_replies
+    end
     member { patch :move }
   end
   resources :contacts, path: "contatos", except: :show

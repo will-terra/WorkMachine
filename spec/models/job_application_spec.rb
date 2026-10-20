@@ -19,6 +19,18 @@ RSpec.describe JobApplication do
     expect(application.applied_on).to eq(Date.new(2026, 10, 20))
   end
 
+  it "records the day the company first answered" do
+    application = create(:job_application, status: "applied")
+
+    travel_to Date.new(2026, 10, 20) do
+      application.update!(status: "hr_interview")
+    end
+    application.update!(status: "tech_interview")
+
+    expect(application.responded_on).to eq(Date.new(2026, 10, 20))
+    expect(create(:job_application, status: "applied").responded_on).to be_nil
+  end
+
   it "builds an application from a posting" do
     posting = create(:job_posting, title: "Rails Engineer", company: "Acme", source: "greenhouse")
 
