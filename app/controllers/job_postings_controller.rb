@@ -71,7 +71,7 @@ class JobPostingsController < ApplicationController
   end
 
   def restore
-    @job_posting.triage_new!
+    @job_posting.update!(triage: "new", auto_dismissed_reason: nil)
     respond_with_row(notice: "Vaga de volta para a triagem.")
   end
 

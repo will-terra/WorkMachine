@@ -15,7 +15,7 @@ class JobPostingFilter
 
   def initialize(params = {})
     @values = params.to_h.stringify_keys.slice(*KEYS).transform_values { it.to_s.strip }.compact_blank
-    @values["triage"] = "new" unless JobPosting::TRIAGES.include?(@values["triage"]) || @values["triage"] == "all"
+    @values["triage"] = "new" unless JobPosting::TRIAGES.include?(@values["triage"]) || %w[all auto].include?(@values["triage"])
     @values["sort"] = "score" unless SORTS.key?(@values["sort"])
   end
 
@@ -35,7 +35,7 @@ class JobPostingFilter
 
   def scope
     scope = JobPosting.all
-    scope = scope.where(triage: self[:triage]) unless self[:triage] == "all"
+    scope = filter_triage(scope)
     scope = scope.where(source: self[:source]) if JobPosting::SOURCES.include?(self[:source])
     scope = filter_region(scope)
     scope = scope.where(seniority: self[:seniority]) if JobPosting::SENIORITIES.include?(self[:seniority])
@@ -50,7 +50,20 @@ class JobPostingFilter
     self[:sort] == "recent" ? scope.recent.order(id: :desc) : scope.ranked
   end
 
+  # Select options for "Triagem".
+  def self.triage_options
+    JobPosting.enum_options(:triage) + [ [ "Descartada automaticamente", "auto" ], [ "Todas", "all" ] ]
+  end
+
   private
+    def filter_triage(scope)
+      case self[:triage]
+      when "all" then scope
+      when "auto" then scope.triage_dismissed.where.not(auto_dismissed_reason: nil)
+      else scope.where(triage: self[:triage])
+      end
+    end
+
     def filter_region(scope)
       return scope.where(remote_scope: OPEN_SCOPES) if self[:remote_scope] == OPEN_TO_BRAZIL
       return scope unless JobPosting::REMOTE_SCOPES.include?(self[:remote_scope])

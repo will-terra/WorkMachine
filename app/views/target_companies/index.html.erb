@@ -28,7 +28,7 @@
 
 <div class="card overflow-x-auto">
   <table class="table">
-    <thead><tr><th>Empresa</th><th>Sistema</th><th>Quadro</th><th>Ativa</th><th>Última busca</th><th><span class="sr-only">Ações</span></th></tr></thead>
+    <thead><tr><th>Empresa</th><th>Sistema</th><th>Quadro</th><th>Ativa</th><th title="Vagas trazidas pelo quadro · salvas · descartadas automaticamente">Vagas</th><th>Última busca</th><th><span class="sr-only">Ações</span></th></tr></thead>
     <tbody>
       <% @target_companies.each do |company| %>
         <tr id="<%= dom_id(company) %>">
@@ -40,6 +40,14 @@
           <td><%= company.human_enum(:ats) %></td>
           <td><%= external_link company.board_slug, company.board_url, class: "font-mono text-xs" %></td>
           <td><%= company.active? ? "Sim" : "Não" %></td>
+          <td class="whitespace-nowrap text-xs">
+            <% if (stats = @stats[[ company.ats, company.board_slug ]]) %>
+              <%= stats[:total] %> · <span class="<%= stats[:saved].positive? ? "text-ok font-semibold" : "muted" %>"><%= stats[:saved] %> salvas</span>
+              <% if stats[:auto_dismissed].positive? %> · <span class="muted"><%= stats[:auto_dismissed] %> descartadas auto.</span><% end %>
+            <% else %>
+              <span class="muted">—</span>
+            <% end %>
+          </td>
           <td class="whitespace-nowrap"><%= company.last_fetched_at ? l(company.last_fetched_at, format: "%d/%m %H:%M") : "—" %></td>
           <td class="text-right"><%= link_to "Editar", edit_target_company_path(company) %></td>
         </tr>

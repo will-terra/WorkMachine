@@ -16,6 +16,18 @@
       <%= form.number_field :notify_min_score, min: 0, max: 100, step: 1, required: true, class: "input w-32" %>
       <p class="muted mt-1 text-xs">Vale para as próximas buscas. Cada vaga é notificada uma vez só.</p>
     </div>
+    <div class="border-t border-line pt-4">
+      <h2 class="text-base">Descarte automático</h2>
+      <p class="muted mt-1 text-sm">Vagas do agregador e dos alertas que você não pode pegar já chegam descartadas. As salvas pela extensão nunca são descartadas. Para revisar, filtre Vagas → Triagem → Descartada automaticamente.</p>
+    </div>
+    <div class="flex items-start gap-2">
+      <%= form.check_box :auto_dismiss_restricted, class: "mt-0.5 size-4 accent-accent" %>
+      <%= form.label :auto_dismiss_restricted, "Descartar as vagas só para EUA/Canadá, só para Europa ou para uma lista de países fora da América Latina", class: "text-sm" %>
+    </div>
+    <div>
+      <%= form.label :auto_dismiss_below_score, "Descartar também com nota abaixo de (vazio = não descartar)", class: "label" %>
+      <%= form.number_field :auto_dismiss_below_score, min: 1, max: 100, step: 1, class: "input w-32" %>
+    </div>
     <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
   <% end %>
 

@@ -3,6 +3,7 @@ class Setting < ApplicationRecord
   VAPID_SUBJECT = "https://github.com/will-terra/WorkMachine".freeze
 
   validates :notify_min_score, numericality: { only_integer: true, in: 0..100 }
+  validates :auto_dismiss_below_score, numericality: { only_integer: true, in: 1..100 }, allow_nil: true
 
   def self.current
     first || create!

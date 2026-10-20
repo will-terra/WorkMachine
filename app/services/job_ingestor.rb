@@ -17,6 +17,8 @@ class JobIngestor
   def initialize(attributes)
     @attributes = attributes.to_h.symbolize_keys
     @hint = @attributes.delete(:remote_scope_hint)
+    # Kept in raw so that rescoring later gives the same region.
+    @attributes[:raw] = (@attributes[:raw] || {}).merge("remote_scope_hint" => @hint) if @hint
   end
 
   def call
@@ -25,6 +27,7 @@ class JobIngestor
 
     posting = JobPosting.new(@attributes)
     apply_score(posting)
+    AutoDismissal.apply(posting)
     if posting.save
       TargetCompanyDiscovery.call(posting)
       return Result.new(posting:, status: :created)
@@ -48,7 +51,7 @@ class JobIngestor
 
     def apply_score(posting)
       result = JobScorer.call(title: posting.title, description: posting.description,
-                              location_text: posting.location_text, remote_scope_hint: @hint)
+                              location_text: posting.location_text, remote_scope_hint: @hint || posting.remote_scope_hint)
       posting.assign_attributes(score: result.score, matched_keywords: result.matched_keywords,
                                 remote_scope: result.remote_scope, seniority: result.seniority)
     end

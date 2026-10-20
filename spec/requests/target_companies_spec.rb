@@ -44,6 +44,18 @@ RSpec.describe "Target companies" do
     expect(response.body).to include("descoberta")
   end
 
+  it "shows how many postings each board brought and how many were saved" do
+    create(:target_company, name: "GitLab", ats: "greenhouse", board_slug: "gitlab")
+    create(:job_posting, source: "greenhouse", raw: { "board" => "gitlab" }, triage: "saved")
+    create(:job_posting, source: "greenhouse", raw: { "board" => "gitlab" }, triage: "dismissed", auto_dismissed_reason: "só Europa")
+    create(:job_posting, source: "greenhouse", raw: { "board" => "gitlab" })
+
+    get target_companies_path
+
+    expect(response.body).to include("3 · ", "1 salvas", "1 descartadas auto.")
+    expect(TargetCompany.posting_stats[%w[greenhouse gitlab]]).to eq(total: 3, saved: 1, auto_dismissed: 1)
+  end
+
   it "re-renders the forms with errors" do
     post target_companies_path, params: { target_company: { name: "", ats: "lever", board_slug: "a b" } }
     expect(response).to have_http_status(:unprocessable_content)

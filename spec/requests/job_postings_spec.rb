@@ -118,6 +118,25 @@ RSpec.describe "Job postings (triage)" do
     end
   end
 
+  it "lists auto-dismissed postings, marks partial scores and restores clearing the reason" do
+    auto = create(:job_posting, title: "Vaga dos EUA", triage: "dismissed", auto_dismissed_reason: "só EUA/Canadá")
+    create(:job_posting, title: "Descartada à mão", triage: "dismissed")
+    create(:job_posting, title: "Alerta sem texto", description: nil)
+
+    get job_postings_path
+    expect(response.body).to include("Alerta sem texto", "nota parcial")
+
+    get job_postings_path(triage: "auto")
+    expect(response.body).to include("Vaga dos EUA", "descartada automaticamente: só EUA/Canadá")
+    expect(response.body).not_to include("Descartada à mão")
+
+    get job_posting_path(auto)
+    expect(response.body).to include("automaticamente: só EUA/Canadá")
+
+    post restore_job_posting_path(auto)
+    expect(auto.reload).to have_attributes(triage: "new", auto_dismissed_reason: nil)
+  end
+
   it "dismisses and restores a posting" do
     posting = create(:job_posting)
 
