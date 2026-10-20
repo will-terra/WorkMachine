@@ -27,6 +27,30 @@ RSpec.describe "Job postings (triage)" do
       expect(response.body).not_to include("Outra")
     end
 
+    it "sorts by newest and keeps the filters in the page" do
+      create(:job_posting, title: "Antiga e boa", score: 90, posted_at: 5.days.ago)
+      create(:job_posting, title: "Nova e fraca", score: 10, posted_at: 1.hour.ago)
+
+      get job_postings_path(sort: "recent", period: "7", keyword: "rails", salary: "1")
+      expect(response.body).to include("mais novas primeiro", "Limpar filtros", 'selected="selected" value="recent"', "Com salário")
+
+      get job_postings_path(sort: "recent")
+      expect(response.body.index("Nova e fraca")).to be < response.body.index("Antiga e boa")
+    end
+
+    it "offers to dismiss everything with a confirmation" do
+      create_list(:job_posting, 2)
+
+      get job_postings_path
+      expect(response.body).to include("Descartar todas (2)", "data-turbo-confirm=\"Descartar 2 vagas?")
+
+      get job_postings_path(min_score: 40)
+      expect(response.body).to include("Descartar as 2 desta lista")
+
+      get job_postings_path(triage: "saved")
+      expect(response.body).not_to include("Descartar todas")
+    end
+
     it "paginates" do
       create_list(:job_posting, JobPostingsController::PER_PAGE + 1)
 
@@ -82,6 +106,29 @@ RSpec.describe "Job postings (triage)" do
 
     post job_postings_path, params: { job_posting: { title: "", url: "" } }
     expect(response).to have_http_status(:unprocessable_content)
+  end
+
+  describe "POST /vagas/dismiss_all" do
+    it "dismisses only the new postings that match the filters" do
+      high = create(:job_posting, score: 80)
+      low = create(:job_posting, score: 10)
+      saved = create(:job_posting, score: 10, triage: "saved")
+
+      post dismiss_all_job_postings_path, params: { min_score: 40, triage: "all" }
+
+      expect(response).to redirect_to(job_postings_path(min_score: 40, triage: "new", sort: "score"))
+      expect(flash[:notice]).to start_with("1 vaga descartada")
+      expect([ high.reload.triage, low.reload.triage, saved.reload.triage ]).to eq(%w[dismissed new saved])
+    end
+
+    it "dismisses all new postings without filters" do
+      create_list(:job_posting, 3)
+
+      post dismiss_all_job_postings_path
+
+      expect(flash[:notice]).to start_with("3 vagas descartadas")
+      expect(JobPosting.triage_new.count).to eq(0)
+    end
   end
 
   it "starts a fetch in the background" do

@@ -3,15 +3,22 @@ class JobPostingsController < ApplicationController
 
   before_action :set_job_posting, only: %i[ show save dismiss restore ]
 
-  # Triage: new postings by score, with filters.
+  # Triage: new postings, with filters and ordering (JobPostingFilter).
   def index
-    @filters = params.permit(:triage, :source, :remote_scope, :seniority, :min_score, :q, :page).to_h
-    @filters["triage"] = "new" unless JobPosting::TRIAGES.include?(@filters["triage"]) || @filters["triage"] == "all"
-    @page = [ @filters["page"].to_i, 0 ].max
-    scope = filtered_postings
-    @total = scope.count
-    @job_postings = scope.ranked.limit(PER_PAGE).offset(@page * PER_PAGE)
+    @filter = JobPostingFilter.new(filter_params)
+    @page = [ params[:page].to_i, 0 ].max
+    @total = @filter.scope.count
+    @job_postings = @filter.ordered.limit(PER_PAGE).offset(@page * PER_PAGE)
     @source_runs = SourceRun.latest_per_source
+  end
+
+  # "Descartar todas": dismisses the new postings that match the current filters.
+  def dismiss_all
+    filter = JobPostingFilter.new(filter_params.merge("triage" => "new"))
+    count = filter.scope.update_all(triage: "dismissed", updated_at: Time.current)
+    redirect_to job_postings_path(filter.to_params),
+                notice: "#{count} #{count == 1 ? "vaga descartada" : "vagas descartadas"}. Elas continuam em Triagem → Descartada.",
+                status: :see_other
   end
 
   def show
@@ -64,18 +71,8 @@ class JobPostingsController < ApplicationController
       params.expect(job_posting: %i[ title company url location_text salary_text description ])
     end
 
-    def filtered_postings
-      scope = JobPosting.all
-      scope = scope.where(triage: @filters["triage"]) unless @filters["triage"] == "all"
-      scope = scope.where(source: @filters["source"]) if @filters["source"].present?
-      scope = scope.where(remote_scope: @filters["remote_scope"]) if @filters["remote_scope"].present?
-      scope = scope.where(seniority: @filters["seniority"]) if @filters["seniority"].present?
-      scope = scope.where(score: @filters["min_score"].to_i..) if @filters["min_score"].present?
-      if @filters["q"].present?
-        term = "%#{JobPosting.sanitize_sql_like(@filters["q"])}%"
-        scope = scope.where("title LIKE :term OR company LIKE :term OR description LIKE :term", term:)
-      end
-      scope
+    def filter_params
+      params.permit(*JobPostingFilter::KEYS).to_h
     end
 
     def respond_with_row(notice:)

@@ -1,37 +1,66 @@
 <%= page_header eyebrow: "Triagem", title: "Vagas",
-                intro: "Vagas do agregador, dos alertas do LinkedIn e da extensão, da maior para a menor nota. Salve as que valem a pena e descarte o resto." do %>
+                intro: "Vagas do agregador, dos alertas do LinkedIn e da extensão. Salve as que valem a pena e descarte o resto." do %>
   <%= button_to "Buscar agora", fetch_job_postings_path, class: "btn btn-sm" %>
   <%= link_to "Adicionar vaga", new_job_posting_path, class: "btn btn-primary btn-sm" %>
 <% end %>
 
-<%= form_with url: job_postings_path, method: :get, class: "card mb-4 grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-6", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+<%= form_with url: job_postings_path, method: :get, class: "card mb-4 grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-5", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+  <% submit = { action: "auto-submit#submit" } %>
+  <div>
+    <%= form.label :sort, "Ordenar por", class: "label" %>
+    <%= form.select :sort, JobPostingFilter::SORTS.invert, { selected: @filter[:sort] }, class: "input", data: submit %>
+  </div>
   <div>
     <%= form.label :triage, "Triagem", class: "label" %>
-    <%= form.select :triage, JobPosting.enum_options(:triage) + [ [ "Todas", "all" ] ], { selected: @filters["triage"] }, class: "input", data: { action: "auto-submit#submit" } %>
-  </div>
-  <div>
-    <%= form.label :source, "Fonte", class: "label" %>
-    <%= form.select :source, JobPosting.enum_options(:source), { include_blank: "Todas", selected: @filters["source"] }, class: "input", data: { action: "auto-submit#submit" } %>
-  </div>
-  <div>
-    <%= form.label :remote_scope, "Região", class: "label" %>
-    <%= form.select :remote_scope, JobPosting.enum_options(:remote_scope), { include_blank: "Todas", selected: @filters["remote_scope"] }, class: "input", data: { action: "auto-submit#submit" } %>
-  </div>
-  <div>
-    <%= form.label :seniority, "Senioridade", class: "label" %>
-    <%= form.select :seniority, JobPosting.enum_options(:seniority), { include_blank: "Todas", selected: @filters["seniority"] }, class: "input", data: { action: "auto-submit#submit" } %>
+    <%= form.select :triage, JobPosting.enum_options(:triage) + [ [ "Todas", "all" ] ], { selected: @filter[:triage] }, class: "input", data: submit %>
   </div>
   <div>
     <%= form.label :min_score, "Nota mínima", class: "label" %>
-    <%= form.select :min_score, [ 20, 35, 50, 60, 75 ].map { [ "#{it}+", it ] }, { include_blank: "Qualquer", selected: @filters["min_score"] }, class: "input", data: { action: "auto-submit#submit" } %>
+    <%= form.select :min_score, JobPostingFilter::MIN_SCORES.map { [ "#{it}+", it ] }, { include_blank: "Qualquer", selected: @filter[:min_score] }, class: "input", data: submit %>
+  </div>
+  <div>
+    <%= form.label :period, "Publicadas", class: "label" %>
+    <%= form.select :period, JobPostingFilter::PERIODS.map { |value, (_, label)| [ label, value ] }, { include_blank: "Qualquer data", selected: @filter[:period] }, class: "input", data: submit %>
+  </div>
+  <div>
+    <%= form.label :remote_scope, "Região", class: "label" %>
+    <%= form.select :remote_scope, [ [ "Abertas ao Brasil", JobPostingFilter::OPEN_TO_BRAZIL ] ] + JobPosting.enum_options(:remote_scope), { include_blank: "Todas", selected: @filter[:remote_scope] }, class: "input", data: submit %>
+  </div>
+  <div>
+    <%= form.label :keyword, "Tecnologia", class: "label" %>
+    <%= form.select :keyword, JobPostingFilter.keywords, { include_blank: "Qualquer", selected: @filter[:keyword] }, class: "input", data: submit %>
+  </div>
+  <div>
+    <%= form.label :seniority, "Senioridade", class: "label" %>
+    <%= form.select :seniority, JobPosting.enum_options(:seniority), { include_blank: "Todas", selected: @filter[:seniority] }, class: "input", data: submit %>
+  </div>
+  <div>
+    <%= form.label :source, "Fonte", class: "label" %>
+    <%= form.select :source, JobPosting.enum_options(:source), { include_blank: "Todas", selected: @filter[:source] }, class: "input", data: submit %>
   </div>
   <div>
     <%= form.label :q, "Buscar", class: "label" %>
-    <%= form.search_field :q, value: @filters["q"], placeholder: "título, empresa…", class: "input" %>
+    <%= form.search_field :q, value: @filter[:q], placeholder: "título, empresa…", class: "input" %>
+  </div>
+  <div class="flex items-end gap-3 pb-2">
+    <label class="flex items-center gap-2 text-sm">
+      <%= form.check_box :salary, { checked: @filter[:salary] == "1", class: "size-4 accent-accent", data: submit }, "1", nil %>
+      Com salário
+    </label>
+    <% if @filter.active? %>
+      <%= link_to "Limpar filtros", job_postings_path, class: "text-sm" %>
+    <% end %>
   </div>
 <% end %>
 
-<p class="muted mb-2 text-sm"><%= pluralize(@total, "vaga", plural: "vagas") %></p>
+<div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+  <p class="muted text-sm"><%= pluralize(@total, "vaga", plural: "vagas") %> · <%= JobPostingFilter::SORTS[@filter[:sort]].downcase %> primeiro</p>
+  <% if @filter[:triage] == "new" && @total.positive? %>
+    <% label = @filter.active? ? "Descartar as #{@total} desta lista" : "Descartar todas (#{@total})" %>
+    <%= button_to label, dismiss_all_job_postings_path, params: @filter.to_params.except("triage", "sort"), class: "btn btn-sm",
+                  form: { data: { turbo_confirm: "Descartar #{@total == 1 ? "1 vaga" : "#{@total} vagas"}#{" desta lista" if @filter.active?}? Elas saem da triagem, mas continuam em Triagem → Descartada." } } %>
+  <% end %>
+</div>
 
 <div class="card divide-y divide-line">
   <%= render partial: "job_postings/job_posting", collection: @job_postings %>
@@ -43,11 +72,11 @@
 <% if @total > JobPostingsController::PER_PAGE %>
   <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Páginas">
     <% if @page.positive? %>
-      <%= link_to "← Anteriores", job_postings_path(@filters.merge("page" => @page - 1)), class: "btn btn-sm" %>
+      <%= link_to "← Anteriores", job_postings_path(@filter.to_params.merge("page" => @page - 1)), class: "btn btn-sm" %>
     <% else %><span></span><% end %>
     <span class="muted">Página <%= @page + 1 %> de <%= (@total.to_f / JobPostingsController::PER_PAGE).ceil %></span>
     <% if (@page + 1) * JobPostingsController::PER_PAGE < @total %>
-      <%= link_to "Próximas →", job_postings_path(@filters.merge("page" => @page + 1)), class: "btn btn-sm" %>
+      <%= link_to "Próximas →", job_postings_path(@filter.to_params.merge("page" => @page + 1)), class: "btn btn-sm" %>
     <% else %><span></span><% end %>
   </nav>
 <% end %>
