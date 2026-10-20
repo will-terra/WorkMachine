@@ -1,0 +1,24 @@
+<% content_for :title, "Primeiro acesso" %>
+
+<div class="mx-auto mt-12 max-w-sm">
+  <p class="eyebrow">Primeiro acesso</p>
+  <h1 class="mt-2 mb-2">Crie sua conta</h1>
+  <p class="muted mb-6 text-sm">O WorkMachine tem um único usuário. Depois de criada, esta tela fecha.</p>
+
+  <%= form_with model: @user, url: setup_path, class: "card grid gap-4 p-5" do |form| %>
+    <%= render "shared/errors", record: @user %>
+    <div>
+      <%= form.label :email_address, "E-mail", class: "label" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", class: "input" %>
+    </div>
+    <div>
+      <%= form.label :password, "Senha (mínimo 8 caracteres)", class: "label" %>
+      <%= form.password_field :password, required: true, autocomplete: "new-password", maxlength: 72, class: "input" %>
+    </div>
+    <div>
+      <%= form.label :password_confirmation, "Confirme a senha", class: "label" %>
+      <%= form.password_field :password_confirmation, required: true, autocomplete: "new-password", maxlength: 72, class: "input" %>
+    </div>
+    <%= form.submit "Criar conta", class: "btn btn-primary" %>
+  <% end %>
+</div>

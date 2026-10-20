@@ -1,0 +1,23 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: workmachine-dev
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SOLID_QUEUE_IN_PUMA: "1"
+    volumes:
+      - .:/rails
+      - storage:/rails/storage
+    restart: unless-stopped
+    stop_grace_period: 15s
+
+volumes:
+  storage:
