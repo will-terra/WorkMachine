@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_204741) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_205238) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -93,6 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_204741) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "notified_at"
+    t.string "auto_dismissed_reason"
     t.index ["fingerprint"], name: "index_job_postings_on_fingerprint"
     t.index ["source", "external_id"], name: "index_job_postings_on_source_and_external_id"
     t.index ["triage", "score"], name: "index_job_postings_on_triage_and_score"
@@ -156,6 +157,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_204741) do
     t.datetime "updated_at", null: false
     t.datetime "last_backup_at"
     t.text "last_backup_error"
+    t.boolean "auto_dismiss_restricted", default: true, null: false
+    t.integer "auto_dismiss_below_score"
   end
 
   create_table "source_runs", force: :cascade do |t|

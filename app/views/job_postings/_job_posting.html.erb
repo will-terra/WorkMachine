@@ -12,8 +12,14 @@
       <% unless job_posting.seniority_unknown? %> · <%= job_posting.human_enum(:seniority) %><% end %>
       · <%= time_ago_in_words(job_posting.posted_or_found_at) %> atrás
     </p>
-    <% if job_posting.matched_keywords.any? %>
+    <% if job_posting.matched_keywords.any? || job_posting.partial_score? || job_posting.auto_dismissed_reason %>
       <div class="mt-1.5 flex flex-wrap gap-1">
+        <% if job_posting.auto_dismissed_reason %>
+          <span class="chip chip-hot" title="Descartada na chegada (Ajustes → Descarte automático)">descartada automaticamente: <%= job_posting.auto_dismissed_reason %></span>
+        <% end %>
+        <% if job_posting.partial_score? %>
+          <span class="chip chip-warn" title="Sem descrição: a nota usa só o título e o local. Salve pela extensão na página da vaga para completar, ou use Analisar com IA.">nota parcial</span>
+        <% end %>
         <% job_posting.matched_keywords.each do |match| %>
           <span class="chip <%= match["points"].negative? ? "chip-hot" : "" %>"><%= match["term"] %> <%= format("%+d", match["points"]) %></span>
         <% end %>

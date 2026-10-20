@@ -9,9 +9,9 @@ RSpec.describe "Settings and push subscriptions" do
     get settings_path
     expect(response.body).to include("Notificação de vagas novas", 'value="40"', "data-push-public-key-value", "Chrome · desde")
 
-    patch settings_path, params: { setting: { notify_min_score: 55, notifications_enabled: "0" } }
+    patch settings_path, params: { setting: { notify_min_score: 55, notifications_enabled: "0", auto_dismiss_restricted: "0", auto_dismiss_below_score: "25" } }
     expect(response).to redirect_to(settings_path)
-    expect(Setting.current).to have_attributes(notify_min_score: 55, notifications_enabled: false)
+    expect(Setting.current).to have_attributes(notify_min_score: 55, notifications_enabled: false, auto_dismiss_restricted: false, auto_dismiss_below_score: 25)
 
     patch settings_path, params: { setting: { notify_min_score: 150 } }
     expect(response).to have_http_status(:unprocessable_content)

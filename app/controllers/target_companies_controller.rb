@@ -4,6 +4,7 @@ class TargetCompaniesController < ApplicationController
   def index
     @suggestions = TargetCompany.suggested.includes(:discovered_from).order(discovered_at: :desc)
     @target_companies = TargetCompany.alphabetical.where.not(id: @suggestions.select(:id))
+    @stats = TargetCompany.posting_stats
   end
 
   def new

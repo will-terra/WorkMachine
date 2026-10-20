@@ -15,7 +15,7 @@
   </div>
   <div>
     <%= form.label :triage, "Triagem", class: "label" %>
-    <%= form.select :triage, JobPosting.enum_options(:triage) + [ [ "Todas", "all" ] ], { selected: @filter[:triage] }, class: "input", data: submit %>
+    <%= form.select :triage, JobPostingFilter.triage_options, { selected: @filter[:triage] }, class: "input", data: submit %>
   </div>
   <div>
     <%= form.label :min_score, "Nota mínima", class: "label" %>

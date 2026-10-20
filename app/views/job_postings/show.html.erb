@@ -1,4 +1,4 @@
-<%= page_header eyebrow: "#{@job_posting.human_enum(:source)} · #{@job_posting.human_enum(:triage)}", title: @job_posting.title do %>
+<%= page_header eyebrow: [ @job_posting.human_enum(:source), @job_posting.human_enum(:triage), (@job_posting.auto_dismissed_reason && "automaticamente: #{@job_posting.auto_dismissed_reason}") ].compact.join(" · "), title: @job_posting.title do %>
   <%= external_link "Abrir vaga", @job_posting.url, class: "btn btn-sm" %>
   <%= link_to "Mensagem", message_templates_path(job_posting_id: @job_posting.id), class: "btn btn-sm" %>
   <% close_tab = { controller: "close-tab", action: "turbo:submit-end->close-tab#closeOnSuccess" } %>
@@ -16,7 +16,8 @@
     <% if @job_posting.description.present? %>
       <div class="max-w-prose text-[15px] leading-relaxed"><%= simple_format(@job_posting.description) %></div>
     <% else %>
-      <p class="muted text-sm">Sem descrição. Abra a vaga e salve de novo pela extensão para trazer o texto completo.</p>
+      <p class="text-sm"><span class="chip chip-warn">nota parcial</span></p>
+      <p class="muted mt-2 text-sm">Esta vaga chegou sem descrição (os e-mails de alerta do LinkedIn não trazem o texto), então a nota usa só o título e o local. Para completar: abra a vaga e salve pela extensão, que traz a descrição e recalcula a nota. Ou use <a href="#ia">Analisar fit</a> como segunda opinião.</p>
     <% end %>
   </section>
 

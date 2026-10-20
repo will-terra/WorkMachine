@@ -4,6 +4,8 @@ class JobPosting < ApplicationRecord
   REMOTE_SCOPES = %w[brazil latam worldwide us_only europe_only unknown].freeze
   SENIORITIES = %w[junior mid senior unknown].freeze
   TRIAGES = %w[new saved dismissed].freeze
+  # Saved by Ana himself: never dismissed automatically.
+  MANUAL_SOURCES = %w[extension manual].freeze
 
   enum :source, SOURCES.index_by(&:itself), validate: true
   enum :remote_scope, REMOTE_SCOPES.index_by(&:itself), prefix: :remote, validate: true
@@ -38,9 +40,19 @@ class JobPosting < ApplicationRecord
   end
 
   def rescore!
-    result = JobScorer.call(title:, description:, location_text:)
+    result = JobScorer.call(title:, description:, location_text:, remote_scope_hint:)
     update!(score: result.score, matched_keywords: result.matched_keywords,
             remote_scope: result.remote_scope, seniority: result.seniority)
+  end
+
+  # Region given by the source itself (Remotar, "[Remoto]" on backend-br), kept in raw.
+  def remote_scope_hint
+    raw["remote_scope_hint"].presence || legacy_remote_scope_hint
+  end
+
+  # Without a description (LinkedIn alert e-mails), the score only sees the title and the location.
+  def partial_score?
+    description.blank?
   end
 
   def display_company
@@ -52,6 +64,13 @@ class JobPosting < ApplicationRecord
   end
 
   private
+    # Postings saved before the hint was kept in raw.
+    def legacy_remote_scope_hint
+      return "brazil" if remotar?
+
+      "brazil" if (backend_br? || frontend_br?) && location_text.to_s.match?(/remot/i)
+    end
+
     def set_fingerprint
       self.fingerprint = self.class.fingerprint_for(company, title)
     end

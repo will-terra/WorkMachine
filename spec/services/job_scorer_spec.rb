@@ -13,6 +13,7 @@ RSpec.describe JobScorer do
 
   it "caps the score at 100 and never goes below 0" do
     expect(score(title: "Rails", description: "ruby react hotwire sidekiq postgres typescript docker govtech worldwide").score).to eq(95)
+    expect(score(title: "Rails", description: "ruby react hotwire sidekiq postgres typescript docker govtech worldwide brasil latam").score).to eq(95)
     expect(score(title: "Staff Python Engineer", description: "US citizens only, 10+ years").score).to eq(0)
   end
 
@@ -56,7 +57,15 @@ RSpec.describe JobScorer do
     result = score(title: "Principal Rails Engineer", description: "8+ years of Ruby")
 
     expect(result.matched_keywords).to include({ "term" => "7+ anos", "points" => -15 }, { "term" => "staff/principal", "points" => -10 })
-    expect(score(title: "Rails Engineer", description: "3+ years").matched_keywords.map { it["term"] }).not_to include("7+ anos")
+    expect(result.matched_keywords.map { it["term"] }).not_to include("sênior", "5+ anos")
+    expect(score(title: "Rails Engineer", description: "3+ years").matched_keywords.map { it["term"] }).not_to include("7+ anos", "5+ anos")
+  end
+
+  it "penalizes senior titles and 5+ years lightly" do
+    terms = score(title: "Senior Rails Engineer", description: "5+ years with Ruby").matched_keywords
+
+    expect(terms).to include({ "term" => "sênior", "points" => -10 }, { "term" => "5+ anos", "points" => -10 })
+    expect(score(title: "Tech Lead Ruby", description: "6 anos").matched_keywords.map { it["term"] }).to include("sênior", "5+ anos")
   end
 
   it "penalizes Europe-only and management roles" do

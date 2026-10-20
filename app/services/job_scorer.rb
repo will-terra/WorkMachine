@@ -32,8 +32,12 @@ class JobScorer
 
   EXPERIENCE_PENALTY = -15
   LONG_EXPERIENCE = /\b(?:[7-9]|1\d)\s*\+?\s*(?:years|yrs|anos)\b/i
+  SOME_EXPERIENCE_PENALTY = -10
+  SOME_EXPERIENCE = /\b[56]\s*\+?\s*(?:years|yrs|anos)\b/i
+  SENIOR_PENALTY = -10
   STAFF_PENALTY = -10
   STAFF = /\b(?:staff|principal)\b/i
+  RESTRICTED_TERM = "local restrito".freeze
   MANAGEMENT_PENALTY = -15
   MANAGEMENT = /\b(?:manager|head of|director|diretor|vp|vice president|cto|gerente)\b/i
 
@@ -61,9 +65,17 @@ class JobScorer
     matches << { "term" => "região aberta", "points" => REGION_BONUS } if @text.match?(REGION)
     matches << { "term" => "só EUA/Canadá", "points" => REGION_PENALTY } if remote_scope == "us_only"
     matches << { "term" => "só Europa", "points" => REGION_PENALTY } if remote_scope == "europe_only"
-    matches << { "term" => "local restrito", "points" => REGION_PENALTY } if remote_scope == "unknown" && restricted_location?
-    matches << { "term" => "7+ anos", "points" => EXPERIENCE_PENALTY } if @text.match?(LONG_EXPERIENCE)
-    matches << { "term" => "staff/principal", "points" => STAFF_PENALTY } if @title.match?(STAFF)
+    matches << { "term" => RESTRICTED_TERM, "points" => REGION_PENALTY } if remote_scope == "unknown" && restricted_location?
+    if @text.match?(LONG_EXPERIENCE)
+      matches << { "term" => "7+ anos", "points" => EXPERIENCE_PENALTY }
+    elsif @text.match?(SOME_EXPERIENCE)
+      matches << { "term" => "5+ anos", "points" => SOME_EXPERIENCE_PENALTY }
+    end
+    if @title.match?(STAFF)
+      matches << { "term" => "staff/principal", "points" => STAFF_PENALTY }
+    elsif @title.match?(SENIOR)
+      matches << { "term" => "sênior", "points" => SENIOR_PENALTY }
+    end
     matches << { "term" => "gestão", "points" => MANAGEMENT_PENALTY } if @title.match?(MANAGEMENT)
 
     Result.new(

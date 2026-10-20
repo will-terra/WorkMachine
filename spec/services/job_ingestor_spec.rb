@@ -38,10 +38,23 @@ RSpec.describe JobIngestor do
     expect(first.reload).to have_attributes(remote_scope: "europe_only", description: "Rails")
   end
 
-  it "uses the remote scope hint" do
-    result = described_class.call(attributes.merge(location_text: "Remoto", remote_scope_hint: "brazil"))
+  it "uses and keeps the remote scope hint, so rescoring gives the same region" do
+    posting = described_class.call(attributes.merge(location_text: "Remoto", remote_scope_hint: "brazil")).posting
 
-    expect(result.posting.remote_scope).to eq("brazil")
+    expect(posting.remote_scope).to eq("brazil")
+    expect(posting.raw["remote_scope_hint"]).to eq("brazil")
+    posting.rescore!
+    expect(posting.reload.remote_scope).to eq("brazil")
+  end
+
+  it "infers the hint of postings saved before it was kept" do
+    remotar = create(:job_posting, source: "remotar", location_text: "Remoto", description: "Rails", raw: {})
+    backend = create(:job_posting, source: "backend_br", location_text: "Remoto", description: "Rails", raw: {})
+
+    [ remotar, backend ].each(&:rescore!)
+
+    expect([ remotar.reload.remote_scope, backend.reload.remote_scope ]).to eq(%w[brazil brazil])
+    expect(create(:job_posting, source: "backend_br", location_text: "São Paulo", raw: {}).remote_scope_hint).to be_nil
   end
 
   it "reports invalid postings" do
