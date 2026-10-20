@@ -1,7 +1,7 @@
 class JobPostingsController < ApplicationController
   PER_PAGE = 50
 
-  before_action :set_job_posting, only: %i[ show save dismiss restore ]
+  before_action :set_job_posting, only: %i[ show save apply dismiss restore ]
 
   # Triage: new postings, with filters and ordering (JobPostingFilter).
   def index
@@ -50,6 +50,19 @@ class JobPostingsController < ApplicationController
     application = @job_posting.job_application || JobApplication.build_from_posting(@job_posting).tap(&:save!)
     @job_posting.triage_saved!
     respond_with_row(notice: "Salva em Candidaturas: #{application.company} · #{application.role}.")
+  end
+
+  # "Salvar em aplicadas": the application goes straight to the Aplicada column, dated today.
+  # An application already further along (interview, offer…) is left as it is.
+  def apply
+    application = @job_posting.job_application || JobApplication.build_from_posting(@job_posting)
+    if application.new_record?
+      application.update!(status: "applied")
+    elsif application.status_saved?
+      application.move_to!("applied", JobApplication.status_applied.count)
+    end
+    @job_posting.triage_saved!
+    redirect_to job_posting_path(@job_posting), notice: "#{application.company} · #{application.role} está em Candidaturas como #{application.human_enum(:status).downcase}."
   end
 
   def dismiss

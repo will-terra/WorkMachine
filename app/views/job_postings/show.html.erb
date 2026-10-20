@@ -3,7 +3,10 @@
   <%= link_to "Mensagem", message_templates_path(job_posting_id: @job_posting.id), class: "btn btn-sm" %>
   <% if @job_posting.triage_new? %>
     <%= button_to "Descartar", dismiss_job_posting_path(@job_posting), class: "btn btn-sm" %>
-    <%= button_to "Salvar em Candidaturas", save_job_posting_path(@job_posting), class: "btn btn-primary btn-sm" %>
+    <%= button_to "Salvar em Candidaturas", save_job_posting_path(@job_posting), class: "btn btn-sm" %>
+  <% end %>
+  <% if @job_posting.job_application.nil? || @job_posting.job_application.status_saved? %>
+    <%= button_to "Salvar em aplicadas", apply_job_posting_path(@job_posting), class: "btn btn-primary btn-sm" %>
   <% end %>
 <% end %>
 
