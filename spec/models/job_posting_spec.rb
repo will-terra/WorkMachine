@@ -42,7 +42,7 @@ RSpec.describe JobPosting do
   it "has Portuguese labels for enums" do
     posting = build(:job_posting, remote_scope: "us_only")
 
-    expect(posting.human_enum(:remote_scope)).to eq("Só EUA")
+    expect(posting.human_enum(:remote_scope)).to eq("Só EUA/Canadá")
     expect(described_class.human_enum(:source, nil)).to eq("")
     expect(posting.display_company).to eq("Acme")
     expect(build(:job_posting, company: nil).display_company).to eq("Empresa não informada")

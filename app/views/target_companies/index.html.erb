@@ -1,0 +1,23 @@
+<%= page_header eyebrow: "Agregador", title: "Empresas-alvo",
+                intro: "Empresas que usam Rails e publicam vagas num quadro público do Greenhouse, Lever ou Ashby. O agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia." do %>
+  <%= link_to "Adicionar empresa", new_target_company_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<div class="card overflow-x-auto">
+  <table class="table">
+    <thead><tr><th>Empresa</th><th>Sistema</th><th>Quadro</th><th>Ativa</th><th>Última busca</th><th><span class="sr-only">Ações</span></th></tr></thead>
+    <tbody>
+      <% @target_companies.each do |company| %>
+        <tr id="<%= dom_id(company) %>">
+          <td class="font-semibold"><%= company.name %><% if company.example? %> <span class="chip ml-1">exemplo</span><% end %></td>
+          <td><%= company.human_enum(:ats) %></td>
+          <td><%= external_link company.board_slug, company.board_url, class: "font-mono text-xs" %></td>
+          <td><%= company.active? ? "Sim" : "Não" %></td>
+          <td class="whitespace-nowrap"><%= company.last_fetched_at ? l(company.last_fetched_at, format: "%d/%m %H:%M") : "—" %></td>
+          <td class="text-right"><%= link_to "Editar", edit_target_company_path(company) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<p class="muted mt-3 max-w-prose text-sm">Para achar o slug, abra a página de vagas da empresa: em <span class="font-mono">job-boards.greenhouse.io/<b>gitlab</b></span>, <span class="font-mono">jobs.lever.co/<b>empresa</b></span> ou <span class="font-mono">jobs.ashbyhq.com/<b>empresa</b></span>, o slug é a parte em negrito.</p>

@@ -2,11 +2,13 @@ module ApplicationHelper
   def nav_items
     [
       [ "Painel", root_path ],
+      [ "Vagas", job_postings_path ],
       [ "Candidaturas", job_applications_path ],
       [ "Radar", radar_path ],
       [ "Mensagens", message_templates_path ],
       [ "Rotina", routine_path ],
-      [ "Contatos", contacts_path ]
+      [ "Contatos", contacts_path ],
+      [ "Empresas-alvo", target_companies_path ]
     ]
   end
 
@@ -33,6 +35,13 @@ module ApplicationHelper
 
   def short_date(date)
     date ? l(date.to_date, format: "%d/%m/%y") : "—"
+  end
+
+  def score_class(score)
+    if score >= 60 then "text-ok"
+    elsif score >= 35 then "text-ink"
+    else "text-muted"
+    end
   end
 
   def external_link(label, url, **options)

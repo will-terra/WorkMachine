@@ -22,7 +22,7 @@
         <div class="flex items-center gap-3 px-4 py-3">
           <span class="w-10 flex-none text-center font-mono text-lg font-semibold <%= posting.score >= 60 ? "text-ok" : "text-muted" %>"><%= posting.score %></span>
           <div class="min-w-0">
-            <p class="truncate font-semibold"><%= external_link posting.title, posting.url, class: "text-ink no-underline hover:underline" %></p>
+            <p class="truncate font-semibold"><%= link_to posting.title, job_posting_path(posting), class: "text-ink no-underline hover:underline" %></p>
             <p class="muted truncate text-sm"><%= posting.display_company %> · <%= posting.human_enum(:source) %> · <%= posting.human_enum(:remote_scope) %></p>
           </div>
         </div>

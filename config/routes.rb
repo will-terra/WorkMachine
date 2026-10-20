@@ -7,6 +7,15 @@ Rails.application.routes.draw do
     member { patch :move }
   end
   resources :contacts, path: "contatos", except: :show
+  resources :job_postings, path: "vagas", only: %i[ index show new create ] do
+    collection { post :fetch }
+    member do
+      post :save
+      post :dismiss
+      post :restore
+    end
+  end
+  resources :target_companies, path: "empresas-alvo", except: :show
 
   resource :radar, only: :show, controller: "radar"
   resources :consultancies, only: :update

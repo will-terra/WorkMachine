@@ -70,6 +70,7 @@ pt-BR:
         backend_br: backend-br/vagas
         frontend_br: frontendbr/vagas
         hacker_news: Hacker News
+        gorails: GoRails Jobs
         greenhouse: Greenhouse
         lever: Lever
         ashby: Ashby
@@ -80,7 +81,7 @@ pt-BR:
         brazil: Brasil
         latam: LATAM
         worldwide: Mundo todo
-        us_only: Só EUA
+        us_only: Só EUA/Canadá
         europe_only: Só Europa
         unknown: Não informada
       seniority:
@@ -92,6 +93,11 @@ pt-BR:
         new: Nova
         saved: Salva
         dismissed: Descartada
+    source_run:
+      status:
+        running: Rodando
+        succeeded: OK
+        failed: Falhou
     job_application:
       status:
         saved: Salva

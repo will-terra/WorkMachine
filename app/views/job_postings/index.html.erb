@@ -1,0 +1,74 @@
+<%= page_header eyebrow: "Triagem", title: "Vagas",
+                intro: "Vagas do agregador, dos alertas do LinkedIn e da extensão, da maior para a menor nota. Salve as que valem a pena e descarte o resto." do %>
+  <%= button_to "Buscar agora", fetch_job_postings_path, class: "btn btn-sm" %>
+  <%= link_to "Adicionar vaga", new_job_posting_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<%= form_with url: job_postings_path, method: :get, class: "card mb-4 grid gap-3 p-4 sm:grid-cols-3 lg:grid-cols-6", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+  <div>
+    <%= form.label :triage, "Triagem", class: "label" %>
+    <%= form.select :triage, JobPosting.enum_options(:triage) + [ [ "Todas", "all" ] ], { selected: @filters["triage"] }, class: "input", data: { action: "auto-submit#submit" } %>
+  </div>
+  <div>
+    <%= form.label :source, "Fonte", class: "label" %>
+    <%= form.select :source, JobPosting.enum_options(:source), { include_blank: "Todas", selected: @filters["source"] }, class: "input", data: { action: "auto-submit#submit" } %>
+  </div>
+  <div>
+    <%= form.label :remote_scope, "Região", class: "label" %>
+    <%= form.select :remote_scope, JobPosting.enum_options(:remote_scope), { include_blank: "Todas", selected: @filters["remote_scope"] }, class: "input", data: { action: "auto-submit#submit" } %>
+  </div>
+  <div>
+    <%= form.label :seniority, "Senioridade", class: "label" %>
+    <%= form.select :seniority, JobPosting.enum_options(:seniority), { include_blank: "Todas", selected: @filters["seniority"] }, class: "input", data: { action: "auto-submit#submit" } %>
+  </div>
+  <div>
+    <%= form.label :min_score, "Nota mínima", class: "label" %>
+    <%= form.select :min_score, [ 20, 35, 50, 60, 75 ].map { [ "#{it}+", it ] }, { include_blank: "Qualquer", selected: @filters["min_score"] }, class: "input", data: { action: "auto-submit#submit" } %>
+  </div>
+  <div>
+    <%= form.label :q, "Buscar", class: "label" %>
+    <%= form.search_field :q, value: @filters["q"], placeholder: "título, empresa…", class: "input" %>
+  </div>
+<% end %>
+
+<p class="muted mb-2 text-sm"><%= pluralize(@total, "vaga", plural: "vagas") %></p>
+
+<div class="card divide-y divide-line">
+  <%= render partial: "job_postings/job_posting", collection: @job_postings %>
+  <% if @job_postings.empty? %>
+    <p class="muted p-8 text-center text-sm">Nenhuma vaga com esses filtros.</p>
+  <% end %>
+</div>
+
+<% if @total > JobPostingsController::PER_PAGE %>
+  <nav class="mt-4 flex items-center justify-between text-sm" aria-label="Páginas">
+    <% if @page.positive? %>
+      <%= link_to "← Anteriores", job_postings_path(@filters.merge("page" => @page - 1)), class: "btn btn-sm" %>
+    <% else %><span></span><% end %>
+    <span class="muted">Página <%= @page + 1 %> de <%= (@total.to_f / JobPostingsController::PER_PAGE).ceil %></span>
+    <% if (@page + 1) * JobPostingsController::PER_PAGE < @total %>
+      <%= link_to "Próximas →", job_postings_path(@filters.merge("page" => @page + 1)), class: "btn btn-sm" %>
+    <% else %><span></span><% end %>
+  </nav>
+<% end %>
+
+<details class="card mt-8 p-4">
+  <summary class="cursor-pointer font-semibold">Fontes do agregador</summary>
+  <p class="muted mt-2 text-sm">Roda sozinho a cada 3 horas. Remotive é consultado no máximo 4 vezes por dia, como pedem os termos da API; as vagas levam o link e o crédito de cada fonte.</p>
+  <table class="table mt-3">
+    <thead><tr><th>Fonte</th><th>Última busca</th><th>Status</th><th>Encontradas</th><th>Novas</th><th>Aviso</th></tr></thead>
+    <tbody>
+      <% @source_runs.each do |run| %>
+        <tr>
+          <td><%= JobPosting.human_enum(:source, run.source) %></td>
+          <td class="whitespace-nowrap"><%= l(run.created_at, format: "%d/%m %H:%M") %></td>
+          <td><span class="chip <%= run.status_failed? ? "chip-hot" : "" %>"><%= run.human_enum(:status) %></span></td>
+          <td><%= run.fetched_count %></td>
+          <td><%= run.created_count %></td>
+          <td class="muted max-w-xs truncate text-xs" title="<%= run.error_message %>"><%= run.error_message %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @source_runs.empty? %><p class="muted mt-2 text-sm">Nenhuma busca rodou ainda.</p><% end %>
+</details>

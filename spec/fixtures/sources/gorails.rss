@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:job="https://www.jobboardly.com/rss/job">
+  <channel>
+    <title>Ruby on Rails Job Board RSS Feed</title>
+    <description>Looking for a Ruby on Rails job or hiring Rails developers? We can help you!</description>
+    <link>https://jobs.gorails.com/jobs</link>
+    <atom:link href="https://jobs.gorails.com/jobs.rss" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Senior Full Stack Engineer - Sincere Corporation - Framingham, MA, Remote</title>
+      <link>https://jobs.gorails.com/jobs/senior-full-stack-engineer-e4712fe2</link>
+      <description>
+        <![CDATA[<p><p>Sincere is looking for a Senior Full Stack Engineer to help us make our products meaningfully better. This is a high-ownership individual contributor role for a seasoned engineer who can take a broad product area, understand the customer and business needs, and ship high-quality improvements.</p>
+<br /><p><strong>You will:</strong></p>
+<br /><ul>
+<br /><li>Build full-stack features across Ruby on Rails and Next.js</li>
+<br /><li>Own product initiatives end-to-end, from identifying opportunities and shaping solutions through implementation, launch, and iteration</li>
+<br /><li>Partner with product/project managers and designers to identify customer pain points, uncover product opportunities, and deliver meaningful improvements</li>
+<br /><li>Use tools like Claude Code and Codex as a core part of your workflow to explore, develop, test, and ship</li>
+<br /><li>Make practical technical decisions that balance speed, quality, maintainability, performance, and customer impact</li>
+<br /><li>Build polished, reliable, easy-to-use experiences with strong attention to UX</li>
+<br /><li>Use tools like Datadog and Mixpanel to monitor production behavior, investigate issues, and inform product decisions</li>
+<br /><li>Champion new ideas and continuously look for ways to improve our products, engineering practices, and customer experience</li>
+<br /></ul>
+<br /><p><strong>You are:</strong></p>
+<br /><ul>
+<br /><li>A seasoned full-stack engineer with 7+ years of professional software development experience</li>
+<br /><li>Comfortable working across our stack, including Ruby on Rails, TypeScript, React, Next.js, MySQL/Postgres, Redis, MongoDB, Sidekiq, OpenSearch, AWS, and Docker</li>
+<br /><li>Fluent with AI-assisted development tools such as Claude Code or Codex</li>
+<br /><li>Proven at building and maintaining large-scale customer-facing web applications</li>
+<br /><li>Product-minded, with strong instincts for customer needs, UX quality, business value, and technical tradeoffs</li>
+<br /><li>A self-starter who brings structure to loosely defined problems and drives them through execution</li>
+<br /><li>A strong partner to DevOps, with enough understanding of system architecture, cloud infrastructure (AWS), deployment, containerization, and infrastructure-as-code (Terraform) to collaborate effectively</li>
+<br /><li>Skilled at working in mature codebases, understanding existing architecture, and improving systems pragmatically</li>
+<br /><li>Detail-oriented, with high standards for both the code and the customer experience</li>
+<br /><li>Entrepreneurial, curious, and biased toward building, experimenting, and shipping</li>
+<br /><li>Collaborative and low-ego, with strong communication skills and pride in your craft</li>
+<br /></ul>
+<br /><h2>Benefits</h2>
+<br /><p>Do you want to work at a growing company that invests in its team more than the average employer? Sincere is a family of brands with heart. The Company is home to Punchbowl®, Lovebird®, Timehop®, and Memento®, and builds technology that brings you closer and helps show you care to the people who matter the most. With Sincere Foundation, we support organizations that address basic needs, and envision a future where everyone has the opportunity to celebrate, recognize milestones, and honor memories. We provide a fun, casual, and innovative environment where hard work is recognized and rewarded.</p>
+<br /><p><strong>What We Offer:&nbsp;</strong></p>
+<br /><ul>
+<br /><li>100% Health, Dental &amp; Vision coverage&nbsp;</li>
+<br /><li>401K Plan with Profit Share&nbsp;</li>
+<br /><li>Annual bonus potential&nbsp;</li>
+<br /><li>Health &amp; Wellness stipends&nbsp;</li>
+<br /><li>Paid time off plus 12 paid holidays &amp; Summer Fridays&nbsp;</li>
+<br /><li>Paid parental leave&nbsp;</li>
+<br /><li>Childcare benefits (dependent care FSA)</li>
+<br /><li>Flexible, hybrid work environment</li>
+<br /><li>In-person, all-expenses-paid Team Summits (2X a year)<br><br><strong>PLEASE NOTE: Our team is primarily based in Greater Boston. We will consider applicants who reside anywhere within a 2 hour drive of the city. While this role is remote, we have occasional in-person meetings at the office (every 4-6 weeks typically).<br><br>The base salary range for this role is $120,000 - $160,000. Actual salary may vary based on skills and experience.</strong>
+<br /></li>
+<br /></ul></p>]]>
+      </description>
+      <job:city>Framingham</job:city>
+      <job:state>Massachusetts</job:state>
+      <job:region>Massachusetts</job:region>
+      <job:country>United States</job:country>
+      <pubDate>Mon, 19 Oct 2026 07:47:57 -0500</pubDate>
+      <guid isPermaLink="false">18304259-senior-full-stack-engineer-e4712fe2</guid>
+    </item>
+    <item>
+      <title>Ruby Engineer (Remote, Contract, AI training) — SME Careers via AI Gig Scout - SME Careers (via AI Gig Scout) - Remote</title>
+      <link>https://jobs.gorails.com/jobs/ruby-engineer-remote-contract-ai-training-sme-careers-via-ai-gig-scout-7deae768</link>
+      <description>
+        <![CDATA[<p><p>SME Careers, an AI data services company and subsidiary of SuperAnnotate, is building a pool of Ruby Engineers for hourly, fully remote AI training work at $55/hr. You'll review AI-generated Ruby and Rails code or write your own solutions, check correctness, readability and maintainability, spot errors in MVC structure, domain modeling and control flow, write clear explanations and model solutions in idiomatic Ruby, and rate and compare AI responses.</p><p><br></p><p>Requirements: 1–2+ years of professional Ruby in production; strong Ruby on Rails, MVC and idiomatic Ruby; ability to evaluate model, controller and service-layer design; significant experience using LLMs or AI coding assistants and checking their output; excellent written English (C1 minimum); Bachelor's degree in Computer Science or a closely related field. Rails, Sinatra and RSpec experience is highly preferred. Merged PRs in Ruby open-source projects, metaprogramming, test-heavy systems and competitive programming are a plus.</p><p><br></p><p>Open to candidates in: Bangladesh, Bhutan, Brazil, Cambodia, Germany, India, Indonesia, Malaysia, Nepal, Pakistan, Singapore, Sri Lanka, Thailand, the Philippines, the United States, Timor-Leste and Vietnam.</p><p><br></p><p>Important: SME Careers says there is no immediate project for this role. Qualified applicants join their expert network and are among the first contacted when relevant projects open.</p><p><br></p><p>Details and apply link: https://aigigscout.com/jobs/sannotate/ruby-engineer-ruby-25-982</p><p><br></p><p>Disclosure: posted by AI Gig Scout, an independent listing site (not SME Careers). The apply link may be a referral link.</p></p>]]>
+      </description>
+      <pubDate>Thu, 08 Oct 2026 09:42:21 -0500</pubDate>
+      <guid isPermaLink="false">17741598-ruby-engineer-remote-contract-ai-training-sme-careers-via-ai-gig-scout-7deae768</guid>
+    </item>
+    <item>
+      <title>Staff Ruby Engineer (Remote, Contract, AI training) — Micro1 via AI Gig Scout - Micro1 (via AI Gig Scout) - Remote</title>
+      <link>https://jobs.gorails.com/jobs/staff-ruby-engineer-remote-contract-ai-training-micro1-via-ai-gig-scout-5110ccd7</link>
+      <description>
+        <![CDATA[<p><p>Micro1 is hiring Staff Ruby Engineers (50 openings) to help train next-generation AI systems. You'll design and architect scalable Ruby and Rails systems, optimize database schemas and queries, lead API design and service-oriented architecture, analyze performance bottlenecks, and set coding standards and best practices. Looking for expert Ruby on Rails, large-scale system design, database modeling, performance tuning and mentorship experience. No prior AI experience required.</p><p><br></p><p>Details and apply link: https://aigigscout.com/jobs/micro1/staff-ruby-engineer-54c19a8e</p><p><br></p><p>Disclosure: posted by AI Gig Scout, an independent listing site (not Micro1). The apply link may be a referral link.</p></p>]]>
+      </description>
+      <pubDate>Thu, 08 Oct 2026 02:33:41 -0500</pubDate>
+      <guid isPermaLink="false">17732707-staff-ruby-engineer-remote-contract-ai-training-micro1-via-ai-gig-scout-5110ccd7</guid>
+    </item>
+    <item>
+      <title>Software Developer, Ruby on Rails - E-J Electric Installation Co. - Remote</title>
+      <link>https://jobs.gorails.com/jobs/software-developer-ruby-on-rails-ec231228</link>
+      <description>
+        <![CDATA[<p><p><span><b>About E-J</b> </span><span>&nbsp;</span></p>
+<br /><p><span>The E-J Group is active in all facets of electrical contracting, bringing experience, expertise, and a national reputation to projects that range in size up to more than $1 billion. With over 4,500 employees across 33 offices nationwide, E-J delivers full-service electrical solutions for mission critical / data centers, rail systems, transit facilities, office buildings, hospitals, power generation, substations, transmission and distribution, renewables, co-generation facilities, roadway and outdoor specialty work, airports, industrial facilities, chip plants, universities, sports stadiums, extra high voltage distribution, utility, and gas infrastructure. At E-J, three generations of family expertise have built an organization that combines practical knowledge with modern technological innovation, providing rapid and efficient solutions for today’s lighting, power, energy, and communication needs. E-J has over a 125-year reputation for integrity, quality, and exceptional service in the electrical field. To learn more, visit </span><a>www.ej1899.com</a><span>.</span><span>&nbsp;</span></p>
+<br /><p><span><b>Position Summary</b></span></p>
+<br /><p><span>We’re looking for a Ruby on Rails Developer to help improve an early-stage Business Process Management (BPM) product. The ideal candidate is a dedicated Ruby developer with strong design skills who enjoys working in an early-stage product environment and understands what that entails. At times, they will be given a fully developed design specification; at other times, they will need to communicate with non-technical users, identify product requirements, and create the design specification themselves. This role requires comfort implementing modern UI/UX experiences using full-stack Rails, including a Rails backend and Stimulus/Turbo front end.</span><span>&nbsp;</span></p>
+<br /><p><span></span><span>&nbsp;</span><b><span>What You’ll Do:</span><span>&nbsp;</span></b></p>
+<br /><ul><li>
+<br /><span>Develop the future of BPM software in a tight knit team that has been developing for 2+ years, has acquired 100~ daily active users, and aims to expand our userbase exponentially.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Implement new features end-to-end in Rails / Stimulus / Turbo.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Communicate with non-technical users to surface product requirements and then create a feature spec.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Iterate on existing features until the product feels both elegant and easy to use.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Implement and support SSO, Active Directory, SAML, OAuth, and dynamic user provisioning.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Develop document-centric features, including PDF generation, editing, and workflow integration.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Integrate AI capabilities into customer-facing products and internal development processes.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><p><b><span>What We're Looking For</span><span>&nbsp;</span></b></p>
+<br /><ul><li>
+<br /><span>4+ years of Full Stack software development experience.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>2+ years or more of Ruby on Rails experience.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Mid-level (or greater) design proficiency.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Someone comfortable working in an early-stage environment with frequently changing product requirements.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Experience building enterprise-scale applications and workflow-driven systems.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Hands-on experience with Active Directory, SSO, identity management, and enterprise security models.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Experience using AI-assisted development tools such as GitHub Copilot, Cursor, Claude Code, or similar.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Has worked within a structured Software Development Life Cycle (SDLC) Policy.</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><p><span><b>Nice to Have</b></span><span>&nbsp;</span></p>
+<br /><ul><li>
+<br /><span>Early-stage startup experience</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Experience with SaaS products that had a large amount of daily active users</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Experience building with Stimulus / Turbo</span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Cyber Security Certifications</span><span>&nbsp;</span><span> </span>
+<br /></li></ul>
+<br /><p><b><span>Advantages of Working at E-J</span><span> </span></b><span>&nbsp;</span></p>
+<br /><ul><li>
+<br /><span>Leading Electrical Contracting Organization Nationwide  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Oldest Family-Owned and Operated Electric Contractor since 1899  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Job training and mentorship  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Competitive compensation packages  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Comprehensive benefits, including medical, dental, and 401K plan  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Paid holidays and vacation  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Merit-Based Bonus  </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><ul><li>
+<br /><span>Tuition Reimbursement Program </span><span>&nbsp;</span>
+<br /></li></ul>
+<br /><p><i><span>The E-J Group is an Equal Employment Opportunity Employer and ensures equal employment opportunity for all persons without discrimination on the basis of race, color, religion, sex, sexual orientation, national origin, age, disability, marital status, citizenship, or any other characteristic protected by law.</span><span>&nbsp;</span></i></p></p>]]>
+      </description>
+      <pubDate>Thu, 01 Oct 2026 19:19:31 -0500</pubDate>
+      <guid isPermaLink="false">17403057-software-developer-ruby-on-rails-ec231228</guid>
+    </item>
+  </channel>
+</rss>

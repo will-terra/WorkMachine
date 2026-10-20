@@ -1,0 +1,35 @@
+[
+ {
+  "html_url": "https://github.com/frontendbr/vagas/issues/8554",
+  "number": 8554,
+  "title": "[Remoto ]  Full-stack Engineer (HealthTech, EHR/EMR, Terraform, React) USD - Strider",
+  "created_at": "2026-08-28T01:56:23Z",
+  "labels": [
+   {
+    "name": "Sênior"
+   },
+   {
+    "name": "Remoto"
+   }
+  ],
+  "body": "#  [VAGA REMOTA] Full-stack Engineer (HealthTech, EHR/EMR, Terraform, React)\n\n> **Salário:** $4,550 – $5,600 USD/mês  \n> **Contratação:** Full-time (40h/semana) - Longo prazo  \n> **Idioma:** Inglês C1+  \n> **Experiência:** 5+ anos  \n> **Modalidade:** 100% Remoto  \n\n### 📌 Sobre a Oportunidade\nBuscamos um(a) Full-stack Engineer sênior focado em alta confiabilidade, segurança e integração de sistemas de saúde. O papel envolve o desenvolvimento em React/TypeScript, gerenciamento de banco de dados PostgreSQL, testes com TDD e provisionamento de infraestrutura via Terraform.\n\n### 🛠️ Tech Stack & Requisitos\n- **Front-end & Lógica:** React.js, TypeScript, Git.\n- **Banco de Dados & Infra:** PostgreSQL, Terraform (Infrastructure as Code - IaC).\n- **HealthTech:** Experiência com integração de sistemas EHR/EMR, APIs clínicas e plataformas de dados de saúde.\n- **Engenharia & Qualidade:** Domínio de TDD (Test-Driven Development), testes automatizados, escalabilidade e segurança da informação.\n- **Processos:** Scrum/Agile e comunicação fluente em inglês (C1+).\n\n###  Diferenciais (Nice-to-have)\n- Padrões de troca de dados em saúde: **FHIR, HL7**\n- Vivência prévia em Startups\n- Integrações avançada",
+  "user": {
+   "login": "Claudiaantunesdelima"
+  }
+ },
+ {
+  "html_url": "https://github.com/frontendbr/vagas/issues/8571",
+  "number": 8571,
+  "title": "[Remoto] It Jobs (Strider/ Micro 1)",
+  "created_at": "2026-10-19T16:48:53Z",
+  "labels": [
+   {
+    "name": "Remoto"
+   }
+  ],
+  "body": "🌎 13 VAGAS INTERNACIONAIS | 100% REMOTAS | PAGAMENTO EM DÓLAR 🇺🇸\n🚀 Oportunidades para profissionais do Brasil, México, Argentina, Uruguai, Paraguai, Peru, Chile, Colômbia e Costa Rica!\n💰 Salários de US$ 2.000 a US$ 10.500 por mês\n🌍 Trabalho remoto\n🇺🇸 Inglês avançado (C1+)\n💼 Vagas de tecnologia, dados, IA, marketing e área financeira.\nConfira as oportunidades e candidate-se diretamente pelos links:\n💻 TECNOLOGIA, ENGENHARIA E IA\n1️⃣ Full-stack Engineer & Systems Architect\nTypeScript, CI/CD, Python | 8+ anos\n💰 US$ 4.500–7.500/mês\n🔗 https://app.onstrider.com/r/claudiaantunes?job=ZnVsbC1zdGFjay1lbmdpbmVlci1hbmQtc3lzdGVtcy1hcmNoaXRlY3QtZDBkMTk2NWY/cmVmZXJyYWw9Y2xhdWRpYWFudHVuZXM=\n2️⃣ Solutions Engineer\nPostman, API Integrations, WhatsApp Cloud API | 5+ anos\n💰 US$ 4.500–7.500/mês\n🔗 https://app.onstrider.com/r/claudiaantunes?job=c29sdXRpb25zLWVuZ2luZWVyLWQxNDA5YzY0P3JlZmVycmFsPWNsYXVkaWFhbnR1bmVz\n3️⃣ Lead Database & Data Platform Engineer\nMySQL, SQL Server, AWS | 7+ anos\n💰 US$ 5.000–8.000/mês\n🔗 https://app.onstrider.com/r/claudiaantunes?job=bGVhZC1kYXRhYmFzZS1kYXRhLXBsYXRmb3JtLWVuZ2luZWVyLWQ0YWZlMzc0P3JlZmVycmFsPWNsYXVkaWFhbnR1bmVz\n4️⃣ Senior Product Engineer\nNode.js, AI Agents, Python | 7",
+  "user": {
+   "login": "Claudiaantunesdelima"
+  }
+ }
+]

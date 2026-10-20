@@ -1,0 +1,56 @@
+{
+ "id": 49922569,
+ "title": "Ask HN: Who is hiring? (October 2026)",
+ "created_at": "2026-10-01T15:02:07.000Z",
+ "children": [
+  {
+   "id": 49923964,
+   "author": "relevant-ops",
+   "created_at": "2026-10-01T16:39:36.000Z",
+   "text": "Relevant Healthcare | Lead Engineer | Remote (US&#x2F;Canada only) | Full-time<p>Relevant builds a data platform that helps safety-net healthcare providers deliver better care using data from their electronic health records. Our customers are non-profit clinics called Community Health Centers. You can read more about them, us, and the role on our jobs page: <a href=\"https:&#x2F;&#x2F;relevant.healthcare&#x2F;jobs&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;relevant.healthcare&#x2F;jobs&#x2F;</a><p>We&#x27;re a small team (~25 overall). We&#x27;re bootstrapped (no external capital whatsoever, VC or otherwise) and profitable. We&#x27;ve got a modern tech stack (Rails, Typescript, Go, React, GraphQL, d3) and a healthy approach to both tech debt and work&#x2F;life balance… and we’re also a very nice group of people that get to work on interesting problems for some of the few unimpeachably good actors in healthcare!",
+   "children": []
+  },
+  {
+   "id": 49929200,
+   "author": "hartator",
+   "created_at": "2026-10-02T02:10:21.000Z",
+   "text": "SerpApi | <a href=\"https:&#x2F;&#x2F;serpapi.com\" rel=\"nofollow\">https:&#x2F;&#x2F;serpapi.com</a> | Junior to Senior Fullstack Engineer multiple positions | Customer Success Engineer | Hiring Coordinator | Python&#x2F;Ruby&#x2F;PHP&#x2F;Js&#x2F;Rust&#x2F;Kotlin&#x2F;C#&#x2F;Crystal&#x2F;Nim&#x2F;Elixir Developer Advocate positions | Based in Austin, TX but remote-first structure | Full-time | ONSITE or FULLY REMOTE | $150K - 180K a year 1099 for US or local avg + 20% for outside the US<p>SerpApi is the leading API to scrape and parse search engine results. We provide 100+ APIs to Google, Google Maps, Google Images, Bing, Baidu, and more.<p>Our current stack is Ruby, Rails, MongoDB, and React.JS. We are looking for more Junior and Senior FullStack Engineers.<p>We have an awesome work environment: We are a remote first company (before Covid!). We do continuous integration, continuous deployments, code reviews, code pairings, profit sharing, and most of communication is async via GitHub.<p>We value super strongly transparency, do open books, have a public roadmap, and contribute to the EFF.<p>Apply at: <a href=\"https:&#x2F;&#x2F;serpapi.com&#x2F;careers\" rel=\"nofollow\">https:&#x2F;&#x2F;serpapi.com&#x2F;careers</a>",
+   "children": []
+  },
+  {
+   "id": 49940381,
+   "author": "jadowdl",
+   "created_at": "2026-10-03T00:54:01.000Z",
+   "text": "Prophet Town LLC | Various Software Engineering Roles | US – Remote and Hybrid | English fluency required | Full-time | $140K-$264K annual total comp (multiple)<p>We are a people-first, boutique tech agency creating on-demand teams and software solutions for long-standing clients. These clients trust us to practice engineering excellence as though we were members of their own staff. Our leadership team is ex-Fortune 100 with software engineering backgrounds: we’re still coding. Notable recent projects include a gigantic ERP migration for Anduril, and working with Surge Labs to help develop some of the frontier LLM models from the big guys themselves (yes, seriously). This is a remote-first agency, but some projects involve onsite work.<p>I’m the founder and CEO, and I’m trying to do what I call “enlightened business”. I take responsibility for both staff and clients, and I look for people who approach their work with a similar sense of ownership.<p>We continue the hiring push we were running last month too: our current work would especially benefit from from ai-forward senior engineering expertise that can design RL benchmarks, red-team model outputs, and create rubrics to evaluate and enhance the agentic coding capabilities of various frontier models. We received 216 applications in our August posting, and issued offers to approximately 10 (still following up with a few).<p>Applicants must meet a high bar - I intend to have a personal relationship with every hire. In return ",
+   "children": []
+  },
+  {
+   "id": 49963332,
+   "author": "dorottyag",
+   "created_at": "2026-10-05T11:08:51.000Z",
+   "text": "Axmed | AI Engineer (Agentic Systems) | REMOTE (preferred CET ±2: Spain, UK, Poland, Romania) | Full-time<p>Axmed runs a live B2B marketplace connecting healthcare providers in low- and middle-income countries with pharmaceutical suppliers, working to make sure geography and income never stand between someone and the medicine they need. Backed by the Gates Foundation and Founderful. We&#x27;re past proving it works and into scaling it — this role is what takes us there.<p>You&#x27;ll design and ship autonomous agents that run real steps of the marketplace (sourcing, quoting, order matching, supplier follow-up) on real transactions and real money, with a human in the loop only where risk demands it. Not research: you consume LLMs via API and build the judgment, guardrails, and monitoring around them, end to end, and own what you ship.<p>Stack: Python, LangChain&#x2F;LangGraph&#x2F;LlamaIndex&#x2F;CrewAI (your choice), LLM APIs, cloud infra, CI&#x2F;CD.<p>No visa sponsorship&#x2F;relocation.<p>Apply: <a href=\"https:&#x2F;&#x2F;axmed.teamtailor.com&#x2F;jobs&#x2F;8175859-ai-engineer\" rel=\"nofollow\">https:&#x2F;&#x2F;axmed.teamtailor.com&#x2F;jobs&#x2F;8175859-ai-engineer</a>",
+   "children": []
+  },
+  {
+   "id": 49922584,
+   "author": "mwest1066",
+   "created_at": "2026-10-01T15:02:37.000Z",
+   "text": "PrairieLearn (Remote US) — Full-Stack Software Engineer — TypeScript &#x2F; Postgres &#x2F; React &#x2F; AI<p>PrairieLearn (<a href=\"https:&#x2F;&#x2F;www.prairielearn.com\" rel=\"nofollow\">https:&#x2F;&#x2F;www.prairielearn.com</a>) is an open-source assessment platform used by universities across the US (Berkeley, Princeton, Michigan, Illinois, and others). We power mastery-based learning and large-scale exams.<p>We’re a small, profitable, early-stage company (bootstrapped, no VC) that is growing quickly. Our users love us and we have very high retention and rapid spread through word of mouth. As an early-stage hire, you’ll work across the stack and enjoy meaningful ownership from day one.<p>Tech we use: Node.js &#x2F; TypeScript backend, Postgres, AWS, React. We’re also developing AI tooling, including LLM agents to help instructors create content, and vision-language models to help grade student work. PrairieLearn is open core: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;PrairieLearn&#x2F;PrairieLearn\" rel=\"nofollow\">https:&#x2F;&#x2F;github.com&#x2F;PrairieLearn&#x2F;PrairieLearn</a><p>Details:<p>- Location: Remote (US only)<p>- Salary: $100k-$180k depending on experience<p>- Benefits: Stock options (0.5% - 1.5%), unlimited PTO, flexible hours<p>- Role: Full-time. (We’re not able to sponsor visas at this time.)<p>Apply at <a href=\"https:&#x2F;&#x2F;www.prairielearn.com&#x2F;jobs-ashby?utm_source=YeEJ5MAKkr&amp;ashby_jid=ee6fdbc3-1c3a-4fa3-bb3f-13ddab449baf\" rel=\"nofollow\">h",
+   "children": []
+  },
+  {
+   "id": 49922593,
+   "author": "shepherd-eng",
+   "created_at": "2026-10-01T15:02:51.000Z",
+   "text": "Shepherd (Series B) | ONSITE | San Francisco, CA &amp; New York City, NY<p>At Shepherd, we&#x27;re pursuing the most ambitious technical vision in commercial insurance: fully autonomous underwriting. Shepherd is an AI-native commercial insurance platform transforming how high-hazard industries get covered.<p>The infrastructure behind the AI boom (data centers, semiconductor fabs, renewable energy assets) has to be built and insured, but traditional carriers weren&#x27;t built for this speed. We built Shepherd to solve that.<p>We announced our $42M Series B earlier this year! That brings our total funding to over $60M — led by Intact Private Capital, the investment arm of one of the largest insurers in the world. Intact is not only our lead investor but also a carrier partner, a testament to the confidence the incumbent industry has in what we&#x27;re building.<p>We’re looking for product-minded, high ownership engineers to join our team! The Engineering team is HQ’d in SF, but we’re growing in NYC now too!<p>We’re hiring for 2 Senior Full Stack Software Engineers, 1 Machine Learning Engineer and 1 AI Product Manager in SF, and 2 Staff Full Stack Software Engineers in NYC. Engineers own projects end-to-end so full stack ability is expected.<p>Check out our open roles here: <a href=\"https:&#x2F;&#x2F;shepherdinsurance.com&#x2F;careers\">https:&#x2F;&#x2F;shepherdinsurance.com&#x2F;careers</a>\nOur stack includes: Typescript, React, Next.js, GraphQL w&#x2F; Apollo, Node.js, Postgr",
+   "children": []
+  },
+  {
+   "id": 1,
+   "author": null,
+   "created_at": "2026-10-01T15:02:07.000Z",
+   "text": null,
+   "children": []
+  }
+ ]
+}
