@@ -1,0 +1,67 @@
+<%= page_header eyebrow: "Funil", title: "Métricas",
+                intro: "Como suas candidaturas andam e de onde vêm as melhores vagas. As respostas vêm dos e-mails lidos no Gmail e das mudanças que você faz no kanban." %>
+
+<nav class="mb-6 flex flex-wrap items-center gap-1.5" aria-label="Período">
+  <span class="mr-1 text-xs font-semibold text-muted">Período</span>
+  <% FunnelMetrics::PERIODS.each do |key, (_, label)| %>
+    <%= link_to label, metrics_path(period: key), class: [ "rounded-md border px-2.5 py-1 text-sm no-underline", (key == @metrics.period ? "border-ink bg-ink text-bg" : "border-line bg-surface text-ink") ], aria: { current: (key == @metrics.period ? "true" : nil) } %>
+  <% end %>
+</nav>
+
+<% if @metrics.applied.zero? %>
+  <p class="card muted p-8 text-center text-sm">Nenhuma candidatura aplicada neste período.</p>
+<% else %>
+  <section class="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label="Resumo">
+    <%= render "metrics/tile", label: "Candidaturas aplicadas", value: @metrics.applied, detail: "no período" %>
+    <%= render "metrics/tile", label: "Taxa de resposta", value: "#{@metrics.response_rate}%", detail: "#{@metrics.answered} de #{@metrics.applied} responderam" %>
+    <%= render "metrics/tile", label: "Chegaram à entrevista", value: "#{@metrics.interview_rate}%", detail: "#{@metrics.interviewed} entrevistas ou testes" %>
+    <%= render "metrics/tile", label: "Tempo até a resposta", value: (@metrics.median_days_to_answer ? pluralize(@metrics.median_days_to_answer, "dia", plural: "dias") : "—"), detail: "mediana entre aplicar e a primeira resposta" %>
+  </section>
+
+  <div class="mb-6 grid gap-6 lg:grid-cols-2">
+    <%= render "metrics/weekly", weeks: @metrics.weekly %>
+    <%= render "metrics/funnel", stages: @metrics.funnel %>
+  </div>
+
+  <section class="mb-6" aria-labelledby="origin_title">
+    <h2 id="origin_title" class="mb-1 text-base">Por origem da candidatura</h2>
+    <p class="muted mb-2 text-sm">Onde você achou a vaga e quanto cada origem rende em respostas e entrevistas.</p>
+    <div class="card overflow-x-auto">
+      <table class="table tabular-nums">
+        <thead><tr><th>Origem</th><th class="text-right">Aplicadas</th><th class="text-right">Responderam</th><th class="text-right">Taxa de resposta</th><th class="text-right">Entrevistas</th><th class="text-right">Taxa de entrevista</th></tr></thead>
+        <tbody>
+          <% @metrics.by_origin.each do |group| %>
+            <tr>
+              <td class="font-semibold"><%= group.name %></td>
+              <td class="text-right"><%= group.total %></td>
+              <td class="text-right"><%= group.answered %></td>
+              <td class="text-right"><%= group.response_rate %>%</td>
+              <td class="text-right"><%= group.interviewed %></td>
+              <td class="text-right"><%= group.interview_rate %>%</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
+<% end %>
+
+<section aria-labelledby="sources_title">
+  <h2 id="sources_title" class="mb-1 text-base">Fontes de vagas</h2>
+  <p class="muted mb-2 text-sm">Quantas vagas cada fonte trouxe no período e quantas você salvou: as do topo são as que mais valem o seu tempo.</p>
+  <div class="card overflow-x-auto">
+    <table class="table tabular-nums">
+      <thead><tr><th>Fonte</th><th class="text-right">Vagas</th><th class="text-right">Salvas</th><th class="text-right">Aproveitamento</th></tr></thead>
+      <tbody>
+        <% @metrics.by_source.each do |source| %>
+          <tr>
+            <td class="font-semibold"><%= JobPosting.human_enum(:source, source.source) %></td>
+            <td class="text-right"><%= source.total %></td>
+            <td class="text-right"><%= source.saved %></td>
+            <td class="text-right"><%= source.saved_rate %>%</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>

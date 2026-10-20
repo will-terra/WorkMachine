@@ -4,6 +4,7 @@ module ApplicationHelper
       [ "Painel", root_path ],
       [ "Vagas", job_postings_path ],
       [ "Candidaturas", job_applications_path ],
+      [ "Métricas", metrics_path ],
       [ "Radar", radar_path ],
       [ "Mensagens", message_templates_path ],
       [ "Rotina", routine_path ],
