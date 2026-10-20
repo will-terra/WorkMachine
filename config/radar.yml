@@ -67,6 +67,7 @@ filters:
 
 sections:
   - key: linkedin
+    placement: end   # no fim da página: só serve para criar os alertas uma vez
     eyebrow: "LinkedIn · aba Vagas"
     title: "Buscas na aba Vagas"
     intro: "Use estas buscas para criar os alertas: abra, confira os resultados e ligue “Alerta de vaga” por e-mail, diariamente. O WorkMachine lê os alertas no Gmail a cada hora e as vagas entram na triagem com nota, então depois de criar o alerta não precisa abrir a busca todo dia."

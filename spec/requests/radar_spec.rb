@@ -12,7 +12,8 @@ RSpec.describe "Radar" do
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("O que o WorkMachine busca sozinho", "GoRails Jobs", "4 novas", "Gmail não configurado")
     expect(response.body).to include("Buscas na aba Vagas", "Ruby on Remote", "Yoctoo", "Vagas TI Brasil", "Abrir Empresas-alvo")
-    expect(response.body.index("busca sozinho")).to be < response.body.index("Buscas na aba Vagas")
+    expect(response.body.index("busca sozinho")).to be < response.body.index("Quem contrata Rails")
+    expect(response.body.index("Grupos, comunidades e eventos")).to be < response.body.index("Buscas na aba Vagas")
     expect(response.body).to include(CGI.escapeHTML(Radar.url_for("li_jobs", Radar.searches.first["query"])))
   end
 
