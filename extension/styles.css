@@ -1,0 +1,30 @@
+:root {
+  --bg: #f6f4f5; --surface: #ffffff; --ink: #1d191b; --muted: #675e62; --line: #e3dcdf;
+  --accent: #a8132d; --accent-ink: #ffffff; --ok: #1d7448;
+  font: 14px/1.45 "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #151113; --surface: #1e191b; --ink: #f0eaec; --muted: #a99ea3; --line: #352d30; --accent: #ff5d76; --accent-ink: #1a0b0f; --ok: #5fcf95; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); }
+body.popup { width: 340px; padding: 12px 14px 14px; }
+body.options { max-width: 520px; margin: 40px auto; padding: 0 16px; }
+header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+header a { margin-left: auto; font-size: 12px; }
+h1 { font-size: 20px; }
+a { color: var(--accent); }
+form { display: grid; gap: 10px; }
+label { display: grid; gap: 4px; font-size: 12px; font-weight: 600; color: var(--muted); }
+label.check { display: flex; align-items: center; gap: 6px; font-weight: 400; color: var(--ink); }
+input:not([type=checkbox]) { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; }
+input:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button { padding: 8px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: 600 13px/1 inherit; cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+button:disabled { opacity: 0.6; }
+.row { display: flex; gap: 8px; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; font-weight: 400; }
+.ok { color: var(--ok); font-weight: 600; }
+.error { color: var(--accent); font-weight: 600; }
+#result a { font-weight: 600; }

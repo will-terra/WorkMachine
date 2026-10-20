@@ -30,6 +30,14 @@ RSpec.describe JobIngestor do
     expect(first.reload).to have_attributes(description: "Ruby on Rails and React", source: "linkedin_alert", score: 65)
   end
 
+  it "rescores when only the location arrives" do
+    first = described_class.call(attributes.merge(location_text: nil, description: "Rails")).posting
+
+    described_class.call(attributes.merge(location_text: "Remote, France"))
+
+    expect(first.reload).to have_attributes(remote_scope: "europe_only", description: "Rails")
+  end
+
   it "uses the remote scope hint" do
     result = described_class.call(attributes.merge(location_text: "Remoto", remote_scope_hint: "brazil"))
 

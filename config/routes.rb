@@ -24,6 +24,13 @@ Rails.application.routes.draw do
     post "itens/:key", action: :toggle, as: :toggle
   end
 
+  namespace :api do
+    namespace :v1 do
+      resources :job_postings, only: :create
+      get "ping", to: "pings#show"
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
