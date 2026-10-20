@@ -30,6 +30,9 @@ RSpec.describe JobScorer do
     expect(score(title: "Rails Engineer", location_text: "Framingham, MA, Remote").remote_scope).to eq("us_only")
     expect(score(title: "Rails Engineer", location_text: "New York, NY - Hybrid; San Francisco, CA").remote_scope).to eq("us_only")
     expect(score(title: "Dev Rails", location_text: "Florianópolis, SC").remote_scope).to eq("brazil")
+    expect(score(title: "Rails Engineer", location_text: "PrizePicks · Estados Unidos (Remoto)").remote_scope).to eq("us_only")
+    expect(score(title: "Rails Engineer", location_text: "Reino Unido (Remoto)").remote_scope).to eq("europe_only")
+    expect(score(title: "Rails Engineer", location_text: "Índia (Remoto)").matched_keywords.map { it["term"] }).to include("local restrito")
   end
 
   it "penalizes a list of countries outside Latin America" do

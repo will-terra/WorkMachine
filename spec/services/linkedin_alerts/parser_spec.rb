@@ -24,6 +24,12 @@ RSpec.describe LinkedinAlerts::Parser do
     expect(parse_fixture("linkedin_job_alert_text_only.eml").map { it.except(:external_id) }).to eq(expected)
   end
 
+  it "keeps a \"|\" inside the company name" do
+    html = '<a href="https://www.linkedin.com/comm/jobs/view/777"><p>Dev Web</p><p>Contato Seguro | Canal de Denúncias · Porto Alegre (Remoto)</p></a>'
+
+    expect(described_class.call(html:).first).to include(company: "Contato Seguro | Canal de Denúncias", location_text: "Porto Alegre (Remoto)")
+  end
+
   it "tolerates a layout with only a title link" do
     html = '<div><a href="https://br.linkedin.com/jobs/view/rails-dev-at-acme-555">Rails Dev</a></div><a href="https://www.linkedin.com/jobs/view/555">Ver vaga</a>'
 
