@@ -19,6 +19,13 @@ Rails.application.routes.draw do
     end
   end
   resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
+  resource :settings, path: "ajustes", only: %i[ show update ]
+  resources :push_subscriptions, only: %i[ create destroy ] do
+    collection do
+      delete :unsubscribe
+      post :test
+    end
+  end
   resources :target_companies, path: "empresas-alvo", except: :show
 
   resource :radar, only: :show, controller: "radar"

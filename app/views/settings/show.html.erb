@@ -1,0 +1,53 @@
+<%= page_header eyebrow: "WorkMachine", title: "Ajustes" %>
+
+<section class="grid gap-6 lg:grid-cols-2" aria-label="Notificações">
+  <%= form_with model: @setting, url: settings_path, method: :patch, class: "card grid content-start gap-4 p-5" do |form| %>
+    <div>
+      <h2 class="text-base">Notificação de vagas novas</h2>
+      <p class="muted mt-1 text-sm">Quando o agregador ou os alertas do LinkedIn trazem vagas com nota igual ou maior que esta, o WorkMachine manda uma notificação na área de trabalho, mesmo com o app fechado.</p>
+    </div>
+    <%= render "shared/errors", record: @setting %>
+    <div class="flex items-center gap-2">
+      <%= form.check_box :notifications_enabled, class: "size-4 accent-accent" %>
+      <%= form.label :notifications_enabled, "Notificar vagas novas", class: "text-sm" %>
+    </div>
+    <div>
+      <%= form.label :notify_min_score, "Nota mínima (0 a 100)", class: "label" %>
+      <%= form.number_field :notify_min_score, min: 0, max: 100, step: 1, required: true, class: "input w-32" %>
+      <p class="muted mt-1 text-xs">Vale para as próximas buscas. Cada vaga é notificada uma vez só.</p>
+    </div>
+    <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
+  <% end %>
+
+  <div class="card grid content-start gap-4 p-5"
+       data-controller="push"
+       data-push-public-key-value="<%= @setting.vapid_keys![:public_key] %>"
+       data-push-subscribe-url-value="<%= push_subscriptions_path %>"
+       data-push-unsubscribe-url-value="<%= unsubscribe_push_subscriptions_path %>"
+       data-push-test-url-value="<%= test_push_subscriptions_path %>">
+    <div>
+      <h2 class="text-base">Este navegador</h2>
+      <p class="muted mt-1 text-sm">Ative uma vez em cada navegador (no app instalado do Chrome, ative abrindo esta página nele).</p>
+    </div>
+    <p class="text-sm font-semibold" data-push-target="status" role="status">Verificando…</p>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn btn-primary btn-sm" data-push-target="enable" data-action="push#enable" hidden>Ativar notificações</button>
+      <button type="button" class="btn btn-sm" data-push-target="test" data-action="push#test" hidden>Enviar notificação de teste</button>
+      <button type="button" class="btn btn-ghost btn-sm" data-push-target="disable" data-action="push#disable" hidden>Desativar neste navegador</button>
+    </div>
+
+    <% if @push_subscriptions.any? %>
+      <div>
+        <p class="label">Navegadores que recebem</p>
+        <ul class="grid gap-1 text-sm">
+          <% @push_subscriptions.each do |subscription| %>
+            <li class="flex items-center justify-between gap-2">
+              <span><%= subscription.browser_name %> · desde <%= l(subscription.created_at.to_date, format: "%d/%m") %><% if subscription.last_sent_at %> · última em <%= l(subscription.last_sent_at, format: "%d/%m %H:%M") %><% end %></span>
+              <%= button_to "Remover", push_subscription_path(subscription), method: :delete, class: "btn btn-ghost btn-sm" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</section>

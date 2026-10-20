@@ -18,6 +18,7 @@ como aplicativo no Windows.
 | **Mensagens** | Modelos com `{{nome}}`, `{{cargo}}` e `{{empresa}}` preenchidos a partir da vaga ou do contato, com contador de caracteres. |
 | **Rotina** | Checklist diário e semanal. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
+| **Ajustes** | Notificação na área de trabalho quando chegam vagas com nota igual ou maior que a escolhida (padrão 40). |
 
 De onde vêm as vagas, sozinhas:
 
@@ -125,6 +126,18 @@ projeto e rode:
 docker compose exec web bin/rails "linkedin:parse[alerta.eml]"   # só mostra, não salva nada
 docker compose exec web bin/rails linkedin:import                # importa agora
 ```
+
+## Notificações de vagas novas
+
+Em **Ajustes**, clique em **Ativar notificações** e aceite o pedido do navegador. Faça isso dentro do app
+instalado (ou em cada navegador onde quiser receber) e use **Enviar notificação de teste** para conferir.
+Sempre que o agregador ou os alertas do LinkedIn trouxerem vagas com nota igual ou maior que a nota
+mínima (padrão 40), chega uma notificação; clicar nela abre a vaga, ou a triagem filtrada quando são
+várias. Cada vaga é notificada uma vez só. As chaves do Web Push são geradas sozinhas no primeiro uso.
+
+No Windows, o Chrome precisa estar rodando em segundo plano para entregar com o app fechado (é o padrão:
+*Configurações → Sistema → Continuar executando apps em segundo plano*). Se nada aparecer, confira se as
+notificações do Chrome estão liberadas em *Configurações do Windows → Sistema → Notificações*.
 
 ## Extensão do navegador
 

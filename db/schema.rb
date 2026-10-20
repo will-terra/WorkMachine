@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_173616) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_184917) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -92,6 +92,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_173616) do
     t.json "raw", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "notified_at"
     t.index ["fingerprint"], name: "index_job_postings_on_fingerprint"
     t.index ["source", "external_id"], name: "index_job_postings_on_source_and_external_id"
     t.index ["triage", "score"], name: "index_job_postings_on_triage_and_score"
@@ -118,6 +119,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_173616) do
     t.index ["message_id"], name: "index_processed_emails_on_message_id", unique: true
   end
 
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.string "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.string "user_agent"
+    t.datetime "last_sent_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
+  end
+
   create_table "routine_checks", force: :cascade do |t|
     t.date "date", null: false
     t.string "item_key", null: false
@@ -133,6 +145,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_173616) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.boolean "notifications_enabled", default: true, null: false
+    t.integer "notify_min_score", default: 40, null: false
+    t.string "vapid_public_key"
+    t.string "vapid_private_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "source_runs", force: :cascade do |t|

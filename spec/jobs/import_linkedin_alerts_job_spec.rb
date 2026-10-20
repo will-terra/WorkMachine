@@ -11,9 +11,12 @@ RSpec.describe ImportLinkedinAlertsJob do
     allow(LinkedinAlerts::Importer).to receive(:configured?).and_return(true)
     allow(LinkedinAlerts::Importer).to receive(:new).and_return(instance_double(LinkedinAlerts::Importer, call: LinkedinAlerts::Importer::Result.new(emails: 2, postings: 5, created: 4)))
 
+    allow(NewPostingsNotifier).to receive(:call)
+
     described_class.perform_now
 
     expect(SourceRun.last).to have_attributes(source: "linkedin_alert", status: "succeeded", fetched_count: 5, created_count: 4)
+    expect(NewPostingsNotifier).to have_received(:call).with(since: SourceRun.last.created_at)
   end
 
   it "records a failure" do

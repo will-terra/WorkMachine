@@ -12,6 +12,7 @@ class ImportLinkedinAlertsJob < ApplicationJob
     run = SourceRun.create!(source: "linkedin_alert")
     result = LinkedinAlerts::Importer.new.call
     run.finish!(fetched: result.postings, created: result.created)
+    NewPostingsNotifier.call(since: run.created_at)
   rescue StandardError => e
     run&.fail!(e)
     Rails.error.report(e, handled: true, context: { source: "linkedin_alert" })
