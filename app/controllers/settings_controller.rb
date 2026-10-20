@@ -14,7 +14,8 @@ class SettingsController < ApplicationController
   end
 
   def update
-    if @setting.update(params.expect(setting: %i[ notifications_enabled notify_min_score auto_dismiss_restricted auto_dismiss_below_score ]))
+    if @setting.update(params.expect(setting: %i[ notifications_enabled notify_min_score auto_dismiss_restricted auto_dismiss_below_score
+                                                   track_replies notify_replies ]))
       redirect_to settings_path, notice: "Ajustes salvos."
     else
       @push_subscriptions = PushSubscription.order(:created_at)

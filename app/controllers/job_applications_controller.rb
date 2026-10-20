@@ -54,6 +54,11 @@ class JobApplicationsController < ApplicationController
     @counts = JobApplication.where(status: [ @previous_status, status ].uniq).group(:status).count
   end
 
+  def check_replies
+    ImportApplicationRepliesJob.perform_later
+    redirect_to job_applications_path(view: params[:view].presence_in(VIEWS)), notice: "Lendo as respostas das empresas no Gmail. Os cartões se movem sozinhos em alguns instantes."
+  end
+
   def import
     file = params[:file]
     return redirect_to(job_applications_path(view: "table"), alert: "Escolha um arquivo CSV.") if file.blank?

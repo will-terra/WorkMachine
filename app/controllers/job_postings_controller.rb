@@ -9,7 +9,7 @@ class JobPostingsController < ApplicationController
     @page = [ params[:page].to_i, 0 ].max
     @total = @filter.scope.count
     @job_postings = @filter.ordered.limit(PER_PAGE).offset(@page * PER_PAGE)
-    @source_runs = SourceRun.latest_per_source
+    @source_runs = SourceRun.latest_per_source.where(source: JobPosting::SOURCES)
   end
 
   # "Descartar todas": dismisses the new postings that match the current filters.

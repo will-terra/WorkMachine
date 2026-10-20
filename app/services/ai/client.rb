@@ -32,12 +32,15 @@ module Ai
     end
 
     def generate(kind, posting, language: "pt")
-      response = HttpClient.post_json(URL, payload(kind, posting, language), headers:, read_timeout: READ_TIMEOUT)
-      raise Error.new(response.dig("error", "message") || "Erro do OpenRouter", status: response.dig("error", "code")) if response["error"]
+      request(payload(kind, posting, language))
+    end
 
-      result(response)
-    rescue HttpClient::Error => e
-      raise Error.new(error_message(e), status: e.status)
+    # A one-off request (the reply classifier): JSON answers when json: true.
+    def complete(system:, user:, json: false, effort: "low", max_tokens: 2_000)
+      body = { model: self.class.model, messages: [ { role: "system", content: system }, { role: "user", content: user } ],
+               max_tokens:, reasoning: { effort: }, usage: { include: true } }
+      body[:response_format] = { type: "json_object" } if json
+      request(body)
     end
 
     # Text the request sends, for the token estimate (OpenRouter has no token-counting endpoint).
@@ -46,6 +49,15 @@ module Ai
     end
 
     private
+      def request(body)
+        response = HttpClient.post_json(URL, body, headers:, read_timeout: READ_TIMEOUT)
+        raise Error.new(response.dig("error", "message") || "Erro do OpenRouter", status: response.dig("error", "code")) if response["error"]
+
+        result(response)
+      rescue HttpClient::Error => e
+        raise Error.new(error_message(e), status: e.status)
+      end
+
       def payload(kind, posting, language)
         {
           model: self.class.model,

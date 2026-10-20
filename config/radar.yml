@@ -14,6 +14,7 @@
 # "sources" são as chaves gravadas em SourceRun; "app_link" aponta para uma tela do app.
 automated:
   - { name: "Alertas do LinkedIn", sources: [linkedin_alert], url: "https://www.linkedin.com/jobs/alerts/", note: "E-mails de alerta lidos no Gmail. Crie os alertas pelas buscas da seção LinkedIn · Vagas." }
+  - { name: "Respostas das empresas", sources: [application_replies], app_link: job_applications, note: "E-mails das empresas em que você aplicou, lidos no Gmail: recusa, entrevista, teste e proposta movem o cartão sozinhos." }
   - { name: "Empresas-alvo", sources: [greenhouse, lever, ashby, workable], app_link: target_companies, note: "Quadros Greenhouse, Lever, Ashby e Workable. Empresas novas entram sozinhas quando uma vaga aponta para o quadro delas." }
   - { name: "Remotive", sources: [remotive], url: "https://remotive.com/", note: "Buscas “rails” e “ruby”, no máximo 4 vezes por dia, como pedem os termos da API." }
   - { name: "Remote OK", sources: [remote_ok], url: "https://remoteok.com/", note: "Vagas com as tags ruby e rails." }

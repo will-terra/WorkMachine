@@ -3,5 +3,18 @@
 <% end %>
 <%= render "form", job_application: @job_application %>
 <% if @job_application.job_posting %>
-  <p class="muted mt-3 text-sm">Veio da vaga <%= external_link @job_application.job_posting.title, @job_application.job_posting.url %>.</p>
+  <p class="muted mt-3 text-sm">Veio da vaga <%= link_to @job_application.job_posting.title, job_posting_path(@job_application.job_posting) %>.</p>
 <% end %>
+
+<% emails = @job_application.application_emails.visible.latest_first %>
+<section class="mt-8" aria-labelledby="emails_title">
+  <h2 id="emails_title" class="mb-2 text-base">E-mails da empresa</h2>
+  <% if emails.any? %>
+    <ul class="card divide-y divide-line"><%= render partial: "application_emails/application_email", collection: emails %></ul>
+  <% else %>
+    <p class="muted text-sm">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado no .env)" unless GmailSession.configured? %>.</p>
+  <% end %>
+  <% if @job_application.responded_on %>
+    <p class="muted mt-2 text-xs">Primeira resposta em <%= l(@job_application.responded_on, format: "%d/%m/%Y") %><% if @job_application.applied_on %>, <%= pluralize((@job_application.responded_on - @job_application.applied_on).to_i, "dia", plural: "dias") %> depois de aplicar<% end %>.</p>
+  <% end %>
+</section>

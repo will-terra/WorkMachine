@@ -127,6 +127,16 @@ docker compose exec web bin/rails "linkedin:parse[alerta.eml]"   # só mostra, n
 docker compose exec web bin/rails linkedin:import                # importa agora
 ```
 
+## Respostas das empresas
+
+A cada hora (minuto 10) o WorkMachine lê no Gmail, só para leitura, os e-mails das empresas em que você
+aplicou: ele reconhece a empresa no remetente, no assunto ou no domínio, e só esses e-mails vão para o
+modelo de IA classificar (recusa, convite para entrevista, teste, proposta, mensagem de recrutador,
+confirmação). Recusa, entrevista, teste e proposta movem o cartão no kanban, sempre para a frente, e
+geram uma notificação. Cada candidatura mostra os e-mails da empresa e o Painel mostra as respostas
+recentes. Sem a chave do OpenRouter, a classificação usa regras de palavras-chave. Para desligar, use
+**Ajustes → Respostas das empresas**; para ler agora, **Candidaturas → Verificar respostas**.
+
 ## Notificações de vagas novas
 
 Em **Ajustes**, clique em **Ativar notificações** e aceite o pedido do navegador. Faça isso dentro do app

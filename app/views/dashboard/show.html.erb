@@ -58,6 +58,13 @@
   </section>
 </div>
 
+<% if @replies.any? %>
+  <section class="mt-10" aria-labelledby="replies_title">
+    <h2 id="replies_title" class="mb-2 text-base">Respostas das empresas</h2>
+    <ul class="card divide-y divide-line"><%= render partial: "application_emails/application_email", collection: @replies, locals: { show_company: true } %></ul>
+  </section>
+<% end %>
+
 <section class="mt-10" aria-labelledby="routine_title">
   <div class="mb-2 flex items-baseline justify-between">
     <h2 id="routine_title" class="text-base">Rotina de hoje</h2>

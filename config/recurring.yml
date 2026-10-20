@@ -8,6 +8,9 @@ default: &default
   import_linkedin_alerts:
     class: ImportLinkedinAlertsJob
     schedule: every hour
+  import_application_replies:
+    class: ImportApplicationRepliesJob
+    schedule: every hour at minute 10
   database_backup:
     class: DatabaseBackupJob
     schedule: every hour at minute 30

@@ -2,17 +2,20 @@ class JobApplication < ApplicationRecord
   STATUSES = %w[saved applied recruiter_contact hr_interview tech_interview take_home
                 offer rejected no_response withdrawn].freeze
   CLOSED_STATUSES = %w[rejected no_response withdrawn].freeze
+  # Statuses that mean the company answered (responded_on, funnel metrics).
+  RESPONSE_STATUSES = %w[recruiter_contact hr_interview tech_interview take_home offer rejected].freeze
   OPEN_STATUSES = (STATUSES - CLOSED_STATUSES).freeze
   FOLLOW_UP_AFTER = 5.days
 
   enum :status, STATUSES.index_by(&:itself), prefix: true, validate: true
 
   belongs_to :job_posting, optional: true
+  has_many :application_emails, dependent: :destroy
 
   validates :company, :role, presence: true
 
   before_validation :set_position, on: :create
-  before_save :set_applied_on
+  before_save :set_applied_on, :set_responded_on
   # Once you apply, look for the company's public job board (Empresas-alvo).
   after_commit :find_company_board, if: -> { board_checked_at.nil? && !status_saved? && saved_change_to_status? }
 
@@ -55,6 +58,12 @@ class JobApplication < ApplicationRecord
 
     def find_company_board
       FindTargetCompaniesJob.perform_later
+    end
+
+    def set_responded_on
+      return unless will_save_change_to_status? && RESPONSE_STATUSES.include?(status)
+
+      self.responded_on ||= Date.current unless RESPONSE_STATUSES.include?(status_in_database)
     end
 
     def set_applied_on

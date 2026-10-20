@@ -28,6 +28,18 @@
       <%= form.label :auto_dismiss_below_score, "Descartar também com nota abaixo de (vazio = não descartar)", class: "label" %>
       <%= form.number_field :auto_dismiss_below_score, min: 1, max: 100, step: 1, class: "input w-32" %>
     </div>
+    <div class="border-t border-line pt-4">
+      <h2 class="text-base">Respostas das empresas</h2>
+      <p class="muted mt-1 text-sm">A cada hora o WorkMachine procura no Gmail os e-mails das empresas em que você aplicou. Os que citam a empresa vão para o modelo de IA (OpenRouter) classificar; recusa, entrevista, teste e proposta movem o cartão no kanban.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <%= form.check_box :track_replies, class: "size-4 accent-accent" %>
+      <%= form.label :track_replies, "Ler as respostas das empresas no Gmail", class: "text-sm" %>
+    </div>
+    <div class="flex items-center gap-2">
+      <%= form.check_box :notify_replies, class: "size-4 accent-accent" %>
+      <%= form.label :notify_replies, "Notificar quando uma empresa responder", class: "text-sm" %>
+    </div>
     <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
   <% end %>
 
