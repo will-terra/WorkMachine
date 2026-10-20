@@ -1,0 +1,117 @@
+<%= page_header eyebrow: "$ rails generate job_search --stack=rails,react --nivel=pleno --modelo=remoto", title: "Radar",
+                intro: "Buscas prontas a partir do seu CV. Escolha os filtros de cada seção e clique em “Abrir” para rodar a busca, ou copie o termo para colar onde quiser." %>
+
+<nav class="mb-8 flex flex-wrap gap-1" aria-label="Seções do Radar">
+  <% [ [ "alvo", "Alvo" ], *@config["sections"].map { [ it["key"], it["eyebrow"] ] }, [ "plataformas", "Plataformas" ], [ "consultorias", "Consultorias" ], [ "grupos", "Grupos" ] ].each do |anchor, label| %>
+    <a href="#<%= anchor %>" class="nav-link border border-line bg-surface"><%= label %></a>
+  <% end %>
+</nav>
+
+<section id="alvo" class="scroll-mt-20">
+  <p class="eyebrow">Perfil-alvo</p>
+  <h2 class="mt-1">O que você está procurando</h2>
+  <p class="muted mt-1 mb-4 max-w-prose text-sm">Com cerca de 3 anos de experiência, o encaixe natural é Pleno no Brasil e Mid-level fora. Vale aplicar para Sênior quando a vaga pedir 3 a 4 anos e a stack bater com a sua.</p>
+  <% target = @config["target"] %>
+  <div class="grid gap-6 sm:grid-cols-2">
+    <% [ [ "Títulos em português", target["titles_pt"] ], [ "Títulos em inglês", target["titles_en"] ] ].each do |label, titles| %>
+      <div>
+        <p class="label"><%= label %></p>
+        <div class="flex flex-wrap gap-1.5">
+          <% titles["hot"].each do |title| %><span class="chip chip-hot text-sm"><%= title %></span><% end %>
+          <% titles["other"].each do |title| %><span class="chip text-sm"><%= title %></span><% end %>
+        </div>
+      </div>
+    <% end %>
+    <div>
+      <p class="label">Seus diferenciais como palavra-chave</p>
+      <div class="flex flex-wrap gap-1.5"><% target["keywords"].each do |keyword| %><span class="chip text-sm"><%= keyword %></span><% end %></div>
+    </div>
+    <div>
+      <p class="label">Plano B (sua experiência na Cliente E)</p>
+      <div class="flex flex-wrap gap-1.5"><% target["plan_b"].each do |title| %><span class="chip text-sm"><%= title %></span><% end %></div>
+    </div>
+  </div>
+</section>
+
+<% @config["sections"].each do |section| %>
+  <section id="<%= section["key"] %>" class="mt-12 scroll-mt-20">
+    <p class="eyebrow"><%= section["eyebrow"] %></p>
+    <h2 class="mt-1"><%= section["title"] %></h2>
+    <p class="muted mt-1 mb-4 max-w-prose text-sm"><%= section["intro"] %></p>
+
+    <%= turbo_frame_tag "radar_#{section["key"]}" do %>
+      <% if section["filters"].present? %>
+        <%= form_with url: radar_path, method: :get, class: "card mb-3 flex flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3", data: { controller: "auto-submit" } do %>
+          <% section["filters"].each do |name| %>
+            <% filter = @config["filters"][name] %>
+            <fieldset class="flex flex-wrap items-center gap-1.5">
+              <legend class="sr-only"><%= filter["label"] %></legend>
+              <span aria-hidden="true" class="mr-1 text-xs font-semibold text-muted"><%= filter["label"] %></span>
+              <% filter["options"].each do |option| %>
+                <label class="cursor-pointer">
+                  <%= radio_button_tag name, option["value"], @filters[name] == option["value"].to_s, class: "peer sr-only", data: { action: "auto-submit#submit" } %>
+                  <span class="inline-block rounded-md border border-line bg-bg px-2.5 py-1 text-sm peer-checked:border-ink peer-checked:bg-ink peer-checked:text-bg peer-focus-visible:outline-2 peer-focus-visible:outline-accent"><%= option["label"] %></span>
+                </label>
+              <% end %>
+            </fieldset>
+          <% end %>
+          <noscript><%= submit_tag "Aplicar", class: "btn btn-sm" %></noscript>
+        <% end %>
+      <% end %>
+
+      <div class="card divide-y divide-line overflow-hidden">
+        <% section["searches"].each do |search| %>
+          <div class="grid gap-x-5 gap-y-2 px-4 py-3.5 md:grid-cols-[minmax(150px,0.8fr)_minmax(0,2fr)_auto] md:items-center" data-controller="clipboard">
+            <div>
+              <p class="text-[15px] font-semibold leading-tight"><%= search["title"] %></p>
+              <% if search["note"] %><p class="muted mt-0.5 text-sm leading-snug"><%= search["note"] %></p><% end %>
+            </div>
+            <div class="code text-[13px]" data-clipboard-target="source"><%= search["query"] %></div>
+            <div class="flex gap-1.5">
+              <%= link_to "Abrir", Radar.url_for(search["builder"], search["query"], @filters), class: "btn btn-primary btn-sm", target: "_blank", rel: "noopener", aria: { label: "Abrir busca: #{search["title"]}" } %>
+              <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="Copiar termo: <%= search["title"] %>">Copiar</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if (callout = section["callout"]) %>
+      <div class="mt-4 max-w-3xl rounded-xl bg-accent-soft px-4 py-3 text-sm">
+        <p><%= callout["text"] %></p>
+        <p class="mt-1"><%= external_link callout["link_label"], callout["url"], class: "font-semibold" %></p>
+      </div>
+    <% end %>
+  </section>
+<% end %>
+
+<section id="plataformas" class="mt-12 scroll-mt-20">
+  <p class="eyebrow">Onde procurar</p>
+  <h2 class="mt-1">Plataformas</h2>
+  <% @config["platforms"].each do |group| %>
+    <h3 class="mt-6 mb-2"><%= group["title"] %></h3>
+    <%= render "radar/sites", sites: group["sites"] %>
+  <% end %>
+</section>
+
+<section id="consultorias" class="mt-12 scroll-mt-20">
+  <p class="eyebrow">Bancos de talentos</p>
+  <h2 class="mt-1">Consultorias para cadastrar o CV</h2>
+  <p class="muted mt-1 max-w-prose text-sm"><%= @config["consultancies_note"] %> Marque cada uma quando terminar o cadastro.</p>
+  <% Consultancy.kinds.each_key do |kind| %>
+    <h3 class="mt-6 mb-2"><%= Consultancy.human_enum(:kind, kind) %></h3>
+    <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      <%= render partial: "consultancies/consultancy", collection: @consultancies.fetch(kind, []) %>
+    </div>
+  <% end %>
+</section>
+
+<section id="grupos" class="mt-12 scroll-mt-20">
+  <p class="eyebrow">Mercado oculto</p>
+  <h2 class="mt-1">Grupos, comunidades e eventos</h2>
+  <p class="muted mt-1 mb-4 max-w-prose text-sm"><%= @config.dig("groups", "intro") %></p>
+  <%= render "radar/sites", sites: @config.dig("groups", "sites") %>
+  <h3 class="mt-6 mb-2">Na lupa do Telegram, procure por</h3>
+  <div class="flex flex-wrap gap-1.5"><% @config.dig("groups", "telegram_terms").each do |term| %><span class="chip text-sm"><%= term %></span><% end %></div>
+  <p class="muted mt-2 text-sm"><%= @config.dig("groups", "telegram_note") %></p>
+</section>

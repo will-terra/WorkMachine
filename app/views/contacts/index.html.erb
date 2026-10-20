@@ -15,7 +15,10 @@
           <td><%= contact.human_enum(:kind) %></td>
           <td class="whitespace-nowrap"><%= short_date(contact.last_contacted_on) %></td>
           <td class="max-w-sm truncate"><%= contact.notes %></td>
-          <td class="text-right"><%= link_to "Editar", edit_contact_path(contact) %></td>
+          <td class="whitespace-nowrap text-right">
+            <%= link_to "Mensagem", message_templates_path(contact_id: contact.id), class: "mr-2" %>
+            <%= link_to "Editar", edit_contact_path(contact) %>
+          </td>
         </tr>
       <% end %>
     </tbody>

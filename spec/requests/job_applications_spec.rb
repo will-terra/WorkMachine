@@ -61,7 +61,7 @@ RSpec.describe "Job applications" do
   it "re-renders the form on invalid data" do
     post job_applications_path, params: { job_application: { company: "", role: "" } }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "updates and returns to the table" do
@@ -81,7 +81,7 @@ RSpec.describe "Job applications" do
 
     patch job_application_path(application), params: { job_application: { company: "" } }
 
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 
   it "deletes an application" do
@@ -107,7 +107,7 @@ RSpec.describe "Job applications" do
 
       patch move_job_application_path(card), params: { status: "hired", position: 0 }, as: :turbo_stream
 
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

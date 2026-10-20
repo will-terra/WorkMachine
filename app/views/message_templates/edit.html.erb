@@ -1,0 +1,4 @@
+<%= page_header eyebrow: "Mensagens", title: @message_template.name do %>
+  <%= button_to "Apagar", message_template_path(@message_template), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: "Apagar este modelo?" } } %>
+<% end %>
+<%= render "form", message_template: @message_template %>

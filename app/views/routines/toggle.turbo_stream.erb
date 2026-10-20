@@ -1,0 +1,1 @@
+<%= turbo_stream.replace "routine_item_#{@item.key}", partial: "routines/item", locals: { item: @item, checked: @checked.include?(@item.key) } %>

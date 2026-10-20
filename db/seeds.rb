@@ -1,7 +1,7 @@
 # Idempotent: run `bin/rails db:seed` as many times as you want. Existing records are kept as they are,
 # so edits made in the app (templates, consultancy registration) are never overwritten.
 
-CONSULTANCIES = [
+consultancies = [
   [ "Yoctoo", "https://yoctoo.com/", "tech" ],
   [ "Hunter4Tech", "https://hunter4tech.com.br/", "tech" ],
   [ "Rehva Tech", "https://rehva.com.br/", "tech" ],
@@ -20,7 +20,7 @@ CONSULTANCIES = [
   [ "Gi Group", "https://www.gigroup.com.br/", "multinational" ]
 ].freeze
 
-CONSULTANCIES.each do |name, url, kind, notes|
+consultancies.each do |name, url, kind, notes|
   Consultancy.find_or_create_by!(name:) do |consultancy|
     consultancy.url = url
     consultancy.kind = kind
@@ -28,7 +28,7 @@ CONSULTANCIES.each do |name, url, kind, notes|
   end
 end
 
-MESSAGE_TEMPLATES = [
+message_templates = [
   {
     name: "Conexão com recrutador (PT)", language: "pt", max_chars: 200,
     body: "Oi, {{nome}}! Sou Full Stack Ruby on Rails + React, com cerca de 3 anos de experiência e Rails 8.1 em produção. Vi que você recruta para tech e quero acompanhar as vagas da minha stack. Obrigado!"
@@ -59,7 +59,7 @@ MESSAGE_TEMPLATES = [
   }
 ].freeze
 
-MESSAGE_TEMPLATES.each do |attributes|
+message_templates.each do |attributes|
   MessageTemplate.find_or_create_by!(name: attributes[:name]) do |template|
     template.assign_attributes(attributes)
   end
@@ -67,7 +67,7 @@ end
 
 # Examples of companies that run Rails and publish their jobs on a public ATS board.
 # They are marked as examples so you can tell them apart from the ones you add.
-TARGET_COMPANIES = [
+target_companies = [
   [ "GitLab", "greenhouse", "gitlab" ],
   [ "Gusto", "greenhouse", "gusto" ],
   [ "Doximity", "greenhouse", "doximity" ],
@@ -77,7 +77,7 @@ TARGET_COMPANIES = [
   [ "Kit (ConvertKit)", "ashby", "kit" ]
 ].freeze
 
-TARGET_COMPANIES.each do |name, ats, board_slug|
+target_companies.each do |name, ats, board_slug|
   TargetCompany.find_or_create_by!(ats:, board_slug:) do |company|
     company.name = name
     company.example = true

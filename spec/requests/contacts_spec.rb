@@ -28,10 +28,10 @@ RSpec.describe "Contacts" do
 
   it "re-renders the forms with errors" do
     post contacts_path, params: { contact: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
 
     contact = create(:contact)
     patch contact_path(contact), params: { contact: { name: "" } }
-    expect(response).to have_http_status(:unprocessable_entity)
+    expect(response).to have_http_status(:unprocessable_content)
   end
 end

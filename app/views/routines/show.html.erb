@@ -1,0 +1,13 @@
+<%= page_header eyebrow: "Rotina", title: "Uma rotina de busca por dia",
+                intro: "Os itens do dia recomeçam todo dia; os semanais ficam marcados até domingo." do %>
+  <span class="font-mono text-xs text-muted">hoje: <%= l(Date.current, format: "%A, %-d de %B") %></span>
+<% end %>
+
+<%= render "routines/checklist", checked: @checked %>
+
+<h2 class="mt-10 mb-3 text-base">Regras que a mentora repete em todos os materiais</h2>
+<ol class="max-w-prose list-decimal space-y-1.5 pl-5 text-sm">
+  <% Routine.rules.each do |rule| %>
+    <li><strong><%= rule["title"] %></strong> <%= rule["text"] %></li>
+  <% end %>
+</ol>

@@ -3,6 +3,9 @@ module ApplicationHelper
     [
       [ "Painel", root_path ],
       [ "Candidaturas", job_applications_path ],
+      [ "Radar", radar_path ],
+      [ "Mensagens", message_templates_path ],
+      [ "Rotina", routine_path ],
       [ "Contatos", contacts_path ]
     ]
   end

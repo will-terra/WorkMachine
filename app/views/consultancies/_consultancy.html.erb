@@ -1,0 +1,13 @@
+<%= form_with model: consultancy, method: :patch, id: dom_id(consultancy), class: "card flex items-start gap-3 px-3 py-2.5", data: { controller: "auto-submit" } do |form| %>
+  <%= hidden_field_tag :registered, "0", id: nil %>
+  <%= check_box_tag :registered, "1", consultancy.registered?, id: dom_id(consultancy, :registered), class: "mt-1 size-4 accent-accent", data: { action: "auto-submit#submit" } %>
+  <div class="min-w-0">
+    <label for="<%= dom_id(consultancy, :registered) %>" class="cursor-pointer font-semibold"><%= consultancy.name %></label>
+    <p class="text-xs muted">
+      <%= external_link "abrir site", consultancy.url %>
+      <% if consultancy.registered? %> · <span class="text-ok">cadastrado em <%= short_date(consultancy.registered_on) %></span><% end %>
+    </p>
+    <% if consultancy.notes.present? %><p class="text-xs muted"><%= consultancy.notes %></p><% end %>
+  </div>
+  <noscript><%= form.submit "Salvar", class: "btn btn-sm ml-auto" %></noscript>
+<% end %>

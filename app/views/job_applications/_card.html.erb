@@ -19,6 +19,7 @@
 
   <div class="mt-2 flex gap-3 text-xs">
     <%= link_to "Editar", edit_job_application_path(job_application) %>
+    <%= link_to "Mensagem", message_templates_path(job_application_id: job_application.id) %>
     <%= external_link "Abrir vaga", job_application.url if job_application.url.present? %>
   </div>
 </li>
