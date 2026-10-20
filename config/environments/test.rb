@@ -30,6 +30,9 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :test
 
+  # Keep log/test.log from growing without limit.
+  config.logger = ActiveSupport::Logger.new(Rails.root.join("log/test.log"), 1, 50.megabytes)
+
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 

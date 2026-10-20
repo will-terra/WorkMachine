@@ -3,6 +3,9 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Keep at most 3 log files of 20 MB (the Solid Queue polling makes the log grow fast).
+  config.logger = ActiveSupport::Logger.new(Rails.root.join("log/development.log"), 3, 20.megabytes)
+
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true
 

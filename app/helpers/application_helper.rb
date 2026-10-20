@@ -44,6 +44,13 @@ module ApplicationHelper
     end
   end
 
+  # "/mnt/c/Users/x/backups" (WSL) is shown as "C:\Users\x\backups".
+  def windows_path(path)
+    return path.to_s unless path.to_s.start_with?("/mnt/")
+
+    path.to_s.sub(%r{\A/mnt/([a-z])/}) { "#{$1.upcase}:\\" }.tr("/", "\\")
+  end
+
   def external_link(label, url, **options)
     return label if url.blank?
 

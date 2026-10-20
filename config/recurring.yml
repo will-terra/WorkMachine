@@ -8,6 +8,9 @@ default: &default
   import_linkedin_alerts:
     class: ImportLinkedinAlertsJob
     schedule: every hour
+  database_backup:
+    class: DatabaseBackupJob
+    schedule: every hour at minute 30
   follow_up_reminder:
     class: FollowUpReminderJob
     schedule: every day at 8am America/Sao_Paulo
