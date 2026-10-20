@@ -56,6 +56,15 @@ RSpec.describe "Target companies" do
     expect(TargetCompany.posting_stats[%w[greenhouse gitlab]]).to eq(total: 3, saved: 1, auto_dismissed: 1)
   end
 
+  it "searches the applied companies again on demand" do
+    application = create(:job_application, status: "applied", board_checked_at: 1.day.ago)
+
+    expect { post find_target_companies_path }.to have_enqueued_job(FindTargetCompaniesJob)
+
+    expect(response).to redirect_to(target_companies_path)
+    expect(application.reload.board_checked_at).to be_nil
+  end
+
   it "re-renders the forms with errors" do
     post target_companies_path, params: { target_company: { name: "", ats: "lever", board_slug: "a b" } }
     expect(response).to have_http_status(:unprocessable_content)

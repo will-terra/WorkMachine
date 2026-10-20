@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_205238) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_210040) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -68,6 +68,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_205238) do
     t.integer "position", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "board_checked_at"
     t.index ["job_posting_id"], name: "index_job_applications_on_job_posting_id"
     t.index ["next_follow_up_on"], name: "index_job_applications_on_next_follow_up_on"
     t.index ["status", "position"], name: "index_job_applications_on_status_and_position"

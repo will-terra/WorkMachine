@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     end
   end
   resources :target_companies, path: "empresas-alvo", except: :show do
+    collection { post :find }
     member do
       post :activate
       post :dismiss

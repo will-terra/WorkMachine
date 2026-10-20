@@ -16,6 +16,11 @@ class TargetCompanyDiscovery
     new(posting).call
   end
 
+  # [[ats, slug], ...] of the boards linked from a posting.
+  def self.boards_in(posting)
+    new(posting).send(:boards)
+  end
+
   def initialize(posting)
     @posting = posting
   end

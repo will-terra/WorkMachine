@@ -168,6 +168,10 @@ extensão) aponta para o quadro de uma empresa, ela é cadastrada. Se a vaga tiv
 que a nota mínima de **Ajustes**, a empresa já entra ativa; senão aparece em **Sugestões**, com os botões
 Ativar e Ignorar.
 
+Quando você aplica numa vaga, o WorkMachine também procura o quadro público da empresa (pelos links da
+vaga e perguntando a cada sistema pelo nome da empresa) e, se achar, a cadastra ativa. O botão
+**Buscar nas candidaturas** refaz essa busca para todas as candidaturas.
+
 1. Abra **Empresas-alvo** → **Adicionar empresa**.
 2. Escolha o sistema e informe o *slug*, que é o trecho do endereço da página de vagas:
    - Greenhouse: `job-boards.greenhouse.io/`**`gitlab`**
