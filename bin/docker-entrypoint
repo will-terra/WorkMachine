@@ -1,0 +1,8 @@
+#!/bin/bash -e
+
+# Create or migrate the databases before starting the app.
+if [ "${1}" == "./bin/dev" ] || [ "${*: -2}" == "./bin/rails server" ]; then
+  ./bin/rails db:prepare
+fi
+
+exec "${@}"

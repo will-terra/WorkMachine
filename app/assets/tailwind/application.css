@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* Palette shared with docs/radar-vagas-rails.html. Dark values are swapped in below. */
+@theme {
+  --color-bg: #f6f4f5;
+  --color-surface: #ffffff;
+  --color-ink: #1d191b;
+  --color-muted: #675e62;
+  --color-line: #e3dcdf;
+  --color-code: #f0eaec;
+  --color-accent: #a8132d;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #f7e1e5;
+  --color-ok: #1d7448;
+  --color-ok-soft: #dcf1e5;
+  --color-warn: #8a5a00;
+  --color-warn-soft: #fbefd5;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #151113;
+    --color-surface: #1e191b;
+    --color-ink: #f0eaec;
+    --color-muted: #a99ea3;
+    --color-line: #352d30;
+    --color-code: #262022;
+    --color-accent: #ff5d76;
+    --color-accent-ink: #1a0b0f;
+    --color-accent-soft: #3a1b22;
+    --color-ok: #5fcf95;
+    --color-ok-soft: #173426;
+    --color-warn: #f2c063;
+    --color-warn-soft: #3a2d12;
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  body { @apply bg-bg text-ink antialiased; }
+  a { @apply text-accent underline-offset-2; }
+  h1 { @apply text-3xl font-extrabold tracking-tight; }
+  h2 { @apply text-xl font-bold tracking-tight; }
+  h3 { @apply text-base font-semibold; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent rounded; }
+}
+
+@layer components {
+  .card { @apply bg-surface border border-line rounded-xl; }
+  .muted { @apply text-muted; }
+  .eyebrow { @apply font-mono text-xs uppercase tracking-widest text-accent; }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-line bg-surface
+           px-3 py-2 text-sm font-semibold text-ink no-underline cursor-pointer hover:border-ink disabled:opacity-50;
+  }
+  .btn-primary { @apply bg-accent border-accent text-accent-ink hover:brightness-110 hover:border-accent; }
+  .btn-sm { @apply px-2 py-1 text-xs; }
+  .btn-ghost { @apply border-transparent bg-transparent hover:bg-code hover:border-transparent; }
+
+  .input {
+    @apply block w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-muted
+           focus:outline-2 focus:outline-accent;
+  }
+  .label { @apply block text-xs font-semibold uppercase tracking-wide text-muted mb-1; }
+
+  .chip { @apply inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs; }
+  .chip-hot { @apply border-accent text-accent bg-accent-soft; }
+  .chip-ok { @apply border-ok text-ok bg-ok-soft; }
+  .chip-warn { @apply border-warn text-warn bg-warn-soft; }
+
+  .code { @apply font-mono text-xs bg-code rounded-md px-2.5 py-2 break-words select-all; }
+
+  .table { @apply w-full text-sm; }
+  .table th { @apply text-left text-xs font-semibold uppercase tracking-wide text-muted px-3 py-2 border-b border-line; }
+  .table td { @apply px-3 py-2 border-b border-line align-top; }
+
+  .nav-link { @apply rounded-md px-2.5 py-1.5 text-sm font-semibold text-muted no-underline whitespace-nowrap hover:text-ink hover:bg-code; }
+  .nav-link-active { @apply text-ink bg-code; }
+}

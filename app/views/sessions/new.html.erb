@@ -1,0 +1,18 @@
+<% content_for :title, "Entrar" %>
+
+<div class="mx-auto mt-12 max-w-sm">
+  <p class="eyebrow">$ rails generate job_search</p>
+  <h1 class="mt-2 mb-6">Entrar no WorkMachine</h1>
+
+  <%= form_with url: session_url, class: "card grid gap-4 p-5" do |form| %>
+    <div>
+      <%= form.label :email_address, "E-mail", class: "label" %>
+      <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", value: params[:email_address], class: "input" %>
+    </div>
+    <div>
+      <%= form.label :password, "Senha", class: "label" %>
+      <%= form.password_field :password, required: true, autocomplete: "current-password", maxlength: 72, class: "input" %>
+    </div>
+    <%= form.submit "Entrar", class: "btn btn-primary" %>
+  <% end %>
+</div>
