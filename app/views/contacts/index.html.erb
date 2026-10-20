@@ -1,0 +1,26 @@
+<%= page_header eyebrow: "Rede", title: "Contatos", intro: "Recrutadores e gestores com quem você falou. Anote quando foi o último contato para saber quem retomar." do %>
+  <%= link_to "Novo contato", new_contact_path, class: "btn btn-primary btn-sm" %>
+<% end %>
+
+<div class="card overflow-x-auto">
+  <table class="table">
+    <thead>
+      <tr><th>Nome</th><th>Empresa</th><th>Tipo</th><th>Último contato</th><th>Notas</th><th><span class="sr-only">Ações</span></th></tr>
+    </thead>
+    <tbody>
+      <% @contacts.each do |contact| %>
+        <tr id="<%= dom_id(contact) %>">
+          <td class="font-semibold"><%= external_link contact.name, contact.linkedin_url %></td>
+          <td><%= contact.company %></td>
+          <td><%= contact.human_enum(:kind) %></td>
+          <td class="whitespace-nowrap"><%= short_date(contact.last_contacted_on) %></td>
+          <td class="max-w-sm truncate"><%= contact.notes %></td>
+          <td class="text-right"><%= link_to "Editar", edit_contact_path(contact) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @contacts.none? %>
+    <p class="muted p-6 text-center text-sm">Nenhum contato ainda. A aba Radar → LinkedIn Pessoas ajuda a achar recrutadores de Rails.</p>
+  <% end %>
+</div>

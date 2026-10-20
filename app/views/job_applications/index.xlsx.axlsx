@@ -1,0 +1,43 @@
+wb = xlsx_package.workbook
+
+wb.styles do |styles|
+  header = styles.add_style(b: true, bg_color: "A8132D", fg_color: "FFFFFF", alignment: { vertical: :center })
+  date = styles.add_style(format_code: "dd/mm/yyyy")
+  link = styles.add_style(fg_color: "A8132D", u: true)
+  wrap = styles.add_style(alignment: { wrap_text: true, vertical: :top })
+
+  wb.add_worksheet(name: "Candidaturas") do |sheet|
+    sheet.add_row [ "Empresa", "Vaga", "Origem", "Status", "Aplicou em", "Próximo follow-up", "Contato", "Link", "Faixa salarial", "Notas" ], style: header
+
+    @job_applications.latest_first.each do |application|
+      sheet.add_row [
+        application.company, application.role, application.origin, application.human_enum(:status),
+        application.applied_on, application.next_follow_up_on, application.contact_name,
+        application.url, application.salary_range, application.notes
+      ], style: [ nil, nil, nil, nil, date, date, nil, link, nil, wrap ],
+         types: [ :string, :string, :string, :string, :date, :date, :string, :string, :string, :string ]
+
+      if application.url.present?
+        sheet.add_hyperlink(location: application.url, ref: sheet.rows.last.cells[7])
+      end
+    end
+
+    sheet.auto_filter = "A1:J#{[ sheet.rows.size, 2 ].max}"
+    sheet.sheet_view.pane do |pane|
+      pane.state = :frozen
+      pane.y_split = 1
+      pane.top_left_cell = "A2"
+    end
+    sheet.column_widths 22, 32, 16, 20, 12, 16, 20, 40, 16, 50
+  end
+
+  wb.add_worksheet(name: "Resumo") do |sheet|
+    counts = @job_applications.group(:status).count
+    sheet.add_row [ "Status", "Quantidade" ], style: header
+    JobApplication::STATUSES.each do |status|
+      sheet.add_row [ JobApplication.human_enum(:status, status), counts.fetch(status, 0) ]
+    end
+    sheet.add_row [ "Total", counts.values.sum ], style: styles.add_style(b: true)
+    sheet.column_widths 24, 12
+  end
+end

@@ -1,0 +1,7 @@
+<%= page_header eyebrow: "Candidaturas", title: "#{@job_application.company} · #{@job_application.role}" do %>
+  <%= button_to "Apagar", job_application_path(@job_application), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: "Apagar esta candidatura?" } } %>
+<% end %>
+<%= render "form", job_application: @job_application %>
+<% if @job_application.job_posting %>
+  <p class="muted mt-3 text-sm">Veio da vaga <%= external_link @job_application.job_posting.title, @job_application.job_posting.url %>.</p>
+<% end %>
