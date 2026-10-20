@@ -22,10 +22,10 @@ class JobScorer
   US_ONLY = /\b(?:US|USA|U\.S\.)(?:\s*(?:\/|&|and|or)\s*Canada)?[- ]only\b|must be (?:located|based|residing) in the (?:US|U\.S\.|United States)|\bUS citizens?(?:hip)?\b|\bsecurity clearance\b/i
   US_STATE = /,\s*(?:AL|AK|AZ|AR|CA|CO|CT|DE|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|DC)\b/
   US_CITY = /\b(?:New York|San Francisco|Seattle|Boston|Chicago|Austin|Los Angeles|Denver|Atlanta|Toronto|Vancouver|Montreal)\b/i
-  NORTH_AMERICA = Regexp.union(/\b(?:US|USA|U\.S\.A?\.?|United States|Canada|North America)\b/i, US_STATE, US_CITY)
+  NORTH_AMERICA = Regexp.union(/\b(?:US|USA|U\.S\.A?\.?|United States|Canada|North America|Estados Unidos|EUA|Canadá|América do Norte)\b/i, US_STATE, US_CITY)
   EUROPE_ONLY = /\b(?:EU|Europe|UK)[- ]only\b|must be (?:located|based|residing) in (?:the )?(?:EU|Europe|UK)\b/i
-  EUROPE = /\b(?:Europe|EMEA|EU|UK|United Kingdom|Germany|France|Spain|Portugal|Poland|Netherlands|Ireland|Italy|Sweden|CET)\b/i
-  OTHER_COUNTRY = /\b(?:India|Pakistan|Bangladesh|Philippines|Australia|New Zealand|Japan|Singapore|Israel|South Africa|Nigeria|Kenya|Egypt|Turkey|UAE|Dubai|China|Korea|Vietnam|Indonesia|Malaysia|Thailand|APAC)\b/i
+  EUROPE = /\b(?:Europe|EMEA|EU|UK|United Kingdom|Germany|France|Spain|Portugal|Poland|Netherlands|Ireland|Italy|Sweden|CET|Europa|Reino Unido|Alemanha|França|Espanha|Polônia|Holanda|Países Baixos|Irlanda|Itália|Suécia)\b/i
+  OTHER_COUNTRY = /\b(?:India|Índia|Pakistan|Paquistão|Bangladesh|Philippines|Filipinas|Australia|Austrália|New Zealand|Nova Zelândia|Japan|Japão|Singapore|Singapura|Israel|South Africa|África do Sul|Nigeria|Nigéria|Kenya|Quênia|Egypt|Egito|Turkey|Turquia|UAE|Dubai|China|Korea|Coreia|Vietnam|Vietnã|Indonesia|Indonésia|Malaysia|Malásia|Thailand|Tailândia|APAC)\b/i
   BRAZIL = /\b(?:brazil|brasil|são paulo|sao paulo|rio de janeiro|porto alegre|curitiba|belo horizonte|florian[óo]polis)\b/i
   LATAM = /\b(?:latam|latin america|south america|américa latina|america latina)\b/i
   WORLDWIDE = /\b(?:anywhere|worldwide|global)\b/i

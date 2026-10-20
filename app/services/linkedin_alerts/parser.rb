@@ -28,22 +28,34 @@ module LinkedinAlerts
         anchors = document.css("a[href]").select { it["href"].match?(JOB_LINK) }
 
         anchors.group_by { it["href"][JOB_LINK, 1] }.filter_map do |job_id, links|
-          title_link = links.find { |link| useful_line?(clean(link.text)) }
+          title_link = title_link(links)
           next unless title_link
 
-          title = clean(title_link.text)
+          title = text_lines(title_link).first
           details = card_lines(title_link, job_id) - [ title ]
           build(job_id, title, details)
         end
       end
 
-      # Plain-text alerts list each job as "Title / Company / Location / View job: <url>".
+      # The card is often one big link wrapping a smaller link on the title. The innermost link
+      # with text is the title; a card link wraps the title, the company and the location.
+      def title_link(links)
+        candidates = links.select { |link| text_lines(link).any? }
+        candidates.find { |link| link.css("a[href]").none? { it["href"].match?(JOB_LINK) } } || candidates.first
+      end
+
+      def text_lines(node)
+        HtmlText.call(node.to_html).lines.map { clean(it) }.select { useful_line?(it) }
+      end
+
+      # Plain-text alerts list each job as "Title / Company / Location / View job: <url>", with
+      # blank lines and lines such as "1 conexão" in between, and "----" between jobs.
       def from_text
         lines = @text.lines.map { clean(it) }
         lines.each_index.filter_map do |index|
           job_id = lines[index][JOB_LINK, 1] or next
-          before = lines[0...index].reverse.take_while { it.present? && !it.match?(/\A-{3,}|\A={3,}/) }.reverse
-          before = before.map { it.sub(/\A(?:view job|ver vaga):?\s*/i, "") }.select { useful_line?(it) }
+          before = lines[0...index].reverse.take_while { !it.match?(/\A(?:-{3,}|={3,})|https?:\/\//) }.reverse
+          before = before.select { useful_line?(it) }
           next if before.empty?
 
           build(job_id, before.first, before.drop(1))
@@ -59,7 +71,7 @@ module LinkedinAlerts
 
           node = parent
         end
-        HtmlText.call(node.to_html).lines.map { clean(it) }.select { useful_line?(it) }
+        text_lines(node)
       end
 
       def build(job_id, title, details)
@@ -74,11 +86,13 @@ module LinkedinAlerts
       end
 
       # "Acme · São Paulo, Brasil (Remoto)" or "Acme" followed by "São Paulo, Brasil".
+      # LinkedIn separates company and location with "·"; company names may contain "|".
       def split_details(details)
         first, second = details
         return [ nil, nil ] if first.blank?
 
-        company, location = first.split(/\s+[·•|]\s+/, 2)
+        company, location = first.split(/\s+·\s+/, 2)
+        company, location = first.split(/\s+[•|]\s+/, 2) if location.nil?
         [ company, location.presence || second ]
       end
 
