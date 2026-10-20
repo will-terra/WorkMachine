@@ -16,6 +16,11 @@
   --color-warn: #8a5a00;
   --color-warn-soft: #fbefd5;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  /* Ordinal ramp of the accent (funnel stages), validated with the dataviz validator. */
+  --color-ramp-1: #eb8fa0;
+  --color-ramp-2: #d95f77;
+  --color-ramp-3: #bf2f4e;
+  --color-ramp-4: #a8132d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,6 +38,10 @@
     --color-ok-soft: #173426;
     --color-warn: #f2c063;
     --color-warn-soft: #3a2d12;
+    --color-ramp-1: #963d50;
+    --color-ramp-2: #c24a63;
+    --color-ramp-3: #e8607a;
+    --color-ramp-4: #ff8fa1;
     color-scheme: dark;
   }
 }

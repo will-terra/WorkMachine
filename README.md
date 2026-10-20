@@ -14,11 +14,12 @@ como aplicativo no Windows.
 | **Painel** | Vagas novas por nota, follow-ups do dia, funil das candidaturas e a rotina de hoje. |
 | **Vagas** | Triagem: filtros por fonte, região, senioridade e nota. Salvar (vira candidatura), Descartar, Analisar com IA. |
 | **Candidaturas** | Kanban por status (arrastar e soltar), tabela, exportação `.xlsx`, importação e exportação CSV. |
+| **Métricas** | Candidaturas por semana, funil (aplicadas → responderam → entrevista → proposta), taxas de resposta e de entrevista por origem e quais fontes de vagas mais rendem. |
 | **Radar** | O que fazer à mão, por frequência (todo dia, toda semana, uma vez): buscas prontas no LinkedIn, Telegram, X e Google, sites sem API, alertas do LinkedIn a criar e o checklist de cadastros. No topo, o resumo das fontes automáticas. |
 | **Mensagens** | Modelos com `{{nome}}`, `{{cargo}}` e `{{empresa}}` preenchidos a partir da vaga ou do contato, com contador de caracteres. |
 | **Rotina** | Checklist diário e semanal. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
-| **Ajustes** | Notificação na área de trabalho quando chegam vagas com nota igual ou maior que a escolhida (padrão 40). |
+| **Ajustes** | Notificações (vagas novas, respostas das empresas, follow-ups do dia), descarte automático, leitura das respostas no Gmail e backup. |
 
 De onde vêm as vagas, sozinhas:
 
@@ -145,6 +146,10 @@ Sempre que o agregador ou os alertas do LinkedIn trouxerem vagas com nota igual 
 mínima (padrão 40), chega uma notificação; clicar nela abre a vaga, ou a triagem filtrada quando são
 várias. Cada vaga é notificada uma vez só. As chaves do Web Push são geradas sozinhas no primeiro uso.
 
+Às 8h chega também a lista dos follow-ups do dia (candidaturas sem resposta há mais de 5 dias). Com uma
+só, a notificação abre **Mensagens** com o modelo de follow-up já preenchido. As respostas das empresas
+lidas no Gmail também notificam. Cada tipo pode ser desligado em **Ajustes**.
+
 No Windows, o Chrome precisa estar rodando em segundo plano para entregar com o app fechado (é o padrão:
 *Configurações → Sistema → Continuar executando apps em segundo plano*). Se nada aparecer, confira se as
 notificações do Chrome estão liberadas em *Configurações do Windows → Sistema → Notificações*.
@@ -201,8 +206,16 @@ somaram ou tiraram:
 - Palavras-chave: Rails +30, Ruby +10, React +10, Hotwire/Turbo/Stimulus +8, Sidekiq +5, Postgres +5,
   GovTech +5, TypeScript +4, Docker/Kubernetes +3.
 - Região aberta (LATAM, Brasil, anywhere, worldwide) +15.
-- Penalidades: só EUA/Canadá, só Europa ou lista de países fora da América Latina −40; 7+ anos −15;
-  cargo de gestão −15; staff/principal −10.
+- Penalidades: só EUA/Canadá, só Europa ou lista de países fora da América Latina −40; 7+ anos −15
+  (5 ou 6 anos −10); cargo de gestão −15; staff/principal −10 (sênior/lead −10).
+
+Vagas sem descrição (as dos alertas do LinkedIn) mostram **nota parcial**: abra a vaga com a extensão
+para completar a descrição, ou use **Analisar com IA**.
+
+Em **Ajustes → Descarte automático**, as vagas do agregador e dos alertas que só aceitam EUA/Canadá,
+Europa ou outros países já chegam descartadas (ligado por padrão), e você pode descartar também as com
+nota abaixo de um valor. As salvas pela extensão nunca são descartadas. Para conferir, use o filtro
+**Descartada automaticamente** na triagem; cada vaga mostra o motivo.
 
 Depois de mudar os pesos, recalcule as vagas já salvas com
 `docker compose exec web bin/rails jobs:rescore`.

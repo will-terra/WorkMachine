@@ -1,0 +1,35 @@
+<%# Horizontal bars: ordinal ramp of the accent (validated), 20px thick, 4px rounded data-end, value at the tip. %>
+<% ramp = %w[bg-ramp-1 bg-ramp-2 bg-ramp-3 bg-ramp-4] %>
+<figure class="card m-0 p-4" aria-labelledby="funnel_title">
+  <figcaption>
+    <h2 id="funnel_title" class="text-base">Funil</h2>
+    <p class="muted text-xs">Percentuais sobre as candidaturas aplicadas.</p>
+  </figcaption>
+  <ol class="mt-4 grid gap-3">
+    <% stages.each_with_index do |stage, index| %>
+      <% previous = index.zero? ? nil : stages[index - 1] %>
+      <li class="group relative grid grid-cols-[9rem_minmax(0,1fr)] items-center gap-3 outline-none" tabindex="0"
+          aria-label="<%= stage.label %>: <%= stage.count %> (<%= stage.rate %>%)">
+        <span class="text-sm"><%= stage.label %></span>
+        <span class="flex items-center gap-2">
+          <% if stage.count.positive? %>
+            <span class="h-5 rounded-r-[4px] transition group-hover:brightness-110 group-focus-visible:brightness-110 <%= ramp[index] %>" style="width: max(4px, <%= stage.rate * 0.82 %>%)"></span>
+          <% end %>
+          <span class="whitespace-nowrap font-mono text-xs tabular-nums"><strong><%= stage.count %></strong> <span class="text-muted">· <%= stage.rate %>%</span></span>
+        </span>
+        <% if previous&.count.to_i.positive? %>
+          <span class="pointer-events-none absolute -top-7 left-36 z-10 hidden whitespace-nowrap rounded-md bg-ink px-2 py-1 text-xs text-bg shadow group-hover:block group-focus-visible:block">
+            <strong><%= (stage.count * 100.0 / previous.count).round %>%</strong> de “<%= previous.label %>”
+          </span>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+  <details class="mt-3">
+    <summary class="cursor-pointer text-xs text-muted">Ver tabela</summary>
+    <table class="table mt-2 tabular-nums">
+      <thead><tr><th>Etapa</th><th class="text-right">Candidaturas</th><th class="text-right">% das aplicadas</th></tr></thead>
+      <tbody><% stages.each do |stage| %><tr><td><%= stage.label %></td><td class="text-right"><%= stage.count %></td><td class="text-right"><%= stage.rate %>%</td></tr><% end %></tbody>
+    </table>
+  </details>
+</figure>
