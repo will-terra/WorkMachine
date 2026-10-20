@@ -1,0 +1,43 @@
+<section id="automatico" class="scroll-mt-20">
+  <p class="eyebrow">Já automático</p>
+  <h2 class="mt-1">O que o WorkMachine busca sozinho</h2>
+  <p class="muted mt-1 mb-4 max-w-prose text-sm">
+    Estas fontes entram sozinhas na triagem, com nota e sem duplicar. Não precisa visitar os sites: o trabalho diário é
+    <%= link_to "triar as vagas novas", job_postings_path %>. O resto desta página é o que ainda depende de você.
+  </p>
+
+  <div class="card divide-y divide-line overflow-hidden">
+    <% automated.each do |source| %>
+      <div class="grid gap-x-5 gap-y-1 px-4 py-3 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] sm:items-center">
+        <div class="min-w-0">
+          <p class="font-semibold">
+            <% if source.app_link %>
+              <%= link_to source.name, public_send(source.app_link), class: "no-underline hover:underline" %>
+            <% else %>
+              <%= external_link source.name, source.url, class: "no-underline hover:underline" %>
+            <% end %>
+            <span class="muted ml-1 text-xs font-normal">· <%= source.interval >= 2.hours ? "a cada #{(source.interval / 1.hour).round} h" : "a cada hora" %></span>
+          </p>
+          <p class="muted text-sm"><%= source.note %></p>
+        </div>
+        <div class="text-sm sm:text-right">
+          <% if source.needs_gmail? && !gmail_configured %>
+            <span class="chip chip-warn">Gmail não configurado no .env</span>
+          <% elsif source.last_run_at.nil? %>
+            <span class="muted">ainda não rodou</span>
+          <% else %>
+            <span class="chip <%= source.failed ? "chip-hot" : "chip-ok" %>" title="<%= source.error_message %>">
+              <%= source.failed ? "falhou" : "ok" %> · <%= time_ago_in_words(source.last_run_at) %> atrás
+            </span>
+            <span class="muted ml-1 whitespace-nowrap"><%= pluralize(source.created_count, "nova", plural: "novas") %></span>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="mt-3 flex flex-wrap items-center gap-2">
+    <%= link_to "Ver vagas na triagem", job_postings_path, class: "btn btn-sm" %>
+    <%= button_to "Buscar agora", fetch_job_postings_path, class: "btn btn-sm" %>
+    <span class="muted text-xs">Detalhes de cada busca em Vagas → Fontes do agregador.</span>
+  </div>
+</section>

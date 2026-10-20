@@ -14,7 +14,7 @@ como aplicativo no Windows.
 | **Painel** | Vagas novas por nota, follow-ups do dia, funil das candidaturas e a rotina de hoje. |
 | **Vagas** | Triagem: filtros por fonte, região, senioridade e nota. Salvar (vira candidatura), Descartar, Analisar com IA. |
 | **Candidaturas** | Kanban por status (arrastar e soltar), tabela, exportação `.xlsx`, importação e exportação CSV. |
-| **Radar** | Buscas prontas no LinkedIn (Vagas, Publicações, Pessoas), Google e X, plataformas, consultorias e grupos. |
+| **Radar** | O que já é buscado sozinho (com a última busca de cada fonte) e o que ainda é manual: buscas prontas no LinkedIn (Vagas para criar alertas, Publicações, Pessoas), Google e X, plataformas sem API, consultorias e grupos. |
 | **Mensagens** | Modelos com `{{nome}}`, `{{cargo}}` e `{{empresa}}` preenchidos a partir da vaga ou do contato, com contador de caracteres. |
 | **Rotina** | Checklist diário e semanal. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
