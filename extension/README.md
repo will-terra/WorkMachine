@@ -14,8 +14,9 @@ quando você clica no ícone dela; ela nunca navega, nunca abre vagas sozinha e 
 2. Abra `chrome://extensions` (Chrome) ou `edge://extensions` (Edge).
 3. Ligue o **Modo do desenvolvedor**.
 4. Clique em **Carregar sem compactação** e escolha esta pasta `extension/`.
-   No Windows com WSL2, a pasta fica em `\\wsl$\Ubuntu\home\<seu-usuário>\WorkMachine\extension`
-   (ou copie a pasta para o Windows e carregue a cópia).
+   No Windows com WSL2, o Chrome e o Edge nem sempre carregam extensões de `\\wsl$`; copie a pasta
+   para o Windows e carregue a cópia:
+   `cp -r ~/WorkMachine/extension /mnt/c/Users/$USER/WorkMachine-extension`.
 5. Fixe o ícone na barra. Clique com o botão direito no ícone → **Opções**, cole o token e use
    **Testar conexão**.
 
