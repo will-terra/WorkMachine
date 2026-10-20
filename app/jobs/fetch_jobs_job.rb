@@ -5,6 +5,7 @@ class FetchJobsJob < ApplicationJob
   limits_concurrency to: 1, key: "fetch_jobs", on_conflict: :discard
 
   def perform(source_keys = nil, force: false)
+    started_at = Time.current
     sources = source_keys ? Sources.all.select { Array(source_keys).include?(it.key) } : Sources.all
 
     sources.each do |source_class|
@@ -12,6 +13,8 @@ class FetchJobsJob < ApplicationJob
 
       run_source(source_class)
     end
+
+    NewPostingsNotifier.call(since: started_at)
   end
 
   private

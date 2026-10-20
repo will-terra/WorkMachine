@@ -15,6 +15,16 @@ RSpec.describe FetchJobsJob do
     expect(SourceRun.find_by!(source: "gorails")).to have_attributes(fetched_count: 4, created_count: 4)
   end
 
+  it "notifies the new high-score postings of the run" do
+    allow(NewPostingsNotifier).to receive(:call)
+
+    freeze_time do
+      described_class.perform_now(%w[gorails])
+
+      expect(NewPostingsNotifier).to have_received(:call).with(since: Time.current)
+    end
+  end
+
   it "does not duplicate postings on the next run" do
     described_class.perform_now(force: true)
 

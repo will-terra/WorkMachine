@@ -27,6 +27,9 @@ gem "caxlsx"
 gem "caxlsx_rails"
 gem "csv"
 
+# Desktop notifications (Web Push) for new high-score postings
+gem "web-push"
+
 # LinkedIn job alerts read from Gmail over IMAP
 gem "net-imap"
 

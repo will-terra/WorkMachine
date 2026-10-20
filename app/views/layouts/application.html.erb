@@ -33,6 +33,7 @@
               <%= nav_link label, path %>
             <% end %>
           </nav>
+          <%= link_to "Ajustes", settings_path, class: [ "nav-link", ("nav-link-active" if request.path.start_with?(settings_path)) ] %>
           <%= button_to "Sair", session_path, method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_confirm: "Sair do WorkMachine?" } } %>
         </div>
       </header>
