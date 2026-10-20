@@ -80,6 +80,44 @@ RSpec.describe "Job postings (triage)" do
     expect { post save_job_posting_path(posting) }.not_to change(JobApplication, :count)
   end
 
+  describe "POST /vagas/:id/apply" do
+    it "saves the posting straight into the applied column" do
+      posting = create(:job_posting, title: "Rails Engineer", company: "Curotec")
+      create(:job_application, status: "applied")
+
+      get job_posting_path(posting)
+      expect(response.body).to include("Salvar em aplicadas", "Salvar em Candidaturas")
+
+      post apply_job_posting_path(posting)
+
+      expect(response).to redirect_to(job_posting_path(posting))
+      expect(flash[:notice]).to eq("Curotec · Rails Engineer está em Candidaturas como aplicada.")
+      expect(posting.reload).to be_triage_saved
+      expect(posting.job_application).to have_attributes(status: "applied", applied_on: Date.current, position: 1)
+
+      get job_posting_path(posting)
+      expect(response.body).not_to include("Salvar em aplicadas")
+    end
+
+    it "moves an application that was only saved" do
+      posting = create(:job_posting)
+      post save_job_posting_path(posting)
+
+      expect { post apply_job_posting_path(posting) }.not_to change(JobApplication, :count)
+      expect(posting.job_application.reload).to have_attributes(status: "applied", applied_on: Date.current)
+    end
+
+    it "does not move an application that is further along" do
+      posting = create(:job_posting)
+      application = create(:job_application, job_posting: posting, status: "tech_interview")
+
+      post apply_job_posting_path(posting)
+
+      expect(application.reload.status).to eq("tech_interview")
+      expect(flash[:notice]).to include("entrevista técnica")
+    end
+  end
+
   it "dismisses and restores a posting" do
     posting = create(:job_posting)
 

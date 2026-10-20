@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     end
     member do
       post :save
+      post :apply
       post :dismiss
       post :restore
     end
