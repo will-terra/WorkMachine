@@ -86,7 +86,7 @@ RSpec.describe "Job postings (triage)" do
       create(:job_application, status: "applied")
 
       get job_posting_path(posting)
-      expect(response.body).to include("Salvar em aplicadas", "Salvar em Candidaturas")
+      expect(response.body).to include("Salvar em aplicadas", "Salvar em Candidaturas", "turbo:submit-end-&gt;close-tab#closeOnSuccess")
 
       post apply_job_posting_path(posting)
 

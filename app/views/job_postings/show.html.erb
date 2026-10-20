@@ -1,12 +1,13 @@
 <%= page_header eyebrow: "#{@job_posting.human_enum(:source)} · #{@job_posting.human_enum(:triage)}", title: @job_posting.title do %>
   <%= external_link "Abrir vaga", @job_posting.url, class: "btn btn-sm" %>
   <%= link_to "Mensagem", message_templates_path(job_posting_id: @job_posting.id), class: "btn btn-sm" %>
+  <% close_tab = { controller: "close-tab", action: "turbo:submit-end->close-tab#closeOnSuccess" } %>
   <% if @job_posting.triage_new? %>
-    <%= button_to "Descartar", dismiss_job_posting_path(@job_posting), class: "btn btn-sm" %>
-    <%= button_to "Salvar em Candidaturas", save_job_posting_path(@job_posting), class: "btn btn-sm" %>
+    <%= button_to "Descartar", dismiss_job_posting_path(@job_posting), class: "btn btn-sm", form: { data: close_tab } %>
+    <%= button_to "Salvar em Candidaturas", save_job_posting_path(@job_posting), class: "btn btn-sm", form: { data: close_tab } %>
   <% end %>
   <% if @job_posting.job_application.nil? || @job_posting.job_application.status_saved? %>
-    <%= button_to "Salvar em aplicadas", apply_job_posting_path(@job_posting), class: "btn btn-primary btn-sm" %>
+    <%= button_to "Salvar em aplicadas", apply_job_posting_path(@job_posting), class: "btn btn-primary btn-sm", form: { data: close_tab } %>
   <% end %>
 <% end %>
 
