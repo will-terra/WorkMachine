@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   end
   resources :contacts, path: "contatos", except: :show
   resources :job_postings, path: "vagas", only: %i[ index show new create ] do
-    collection { post :fetch }
+    collection do
+      post :fetch
+      post :dismiss_all
+    end
     member do
       post :save
       post :dismiss
