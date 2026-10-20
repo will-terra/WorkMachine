@@ -1,0 +1,36 @@
+# Rotina diária e semanal (docs/radar-vagas-rails.html, seção Rotina).
+# Itens de slots "weekly: true" ficam marcados a semana toda; os outros recomeçam a cada dia.
+# Não troque as chaves (key) de itens já usados: elas ficam gravadas em RoutineCheck.
+
+slots:
+  - title: "Manhã"
+    time: "~20 min"
+    items:
+      - { key: m1, label: "Abrir os alertas do LinkedIn (ou as buscas 1, 2 e 5 com filtro de 24 h)" }
+      - { key: m2, label: "Aplicar nas que têm aderência real" }
+      - { key: m3, label: "Anotar nas candidaturas: empresa, vaga, origem, status" }
+  - title: "Depois do almoço"
+    time: "~20 min"
+    items:
+      - { key: a1, label: "LinkedIn Publicações: contratando, hiring e looking for (24 h)" }
+      - { key: a2, label: "Mandar mensagem direta para quem postou" }
+      - { key: a3, label: "X: 2 ou 3 buscas em “Mais recentes”" }
+  - title: "Fim do dia"
+    time: "~10 min"
+    items:
+      - { key: e1, label: "Grupos do Telegram: buscar “rails” e “ruby” em cada um" }
+      - { key: e2, label: "Revisar posts recentes sobre a stack e comentar em 1 ou 2" }
+      - { key: e3, label: "Follow-up das candidaturas com mais de 5 dias sem resposta" }
+  - title: "Uma vez por semana"
+    time: "segunda"
+    weekly: true
+    items:
+      - { key: w1, label: "Google nos ATS (filtro Semana)" }
+      - { key: w2, label: "Ruby on Remote, GoRails, Programathor e Remotar" }
+      - { key: w3, label: "Conectar com 5 recrutadores da planilha (Ruby, React, Full Stack)" }
+
+rules:
+  - { title: "Aderência antes de volume.", text: "Aplique onde a stack bate de verdade e invista energia nessas." }
+  - { title: "Puxe a conversa para o privado.", text: "Fale direto com quem postou a vaga." }
+  - { title: "Controle tudo nas candidaturas:", text: "empresa, vaga, origem, status e contato." }
+  - { title: "Pretensão em faixa, nunca número único.", text: "Antes, analise de 10 a 20 vagas parecidas e consulte Glassdoor, Revelo, Levels.fyi e Indeed. Para vaga em dólar, refaça a conta." }
