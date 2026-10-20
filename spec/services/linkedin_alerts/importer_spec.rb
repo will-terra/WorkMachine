@@ -30,7 +30,7 @@ RSpec.describe LinkedinAlerts::Importer do
       expect(result).to have_attributes(emails: 1, postings: 3, created: 3)
     end
 
-    expect(imap).to have_received(:login).with("ana@example.com", "abcd efgh ijkl mnop")
+    expect(imap).to have_received(:login).with("ana@example.com", "abcdefghijklmnop")
     expect(imap).to have_received(:examine).with("INBOX")
     expect(imap).to have_received(:uid_search).with([ "SINCE", "06-Oct-2026", "OR", "FROM", "jobalerts-noreply@linkedin.com", "FROM", "jobs-noreply@linkedin.com" ])
     expect(JobPosting.find_by!(url: "https://www.linkedin.com/jobs/view/4012345678")).to have_attributes(source: "linkedin_alert", company: "Acme Tecnologia", remote_scope: "brazil", seniority: "mid")
@@ -59,12 +59,22 @@ RSpec.describe LinkedinAlerts::Importer do
     expect(imap).to have_received(:logout)
   end
 
-  it "always disconnects, even on errors" do
-    allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.allocate)
+  it "explains when Google wants an app password instead of the account password" do
+    allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(imap_response("Application-specific password required: https://support.google.com/accounts/answer/185833 (Failure)")))
+
+    expect { importer.call }.to raise_error(LinkedinAlerts::Importer::LoginError, /senha de app.*16 letras/)
+  end
+
+  it "explains other login failures and always disconnects" do
+    allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(imap_response("[AUTHENTICATIONFAILED] Invalid credentials (Failure)")))
     allow(imap).to receive(:logout).and_raise(IOError)
 
-    expect { importer.call }.to raise_error(Net::IMAP::NoResponseError)
+    expect { importer.call }.to raise_error(LinkedinAlerts::Importer::LoginError, /Invalid credentials.*GMAIL_USER/)
     expect(imap).to have_received(:disconnect)
+  end
+
+  def imap_response(text)
+    Net::IMAP::TaggedResponse.new("RUBY0001", "NO", Net::IMAP::ResponseText.new(nil, text), "")
   end
 
   it "knows when Gmail is configured" do
