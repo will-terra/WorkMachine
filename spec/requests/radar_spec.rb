@@ -3,18 +3,30 @@ require "rails_helper"
 RSpec.describe "Radar" do
   before { sign_in }
 
-  it "shows what is automated first, then the manual searches, platforms, consultancies and groups" do
+  it "shows the manual tasks by frequency with a summary of the automated sources" do
+    create(:consultancy, name: "RailsDevs", kind: "platform", registered_on: Date.current)
     create(:consultancy, name: "Yoctoo", kind: "tech")
     SourceRun.create!(source: "gorails", status: "succeeded", created_count: 4)
+    SourceRun.create!(source: "remotive", status: "failed", error_message: "HttpClient::Error: 503")
+    create(:job_posting)
 
     get radar_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("O que o WorkMachine busca sozinho", "GoRails Jobs", "4 novas", "Gmail não configurado")
-    expect(response.body).to include("Buscas na aba Vagas", "Ruby on Remote", "Yoctoo", "Vagas TI Brasil", "Abrir Empresas-alvo")
-    expect(response.body.index("busca sozinho")).to be < response.body.index("Quem contrata Rails")
-    expect(response.body.index("Grupos, comunidades e eventos")).to be < response.body.index("Buscas na aba Vagas")
-    expect(response.body).to include(CGI.escapeHTML(Radar.url_for("li_jobs", Radar.searches.first["query"])))
+    body = response.body
+    expect(body).to include("O que fazer à mão", "Vagas novas (1)", "1 com erro (Remotive)", "Gmail não configurado", "GoRails Jobs", "4 novas")
+    expect(body).to include("Publicações no LinkedIn", "Grupos do Telegram", "Ruby on Remote", "1 de 2 cadastros feitos", "Plataformas com perfil", "Yoctoo")
+    expect(body.index("Todo dia")).to be < body.index("Toda semana")
+    expect(body.index("Toda semana")).to be < body.index('id="linkedin_alerts"')
+  end
+
+  it "shows how the LinkedIn alerts are arriving" do
+    allow(LinkedinAlerts::Importer).to receive(:configured?).and_return(true)
+    ProcessedEmail.create!(message_id: "a@linkedin.com", received_at: Time.zone.local(2026, 10, 20, 8, 42))
+
+    get radar_path
+
+    expect(response.body).to include("1 alerta lido; o último chegou em 20/10 08:42")
   end
 
   it "applies and remembers the filters" do

@@ -7,7 +7,7 @@ RSpec.describe Radar do
   end
 
   it "has a default for every filter used by a section" do
-    used = described_class.sections.flat_map { it.fetch("filters", []) }.uniq
+    used = described_class.tasks.flat_map { it.fetch("filters", []) }.uniq
 
     expect(used).to all(satisfy { described_class.filters.dig(it, "default") })
   end
@@ -61,12 +61,19 @@ RSpec.describe Radar do
       expect(described_class.automated.select(&:needs_gmail?).map(&:name)).to eq([ "Alertas do LinkedIn" ])
     end
 
-    it "keeps automated sources out of the manual lists" do
-      manual = described_class.config.fetch("platforms").flat_map { it["sites"] } + described_class.config.dig("groups", "sites")
+    it "keeps automated sources out of the manual tasks" do
+      manual = described_class.tasks.flat_map { it.fetch("links", []) }.map { it["name"] }
       automated_names = described_class.config.fetch("automated").map { it["name"] }
 
-      expect(manual.map { it["name"] } & automated_names).to be_empty
+      expect(manual & automated_names).to be_empty
     end
+  end
+
+  it "groups every task under a known cadence" do
+    cadences = described_class.cadences.map { it["key"] }
+
+    expect(described_class.tasks.map { it["cadence"] }.uniq - cadences).to be_empty
+    expect(described_class.tasks.map { it["key"] }).to include("feed", "telegram", "google", "linkedin_alerts", "cadastros")
   end
 
   it "sanitizes filter values" do

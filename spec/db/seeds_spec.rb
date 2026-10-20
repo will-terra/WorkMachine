@@ -9,7 +9,8 @@ RSpec.describe "db/seeds.rb" do
     run_seeds
     run_seeds
 
-    expect(Consultancy.count).to eq(16)
+    expect(Consultancy.count).to eq(26)
+    expect(Consultancy.platform.count).to eq(10)
     expect(MessageTemplate.count).to eq(7)
     expect(TargetCompany.where(example: true).count).to eq(7)
   end

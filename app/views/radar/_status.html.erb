@@ -1,0 +1,22 @@
+<% failed = automated.select(&:failed) %>
+<% last_run = automated.filter_map(&:last_run_at).max %>
+<section id="automatico" class="card mb-8 px-4 py-3" aria-label="Fontes automáticas">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <p class="text-sm">
+      <span class="font-semibold">Automático:</span>
+      <%= automated.size %> fontes
+      <% if last_run %> · última busca há <%= time_ago_in_words(last_run) %><% end %>
+      <% if failed.any? %>
+        · <span class="font-semibold text-accent"><%= failed.size %> com erro (<%= failed.map(&:name).to_sentence %>)</span>
+      <% elsif last_run %>
+        · <span class="text-ok">tudo ok</span>
+      <% end %>
+      <% unless gmail_configured %> · <span class="text-warn">Gmail não configurado</span><% end %>
+    </p>
+    <%= button_to "Buscar agora", fetch_job_postings_path, class: "btn btn-sm" %>
+  </div>
+  <details class="mt-2">
+    <summary class="cursor-pointer text-sm text-muted">Ver as fontes</summary>
+    <%= render "radar/automated", automated:, gmail_configured: %>
+  </details>
+</section>

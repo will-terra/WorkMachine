@@ -1,73 +1,25 @@
-<%= page_header eyebrow: "$ rails generate job_search --stack=rails,react --nivel=pleno --modelo=remoto", title: "Radar",
-                intro: "Primeiro, o que já roda sozinho. Depois, as buscas e os lugares que ainda dependem de você: escolha os filtros de cada seção e clique em “Abrir”, ou copie o termo para colar onde quiser." %>
+<%= page_header eyebrow: "Radar", title: "O que fazer à mão",
+                intro: "Só o que o WorkMachine não consegue buscar sozinho, por frequência. As vagas das fontes automáticas já chegam em Vagas, com nota." do %>
+  <%= link_to "Vagas novas (#{@new_postings_count})", job_postings_path, class: "btn btn-primary btn-sm" %>
+<% end %>
 
-<nav class="mb-8 flex flex-wrap gap-1" aria-label="Seções do Radar">
-  <% [ [ "automatico", "Automático" ], [ "alvo", "Alvo" ], *@sections.map { [ it["key"], it["eyebrow"] ] }, [ "plataformas", "Plataformas" ], [ "consultorias", "Consultorias" ], [ "grupos", "Grupos" ], *@closing_sections.map { [ it["key"], it["eyebrow"] ] } ].each do |anchor, label| %>
-    <a href="#<%= anchor %>" class="nav-link border border-line bg-surface"><%= label %></a>
+<%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
+
+<nav class="mb-2 flex flex-wrap gap-1" aria-label="Frequência">
+  <% @config["cadences"].each do |cadence| %>
+    <a href="#<%= cadence["key"] %>" class="nav-link border border-line bg-surface"><%= cadence["title"] %></a>
   <% end %>
 </nav>
 
-<%= render "radar/automated", automated: @automated, gmail_configured: @gmail_configured %>
-
-<section id="alvo" class="mt-12 scroll-mt-20">
-  <p class="eyebrow">Perfil-alvo</p>
-  <h2 class="mt-1">O que você está procurando</h2>
-  <p class="muted mt-1 mb-4 max-w-prose text-sm">Com cerca de 3 anos de experiência, o encaixe natural é Pleno no Brasil e Mid-level fora. Vale aplicar para Sênior quando a vaga pedir 3 a 4 anos e a stack bater com a sua.</p>
-  <% target = @config["target"] %>
-  <div class="grid gap-6 sm:grid-cols-2">
-    <% [ [ "Títulos em português", target["titles_pt"] ], [ "Títulos em inglês", target["titles_en"] ] ].each do |label, titles| %>
-      <div>
-        <p class="label"><%= label %></p>
-        <div class="flex flex-wrap gap-1.5">
-          <% titles["hot"].each do |title| %><span class="chip chip-hot text-sm"><%= title %></span><% end %>
-          <% titles["other"].each do |title| %><span class="chip text-sm"><%= title %></span><% end %>
-        </div>
-      </div>
+<% number = 0 %>
+<% @config["cadences"].each do |cadence| %>
+  <section id="<%= cadence["key"] %>" class="mt-10 scroll-mt-20" aria-labelledby="<%= cadence["key"] %>_title">
+    <div class="flex flex-wrap items-baseline gap-x-3 border-b border-line pb-2">
+      <h2 id="<%= cadence["key"] %>_title"><%= cadence["title"] %></h2>
+      <span class="muted text-sm"><%= cadence["time"] %></span>
+    </div>
+    <% @tasks.fetch(cadence["key"], []).each do |task| %>
+      <%= render "radar/task", task:, number: number += 1 %>
     <% end %>
-    <div>
-      <p class="label">Seus diferenciais como palavra-chave</p>
-      <div class="flex flex-wrap gap-1.5"><% target["keywords"].each do |keyword| %><span class="chip text-sm"><%= keyword %></span><% end %></div>
-    </div>
-    <div>
-      <p class="label">Plano B (sua experiência na Cliente E)</p>
-      <div class="flex flex-wrap gap-1.5"><% target["plan_b"].each do |title| %><span class="chip text-sm"><%= title %></span><% end %></div>
-    </div>
-  </div>
-</section>
-
-<%= render partial: "radar/section", collection: @sections, as: :section %>
-
-<section id="plataformas" class="mt-12 scroll-mt-20">
-  <p class="eyebrow">Onde procurar</p>
-  <h2 class="mt-1">Plataformas para visitar</h2>
-  <p class="muted mt-1 max-w-prose text-sm">Sites que não dá para ler automaticamente: sem API ou RSS aberto, que bloqueiam acesso automático ou que funcionam por cadastro. Os que o WorkMachine já lê estão em <a href="#automatico">Automático</a>.</p>
-  <% @config["platforms"].each do |group| %>
-    <h3 class="mt-6 mb-2"><%= group["title"] %></h3>
-    <% if group["note"] %><p class="muted mb-2 text-sm"><%= group["note"] %></p><% end %>
-    <%= render "radar/sites", sites: group["sites"] %>
-  <% end %>
-</section>
-
-<section id="consultorias" class="mt-12 scroll-mt-20">
-  <p class="eyebrow">Bancos de talentos</p>
-  <h2 class="mt-1">Consultorias para cadastrar o CV</h2>
-  <p class="muted mt-1 max-w-prose text-sm"><%= @config["consultancies_note"] %> Marque cada uma quando terminar o cadastro.</p>
-  <% Consultancy.kinds.each_key do |kind| %>
-    <h3 class="mt-6 mb-2"><%= Consultancy.human_enum(:kind, kind) %></h3>
-    <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-      <%= render partial: "consultancies/consultancy", collection: @consultancies.fetch(kind, []) %>
-    </div>
-  <% end %>
-</section>
-
-<section id="grupos" class="mt-12 scroll-mt-20">
-  <p class="eyebrow">Mercado oculto</p>
-  <h2 class="mt-1">Grupos, comunidades e eventos</h2>
-  <p class="muted mt-1 mb-4 max-w-prose text-sm"><%= @config.dig("groups", "intro") %></p>
-  <%= render "radar/sites", sites: @config.dig("groups", "sites") %>
-  <h3 class="mt-6 mb-2">Na lupa do Telegram, procure por</h3>
-  <div class="flex flex-wrap gap-1.5"><% @config.dig("groups", "telegram_terms").each do |term| %><span class="chip text-sm"><%= term %></span><% end %></div>
-  <p class="muted mt-2 text-sm"><%= @config.dig("groups", "telegram_note") %></p>
-</section>
-
-<%= render partial: "radar/section", collection: @closing_sections, as: :section %>
+  </section>
+<% end %>

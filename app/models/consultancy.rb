@@ -1,5 +1,6 @@
 class Consultancy < ApplicationRecord
-  enum :kind, { tech: "tech", multinational: "multinational" }, validate: true
+  # Profiles to create once: job platforms that work by profile, and recruiting consultancies.
+  enum :kind, { platform: "platform", tech: "tech", multinational: "multinational" }, validate: true
 
   validates :name, :url, presence: true
   validates :name, uniqueness: true
