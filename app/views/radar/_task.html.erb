@@ -1,0 +1,77 @@
+<article id="<%= task["key"] %>" class="mt-6 scroll-mt-20" aria-labelledby="<%= task["key"] %>_title">
+  <h3 id="<%= task["key"] %>_title" class="flex items-baseline gap-2 text-[17px]">
+    <span class="font-mono text-sm text-accent"><%= number %>.</span> <%= task["title"] %>
+  </h3>
+  <p class="muted mt-1 mb-3 max-w-prose text-sm"><%= task["action"] %></p>
+
+  <% if task["status"] == "linkedin_alert" %>
+    <p class="mb-3 text-sm">
+      <% if !@gmail_configured %>
+        <span class="chip chip-warn">Gmail não configurado no .env: os alertas não estão sendo importados</span>
+      <% elsif @alerts[:emails].zero? %>
+        <span class="chip chip-warn">Nenhum alerta importado ainda</span>
+      <% else %>
+        <span class="chip chip-ok"><%= pluralize(@alerts[:emails], "alerta lido", plural: "alertas lidos") %>; o último chegou em <%= l(@alerts[:last_received_at], format: "%d/%m %H:%M") %></span>
+      <% end %>
+    </p>
+  <% end %>
+
+  <% if task["searches"].present? %>
+    <%= turbo_frame_tag "radar_#{task["key"]}" do %>
+      <% if task["filters"].present? %>
+        <%= form_with url: radar_path, method: :get, class: "mb-2 flex flex-wrap items-center gap-x-6 gap-y-2", data: { controller: "auto-submit" } do %>
+          <% task["filters"].each do |name| %>
+            <% filter = @config["filters"][name] %>
+            <fieldset class="flex flex-wrap items-center gap-1.5">
+              <legend class="sr-only"><%= filter["label"] %></legend>
+              <span aria-hidden="true" class="mr-1 text-xs font-semibold text-muted"><%= filter["label"] %></span>
+              <% filter["options"].each do |option| %>
+                <label class="cursor-pointer">
+                  <%= radio_button_tag name, option["value"], @filters[name] == option["value"].to_s, class: "peer sr-only", data: { action: "auto-submit#submit" } %>
+                  <span class="inline-block rounded-md border border-line bg-surface px-2 py-0.5 text-xs peer-checked:border-ink peer-checked:bg-ink peer-checked:text-bg peer-focus-visible:outline-2 peer-focus-visible:outline-accent"><%= option["label"] %></span>
+                </label>
+              <% end %>
+            </fieldset>
+          <% end %>
+          <noscript><%= submit_tag "Aplicar", class: "btn btn-sm" %></noscript>
+        <% end %>
+      <% end %>
+
+      <div class="card divide-y divide-line overflow-hidden">
+        <% task["searches"].each do |search| %>
+          <div class="grid gap-x-4 gap-y-1.5 px-4 py-2.5 md:grid-cols-[minmax(150px,0.7fr)_minmax(0,2fr)_auto] md:items-center" data-controller="clipboard">
+            <div>
+              <p class="text-sm font-semibold leading-tight"><%= search["title"] %></p>
+              <% if search["note"] %><p class="muted text-xs leading-snug"><%= search["note"] %></p><% end %>
+            </div>
+            <div class="code text-xs" data-clipboard-target="source"><%= search["query"] %></div>
+            <div class="flex gap-1.5">
+              <%= link_to "Abrir", Radar.url_for(search["builder"], search["query"], @filters), class: "btn btn-primary btn-sm", target: "_blank", rel: "noopener", aria: { label: "Abrir busca: #{search["title"]}" } %>
+              <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="Copiar termo: <%= search["title"] %>">Copiar</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if task["links"].present? %>
+    <ul class="flex flex-wrap gap-2">
+      <% task["links"].each do |site| %>
+        <li class="card px-3 py-1.5 text-sm">
+          <%= external_link site["name"], site["url"], class: "font-semibold no-underline hover:underline" %>
+          <% if site["note"] %><span class="muted text-xs"> · <%= site["note"] %></span><% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <% if task["more"] || task["link"] %>
+    <p class="muted mt-2 text-sm">
+      <%= task["more"] %>
+      <% if (link = task["link"]) %><%= external_link link["label"], link["url"], class: "font-semibold" %><% end %>
+    </p>
+  <% end %>
+
+  <%= render "radar/registrations", registrations: @registrations, keywords: @config["profile_keywords"] if task["registrations"] %>
+</article>

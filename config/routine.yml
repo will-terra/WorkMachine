@@ -26,7 +26,7 @@ slots:
     weekly: true
     items:
       - { key: w1, label: "Google nos ATS (filtro Semana) e cadastrar as empresas boas em Empresas-alvo" }
-      - { key: w2, label: "Ruby on Remote, Programathor e Remotar (o resto já é automático)" }
+      - { key: w2, label: "Radar → Sites sem API: Ruby on Remote e Programathor (o resto já é automático)" }
       - { key: w3, label: "Conectar com 5 recrutadores da planilha (Ruby, React, Full Stack)" }
       - { key: w4, label: "Radar → Automático: conferir se alguma fonte falhou e se os alertas do LinkedIn estão chegando" }
 

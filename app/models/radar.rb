@@ -1,5 +1,6 @@
-# Searches and places from config/radar.yml (ported from docs/radar-vagas-rails.html),
-# plus the URL builders that turn a query and the chosen filters into a ready-to-open search.
+# The manual tasks of config/radar.yml (what the app cannot fetch by itself, by frequency),
+# the summary of the automated sources, and the URL builders that turn a query and the
+# chosen filters into a ready-to-open search.
 class Radar
   LINKEDIN_REGIONS = {
     "br_remote" => "&geoId=106057199&f_WT=2",
@@ -21,8 +22,12 @@ class Radar
       YAML.load_file(Rails.root.join("config/radar.yml"))
     end
 
-    def sections
-      config.fetch("sections")
+    def tasks
+      config.fetch("tasks")
+    end
+
+    def cadences
+      config.fetch("cadences")
     end
 
     def filters
@@ -30,7 +35,7 @@ class Radar
     end
 
     def searches
-      sections.flat_map { |section| section.fetch("searches") }
+      tasks.flat_map { |task| task.fetch("searches", []) }
     end
 
     def automated(runs = SourceRun.latest_per_source.index_by(&:source))

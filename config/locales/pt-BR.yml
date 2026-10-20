@@ -126,8 +126,9 @@ pt-BR:
         workable: Workable
     consultancy:
       kind:
-        tech: Especializada em tecnologia
-        multinational: Multinacional com área de TI
+        platform: Plataformas com perfil
+        tech: Consultorias de tecnologia
+        multinational: Consultorias multinacionais
     message_template:
       language:
         pt: Português

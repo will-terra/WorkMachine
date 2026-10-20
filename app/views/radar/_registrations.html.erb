@@ -1,0 +1,20 @@
+<% all = registrations.values.flatten %>
+<p class="mb-3 text-sm font-semibold"><%= all.count(&:registered?) %> de <%= all.size %> cadastros feitos</p>
+<% Consultancy.kinds.each_key do |kind| %>
+  <% next if registrations[kind].blank? %>
+  <h4 class="mt-4 mb-2 text-sm font-semibold"><%= Consultancy.human_enum(:kind, kind) %></h4>
+  <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+    <%= render partial: "consultancies/consultancy", collection: registrations[kind] %>
+  </div>
+<% end %>
+<details class="mt-4">
+  <summary class="cursor-pointer text-sm font-semibold">Termos para preencher os perfis</summary>
+  <div class="mt-2 grid gap-3 text-sm">
+    <% { "Títulos" => keywords["titles"], "Diferenciais" => keywords["skills"], "Plano B" => keywords["plan_b"] }.each do |label, terms| %>
+      <div>
+        <p class="label"><%= label %></p>
+        <div class="flex flex-wrap gap-1.5"><% terms.each do |term| %><span class="chip"><%= term %></span><% end %></div>
+      </div>
+    <% end %>
+  </div>
+</details>

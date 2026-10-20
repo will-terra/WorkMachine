@@ -1,7 +1,18 @@
 # Idempotent: run `bin/rails db:seed` as many times as you want. Existing records are kept as they are,
 # so edits made in the app (templates, consultancy registration) are never overwritten.
 
+# Platforms that work by profile, and recruiting consultancies: a checklist on the Radar.
 consultancies = [
+  [ "RailsDevs", "https://railsdevs.com/", "platform", "As empresas entram em contato. Coloque Rails 8, Hotwire e o fuso de Brasília." ],
+  [ "Turing", "https://www.turing.com/pt/jobs/vagas-ruby-on-rails", "platform", "Empresas dos EUA; pede 3+ anos, inglês fluente e 4 h de sobreposição de fuso." ],
+  [ "Strider", "https://www.onstrider.com/", "platform", "Devs da América Latina para empresas americanas; tem avaliações." ],
+  [ "Revelo", "https://www.revelo.com/", "platform", "Vagas internacionais para brasileiros; boa referência de salário em dólar." ],
+  [ "Wellfound", "https://www.wellfound.com/", "platform", "Startups; muitas usam Rails." ],
+  [ "Welcome to the Jungle (Otta)", "https://www.welcometothejungle.com/", "platform", "Startups do Reino Unido e da Europa." ],
+  [ "Gupy", "https://portal.gupy.io/", "platform", "Mantenha o cadastro completo: empresas grandes filtram por lá." ],
+  [ "InHire", "https://www.inhire.com.br/", "platform", "Usado por muitas empresas de tech brasileiras." ],
+  [ "Yellow.rec", "https://www.yellow.rec.br/", "platform" ],
+  [ "99jobs", "https://www.99jobs.com/", "platform" ],
   [ "Yoctoo", "https://yoctoo.com/", "tech" ],
   [ "Hunter4Tech", "https://hunter4tech.com.br/", "tech" ],
   [ "Rehva Tech", "https://rehva.com.br/", "tech" ],
