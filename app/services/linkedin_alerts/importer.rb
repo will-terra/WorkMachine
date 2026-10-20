@@ -13,6 +13,8 @@ module LinkedinAlerts
 
     Result = Data.define(:emails, :postings, :created)
 
+    class LoginError < StandardError; end
+
     def self.configured?
       ENV["GMAIL_USER"].present? && ENV["GMAIL_APP_PASSWORD"].present?
     end
@@ -24,7 +26,7 @@ module LinkedinAlerts
     def call
       @emails = @postings = @created = 0
       imap = @imap_factory.call
-      imap.login(ENV.fetch("GMAIL_USER"), ENV.fetch("GMAIL_APP_PASSWORD"))
+      login(imap)
       imap.examine(mailbox)
 
       imap.uid_search(search_keys).each_slice(BATCH) do |uids|
@@ -45,6 +47,22 @@ module LinkedinAlerts
     end
 
     private
+      # Google shows app passwords in groups of four letters; the spaces are not part of it.
+      def login(imap)
+        imap.login(ENV.fetch("GMAIL_USER"), ENV.fetch("GMAIL_APP_PASSWORD").delete(" "))
+      rescue Net::IMAP::NoResponseError => e
+        raise LoginError, login_hint(e.message)
+      end
+
+      def login_hint(message)
+        if message.include?("Application-specific password required")
+          "O Google exige uma senha de app: GMAIL_APP_PASSWORD deve ter as 16 letras geradas em " \
+            "myaccount.google.com/apppasswords, não a senha da conta."
+        else
+          "O Gmail recusou o login (#{message.strip}). Confira GMAIL_USER e GMAIL_APP_PASSWORD."
+        end
+      end
+
       def import(raw)
         return if raw.blank?
 
