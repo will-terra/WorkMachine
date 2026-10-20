@@ -81,8 +81,9 @@ jobs:
       - name: Build Tailwind CSS
         run: bin/rails tailwindcss:build
 
+      # db:prepare would also run db/seeds.rb on the new database, and the specs expect it empty.
       - name: Prepare database
-        run: bin/rails db:prepare
+        run: bin/rails db:schema:load
 
       - name: Run RSpec (fails below 90% coverage)
         run: bundle exec rspec
