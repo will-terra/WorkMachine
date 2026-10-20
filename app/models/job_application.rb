@@ -13,6 +13,8 @@ class JobApplication < ApplicationRecord
 
   before_validation :set_position, on: :create
   before_save :set_applied_on
+  # Once you apply, look for the company's public job board (Empresas-alvo).
+  after_commit :find_company_board, if: -> { board_checked_at.nil? && !status_saved? && saved_change_to_status? }
 
   scope :in_progress, -> { where(status: OPEN_STATUSES) }
   scope :ordered, -> { order(:position, :id) }
@@ -49,6 +51,10 @@ class JobApplication < ApplicationRecord
   private
     def set_position
       self.position = (self.class.where(status: status).maximum(:position) || -1) + 1
+    end
+
+    def find_company_board
+      FindTargetCompaniesJob.perform_later
     end
 
     def set_applied_on

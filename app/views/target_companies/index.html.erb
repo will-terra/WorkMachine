@@ -1,5 +1,6 @@
 <%= page_header eyebrow: "Agregador", title: "Empresas-alvo",
                 intro: "Empresas com quadro público no Greenhouse, Lever, Ashby ou Workable. O agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia. Quando uma vaga nova aponta para um desses quadros, a empresa entra aqui sozinha: ativa se a vaga tiver nota boa, ou como sugestão." do %>
+  <%= button_to "Buscar nas candidaturas", find_target_companies_path, class: "btn btn-sm" %>
   <%= link_to "Adicionar empresa", new_target_company_path, class: "btn btn-primary btn-sm" %>
 <% end %>
 
