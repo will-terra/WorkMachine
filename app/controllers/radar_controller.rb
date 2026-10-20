@@ -4,5 +4,7 @@ class RadarController < ApplicationController
     session[:radar_filters] = @filters
     @config = Radar.config
     @consultancies = Consultancy.alphabetical.group_by(&:kind)
+    @automated = Radar.automated
+    @gmail_configured = LinkedinAlerts::Importer.configured?
   end
 end

@@ -3,13 +3,16 @@ require "rails_helper"
 RSpec.describe "Radar" do
   before { sign_in }
 
-  it "shows the searches, platforms, consultancies and groups" do
+  it "shows what is automated first, then the manual searches, platforms, consultancies and groups" do
     create(:consultancy, name: "Yoctoo", kind: "tech")
+    SourceRun.create!(source: "gorails", status: "succeeded", created_count: 4)
 
     get radar_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Buscas na aba Vagas", "Ruby on Remote", "Yoctoo", "Vagas TI Brasil")
+    expect(response.body).to include("O que o WorkMachine busca sozinho", "GoRails Jobs", "4 novas", "Gmail não configurado")
+    expect(response.body).to include("Buscas na aba Vagas", "Ruby on Remote", "Yoctoo", "Vagas TI Brasil", "Abrir Empresas-alvo")
+    expect(response.body.index("busca sozinho")).to be < response.body.index("Buscas na aba Vagas")
     expect(response.body).to include(CGI.escapeHTML(Radar.url_for("li_jobs", Radar.searches.first["query"])))
   end
 

@@ -8,6 +8,13 @@ class Radar
     "br_all" => "&geoId=106057199"
   }.freeze
   BUILDERS = %w[li_jobs li_jobs_world li_posts li_people_br li_people google google_jobs x].freeze
+  # Screens of the app that config/radar.yml may link to ("app_link").
+  APP_LINKS = { "target_companies" => :target_companies_path, "job_postings" => :job_postings_path }.freeze
+
+  # A source the app already fetches by itself, with the result of its latest run.
+  Automated = Data.define(:name, :url, :app_link, :note, :sources, :interval, :last_run_at, :failed, :created_count, :error_message) do
+    def needs_gmail? = sources == [ "linkedin_alert" ]
+  end
 
   class << self
     def config
@@ -24,6 +31,33 @@ class Radar
 
     def searches
       sections.flat_map { |section| section.fetch("searches") }
+    end
+
+    def automated(runs = SourceRun.latest_per_source.index_by(&:source))
+      config.fetch("automated").map do |entry|
+        keys = entry.fetch("sources")
+        latest = runs.values_at(*keys).compact
+        Automated.new(
+          name: entry.fetch("name"),
+          url: entry["url"],
+          app_link: APP_LINKS.fetch(entry["app_link"], nil),
+          note: entry["note"],
+          sources: keys,
+          interval: interval_for(keys.first),
+          last_run_at: latest.map(&:created_at).max,
+          failed: latest.any?(&:status_failed?),
+          created_count: latest.sum(&:created_count),
+          error_message: latest.filter_map { it.error_message.presence }.first
+        )
+      end
+    end
+
+    # LinkedIn alerts are imported every hour; the aggregator runs every 3 hours and each
+    # source may ask for a longer interval (Sources::Base.min_interval).
+    def interval_for(source_key)
+      return 1.hour if source_key == "linkedin_alert"
+
+      [ Sources.find(source_key)&.min_interval || 3.hours, 3.hours ].max
     end
 
     def default_filters

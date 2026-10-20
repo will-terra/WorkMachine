@@ -40,6 +40,35 @@ RSpec.describe Radar do
     end
   end
 
+  describe ".automated" do
+    it "lists the automated sources with their latest runs" do
+      SourceRun.create!(source: "greenhouse", status: "succeeded", created_count: 3, created_at: 2.hours.ago)
+      SourceRun.create!(source: "lever", status: "failed", error_message: "HttpClient::Error: 404", created_at: 1.hour.ago)
+
+      automated = described_class.automated
+      targets = automated.find { it.name == "Empresas-alvo" }
+
+      expect(automated.flat_map(&:sources)).to match_array(Sources.all.map(&:key) + [ "linkedin_alert" ])
+      expect(targets).to have_attributes(app_link: :target_companies_path, created_count: 3, failed: true, error_message: "HttpClient::Error: 404")
+      expect(targets.last_run_at).to be_within(1.second).of(1.hour.ago)
+      expect(automated.find { it.name == "Remotive" }).to have_attributes(last_run_at: nil, interval: 6.hours)
+    end
+
+    it "knows how often each source runs and which one needs Gmail" do
+      expect(described_class.interval_for("linkedin_alert")).to eq(1.hour)
+      expect(described_class.interval_for("hacker_news")).to eq(12.hours)
+      expect(described_class.interval_for("remote_ok")).to eq(3.hours)
+      expect(described_class.automated.select(&:needs_gmail?).map(&:name)).to eq([ "Alertas do LinkedIn" ])
+    end
+
+    it "keeps automated sources out of the manual lists" do
+      manual = described_class.config.fetch("platforms").flat_map { it["sites"] } + described_class.config.dig("groups", "sites")
+      automated_names = described_class.config.fetch("automated").map { it["name"] }
+
+      expect(manual.map { it["name"] } & automated_names).to be_empty
+    end
+  end
+
   it "sanitizes filter values" do
     expect(described_class.sanitize_filters("li_region" => "world_remote", "g_period" => "evil"))
       .to include("li_region" => "world_remote", "g_period" => "w", "post_period" => "past-24h")

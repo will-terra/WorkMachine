@@ -1,13 +1,15 @@
 <%= page_header eyebrow: "$ rails generate job_search --stack=rails,react --nivel=pleno --modelo=remoto", title: "Radar",
-                intro: "Buscas prontas a partir do seu CV. Escolha os filtros de cada seção e clique em “Abrir” para rodar a busca, ou copie o termo para colar onde quiser." %>
+                intro: "Primeiro, o que já roda sozinho. Depois, as buscas e os lugares que ainda dependem de você: escolha os filtros de cada seção e clique em “Abrir”, ou copie o termo para colar onde quiser." %>
 
 <nav class="mb-8 flex flex-wrap gap-1" aria-label="Seções do Radar">
-  <% [ [ "alvo", "Alvo" ], *@config["sections"].map { [ it["key"], it["eyebrow"] ] }, [ "plataformas", "Plataformas" ], [ "consultorias", "Consultorias" ], [ "grupos", "Grupos" ] ].each do |anchor, label| %>
+  <% [ [ "automatico", "Automático" ], [ "alvo", "Alvo" ], *@config["sections"].map { [ it["key"], it["eyebrow"] ] }, [ "plataformas", "Plataformas" ], [ "consultorias", "Consultorias" ], [ "grupos", "Grupos" ] ].each do |anchor, label| %>
     <a href="#<%= anchor %>" class="nav-link border border-line bg-surface"><%= label %></a>
   <% end %>
 </nav>
 
-<section id="alvo" class="scroll-mt-20">
+<%= render "radar/automated", automated: @automated, gmail_configured: @gmail_configured %>
+
+<section id="alvo" class="mt-12 scroll-mt-20">
   <p class="eyebrow">Perfil-alvo</p>
   <h2 class="mt-1">O que você está procurando</h2>
   <p class="muted mt-1 mb-4 max-w-prose text-sm">Com cerca de 3 anos de experiência, o encaixe natural é Pleno no Brasil e Mid-level fora. Vale aplicar para Sênior quando a vaga pedir 3 a 4 anos e a stack bater com a sua.</p>
@@ -76,6 +78,13 @@
       </div>
     <% end %>
 
+    <% if (app_link = section["app_link"]) %>
+      <div class="mt-4 max-w-3xl rounded-xl bg-ok-soft px-4 py-3 text-sm">
+        <p><%= app_link["text"] %></p>
+        <p class="mt-1"><%= link_to app_link["label"], public_send(Radar::APP_LINKS.fetch(app_link["to"])), class: "font-semibold text-ok" %></p>
+      </div>
+    <% end %>
+
     <% if (callout = section["callout"]) %>
       <div class="mt-4 max-w-3xl rounded-xl bg-accent-soft px-4 py-3 text-sm">
         <p><%= callout["text"] %></p>
@@ -87,9 +96,11 @@
 
 <section id="plataformas" class="mt-12 scroll-mt-20">
   <p class="eyebrow">Onde procurar</p>
-  <h2 class="mt-1">Plataformas</h2>
+  <h2 class="mt-1">Plataformas para visitar</h2>
+  <p class="muted mt-1 max-w-prose text-sm">Sites sem API ou RSS aberto, ou que funcionam por cadastro. Os que o WorkMachine já lê estão em <a href="#automatico">Automático</a>.</p>
   <% @config["platforms"].each do |group| %>
     <h3 class="mt-6 mb-2"><%= group["title"] %></h3>
+    <% if group["note"] %><p class="muted mb-2 text-sm"><%= group["note"] %></p><% end %>
     <%= render "radar/sites", sites: group["sites"] %>
   <% end %>
 </section>

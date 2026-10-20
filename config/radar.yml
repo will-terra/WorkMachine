@@ -10,6 +10,19 @@
 #   google_jobs    painel Google Empregos (ignora o período)
 #   x              X (Twitter), aba "Mais recentes"
 
+# Fontes que o WorkMachine já consulta sozinho (aparecem no topo do Radar com a última busca).
+# "sources" são as chaves gravadas em SourceRun; "app_link" aponta para uma tela do app.
+automated:
+  - { name: "Alertas do LinkedIn", sources: [linkedin_alert], url: "https://www.linkedin.com/jobs/alerts/", note: "E-mails de alerta lidos no Gmail. Crie os alertas pelas buscas da seção LinkedIn · Vagas." }
+  - { name: "Empresas-alvo", sources: [greenhouse, lever, ashby], app_link: target_companies, note: "Quadros Greenhouse, Lever e Ashby das empresas que você cadastrou." }
+  - { name: "Remotive", sources: [remotive], url: "https://remotive.com/", note: "Buscas “rails” e “ruby”, no máximo 4 vezes por dia, como pedem os termos da API." }
+  - { name: "Remote OK", sources: [remote_ok], url: "https://remoteok.com/", note: "Vagas com as tags ruby e rails." }
+  - { name: "We Work Remotely", sources: [we_work_remotely], url: "https://weworkremotely.com/", note: "Feeds de full stack e back-end, filtrados por ruby e rails." }
+  - { name: "GoRails Jobs", sources: [gorails], url: "https://jobs.gorails.com/", note: "Quadro da comunidade GoRails; todas as vagas são de Rails." }
+  - { name: "backend-br/vagas", sources: [backend_br], url: "https://github.com/backend-br/vagas/issues", note: "Issues que falam de Ruby ou Rails." }
+  - { name: "frontendbr/vagas", sources: [frontend_br], url: "https://github.com/frontendbr/vagas/issues", note: "Plano B: React com TypeScript ou Next.js." }
+  - { name: "Hacker News · Who is hiring", sources: [hacker_news], url: "https://news.ycombinator.com/submitted?id=whoishiring", note: "Comentários da thread do mês que citam Rails e remote." }
+
 target:
   titles_pt:
     hot: ["Desenvolvedor Ruby on Rails", "Desenvolvedor Full Stack Ruby"]
@@ -56,7 +69,7 @@ sections:
   - key: linkedin
     eyebrow: "LinkedIn · aba Vagas"
     title: "Buscas na aba Vagas"
-    intro: "Escolha o local e o período uma vez e todos os links se ajustam. Em cada busca que trouxer bons resultados, clique em “Criar alerta” no LinkedIn: os alertas chegam no Gmail e o WorkMachine importa sozinho."
+    intro: "Use estas buscas para criar os alertas: abra, confira os resultados e ligue “Alerta de vaga” por e-mail, diariamente. O WorkMachine lê os alertas no Gmail a cada hora e as vagas entram na triagem com nota, então depois de criar o alerta não precisa abrir a busca todo dia."
     filters: [li_region, li_period]
     searches:
       - title: "1 · Rails, geral"
@@ -160,6 +173,10 @@ sections:
     eyebrow: "Google"
     title: "Vagas escondidas nos sistemas de recrutamento"
     intro: "Muitas empresas publicam a vaga só na própria página de carreiras (Greenhouse, Lever, Ashby, Gupy…) e nunca no LinkedIn. O operador site: busca direto nesses sistemas."
+    app_link:
+      text: "Achou uma empresa que usa Greenhouse, Lever ou Ashby? Cadastre em Empresas-alvo: o agregador passa a trazer as vagas de engenharia dela a cada 3 horas, e as buscas 1 a 3 deixam de ser necessárias para ela."
+      label: "Abrir Empresas-alvo"
+      to: target_companies
     filters: [g_period]
     searches:
       - title: "1 · Greenhouse"
@@ -215,22 +232,17 @@ sections:
 
 platforms:
   - title: "Foco em Ruby on Rails"
+    note: "Ruby on Remote e Programathor não têm RSS nem API abertos, por isso continuam manuais."
     sites:
       - { name: "Ruby on Remote", url: "https://rubyonremote.com/", tag: "Rails", note: "Só vagas remotas de Ruby. Use o filtro de local “Remote – South America” e “Remote – Anywhere”. Ignore as marcadas só como US." }
-      - { name: "GoRails Jobs", url: "https://jobs.gorails.com/", tag: "Rails", note: "Quadro de vagas da comunidade GoRails, atualizado toda semana. Algumas aceitam Brasil." }
       - { name: "RailsDevs", url: "https://railsdevs.com/", tag: "Rails", note: "Funciona ao contrário: você cria um perfil e as empresas entram em contato. Coloque Rails 8, Hotwire e o fuso de Brasília." }
       - { name: "Programathor · Ruby on Rails", url: "https://programathor.com.br/jobs-ruby-on-rails", tag: "BR", note: "Vagas de tech no Brasil já filtradas por Rails, incluindo remotas com pagamento em dólar." }
-      - { name: "backend-br/vagas", url: "https://github.com/backend-br/vagas/issues?q=is%3Aissue+is%3Aopen+ruby", tag: "BR", note: "Empresas abrem issues com vagas de back-end. O WorkMachine já importa as que falam de Ruby." }
-      - { name: "Hacker News · Who is hiring", url: "https://news.ycombinator.com/submitted?id=whoishiring", tag: "Mensal", note: "Thread do primeiro dia útil de cada mês. O WorkMachine importa os comentários com Rails e remote." }
   - title: "Remoto internacional (pagamento em dólar)"
     sites:
       - { name: "Turing", url: "https://www.turing.com/pt/jobs/vagas-ruby-on-rails", note: "Vagas de Rails para empresas dos EUA. Pedem 3+ anos, inglês fluente e 4 h de sobreposição de fuso. Você atende aos três." }
       - { name: "Strider", url: "https://www.onstrider.com/", note: "Conecta devs da América Latina a empresas americanas. Crie o perfil e faça as avaliações." }
       - { name: "Revelo", url: "https://www.revelo.com/", note: "Vagas internacionais para brasileiros e boa fonte de faixa salarial em dólar." }
       - { name: "Remotar · moeda estrangeira", url: "https://remotar.com.br/search/jobs?t=12", note: "Remotas para brasileiros, na tag “pagamento em moeda estrangeira”. A tag “vaga internacional” é a t=13." }
-      - { name: "We Work Remotely", url: "https://weworkremotely.com/", note: "Já entra no agregador. Leia a restrição de país de cada vaga." }
-      - { name: "Remotive", url: "https://remotive.com/", note: "Já entra no agregador. Remotas selecionadas, com filtro de região." }
-      - { name: "Remote OK", url: "https://remoteok.com/", note: "Já entra no agregador. Grande volume; filtre por “ruby” e “worldwide”." }
       - { name: "Wellfound", url: "https://www.wellfound.com/", note: "Startups (antigo AngelList Talent). Muitas usam Rails." }
       - { name: "Working Nomads", url: "https://www.workingnomads.com/", note: "Agregador de remotas; dá para receber por e-mail." }
       - { name: "Otta", url: "https://otta.com/", note: "Hoje faz parte do Welcome to the Jungle. Forte em startups do Reino Unido e da Europa." }
@@ -259,7 +271,6 @@ groups:
     - { name: "Recrutei Empregos", url: "https://t.me/recrutei_empregos", note: "Telegram · da plataforma Recrutei, usada por várias empresas." }
     - { name: "Cafeína Vagas", url: "https://t.me/CafeinaVagas", note: "Telegram · inclui remotas." }
     - { name: "Kombo · grupos", url: "https://www2.kombo.com.br/grupos/", note: "Diretório de grupos de vagas no Telegram e no WhatsApp." }
-    - { name: "frontendbr/vagas", url: "https://github.com/frontendbr/vagas/issues", note: "Repositório irmão do backend-br, para o plano B em React." }
     - { name: "RubyEvents · Brasil", url: "https://www.rubyevents.org/events/countries/brazil", note: "Agenda de eventos e meetups de Ruby no Brasil, incluindo o Tropical on Rails. Em evento você conversa com quem contrata Rails." }
     - { name: "Fórum oficial do Rails", url: "https://discuss.rubyonrails.org/", note: "Às vezes aparecem vagas por lá, inclusive pedindo quem fala português." }
   telegram_terms: ["Vagas Ruby", "Ruby on Rails Brasil", "Vagas Dev", "Vagas Back-end", "Vagas Remotas TI", "Filipe Deschamps"]
