@@ -1,7 +1,7 @@
 # Converts job description HTML into plain text, keeping paragraphs and list items.
 # Descriptions are stored as text, so the app never renders third-party HTML.
 module HtmlText
-  BLOCKS = "p, div, li, tr, h1, h2, h3, h4, h5, h6, ul, ol, section, article, blockquote".freeze
+  BLOCKS = "p, div, tr, h1, h2, h3, h4, h5, h6, ul, ol, section, article, blockquote, table".freeze
 
   module_function
 
@@ -10,15 +10,24 @@ module HtmlText
 
     fragment = Nokogiri::HTML5.fragment(fix_mojibake(html.to_s))
     fragment.css("script, style").each(&:remove)
+    # Like a browser, source line breaks inside text are just spaces; structure comes from the tags.
+    fragment.xpath(".//text()[not(ancestor::pre)]").each { |node| node.content = node.content.gsub(/\s+/, " ") }
     fragment.css("br").each { |node| node.replace("\n") }
-    fragment.css("li").each { |node| node.prepend_child("• ") }
-    fragment.css(BLOCKS).each { |node| node.add_next_sibling("\n") }
+    fragment.css("li").each do |node|
+      node.prepend_child("• ")
+      node.add_next_sibling("\n")
+    end
+    fragment.css(BLOCKS).each do |node|
+      node.add_previous_sibling("\n")
+      node.add_next_sibling("\n")
+    end
 
     fragment.text
-      .tr(" ", " ")
+      .tr("\u00a0", " ")
       .gsub(/[ \t]+/, " ")
       .gsub(/ *\n */, "\n")
       .gsub(/\n{3,}/, "\n\n")
+      .gsub(/•\s*\n+\s*/, "• ")
       .strip
   end
 

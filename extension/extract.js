@@ -9,7 +9,7 @@ export function extractJob() {
     const doc = new DOMParser().parseFromString(String(html), "text/html")
     doc.querySelectorAll("br").forEach((br) => br.replaceWith("\n"))
     doc.querySelectorAll("p, li, div, h1, h2, h3, h4, tr").forEach((node) => node.append("\n"))
-    return (doc.body.textContent || "").replace(/[ \t ]+/g, " ").replace(/ *\n */g, "\n").replace(/\n{3,}/g, "\n\n").trim()
+    return (doc.body.textContent || "").replace(/[ \t\u00a0]+/g, " ").replace(/ *\n */g, "\n").replace(/\n{3,}/g, "\n\n").trim()
   }
   const meta = (name) => document.querySelector(`meta[property="${name}"], meta[name="${name}"]`)?.content || ""
   const first = (...selectors) => {

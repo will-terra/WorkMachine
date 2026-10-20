@@ -4,6 +4,6 @@ FactoryBot.define do
     kind { "fit_analysis" }
     status { "completed" }
     content { "Boa aderência." }
-    model { "claude-sonnet" }
+    model { "deepseek/deepseek-v4-pro-0813" }
   end
 end

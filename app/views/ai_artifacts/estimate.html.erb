@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "ai_estimate" do %>
+  <% if @estimates %>
+    <p class="muted text-xs">
+      Custo estimado por clique:
+      <%= @estimates.map { |kind, cost| "#{AiArtifact.human_enum(:kind, kind).downcase} ≈ US$ #{number_with_precision(cost, precision: 3)}" }.join(" · ") %>.
+      Chamadas feitas em até 5 minutos reaproveitam o cache do perfil e saem mais baratas.
+    </p>
+  <% end %>
+<% end %>

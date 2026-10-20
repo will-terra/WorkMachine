@@ -25,6 +25,7 @@
     <% if job_posting.triage_new? %>
       <%= button_to "Salvar", save_job_posting_path(job_posting), class: "btn btn-primary btn-sm" %>
       <%= button_to "Descartar", dismiss_job_posting_path(job_posting), class: "btn btn-sm" %>
+      <%= button_to "Analisar com IA", job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } } %>
     <% else %>
       <span class="chip self-center <%= job_posting.triage_saved? ? "chip-ok" : "" %>"><%= job_posting.human_enum(:triage) %></span>
       <%= button_to "Voltar para triagem", restore_job_posting_path(job_posting), class: "btn btn-ghost btn-sm" %>

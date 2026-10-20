@@ -87,7 +87,7 @@ module LinkedinAlerts
       end
 
       def clean(text)
-        text.to_s.tr(" ", " ").squish
+        text.to_s.tr("\u00a0", " ").squish
       end
   end
 end

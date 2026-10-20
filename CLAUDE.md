@@ -20,11 +20,11 @@ O plano completo de implementação está em `docs/PLANO.md`. Toda a pesquisa de
   1. extensão Chrome/Edge (Manifest V3) com botão "Salvar no WorkMachine" na vaga aberta;
   2. importação dos e-mails de alerta de vagas do LinkedIn via IMAP do Gmail (senha de app);
   3. gerador de links de busca prontos (o "Radar").
-- **Funcionalidades da v1:** agregador automático de vagas, kanban/planilha com exportação .xlsx, mensagens e rotina, IA via Claude API.
+- **Funcionalidades da v1:** agregador automático de vagas, kanban/planilha com exportação .xlsx, mensagens e rotina, IA via OpenRouter com o modelo `deepseek/deepseek-v4-pro-0813` (em 20/10/2026 saiu a Claude API e depois o Claude Sonnet, por custo; GLM 5.3 é a alternativa via `OPENROUTER_MODEL`).
 - **Repositório:** `will-terra/WorkMachine`.
 
 ## Convenções
 
 - Código, nomes de tabelas e classes em inglês; interface em português.
-- Segredos só em variáveis de ambiente (`.env`, fora do git): `ANTHROPIC_API_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `WORKMACHINE_API_TOKEN`.
+- Segredos só em variáveis de ambiente (`.env`, fora do git): `OPENROUTER_API_KEY`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `WORKMACHINE_API_TOKEN`.
 - Commits pequenos por marco (ver ordem em `docs/PLANO.md`), cada um com testes passando.
