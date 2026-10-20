@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_165319) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_171440) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -120,6 +120,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_165319) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "source_runs", force: :cascade do |t|
+    t.string "source", null: false
+    t.string "status", default: "running", null: false
+    t.integer "fetched_count", default: 0, null: false
+    t.integer "created_count", default: 0, null: false
+    t.text "error_message"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["source", "created_at"], name: "index_source_runs_on_source_and_created_at"
   end
 
   create_table "target_companies", force: :cascade do |t|

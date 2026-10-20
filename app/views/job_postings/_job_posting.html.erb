@@ -1,0 +1,33 @@
+<article id="<%= dom_id(job_posting) %>" class="grid gap-3 px-4 py-3 sm:grid-cols-[3rem_minmax(0,1fr)_auto] sm:items-center <%= "opacity-60" if job_posting.triage_dismissed? %>">
+  <div class="font-mono text-2xl font-semibold <%= score_class(job_posting.score) %>" title="Nota de 0 a 100"><%= job_posting.score %></div>
+
+  <div class="min-w-0">
+    <h2 class="text-[15px] font-semibold leading-snug">
+      <%= link_to job_posting.title, job_posting_path(job_posting), class: "text-ink no-underline hover:underline", data: { turbo_frame: "_top" } %>
+    </h2>
+    <p class="muted text-sm">
+      <%= job_posting.display_company %> ·
+      via <%= external_link job_posting.human_enum(:source), job_posting.url %> ·
+      <%= job_posting.human_enum(:remote_scope) %>
+      <% unless job_posting.seniority_unknown? %> · <%= job_posting.human_enum(:seniority) %><% end %>
+      · <%= time_ago_in_words(job_posting.posted_or_found_at) %> atrás
+    </p>
+    <% if job_posting.matched_keywords.any? %>
+      <div class="mt-1.5 flex flex-wrap gap-1">
+        <% job_posting.matched_keywords.each do |match| %>
+          <span class="chip <%= match["points"].negative? ? "chip-hot" : "" %>"><%= match["term"] %> <%= format("%+d", match["points"]) %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex flex-wrap gap-1.5 sm:justify-end">
+    <% if job_posting.triage_new? %>
+      <%= button_to "Salvar", save_job_posting_path(job_posting), class: "btn btn-primary btn-sm" %>
+      <%= button_to "Descartar", dismiss_job_posting_path(job_posting), class: "btn btn-sm" %>
+    <% else %>
+      <span class="chip self-center <%= job_posting.triage_saved? ? "chip-ok" : "" %>"><%= job_posting.human_enum(:triage) %></span>
+      <%= button_to "Voltar para triagem", restore_job_posting_path(job_posting), class: "btn btn-ghost btn-sm" %>
+    <% end %>
+  </div>
+</article>

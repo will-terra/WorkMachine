@@ -1,5 +1,5 @@
 class JobPosting < ApplicationRecord
-  SOURCES = %w[remotive remote_ok we_work_remotely backend_br frontend_br hacker_news
+  SOURCES = %w[remotive remote_ok we_work_remotely backend_br frontend_br hacker_news gorails
                greenhouse lever ashby linkedin_alert extension manual].freeze
   REMOTE_SCOPES = %w[brazil latam worldwide us_only europe_only unknown].freeze
   SENIORITIES = %w[junior mid senior unknown].freeze
@@ -33,6 +33,12 @@ class JobPosting < ApplicationRecord
   def self.find_duplicate(url:, company:, title:)
     find_by(url: UrlNormalizer.call(url)) ||
       (find_by(fingerprint: fingerprint_for(company, title)) if company.present?)
+  end
+
+  def rescore!
+    result = JobScorer.call(title:, description:, location_text:)
+    update!(score: result.score, matched_keywords: result.matched_keywords,
+            remote_scope: result.remote_scope, seniority: result.seniority)
   end
 
   def display_company

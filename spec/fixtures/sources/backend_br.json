@@ -1,0 +1,128 @@
+[
+ {
+  "html_url": "https://github.com/backend-br/vagas/issues/12437",
+  "number": 12437,
+  "title": "[Remoto] Engenheiro(a) de Software Sênior – Code Quality (Python, JS/TS, Java, Go) - Turing (via AYAN)",
+  "created_at": "2026-10-01T21:09:15Z",
+  "labels": [
+   {
+    "name": "Sênior"
+   },
+   {
+    "name": "PHP"
+   },
+   {
+    "name": "JavaScript"
+   },
+   {
+    "name": "Python"
+   },
+   {
+    "name": "Java"
+   },
+   {
+    "name": "Ruby"
+   },
+   {
+    "name": "Go"
+   },
+   {
+    "name": "Remoto"
+   },
+   {
+    "name": "TypeScript"
+   },
+   {
+    "name": "Contrato"
+   }
+  ],
+  "body": "## Nossa empresa\n\nA AYAN é parceira oficial da Turing, empresa que conecta profissionais técnicos aos principais laboratórios de IA do mundo. Estamos selecionando engenheiros(as) de software sênior para revisar e melhorar código gerado por IA em modelos de fronteira. Não é vaga de tester nem de QA manual.\n\n## Descrição da vaga\n\nVocê vai avaliar código gerado por IA quanto a correção, segurança, escalabilidade e manutenibilidade, encontrar bugs e fragilidades de arquitetura, escrever soluções de referência de alta qualidade e criar as rubricas usadas para treinar e avaliar LLMs.\n\n## Local\n\n100% remoto. Aberta para quem mora no Brasil (também aceita Colômbia, Bangladesh, Índia, Paquistão, Indonésia, Egito, Gana, Nigéria e Turquia).\n\n## Requisitos\n\n**Obrigatórios:**\n\n- 7+ anos de engenharia de software profissional\n- Domínio de pelo menos uma linguagem: Python, JavaScript/TypeScript, Java, C++, Go, C#, Ruby, PHP ou Rust\n- Experiência prática construindo, depurando e revisando software em produção\n- Base sólida em design de software, código limpo, estruturas de dados, APIs e bancos de dados\n- Inglês escrito forte, para dar feedback técnico claro\n- Perfil do LinkedIn no currículo\n- Temp",
+  "user": {
+   "login": "AYAN-COMMUNITY"
+  }
+ },
+ {
+  "html_url": "https://github.com/backend-br/vagas/issues/12475",
+  "number": 12475,
+  "title": "[Híbrido / São Paulo, Brasil] Engenheiro de Software Backend Sênior (Híbrido, São Paulo) na Coodesh",
+  "created_at": "2026-10-20T16:31:08Z",
+  "labels": [
+   {
+    "name": "Sênior"
+   },
+   {
+    "name": "Python"
+   },
+   {
+    "name": "Node.js"
+   },
+   {
+    "name": "Java"
+   },
+   {
+    "name": "Go"
+   },
+   {
+    "name": "Especialista"
+   },
+   {
+    "name": "AWS"
+   },
+   {
+    "name": "Testes automatizados"
+   },
+   {
+    "name": "Kubernetes"
+   },
+   {
+    "name": "Híbrido"
+   },
+   {
+    "name": "CI/CD"
+   },
+   {
+    "name": "Azure"
+   },
+   {
+    "name": "GCP"
+   }
+  ],
+  "body": "## Descrição da vaga: \nEsta é uma vaga de um parceiro da plataforma Coodesh, ao candidatar-se você terá acesso as informações completas sobre a empresa e benefícios.\n\n\nFique atento ao redirecionamento que vai te levar para uma url [https://coodesh.com](https://coodesh.com/jobs/engenharia-de-software-backend-senior-hibrido-sao-paulo-231806636?utm_source=github&utm_medium=backend-br-vagas&modal=open) para realizar a candidatura. 👋\nEmpresas parceiras da Coodesh, de scale-ups a grandes companhias de tecnologia, estão buscando pessoas engenheiras de backend para construir sistemas que atendem milhões de usuários. Você vai trabalhar em times de produto com autonomia técnica, código revisado por pares e decisões guiadas por dados.\r\n\r\n \r\n\r\n### O que você vai fazer\r\n\r\n*   Projetar, desenvolver e manter serviços e APIs com foco em escalabilidade, confiabilidade e segurança.\r\n    \r\n*   Participar de decisões de arquitetura e de design de sistemas distribuídos.\r\n    \r\n*   Escrever testes automatizados e revisar código de outras pessoas do time.\r\n    \r\n*   Investigar e resolver problemas em produção, usando métricas, logs e rastreamento.\r\n    \r\n*   Colaborar com produto, design e outras engenha",
+  "user": {
+   "login": "FrancieleGhizzoni"
+  }
+ },
+ {
+  "html_url": "https://github.com/backend-br/vagas/issues/12474",
+  "number": 12474,
+  "title": "[REMOTO] Back-end Developer JR - PORT LOUIS",
+  "created_at": "2026-10-19T20:18:45Z",
+  "labels": [
+   {
+    "name": "CLT"
+   },
+   {
+    "name": "Júnior"
+   },
+   {
+    "name": "Remoto"
+   },
+   {
+    "name": "AWS"
+   },
+   {
+    "name": "MySQL"
+   },
+   {
+    "name": "TypeScript"
+   },
+   {
+    "name": "PostgreSQL"
+   }
+  ],
+  "body": "## Nossa empresa\n\nNa Port Louis, valorizamos a contratação de colaboradores juniores e estagiários, visando seu crescimento em conjunto conosco e seu contínuo desenvolvimento profissional.\nOperamos com projetos ágeis, constituídos por squads de 5 a 9 membros, utilizando a metodologia Scrum. Realizamos sprints quinzenais, com rituais de planning, dailies, review e revisão de roadmap.\nA Port Louis possui soluções de RPA para tarefas de contabilidade e financeiras. O nosso stack é composto por um front em Vue.js, e o back em Node + Net Core, ambos rodando em AWS.\n\n- Tecnologia comprovada de ponta para automação de processos (modelo SaaS);\n- Produto inovador de auditorias jurídicas com portfolio robusto de clientes;\n- Excelência técnica: obsessão por qualidade, foco em longo prazo e comprometimento com resultados\n\nNossa missão: \n\nAlavancar a tecnologia para que as pessoas realizem trabalhos com alto valor cognitivo.\n\n## Descrição da vaga\n\nDesenvolvedor Back-End, com foco em Banco de Dados, para atuar na manutenção e otimização da nossa API e DBs.\n\n## Local\n\nRemoto\n\n## Requisitos\n\n- Obrigatórios:\n  - Conhecimento de Typescript\n  - Conhecimento de Node e das bibliotecas mais comuns\n  - C",
+  "user": {
+   "login": "andregodeiro"
+  }
+ }
+]

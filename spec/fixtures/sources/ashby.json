@@ -1,0 +1,147 @@
+{
+ "apiVersion": "1",
+ "jobs": [
+  {
+   "id": "e3d846ce-ec5c-49bb-baab-6fc3bb069fdb",
+   "title": "Senior Infrastructure Engineer II",
+   "department": "Engineering",
+   "team": "Infra",
+   "employmentType": "FullTime",
+   "location": "Remote",
+   "shouldDisplayCompensationOnJobPostings": true,
+   "secondaryLocations": [],
+   "publishedAt": "2026-10-20T12:24:33.592+00:00",
+   "isListed": true,
+   "isRemote": true,
+   "workplaceType": "Remote",
+   "address": {
+    "postalAddress": {
+     "addressCountry": "United States"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/kit/e3d846ce-ec5c-49bb-baab-6fc3bb069fdb",
+   "applyUrl": "https://jobs.ashbyhq.com/kit/e3d846ce-ec5c-49bb-baab-6fc3bb069fdb/application",
+   "descriptionHtml": "<p style=\"min-height:1.5em\"><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://kit.com/\"><u>Kit</u></a> is the email marketing platform experts choose to grow their audience, deepen their relationships, and build a business around the work they love. For coaches, YouTubers, authors, podcasters, and other creatives, there isn't a better marketing hub to rely on to grow audiences, automate email marketing, and sell digital products — all within one platform. <br /><br />More importantly, there isn't a team more committed to helping creators earn a living. We're on a mission to help creators earn $1 billion using our creator marketing platform. We have always been 100% independent and 100% remote.<br /><br />We are proud to have built a product that our customers love, and we",
+   "descriptionPlain": "Kit https://kit.com/ is the email marketing platform experts choose to grow their audience, deepen their relationships, and build a business around the work they love. For coaches, YouTubers, authors, podcasters, and other creatives, there isn't a better marketing hub to rely on to grow audiences, automate email marketing, and sell digital products — all within one platform. \n\nMore importantly, there isn't a team more committed to helping creators earn a living. We're on a mission to help creators earn $1 billion using our creator marketing platform. We have always been 100% independent and 100% remote.\n\nWe are proud to have built a product that our customers love, and we look for people who have enthusiasm and belief in our mission, vision, and values to join our team. We're also embracin",
+   "compensation": {
+    "compensationTierSummary": "$197K • $50K Equity • Profit Sharing",
+    "scrapeableCompensationSalarySummary": "$197K",
+    "compensationTiers": [
+     {
+      "id": "3f542fab-c5d7-4eb6-9297-0015171d5407",
+      "tierSummary": "Base salary $197K • $50K Equity • Profit Sharing",
+      "title": "Level 4",
+      "additionalInformation": "Profit Sharing",
+      "components": [
+       {
+        "id": "2a9e4f7d-b2b5-4a76-a4b2-6b3853549b71",
+        "summary": "Base salary $197K",
+        "compensationType": "Salary",
+        "interval": "1 YEAR",
+        "currencyCode": "USD",
+        "minValue": 197000,
+        "maxValue": 197000
+       },
+       {
+        "id": "1a19badf-95bd-4a99-9c4b-ad1dbe3ca8ac",
+        "summary": "$50K Equity",
+        "compensationType": "EquityCashValue",
+        "interval": "1 YEAR",
+        "currencyCode": "USD",
+        "minValue": 50000,
+        "maxValue": 50000
+       }
+      ]
+     }
+    ],
+    "summaryComponents": [
+     {
+      "compensationType": "Salary",
+      "interval": "1 YEAR",
+      "currencyCode": "USD",
+      "minValue": 197000,
+      "maxValue": 197000
+     },
+     {
+      "compensationType": "EquityCashValue",
+      "interval": "1 YEAR",
+      "currencyCode": "USD",
+      "minValue": 50000,
+      "maxValue": 50000
+     }
+    ]
+   }
+  },
+  {
+   "id": "5a4c9008-9362-4223-a1e0-8a50ef2096cd",
+   "title": "Senior Product Manager - Publishing",
+   "department": "Product & Design",
+   "team": "Product & Design",
+   "employmentType": "FullTime",
+   "location": "Remote",
+   "shouldDisplayCompensationOnJobPostings": true,
+   "secondaryLocations": [],
+   "publishedAt": "2026-08-21T20:15:06.657+00:00",
+   "isListed": true,
+   "isRemote": true,
+   "workplaceType": "Remote",
+   "address": {
+    "postalAddress": {
+     "addressCountry": "United States"
+    }
+   },
+   "jobUrl": "https://jobs.ashbyhq.com/kit/5a4c9008-9362-4223-a1e0-8a50ef2096cd",
+   "applyUrl": "https://jobs.ashbyhq.com/kit/5a4c9008-9362-4223-a1e0-8a50ef2096cd/application",
+   "descriptionHtml": "<p style=\"min-height:1.5em\"><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://kit.com/\"><u>Kit</u></a> is the email marketing platform experts choose to grow their audience, deepen their relationships, and build a business around the work they love. For coaches, YouTubers, authors, podcasters, and other creatives, there isn't a better marketing hub to rely on to grow audiences, automate email marketing, and sell digital products — all within one platform. <br /><br />More importantly, there isn't a team more committed to helping creators earn a living. We're on a mission to help creators earn $1 billion using our creator marketing platform. We have always been 100% independent and 100% remote.<br /><br />We are proud to have built a product that our customers love, and we",
+   "descriptionPlain": "Kit https://kit.com/ is the email marketing platform experts choose to grow their audience, deepen their relationships, and build a business around the work they love. For coaches, YouTubers, authors, podcasters, and other creatives, there isn't a better marketing hub to rely on to grow audiences, automate email marketing, and sell digital products — all within one platform. \n\nMore importantly, there isn't a team more committed to helping creators earn a living. We're on a mission to help creators earn $1 billion using our creator marketing platform. We have always been 100% independent and 100% remote.\n\nWe are proud to have built a product that our customers love, and we look for people who have enthusiasm and belief in our mission, vision, and values to join our team. We're also embracin",
+   "compensation": {
+    "compensationTierSummary": "$173K • $50K Equity • Profit Sharing",
+    "scrapeableCompensationSalarySummary": "$173K",
+    "compensationTiers": [
+     {
+      "id": "5e36beaa-ba5a-4c48-a343-49bf439461a2",
+      "tierSummary": "$173K • $50K Equity • Profit Sharing",
+      "title": "Level 4",
+      "additionalInformation": "Profit Sharing",
+      "components": [
+       {
+        "id": "4e560b2e-7939-41cb-91e8-d6e81989c940",
+        "summary": "$50K Equity",
+        "compensationType": "EquityCashValue",
+        "interval": "1 YEAR",
+        "currencyCode": "USD",
+        "minValue": 50000,
+        "maxValue": 50000
+       },
+       {
+        "id": "78e7e39b-83c6-4d74-af89-b0c2569c936e",
+        "summary": "$173K",
+        "compensationType": "Salary",
+        "interval": "1 YEAR",
+        "currencyCode": "USD",
+        "minValue": 173000,
+        "maxValue": 173000
+       }
+      ]
+     }
+    ],
+    "summaryComponents": [
+     {
+      "compensationType": "EquityCashValue",
+      "interval": "1 YEAR",
+      "currencyCode": "USD",
+      "minValue": 50000,
+      "maxValue": 50000
+     },
+     {
+      "compensationType": "Salary",
+      "interval": "1 YEAR",
+      "currencyCode": "USD",
+      "minValue": 173000,
+      "maxValue": 173000
+     }
+    ]
+   }
+  }
+ ]
+}
