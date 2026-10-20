@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>WorkMachine</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="popup">
+  <header>
+    <img src="icons/icon-32.png" alt="" width="20" height="20">
+    <strong>WorkMachine</strong>
+    <a href="#" id="open-options" class="muted">Opções</a>
+  </header>
+
+  <p id="status" class="muted" role="status">Lendo a vaga desta aba…</p>
+
+  <form id="job-form" hidden>
+    <label>Título <input name="title" required></label>
+    <label>Empresa <input name="company"></label>
+    <label>Local <input name="location_text"></label>
+    <input type="hidden" name="url">
+    <p class="muted small" id="description-info"></p>
+    <label class="check"><input type="checkbox" name="create_application"> Também criar candidatura (status Salva)</label>
+    <button type="submit" class="primary">Salvar no WorkMachine</button>
+  </form>
+
+  <div id="result" hidden></div>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

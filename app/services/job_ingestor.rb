@@ -1,6 +1,6 @@
 # Saves one posting coming from any source (aggregator, LinkedIn alert, extension, manual):
 # dedups by normalized URL and company + title, scores new postings, and fills blank
-# fields of an existing posting with the new data (rescoring if the description arrived).
+# fields of an existing posting with the new data (rescoring if description or location arrived).
 class JobIngestor
   FILLABLE = %i[company description location_text salary_text posted_at].freeze
 
@@ -38,7 +38,7 @@ class JobIngestor
       FILLABLE.each do |field|
         posting[field] = @attributes[field] if posting[field].blank? && @attributes[field].present?
       end
-      apply_score(posting) if posting.description_changed?
+      apply_score(posting) if posting.description_changed? || posting.location_text_changed?
       posting.save! if posting.changed?
       Result.new(posting:, status: :duplicate)
     end

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>WorkMachine · Opções</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="options">
+  <h1>WorkMachine · Opções</h1>
+  <form id="options-form">
+    <label>Endereço do WorkMachine
+      <input name="server" placeholder="http://localhost:3000" required>
+    </label>
+    <label>Token da API
+      <input name="token" type="password" autocomplete="off" required>
+      <span class="muted small">O mesmo valor de WORKMACHINE_API_TOKEN no arquivo .env do WorkMachine.</span>
+    </label>
+    <div class="row">
+      <button type="submit" class="primary">Salvar</button>
+      <button type="button" id="test">Testar conexão</button>
+    </div>
+  </form>
+  <p id="message" role="status"></p>
+  <p class="muted small">A extensão só lê a página quando você clica no ícone dela, e só fala com localhost:3000 ou 127.0.0.1:3000.</p>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
