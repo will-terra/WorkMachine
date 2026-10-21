@@ -5,22 +5,26 @@ class FetchJobsJob < ApplicationJob
   limits_concurrency to: 1, key: "fetch_jobs", on_conflict: :discard
 
   def perform(source_keys = nil, force: false)
+    profile = Profile.current
+    return unless profile.configured?
+
     started_at = Time.current
-    sources = source_keys ? Sources.all.select { Array(source_keys).include?(it.key) } : Sources.all
+    sources = Sources.enabled(profile)
+    sources = sources.select { Array(source_keys).include?(it.key) } if source_keys
 
     sources.each do |source_class|
       next unless force || source_class.due?
 
-      run_source(source_class)
+      run_source(source_class, profile)
     end
 
     NewPostingsNotifier.call(since: started_at)
   end
 
   private
-    def run_source(source_class)
+    def run_source(source_class, profile)
       run = SourceRun.create!(source: source_class.key)
-      source = source_class.new
+      source = source_class.new(profile)
       postings = source.fetch
       created = postings.count { JobIngestor.call(it).created? }
       run.finish!(fetched: postings.size, created:)

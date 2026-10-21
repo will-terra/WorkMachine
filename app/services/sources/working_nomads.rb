@@ -1,6 +1,7 @@
 module Sources
   # https://www.workingnomads.com/api/exposed_jobs/ — public feed of the latest remote jobs.
-  # Kept only when the title or the tags mention Ruby or Rails (descriptions list many stacks).
+  # Kept only when the title or the tags have a search term (descriptions list many stacks; the
+  # site's categories are too loose to filter by).
   class WorkingNomads < Base
     self.key = "working_nomads"
 
@@ -8,7 +9,7 @@ module Sources
 
     def fetch
       HttpClient.get_json(URL).filter_map do |job|
-        next unless ruby_or_rails?(job["title"], job["tags"].to_s.tr(",", " "))
+        next unless relevant?(job["title"], job["tags"].to_s.tr(",", " "))
 
         posting(
           title: job["title"],

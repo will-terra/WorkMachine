@@ -8,13 +8,17 @@ module Sources
     ITEM_URL = "https://hn.algolia.com/api/v1/items/%s".freeze
     ROLE = /engineer|developer|programmer|\bdev\b|architect|\bcto\b|desenvolvedor/i
 
+    def self.applicable?(profile)
+      profile.areas.any? { it.niche_sources.include?(key) }
+    end
+
     def fetch
       story = HttpClient.get_json(SEARCH_URL).fetch("hits", []).find { it["title"].to_s.match?(/who is hiring/i) }
       return [] unless story
 
       HttpClient.get_json(format(ITEM_URL, story["objectID"])).fetch("children", []).filter_map do |comment|
         text = HtmlText.call(comment["text"])
-        next unless text.match?(/\brails\b/i) && text.match?(/\bremote\b/i)
+        next unless relevant?(text) && text.match?(/\bremote\b/i)
 
         build(comment, text)
       end

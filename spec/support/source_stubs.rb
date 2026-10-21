@@ -14,11 +14,13 @@ module SourceStubs
     stub_source("https://remotive.com/api/remote-jobs?search=ruby", "remotive.json")
     stub_source("https://remoteok.com/api", "remote_ok.json")
     stub_source(Sources::WorkingNomads::URL, "working_nomads.json")
-    stub_source("https://himalayas.app/jobs/api/search?q=ruby%20on%20rails&page=1", "himalayas.json")
-    stub_request(:get, "https://himalayas.app/jobs/api/search?q=ruby%20on%20rails&page=2").to_return(body: { jobs: [] }.to_json)
+    stub_source("https://himalayas.app/jobs/api/search?q=rails&page=1", "himalayas.json")
+    [ "q=rails&page=2", "q=ruby&page=1", "q=ruby&page=2" ].each do |query|
+      stub_request(:get, "https://himalayas.app/jobs/api/search?#{query}").to_return(body: { jobs: [] }.to_json)
+    end
     stub_source("https://api.remotar.com.br/jobs?search=ruby", "remotar.json")
     stub_source("https://api.remotar.com.br/jobs?search=rails", "remotar.json")
-    Sources::WeWorkRemotely::FEEDS.each { stub_source(it, "we_work_remotely.rss", content_type: "application/rss+xml") }
+    Sources::WeWorkRemotely.feeds(Profile.current).each { stub_source(it, "we_work_remotely.rss", content_type: "application/rss+xml") }
     stub_source("https://api.github.com/repos/backend-br/vagas/issues?state=open&per_page=100", "backend_br.json")
     stub_source("https://api.github.com/repos/frontendbr/vagas/issues?state=open&per_page=100", "frontend_br.json")
     stub_source(Sources::HackerNews::SEARCH_URL, "hn_search.json")

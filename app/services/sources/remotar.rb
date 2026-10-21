@@ -4,12 +4,12 @@ module Sources
   class Remotar < Base
     self.key = "remotar"
     self.min_interval = 6.hours
+    self.max_searches = 3
 
     URL = "https://api.remotar.com.br/jobs?search=%s".freeze
-    SEARCHES = %w[ruby rails].freeze
 
     def fetch
-      jobs = SEARCHES.flat_map { |term| HttpClient.get_json(format(URL, term)).fetch("data", []) }
+      jobs = search_terms.flat_map { |term| HttpClient.get_json(format(URL, ERB::Util.url_encode(term))).fetch("data", []) }
 
       jobs.uniq { it["id"] }.filter_map do |job|
         next if job["expired"] || job["active"] == false
