@@ -1,7 +1,7 @@
 # WorkMachine
 
-App pessoal para a busca de emprego do Ana Souza. Junta vagas de várias fontes, dá uma nota de
-0 a 100 pela stack dele, controla as candidaturas num kanban (com exportação para planilha), monta
+App de busca de emprego para quem é de tecnologia. Junta vagas de várias fontes, dá uma nota de
+0 a 100 pelo seu perfil, controla as candidaturas num kanban (com exportação para planilha), monta
 mensagens para recrutadores e usa IA para analisar a vaga e adaptar o resumo do CV.
 
 Roda localmente com Docker Compose dentro do WSL2, em `http://localhost:3000`, e pode ser instalado
@@ -103,8 +103,8 @@ O `.env` fica fora do git. Depois de editar, recrie o container com `docker comp
 
 A IA só roda quando você clica em um dos botões da página da vaga. Antes do clique a página mostra uma
 estimativa de custo, e cada resultado guarda o custo real informado pelo OpenRouter. O perfil usado nos
-prompts está em [config/ai/profile.md](config/ai/profile.md): atualize esse arquivo quando o CV mudar,
-porque a IA só usa fatos que estão nele.
+prompts é o texto para a IA da tela **Perfil**: atualize quando o CV mudar, porque a IA só usa fatos que
+estão nele.
 
 ### Senha de app do Gmail (alertas do LinkedIn)
 
@@ -273,7 +273,6 @@ Onde fica cada coisa:
 - `app/services/sources/`: uma classe por fonte de vagas; `Sources.all` define a ordem.
 - `app/services/job_ingestor.rb`: deduplica (URL normalizada e empresa + título), dá a nota e salva.
 - `app/services/linkedin_alerts/`: leitura do Gmail por IMAP e parser dos alertas.
-- `app/services/ai/`: prompts, cliente do OpenRouter e preços; `config/ai/profile.md` é o perfil.
+- `app/services/ai/`: prompts, cliente do OpenRouter, preços e o rascunho do perfil pelo CV.
 - `config/radar.yml` e `config/routine.yml`: buscas do Radar e itens da rotina.
 - `extension/`: a extensão Manifest V3.
-- `docs/PLANO.md`: o plano original e as decisões.
