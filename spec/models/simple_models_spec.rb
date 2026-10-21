@@ -22,6 +22,11 @@ RSpec.describe "Supporting models" do
     it "stores a blank LinkedIn URL as nil" do
       expect(create(:contact, linkedin_url: " ").linkedin_url).to be_nil
     end
+
+    it "stores the canonical LinkedIn profile URL" do
+      expect(build(:contact, linkedin_url: "https://br.linkedin.com/in/Mariana-S/?trk=x").linkedin_url).to eq("https://www.linkedin.com/in/mariana-s")
+      expect(build(:contact, linkedin_url: "https://example.com/mariana").linkedin_url).to eq("https://example.com/mariana")
+    end
   end
 
   describe MessageTemplate do

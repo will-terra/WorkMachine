@@ -1,0 +1,5 @@
+class AddHeadlineToContacts < ActiveRecord::Migration[8.1]
+  def change
+    add_column :contacts, :headline, :string
+  end
+end

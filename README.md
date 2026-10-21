@@ -29,7 +29,8 @@ De onde vêm as vagas, sozinhas:
   chamadas por dia) e toda vaga guarda o link e o crédito da fonte.
 - **Alertas do LinkedIn**, a cada hora: os e-mails de alerta que chegam no Gmail são lidos por IMAP.
 - **Extensão do navegador**: botão "Salvar no WorkMachine" na vaga aberta (LinkedIn, Greenhouse, Lever,
-  Gupy, páginas de carreira…).
+  Gupy, páginas de carreira…), nota no ícone para as vagas do LinkedIn que já estão aqui e recrutadores
+  salvos em Contatos.
 
 O WorkMachine não raspa o LinkedIn e não se candidata sozinho, porque isso viola os termos do LinkedIn
 e arrisca a conta.
@@ -170,8 +171,11 @@ notificações do Chrome estão liberadas em *Configurações do Windows → Sis
 4. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
 
 Para usar: abra a vaga, clique no ícone, confira título, empresa e local e clique em
-**Salvar no WorkMachine**. Quando a extensão mudar, copie a pasta de novo e clique em recarregar na
-página de extensões. Detalhes em [extension/README.md](extension/README.md).
+**Salvar no WorkMachine** ou **Salvar em aplicadas**. Se a vaga já está no WorkMachine, o popup mostra
+a nota e a candidatura. Nas vagas do LinkedIn, o ícone mostra a nota sozinho (verde: já aplicou;
+cinza: descartada), usando só o endereço da aba. A equipe de contratação da vaga e os perfis do
+LinkedIn (`/in/...`) podem ser salvos em **Contatos**. Quando a extensão mudar, copie a pasta de novo
+e clique em recarregar na página de extensões. Detalhes em [extension/README.md](extension/README.md).
 
 ## Empresas-alvo
 

@@ -122,7 +122,7 @@ tasks:
   - key: pessoas
     cadence: weekly
     title: "Recrutadores no LinkedIn"
-    action: "Conecte com 5 por semana, com a nota de conexão de Mensagens. Muita vaga aparece primeiro no post de alguém do time."
+    action: "Conecte com 5 por semana, com a nota de conexão de Mensagens, e salve cada um em Contatos pelo ícone da extensão, no perfil da pessoa. Muita vaga aparece primeiro no post de alguém do time."
     searches:
       - title: "Tech recruiters de Rails (Brasil)"
         query: '("tech recruiter" OR "technical recruiter" OR recrutador) AND (ruby OR rails)'

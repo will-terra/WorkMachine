@@ -39,6 +39,7 @@ pt-BR:
         notes: Notas
       contact:
         name: Nome
+        headline: Cargo
         company: Empresa
         linkedin_url: LinkedIn
         kind: Tipo

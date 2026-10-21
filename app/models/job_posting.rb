@@ -45,6 +45,26 @@ class JobPosting < ApplicationRecord
             remote_scope: result.remote_scope, seniority: result.seniority)
   end
 
+  # "Salvar em Candidaturas": the application is created once, with status Salva.
+  def save_as_application!
+    application = job_application || JobApplication.build_from_posting(self).tap(&:save!)
+    triage_saved!
+    application
+  end
+
+  # "Salvar em aplicadas": the application goes straight to the Aplicada column, dated today.
+  # An application already further along (interview, offer…) is left as it is.
+  def mark_applied!
+    application = job_application || JobApplication.build_from_posting(self)
+    if application.new_record?
+      application.update!(status: "applied")
+    elsif application.status_saved?
+      application.move_to!("applied", JobApplication.status_applied.count)
+    end
+    triage_saved!
+    application
+  end
+
   # Region given by the source itself (Remotar, "[Remoto]" on backend-br), kept in raw.
   def remote_scope_hint
     raw["remote_scope_hint"].presence || legacy_remote_scope_hint

@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
   "name": "WorkMachine",
-  "version": "1.0.0",
-  "description": "Salva a vaga aberta no WorkMachine (localhost:3000) com um clique.",
+  "version": "1.1.0",
+  "description": "Salva vagas e recrutadores no WorkMachine (localhost:3000) e mostra no ícone a nota das vagas do LinkedIn que já estão lá.",
   "permissions": ["activeTab", "scripting", "storage"],
-  "host_permissions": ["http://localhost:3000/*", "http://127.0.0.1:3000/*"],
+  "host_permissions": ["http://localhost:3000/*", "http://127.0.0.1:3000/*", "https://*.linkedin.com/*"],
   "background": {
     "service_worker": "service-worker.js",
     "type": "module"
