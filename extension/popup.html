@@ -12,7 +12,8 @@
     <a href="#" id="open-options" class="muted">Opções</a>
   </header>
 
-  <p id="status" class="muted" role="status">Lendo a vaga desta aba…</p>
+  <div id="found" class="card" hidden></div>
+  <p id="status" class="muted" role="status">Lendo esta aba…</p>
 
   <form id="job-form" hidden>
     <label>Título <input name="title" required></label>
@@ -20,11 +21,54 @@
     <label>Local <input name="location_text"></label>
     <input type="hidden" name="url">
     <p class="muted small" id="description-info"></p>
-    <label class="check"><input type="checkbox" name="create_application"> Também criar candidatura (status Salva)</label>
-    <button type="submit" class="primary">Salvar no WorkMachine</button>
+    <label class="check" id="saved-option"><input type="checkbox" name="create_application"> Também criar candidatura (status Salva)</label>
+    <div class="actions">
+      <button type="submit" class="primary" id="save-button">Salvar no WorkMachine</button>
+      <button type="submit" id="apply-button">Salvar em aplicadas</button>
+    </div>
   </form>
 
-  <div id="result" hidden></div>
+  <div id="result" role="status" hidden></div>
+
+  <section id="people" hidden>
+    <h2>Equipe de contratação</h2>
+    <p class="muted small">Salve em Contatos para mandar mensagem depois.</p>
+  </section>
+
+  <!-- On a LinkedIn profile (/in/...). -->
+  <form id="contact-form" hidden>
+    <label>Nome <input name="name" required></label>
+    <label>Cargo <input name="headline"></label>
+    <label>Empresa <input name="company"></label>
+    <label>Tipo
+      <select name="kind">
+        <option value="recruiter">Recrutador(a)</option>
+        <option value="manager">Gestor(a)</option>
+      </select>
+    </label>
+    <input type="hidden" name="linkedin_url">
+    <button type="submit" class="primary">Salvar contato</button>
+    <p class="small" data-result role="status"></p>
+  </form>
+
+  <!-- One per person of the job's hiring team. -->
+  <template id="person-template">
+    <form class="person">
+      <input name="name" required aria-label="Nome">
+      <input name="headline" aria-label="Cargo" placeholder="Cargo">
+      <input type="hidden" name="company">
+      <input type="hidden" name="linkedin_url">
+      <div class="row">
+        <select name="kind" aria-label="Tipo">
+          <option value="recruiter">Recrutador(a)</option>
+          <option value="manager">Gestor(a)</option>
+        </select>
+        <button type="submit">Salvar contato</button>
+      </div>
+      <p class="small" data-result role="status"></p>
+    </form>
+  </template>
+
   <script type="module" src="popup.js"></script>
 </body>
 </html>

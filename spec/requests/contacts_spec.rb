@@ -10,7 +10,7 @@ RSpec.describe "Contacts" do
     get new_contact_path
     expect(response).to have_http_status(:ok)
 
-    post contacts_path, params: { contact: { name: "Mariana", company: "Acme", kind: "recruiter", linkedin_url: "https://www.linkedin.com/in/mariana" } }
+    post contacts_path, params: { contact: { name: "Mariana", headline: "Tech Recruiter", company: "Acme", kind: "recruiter", linkedin_url: "https://www.linkedin.com/in/mariana" } }
     contact = Contact.last
     expect(response).to redirect_to(contacts_path)
 
@@ -21,7 +21,7 @@ RSpec.describe "Contacts" do
     expect(contact.reload).to be_manager
 
     get contacts_path
-    expect(response.body).to include("Gestor(a)")
+    expect(response.body).to include("Gestor(a)", "Tech Recruiter")
 
     expect { delete contact_path(contact) }.to change(Contact, :count).by(-1)
   end

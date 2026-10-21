@@ -41,6 +41,6 @@ class ContactsController < ApplicationController
     end
 
     def contact_params
-      params.expect(contact: %i[ name company linkedin_url kind last_contacted_on notes ])
+      params.expect(contact: %i[ name headline company linkedin_url kind last_contacted_on notes ])
     end
 end

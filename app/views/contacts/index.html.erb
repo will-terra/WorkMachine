@@ -9,8 +9,11 @@
     </thead>
     <tbody>
       <% @contacts.each do |contact| %>
-        <tr id="<%= dom_id(contact) %>">
-          <td class="font-semibold"><%= external_link contact.name, contact.linkedin_url %></td>
+        <tr id="<%= dom_id(contact) %>" class="scroll-mt-20 target:bg-accent-soft">
+          <td>
+            <span class="font-semibold"><%= external_link contact.name, contact.linkedin_url %></span>
+            <% if contact.headline.present? %><span class="muted block text-xs"><%= contact.headline %></span><% end %>
+          </td>
           <td><%= contact.company %></td>
           <td><%= contact.human_enum(:kind) %></td>
           <td class="whitespace-nowrap"><%= short_date(contact.last_contacted_on) %></td>
@@ -24,6 +27,6 @@
     </tbody>
   </table>
   <% if @contacts.none? %>
-    <p class="muted p-6 text-center text-sm">Nenhum contato ainda. A aba Radar → LinkedIn Pessoas ajuda a achar recrutadores de Rails.</p>
+    <p class="muted p-6 text-center text-sm">Nenhum contato ainda. Salve recrutadores pela extensão do navegador, no perfil do LinkedIn ou na equipe de contratação de uma vaga. O Radar tem as buscas para achar recrutadores de Rails.</p>
   <% end %>
 </div>

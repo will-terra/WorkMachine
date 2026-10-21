@@ -53,7 +53,12 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :job_postings, only: :create
+      resources :job_postings, only: :create do
+        get :lookup, on: :collection
+      end
+      resources :contacts, only: :create do
+        get :lookup, on: :collection
+      end
       get "ping", to: "pings#show"
     end
   end
