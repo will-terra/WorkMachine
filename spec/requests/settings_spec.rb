@@ -17,6 +17,14 @@ RSpec.describe "Settings and push subscriptions" do
     expect(response).to have_http_status(:unprocessable_content)
   end
 
+  it "shows the version and offers the update when there is one" do
+    stub_request(:get, AppVersion::RELEASES_URL).to_return(body: { tag_name: "v99.0.0" }.to_json)
+
+    get settings_path
+
+    expect(response.body).to include("WorkMachine #{AppVersion.current}", "Versão nova disponível: <strong>99.0.0</strong>", "docker compose pull")
+  end
+
   it "turns aggregator sources off and on" do
     get settings_path
     expect(response.body).to include("Fontes automáticas", 'id="source_gorails"')

@@ -1,0 +1,34 @@
+# Development: the code is mounted in the container and reloads on every change.
+#   docker compose -f docker-compose.dev.yml up -d --build
+# (or COMPOSE_FILE=docker-compose.dev.yml in .env, and then just docker compose up -d).
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: workmachine-dev
+    ports:
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      SOLID_QUEUE_IN_PUMA: "1"
+    volumes:
+      - .:/rails
+      - storage:/rails/storage
+      # Daily database backups (DatabaseBackupJob). Point it to a Windows folder in .env.
+      - ${WORKMACHINE_BACKUP_DIR:-./backups}:/rails/backups
+    restart: unless-stopped
+    stop_grace_period: 15s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  storage:

@@ -21,6 +21,8 @@ module LocalSecrets
   end
 
   def [](name)
+    return "0" * (SIZES.fetch(name.to_s) * 2) if ENV["SECRET_KEY_BASE_DUMMY"].present? # assets:precompile in the image build
+
     ENV[name.to_s.upcase].presence || values.fetch(name.to_s)
   end
 

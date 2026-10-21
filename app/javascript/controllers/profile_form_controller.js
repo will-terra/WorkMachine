@@ -12,7 +12,8 @@ export default class extends Controller {
   }
 
   addSkill(event, skill = {}) {
-    const html = this.skillTemplateTarget.innerHTML.replaceAll("NEW_INDEX", `new_${Date.now()}_${Math.floor(Math.random() * 1000)}`)
+    // Rails only reads numbered rows (profile[skills][0][name]…), so new rows get a numeric index too.
+    const html = this.skillTemplateTarget.innerHTML.replaceAll("NEW_INDEX", `${Date.now()}${Math.floor(Math.random() * 1000)}`)
     this.skillsTarget.insertAdjacentHTML("beforeend", html)
     const row = this.skillsTarget.lastElementChild
     if (skill.name) row.querySelector("input[name$='[name]']").value = skill.name

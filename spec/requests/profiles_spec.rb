@@ -18,7 +18,7 @@ RSpec.describe "Profile" do
         name: "Bia", primary_area: "data", seniority: "senior", years_experience: "6",
         target_titles: "Engenheira de Dados\nAnalista de Dados", regions: [ "", "brazil", "us" ], work_modes: [ "" ],
         skills: { "0" => { name: "Python", level: "essential", synonyms: "py" }, "1" => { name: "Rails", level: "extra", _destroy: "1" },
-                  "blank" => { name: "" } },
+                  "1761091234567890" => { name: "" } },
         search_terms: "python, sql", avoid_terms: "", search_overrides: { feed_contratando: "  Python AND vaga ", feed_hiring: "" }
       } }
     }.to have_enqueued_job(RescorePostingsJob)

@@ -1,4 +1,11 @@
-<%= page_header eyebrow: "WorkMachine", title: "Ajustes" %>
+<%= page_header eyebrow: "WorkMachine #{AppVersion.current}", title: "Ajustes" %>
+
+<% if AppVersion.update_available? %>
+  <p class="card mb-6 flex flex-wrap items-center justify-between gap-3 border-accent p-4 text-sm" role="status">
+    <span>Versão nova disponível: <strong><%= AppVersion.latest %></strong> (você está na <%= AppVersion.current %>). Para atualizar: <span class="code inline-block">docker compose pull &amp;&amp; docker compose up -d</span></span>
+    <%= external_link "O que mudou", AppVersion::RELEASES_PAGE, class: "btn btn-sm" %>
+  </p>
+<% end %>
 
 <section class="mb-6 grid gap-6 lg:grid-cols-2">
   <%= render "settings/keys", setting: @setting %>

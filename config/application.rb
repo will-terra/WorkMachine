@@ -41,6 +41,9 @@ module WorkMachine
     # Don't generate system test files.
     config.generators.system_tests = nil
 
+    # Uploaded files (the CV) are never resized.
+    config.active_storage.variant_processor = :disabled
+
     # Keys and passwords saved in Ajustes are encrypted with keys generated for this installation
     # (config/local_secrets.rb). Tests set their own in config/environments/test.rb.
     unless Rails.env.test?
