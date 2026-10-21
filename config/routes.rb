@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       post :apply
       post :dismiss
       post :restore
+      post :dream
     end
     resources :ai_artifacts, path: "ia", only: :create do
       collection { get :estimate, path: "estimativa" }

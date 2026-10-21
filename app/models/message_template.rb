@@ -1,6 +1,9 @@
 class MessageTemplate < ApplicationRecord
   PLACEHOLDERS = %w[nome cargo empresa].freeze
   PLACEHOLDER = /\{\{\s*(#{PLACEHOLDERS.join("|")})\s*\}\}/
+  # Filled from the profile, in the template's language.
+  PROFILE_PLACEHOLDERS = %w[meu_resumo minha_stack].freeze
+  PROFILE_PLACEHOLDER = /\{\{\s*(#{PROFILE_PLACEHOLDERS.join("|")})\s*\}\}/
 
   enum :language, { pt: "pt", en: "en" }, validate: true
 
@@ -23,8 +26,28 @@ class MessageTemplate < ApplicationRecord
   end
 
   # Replaces {{nome}}, {{cargo}} and {{empresa}}. Blank values keep the placeholder visible.
-  def render(values = {})
+  def render(values = {}, profile = Profile.current)
     values = values.to_h.stringify_keys
-    body.gsub(PLACEHOLDER) { values[$1].presence || "{{#{$1}}}" }
+    body_for(profile).gsub(PLACEHOLDER) { values[$1].presence || "{{#{$1}}}" }
+  end
+
+  # The body with {{meu_resumo}} and {{minha_stack}} written from the profile.
+  def body_for(profile = Profile.current)
+    values = self.class.profile_values(profile, language)
+    body.gsub(PROFILE_PLACEHOLDER) { values[$1].presence || "{{#{$1}}}" }
+  end
+
+  # "Full Stack Engineer, com cerca de 3 anos de experiência" and "Rails, Ruby e React".
+  def self.profile_values(profile, language)
+    english = language.to_s == "en"
+    years = profile.years_experience
+    experience = if years.to_i.positive?
+      english ? " with about #{years} years of experience" : ", com cerca de #{years} anos de experiência"
+    end
+    skills = (profile.skills_at("essential") + profile.skills_at("important")).map { it["name"] }.first(4)
+    {
+      "meu_resumo" => ("#{profile.headline}#{experience}" if profile.headline.present?),
+      "minha_stack" => skills.to_sentence(english ? { words_connector: ", ", two_words_connector: " and ", last_word_connector: ", and " } : { words_connector: ", ", two_words_connector: " e ", last_word_connector: " e " })
+    }
   end
 end

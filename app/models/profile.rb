@@ -105,6 +105,22 @@ class Profile < ApplicationRecord
     skills.map { it["name"] }
   end
 
+  def dream_posting?(posting)
+    dream_posting_ids.include?(posting.id)
+  end
+
+  # Marks or unmarks a dream job (up to MAX_DREAM_POSTINGS). Returns false when the list is full.
+  def toggle_dream_posting!(posting)
+    ids = dream_posting?(posting) ? dream_posting_ids - [ posting.id ] : dream_posting_ids + [ posting.id ]
+    return false if ids.size > MAX_DREAM_POSTINGS
+
+    update!(dream_posting_ids: ids)
+  end
+
+  def dream_postings
+    JobPosting.where(id: dream_posting_ids)
+  end
+
   def skills_at(level)
     skills.select { it["level"] == level }
   end

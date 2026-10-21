@@ -35,6 +35,15 @@ RSpec.describe "Supporting models" do
 
       expect(template.render(nome: "Ana", cargo: "Rails Dev", empresa: "")).to eq("Oi, Ana! Vaga de Rails Dev na {{empresa}}.")
     end
+
+    it "writes the summary and the stack of the profile in the template's language" do
+      pt = build(:message_template, language: "pt", body: "Sou {{meu_resumo}}. Stack: {{minha_stack}}.")
+      en = build(:message_template, language: "en", body: "I'm a {{meu_resumo}}. Stack: {{minha_stack}}.")
+
+      expect(pt.render).to eq("Sou Full Stack Engineer (Ruby on Rails + React), com cerca de 3 anos de experiência. Stack: Rails, Ruby, React e Hotwire.")
+      expect(en.render).to eq("I'm a Full Stack Engineer (Ruby on Rails + React) with about 3 years of experience. Stack: Rails, Ruby, React, and Hotwire.")
+      expect(pt.render({}, Profile.new)).to eq("Sou {{meu_resumo}}. Stack: {{minha_stack}}.")
+    end
   end
 
   describe AiArtifact do

@@ -1,5 +1,5 @@
 # Recurring jobs run by Solid Queue (inside Puma with SOLID_QUEUE_IN_PUMA=1).
-# Times are in America/Sao_Paulo, whatever the container's time zone is.
+# The follow-up reminder runs every hour and acts at 8am in the time zone of the profile.
 
 default: &default
   fetch_jobs:
@@ -16,7 +16,7 @@ default: &default
     schedule: every hour at minute 30
   follow_up_reminder:
     class: FollowUpReminderJob
-    schedule: every day at 8am America/Sao_Paulo
+    schedule: every hour at minute 0
   clear_solid_queue_finished_jobs:
     command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
     schedule: every hour at minute 12

@@ -15,7 +15,7 @@
   <div class="sm:col-span-3">
     <%= form.label :body, class: "label" %>
     <%= form.text_area :body, rows: 6, required: true, class: "input" %>
-    <p class="muted mt-1 text-xs">Use {{nome}}, {{cargo}} e {{empresa}}: eles são preenchidos na tela de mensagens.</p>
+    <p class="muted mt-1 text-xs">Use {{nome}}, {{cargo}} e {{empresa}}: eles são preenchidos na tela de mensagens. {{meu_resumo}} (título e anos de experiência) e {{minha_stack}} (skills essenciais e importantes) saem do seu perfil.</p>
   </div>
   <div class="flex gap-2 sm:col-span-3">
     <%= form.submit "Salvar", class: "btn btn-primary" %>

@@ -1,6 +1,6 @@
 module Ai
   # Calls DeepSeek V4 Pro through OpenRouter (OPENROUTER_API_KEY) for one AiArtifact; any other
-  # OpenRouter model can be set in OPENROUTER_MODEL. Runs only from GenerateAiArtifactJob, after Ana clicks.
+  # OpenRouter model can be set in OPENROUTER_MODEL. Runs only from a background job, after a click.
   class Client
     URL = "https://openrouter.ai/api/v1/chat/completions".freeze
     DEFAULT_MODEL = "deepseek/deepseek-v4-pro-0813".freeze

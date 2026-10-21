@@ -3,6 +3,7 @@ class MessageTemplatesController < ApplicationController
 
   # The "Mensagens" page. Opened from a posting, an application or a contact, it pre-fills the placeholders.
   def index
+    @profile = Profile.current
     @message_templates = MessageTemplate.ordered
     @context = context_record
     @values = placeholder_values

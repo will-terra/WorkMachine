@@ -1,10 +1,14 @@
-# Every morning at 8am: applications sent more than 5 days ago without any answer get a
-# follow-up date for today, and a notification lists the follow-ups due, opening the
-# follow-up message already filled in.
+# Every morning at 8am in the profile's time zone (the job runs every hour and acts at 8):
+# applications sent more than 5 days ago without any answer get a follow-up date for today,
+# and a notification lists the follow-ups due, opening the follow-up message already filled in.
 class FollowUpReminderJob < ApplicationJob
   queue_as :default
+  HOUR = 8
 
-  def perform(date = Date.current)
+  def perform(date = nil)
+    return if date.nil? && Time.current.hour != HOUR
+
+    date ||= Date.current
     JobApplication.waiting_answer(date).find_each do |application|
       application.update!(next_follow_up_on: date)
     end

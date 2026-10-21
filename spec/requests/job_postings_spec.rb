@@ -80,6 +80,26 @@ RSpec.describe "Job postings (triage)" do
     expect { post save_job_posting_path(posting) }.not_to change(JobApplication, :count)
   end
 
+  describe "POST /vagas/:id/dream" do
+    it "marks and unmarks a dream job, up to five" do
+      posting = create(:job_posting)
+
+      post dream_job_posting_path(posting)
+      expect(Profile.current.reload.dream_posting_ids).to eq([ posting.id ])
+      get job_posting_path(posting)
+      expect(response.body).to include("★ Vaga dos sonhos")
+      get profile_path
+      expect(response.body).to include(posting.title, "dream_#{posting.id}")
+
+      post dream_job_posting_path(posting)
+      expect(Profile.current.reload.dream_posting_ids).to be_empty
+
+      Profile.current.update!(dream_posting_ids: create_list(:job_posting, 5).map(&:id))
+      post dream_job_posting_path(posting)
+      expect(flash[:alert]).to include("Já são 5")
+    end
+  end
+
   describe "POST /vagas/:id/apply" do
     it "saves the posting straight into the applied column" do
       posting = create(:job_posting, title: "Rails Engineer", company: "Curotec")

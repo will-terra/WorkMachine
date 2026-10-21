@@ -4,7 +4,24 @@ RSpec.describe Ai::Prompt do
   let(:posting) { build(:job_posting, title: "Rails Engineer", company: "Acme", location_text: "Remote - LATAM", description: "Rails 8 and Hotwire") }
 
   it "puts the rules and the profile in the system prompt" do
-    expect(described_class.system_text).to include("Never invent", "<profile>", "Empresa A", "cadastro social", "about 3 years")
+    expect(described_class.system_text).to include("You help Ana Souza", "Never invent", "<profile>", "3 years of Ruby on Rails", "about 3 years")
+    expect(described_class.system_text).not_to include("dream_jobs")
+  end
+
+  it "writes the profile from the form when there is no text for the AI" do
+    profile = build(:profile, name: nil, ai_profile: "", years_experience: nil)
+
+    text = described_class.system_text(profile)
+    expect(text).to include("You help the candidate", "Rails (essential)")
+    expect(text).not_to include("years of professional experience")
+  end
+
+  it "adds the dream jobs and the goal of the profile" do
+    dream = create(:job_posting, title: "Staff Rails Engineer", company: "Dream Co", description: "Build Rails apps")
+    Profile.current.update!(dream_posting_ids: [ dream.id ], salary_usd_min: 4000, salary_usd_max: 6000)
+
+    expect(described_class.system_text).to include("<dream_jobs>", "Staff Rails Engineer at Dream Co: Build Rails apps")
+    expect(described_class.task("fit_analysis", "pt")).to include("they want a mid-level, fully remote role, open to Brazil, Latin America and anywhere in the world (salary range: US$ 4000–6000)")
   end
 
   it "keeps the system prompt free of per-posting data so the cache is shared" do
