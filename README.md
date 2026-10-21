@@ -163,7 +163,7 @@ notificações do Chrome estão liberadas em *Configurações do Windows → Sis
    ```
 2. O Chrome e o Edge nem sempre carregam extensões de dentro do WSL, então copie a pasta para o Windows:
    ```bash
-   cp -r ~/WorkMachine/extension /mnt/c/Users/$USER/WorkMachine-extension
+   cp -r ~/WorkMachine/extension/. /mnt/c/Users/$USER/WorkMachine-extension/
    ```
    (Se o seu usuário do Windows tiver outro nome que o do WSL, ajuste o caminho.)
 3. Abra `chrome://extensions` ou `edge://extensions`, ligue o **Modo do desenvolvedor**, clique em
