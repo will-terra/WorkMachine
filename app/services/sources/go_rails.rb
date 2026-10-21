@@ -7,7 +7,7 @@ module Sources
     URL = "https://jobs.gorails.com/jobs.rss".freeze
 
     def self.applicable?(profile)
-      profile.relevant?("Ruby on Rails")
+      profile.mentions?("Ruby on Rails")
     end
 
     def fetch

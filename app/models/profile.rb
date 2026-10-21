@@ -119,6 +119,12 @@ class Profile < ApplicationRecord
     found >= [ 2, plan_b_terms.size ].min
   end
 
+  # Whether a term is part of the profile at all: search terms, skills or the words of its areas.
+  def mentions?(term)
+    vocabulary = effective_search_terms + skills.flat_map { [ it["name"], *it["synonyms"] ] } + areas.flat_map(&:terms)
+    self.class.terms_regex(vocabulary)&.match?(self.class.normalize_text(term)) || false
+  end
+
   def target_title?(title)
     target_title_regex&.match?(self.class.normalize_text(title)) || false
   end

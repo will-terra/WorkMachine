@@ -1,4 +1,5 @@
-# Daily and weekly checklist defined in config/routine.yml; checks are stored in RoutineCheck.
+# Daily and weekly checklist defined in config/routine.yml, with the profile's words; checks are
+# stored in RoutineCheck.
 class Routine
   Slot = Data.define(:title, :time, :weekly, :items)
   Item = Data.define(:key, :label, :weekly) do
@@ -6,10 +7,11 @@ class Routine
   end
 
   class << self
-    def slots
+    def slots(profile = Profile.current)
+      terms = SearchTerms.new(profile)
       config.fetch("slots").map do |slot|
         weekly = slot.fetch("weekly", false)
-        items = slot.fetch("items").map { |item| Item.new(key: item.fetch("key"), label: item.fetch("label"), weekly:) }
+        items = slot.fetch("items").map { |item| Item.new(key: item.fetch("key"), label: terms.render_text(item.fetch("label")), weekly:) }
         Slot.new(title: slot.fetch("title"), time: slot["time"], weekly:, items:)
       end
     end

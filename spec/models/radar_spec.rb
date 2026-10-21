@@ -16,9 +16,10 @@ RSpec.describe Radar do
     let(:filters) { described_class.default_filters }
 
     it "builds LinkedIn job searches with the chosen region and period" do
-      url = described_class.url_for("li_jobs", '"ruby on rails"', filters.merge("li_region" => "rs", "li_period" => "r604800"))
+      url = described_class.url_for("li_jobs", '"ruby on rails"', filters.merge("li_region" => "local", "li_period" => "r604800"), location: "Curitiba, PR")
 
-      expect(url).to eq("https://www.linkedin.com/jobs/search/?keywords=%22ruby%20on%20rails%22&location=Paran%C3%A1%2C%20Brasil&f_TPR=r604800&sortBy=DD")
+      expect(url).to eq("https://www.linkedin.com/jobs/search/?keywords=%22ruby%20on%20rails%22&location=Curitiba%2C%20PR&f_TPR=r604800&sortBy=DD")
+      expect(described_class.url_for("li_jobs", "rails", filters.merge("li_region" => "local"))).to include("geoId=106057199&f_TPR")
     end
 
     it "forces worldwide remote for the LATAM search" do
@@ -66,6 +67,57 @@ RSpec.describe Radar do
       automated_names = described_class.config.fetch("automated").map { it["name"] }
 
       expect(manual & automated_names).to be_empty
+    end
+  end
+
+  describe ".tasks_for" do
+    let(:profile) { Profile.current }
+
+    it "fills the searches with the profile and keeps a key and the template for each" do
+      searches = described_class.searches_for(profile)
+
+      expect(searches.size).to eq(described_class.searches.size)
+      expect(searches.map { it["key"] }).to all(be_present)
+      expect(searches.map { it["key"] }.uniq.size).to eq(searches.size)
+      contratando = searches.find { it["key"] == "feed_contratando" }
+      expect(contratando).to include("query" => 'Rails AND (vaga OR contratando OR "estamos contratando")', "custom" => false)
+      expect(contratando["template"]).to include("{{stack}}")
+      expect(searches.map { it["query"] }.join).not_to include("{{")
+    end
+
+    it "uses the profile's own query for a search" do
+      profile.update!(search_overrides: { "feed_contratando" => "minha busca {{stack}}" })
+
+      search = described_class.searches_for(profile).find { it["key"] == "feed_contratando" }
+      expect(search).to include("query" => "minha busca Rails", "custom" => true)
+    end
+
+    it "leaves out the searches and links that do not apply" do
+      data = build(:profile, primary_area: "data", plan_b_area: nil, plan_b_terms: [], domains: [], search_terms: [],
+                             skills: [ { "name" => "Python", "level" => "essential" } ])
+      keys = described_class.searches_for(data).map { it["key"] }
+
+      expect(keys).not_to include("alert_plano_b", "alert_setores", "alert_skills")
+      sites = described_class.tasks_for(data).find { it["key"] == "sites" }["links"].map { it["name"] }
+      expect(sites).not_to include("Ruby on Remote")
+      expect(described_class.tasks_for(profile).find { it["key"] == "sites" }["links"].map { it["name"] }).to include("Ruby on Remote")
+    end
+
+    it "renders the texts and escapes the URLs" do
+      telegram = described_class.tasks_for(profile).find { it["key"] == "telegram" }
+      expect(telegram["action"]).to include("“rails” e “ruby”")
+
+      indeed = described_class.tasks_for(profile).find { it["key"] == "sites" }["links"].find { it["name"] == "Indeed Brasil" }
+      expect(indeed["url"]).to eq("https://br.indeed.com/jobs?q=Desenvolvedora%20Ruby%20on%20Rails")
+      expect(described_class.automated.find { it.name == "Remotive" }.note).to start_with("Buscas por “rails” e “ruby”")
+    end
+
+    it "gives the terms for the platform profiles" do
+      expect(described_class.profile_keywords(profile)).to eq(
+        "titles" => [ "Desenvolvedora Ruby on Rails", "Ruby on Rails Developer", "Full Stack Engineer" ],
+        "skills" => %w[Rails Ruby React Hotwire],
+        "plan_b" => [ "React", "TypeScript", "Next.js" ]
+      )
     end
   end
 
