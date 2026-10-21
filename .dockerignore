@@ -49,3 +49,9 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
+# Not needed in the image: tests, coverage, local docs and personal notes.
+/spec
+/coverage
+/docs
+/CLAUDE.local.md

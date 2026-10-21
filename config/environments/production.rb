@@ -25,10 +25,14 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
-  config.assume_ssl = true
+  # It runs on the person's own computer, at http://localhost:3000: no TLS in front of it.
+  config.assume_ssl = false
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
+  config.force_ssl = false
+
+  # Generated on the first boot and kept in the storage volume (config/local_secrets.rb).
+  config.secret_key_base = LocalSecrets["secret_key_base"]
 
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }

@@ -1,25 +1,29 @@
+# WorkMachine on your computer: docker compose up -d, then open http://localhost:3000.
+# To update: docker compose pull && docker compose up -d (the database migrates by itself).
+# Everything stays in the "storage" volume (database, CV, keys) and in the backups folder.
 services:
   web:
-    build:
-      context: .
-      args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
-    image: workmachine-dev
+    # The published image; until it exists (or without access to it), Compose builds it from this folder.
+    image: ghcr.io/will-terra/workmachine:latest
+    pull_policy: missing
+    build: .
     ports:
       - "127.0.0.1:3000:3000"
     env_file:
       - path: .env
         required: false
-    environment:
-      SOLID_QUEUE_IN_PUMA: "1"
     volumes:
-      - .:/rails
       - storage:/rails/storage
-      # Daily database backups (DatabaseBackupJob). Point it to a Windows folder in .env.
+      # Hourly database backups. Point WORKMACHINE_BACKUP_DIR (in .env) to a folder you back up,
+      # e.g. /mnt/c/Users/<you>/Documents/WorkMachine/backups on WSL or ~/Documents/WorkMachine/backups on macOS.
       - ${WORKMACHINE_BACKUP_DIR:-./backups}:/rails/backups
     restart: unless-stopped
     stop_grace_period: 15s
+    healthcheck:
+      test: [ "CMD", "curl", "-fs", "http://localhost:3000/up" ]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
     logging:
       driver: json-file
       options:
