@@ -7,7 +7,6 @@
 #   title_filter           palavras do título que valem nos quadros das empresas-alvo
 #   skills                 sugestões: core entra como essencial, tools como importante, extras como extra
 #   wwr_feeds              feeds do We Work Remotely (categories/<feed>.rss)
-#   working_nomads         categorias do Working Nomads
 #   niche_sources          fontes de nicho que fazem sentido para a área
 
 backend:
@@ -23,7 +22,6 @@ backend:
     tools: ["PostgreSQL", "MySQL", "Redis", "Docker", "AWS", "REST", "GraphQL", "Kafka", "Sidekiq"]
     extras: ["Kubernetes", "Terraform", "RabbitMQ", "Elasticsearch", "CI/CD", "Microsserviços"]
   wwr_feeds: [remote-back-end-programming-jobs, remote-full-stack-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [backend_br, hacker_news]
 
 frontend:
@@ -39,7 +37,6 @@ frontend:
     tools: ["Next.js", "Nuxt", "Tailwind", "CSS", "HTML", "Redux", "GraphQL", "Jest", "Cypress"]
     extras: ["Acessibilidade", "WCAG", "Storybook", "Design System", "Playwright", "Webpack", "Vite"]
   wwr_feeds: [remote-front-end-programming-jobs, remote-full-stack-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [frontend_br, hacker_news]
 
 fullstack:
@@ -55,7 +52,6 @@ fullstack:
     tools: ["PostgreSQL", "MySQL", "Redis", "Docker", "AWS", "REST", "GraphQL", "Next.js", "Tailwind"]
     extras: ["Kubernetes", "Terraform", "CI/CD", "Acessibilidade", "Microsserviços"]
   wwr_feeds: [remote-full-stack-programming-jobs, remote-back-end-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [backend_br, frontend_br, hacker_news]
 
 mobile:
@@ -71,7 +67,6 @@ mobile:
     tools: ["SwiftUI", "Jetpack Compose", "TypeScript", "Firebase", "REST", "GraphQL"]
     extras: ["CI/CD", "Fastlane", "App Store", "Google Play", "Testes de UI"]
   wwr_feeds: [remote-programming-jobs, remote-full-stack-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [hacker_news]
 
 qa:
@@ -87,7 +82,6 @@ qa:
     tools: ["JavaScript", "TypeScript", "Python", "Java", "Postman", "API Testing", "BDD", "Cucumber"]
     extras: ["k6", "JMeter", "CI/CD", "ISTQB", "Testes de performance"]
   wwr_feeds: [remote-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [hacker_news]
 
 devops:
@@ -103,7 +97,6 @@ devops:
     tools: ["Docker", "Helm", "Ansible", "CI/CD", "GitHub Actions", "Prometheus", "Grafana", "Python", "Go", "Bash"]
     extras: ["ArgoCD", "Datadog", "Observabilidade", "FinOps", "Segurança"]
   wwr_feeds: [remote-devops-sysadmin-jobs]
-  working_nomads: ["Development", "Administration"]
   niche_sources: [hacker_news]
 
 data:
@@ -119,7 +112,6 @@ data:
     tools: ["Airflow", "BigQuery", "Snowflake", "Databricks", "Pandas", "AWS", "Kafka", "Looker"]
     extras: ["MLOps", "Estatística", "LLM", "Deep Learning", "Data Warehouse"]
   wwr_feeds: [remote-programming-jobs]
-  working_nomads: ["Development"]
   niche_sources: [hacker_news]
 
 design:
@@ -135,7 +127,6 @@ design:
     tools: ["Design System", "Prototipação", "Testes de usabilidade", "Acessibilidade", "Wireframes"]
     extras: ["HTML", "CSS", "Motion", "Design Thinking", "Métricas de produto"]
   wwr_feeds: [remote-design-jobs]
-  working_nomads: ["Design"]
   niche_sources: []
 
 product:
@@ -151,5 +142,4 @@ product:
     tools: ["OKR", "Jira", "SQL", "Analytics", "A/B Testing", "User Research"]
     extras: ["B2B", "SaaS", "Fintech", "Growth", "Monetização"]
   wwr_feeds: [remote-product-jobs]
-  working_nomads: []
   niche_sources: []

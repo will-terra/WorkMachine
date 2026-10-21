@@ -17,6 +17,15 @@ RSpec.describe "Settings and push subscriptions" do
     expect(response).to have_http_status(:unprocessable_content)
   end
 
+  it "turns aggregator sources off and on" do
+    get settings_path
+    expect(response.body).to include("Fontes automáticas", 'id="source_gorails"')
+
+    patch settings_path, params: { setting: { enabled_sources: [ "", *Sources.all.map(&:key) - %w[remote_ok hacker_news] ] } }
+
+    expect(Setting.current.disabled_sources).to contain_exactly("remote_ok", "hacker_news")
+  end
+
   it "shows the backups and runs one on demand" do
     dir = Pathname(Dir.mktmpdir)
     allow(DatabaseBackup).to receive(:dir).and_return(dir)

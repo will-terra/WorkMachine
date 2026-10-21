@@ -4,11 +4,11 @@ module Sources
     self.key = "remote_ok"
 
     URL = "https://remoteok.com/api".freeze
-    TAGS = /\A(?:ruby|rails|ruby on rails|ror)\z/i
 
+    # Kept when the title or the tags have a search term (descriptions list many stacks).
     def fetch
       HttpClient.get_json(URL).filter_map do |job|
-        next unless job.is_a?(Hash) && job["position"] && Array(job["tags"]).any? { it.to_s.match?(TAGS) }
+        next unless job.is_a?(Hash) && job["position"] && relevant?(job["position"], Array(job["tags"]).join(" "))
 
         posting(
           title: job["position"],

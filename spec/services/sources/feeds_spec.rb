@@ -4,12 +4,12 @@ RSpec.describe "Aggregator sources" do
   def fetch(source_class) = source_class.new.fetch
 
   describe Sources::Remotive do
-    it "fetches rails and ruby searches, dedups and converts HTML" do
+    it "fetches the profile's searches, keeps the relevant jobs, dedups and converts HTML" do
       stub_all_sources
 
       postings = fetch(described_class)
 
-      expect(postings.size).to eq(3)
+      expect(postings.map { it[:title] }).to eq([ "Tech Lead Full-Stack Rails Engineer" ])
       rails_job = postings.find { it[:title] == "Tech Lead Full-Stack Rails Engineer" }
       expect(rails_job).to include(source: "remotive", location_text: "USA, Canada, USA timezones")
       expect(rails_job[:url]).to start_with("https://remotive.com/")

@@ -6,6 +6,10 @@ module Sources
 
     URL = "https://api.github.com/repos/%s/issues?state=open&per_page=100".freeze
 
+    def self.applicable?(profile)
+      profile.areas.any? { it.niche_sources.include?(key) }
+    end
+
     def fetch
       HttpClient.get_json(format(URL, repo), headers:).filter_map do |issue|
         next if issue["pull_request"]
@@ -18,10 +22,6 @@ module Sources
     end
 
     private
-      def relevant?(_text)
-        raise NotImplementedError
-      end
-
       def build(issue, labels)
         title = issue["title"].to_s
         location = title[/\A\s*\[([^\]]+)\]/, 1]&.squish

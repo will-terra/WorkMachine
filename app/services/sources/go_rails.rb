@@ -6,6 +6,10 @@ module Sources
 
     URL = "https://jobs.gorails.com/jobs.rss".freeze
 
+    def self.applicable?(profile)
+      profile.relevant?("Ruby on Rails")
+    end
+
     def fetch
       rss_items(HttpClient.get(URL)).map do |item|
         # Titles look like "Role - Company - Location"; the role itself may contain " - ".

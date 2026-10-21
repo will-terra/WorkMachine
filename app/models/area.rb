@@ -1,7 +1,7 @@
 # A technology area from config/areas.yml (back-end, dados, UX/UI…): suggestions for the profile
 # form and the AI, the words its searches use and the sources that make sense for it.
 class Area
-  KEYS = %w[name group titles_pt titles_en terms hirers title_filter skills wwr_feeds working_nomads niche_sources].freeze
+  KEYS = %w[name group titles_pt titles_en terms hirers title_filter skills wwr_feeds niche_sources].freeze
 
   attr_reader :key, *KEYS.map(&:to_sym)
 

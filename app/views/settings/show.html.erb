@@ -44,6 +44,20 @@
       <%= form.check_box :notify_follow_ups, class: "size-4 accent-accent" %>
       <%= form.label :notify_follow_ups, "Às 8h, notificar os follow-ups do dia (candidaturas sem resposta há 5+ dias)", class: "text-sm" %>
     </div>
+    <fieldset class="border-t border-line pt-4">
+      <legend class="text-base font-bold tracking-tight">Fontes automáticas</legend>
+      <p class="muted mt-1 mb-3 text-sm">O agregador busca nelas a cada 3 horas, pelos termos do seu perfil. As de nicho só aparecem quando combinam com a sua área ou a sua stack.</p>
+      <%= hidden_field_tag "setting[enabled_sources][]", "" %>
+      <div class="grid gap-1.5 sm:grid-cols-2">
+        <% ::Sources.all.each do |source| %>
+          <% applicable = source.applicable?(@profile) %>
+          <label class="flex items-start gap-2 text-sm <%= "muted" unless applicable %>">
+            <%= check_box_tag "setting[enabled_sources][]", source.key, @setting.source_enabled?(source.key), id: "source_#{source.key}", disabled: !applicable, class: "mt-0.5 size-4 accent-accent" %>
+            <span><%= JobPosting.human_enum(:source, source.key) %><% unless applicable %> <span class="text-xs">(não combina com o seu perfil)</span><% end %></span>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
     <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
   <% end %>
 

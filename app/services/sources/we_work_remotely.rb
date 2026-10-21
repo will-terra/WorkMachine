@@ -1,17 +1,20 @@
 module Sources
-  # Public RSS feeds of We Work Remotely, filtered by "ruby"/"rails" in the title or description text.
+  # Public RSS feeds of We Work Remotely for the profile's area, filtered by the search terms in
+  # the title or the description.
   class WeWorkRemotely < Base
     self.key = "we_work_remotely"
 
-    FEEDS = %w[
-      https://weworkremotely.com/categories/remote-full-stack-programming-jobs.rss
-      https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss
-    ].freeze
+    FEED_URL = "https://weworkremotely.com/categories/%s.rss".freeze
+    DEFAULT_FEEDS = %w[remote-full-stack-programming-jobs remote-back-end-programming-jobs].freeze
+
+    def self.feeds(profile)
+      (profile.primary_area_record&.wwr_feeds.presence || DEFAULT_FEEDS).map { format(FEED_URL, it) }
+    end
 
     def fetch
-      FEEDS.flat_map { |feed| rss_items(HttpClient.get(feed)) }.uniq { it["guid"] }.filter_map do |item|
+      self.class.feeds(profile).flat_map { |feed| rss_items(HttpClient.get(feed)) }.uniq { it["guid"] }.filter_map do |item|
         description = HtmlText.call(item["description"])
-        next unless ruby_or_rails?(item["title"], description)
+        next unless relevant?(item["title"], description)
 
         company, title = item["title"].to_s.split(": ", 2)
         title, company = company, nil if title.blank?
