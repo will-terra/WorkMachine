@@ -30,3 +30,6 @@
 !/app/assets/builds/.keep
 /node_modules
 /coverage
+
+# Planos, pesquisa e CVs ficam só na máquina local.
+/docs/
