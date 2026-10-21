@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_213513) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_21_223145) do
   create_table "ai_artifacts", force: :cascade do |t|
     t.integer "job_posting_id", null: false
     t.string "kind", null: false
@@ -139,6 +139,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_213513) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["message_id"], name: "index_processed_emails_on_message_id", unique: true
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string "name"
+    t.string "headline"
+    t.string "location"
+    t.string "time_zone", default: "Brasilia", null: false
+    t.string "languages"
+    t.string "linkedin_url"
+    t.string "github_url"
+    t.string "portfolio_url"
+    t.string "primary_area"
+    t.string "plan_b_area"
+    t.json "target_titles", default: [], null: false
+    t.json "target_titles_en", default: [], null: false
+    t.string "seniority", default: "mid", null: false
+    t.integer "years_experience"
+    t.json "work_modes", default: ["remote"], null: false
+    t.json "regions", default: ["brazil", "latam", "worldwide"], null: false
+    t.integer "salary_brl_min"
+    t.integer "salary_brl_max"
+    t.integer "salary_usd_min"
+    t.integer "salary_usd_max"
+    t.json "skills", default: [], null: false
+    t.json "avoid_terms", default: [], null: false
+    t.json "search_terms", default: [], null: false
+    t.json "plan_b_terms", default: [], null: false
+    t.json "domains", default: [], null: false
+    t.json "search_overrides", default: {}, null: false
+    t.text "ai_profile"
+    t.text "cv_text"
+    t.json "dream_posting_ids", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "push_subscriptions", force: :cascade do |t|

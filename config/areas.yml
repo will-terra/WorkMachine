@@ -1,0 +1,155 @@
+# Pontos de partida por área de tecnologia (docs da v2, seção 4). O formulário do Perfil e a IA usam
+# estas listas como sugestão; o que vale é o que fica salvo no perfil.
+#
+#   titles_pt / titles_en  cargos para sugerir no perfil e montar as buscas
+#   terms                  palavras da área para as buscas ("backend OR back-end")
+#   hirers                 quem contrata, para as buscas de Pessoas no LinkedIn
+#   title_filter           palavras do título que valem nos quadros das empresas-alvo
+#   skills                 sugestões: core entra como essencial, tools como importante, extras como extra
+#   wwr_feeds              feeds do We Work Remotely (categories/<feed>.rss)
+#   working_nomads         categorias do Working Nomads
+#   niche_sources          fontes de nicho que fazem sentido para a área
+
+backend:
+  name: "Back-end"
+  group: "Desenvolvimento"
+  titles_pt: ["Desenvolvedor Back-end", "Engenheiro de Software Back-end"]
+  titles_en: ["Backend Engineer", "Backend Developer", "Software Engineer"]
+  terms: ["backend", "back-end", "back end"]
+  hirers: ["Tech Recruiter", "Engineering Manager", "Tech Lead", "CTO"]
+  title_filter: [engineer, developer, desenvolvedor, programador, software, backend, back-end, "back end"]
+  skills:
+    core: ["Ruby on Rails", "Python", "Django", "Java", "Spring", "Node.js", "Go", "PHP", "Laravel", "C#", ".NET", "Elixir", "Kotlin"]
+    tools: ["PostgreSQL", "MySQL", "Redis", "Docker", "AWS", "REST", "GraphQL", "Kafka", "Sidekiq"]
+    extras: ["Kubernetes", "Terraform", "RabbitMQ", "Elasticsearch", "CI/CD", "Microsserviços"]
+  wwr_feeds: [remote-back-end-programming-jobs, remote-full-stack-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [backend_br, hacker_news]
+
+frontend:
+  name: "Front-end"
+  group: "Desenvolvimento"
+  titles_pt: ["Desenvolvedor Front-end", "Engenheiro de Software Front-end"]
+  titles_en: ["Frontend Engineer", "Frontend Developer", "Software Engineer"]
+  terms: ["frontend", "front-end", "front end"]
+  hirers: ["Tech Recruiter", "Engineering Manager", "Tech Lead", "CTO"]
+  title_filter: [engineer, developer, desenvolvedor, programador, software, frontend, front-end, "front end", "ui engineer"]
+  skills:
+    core: ["React", "Vue.js", "Angular", "Svelte", "TypeScript", "JavaScript"]
+    tools: ["Next.js", "Nuxt", "Tailwind", "CSS", "HTML", "Redux", "GraphQL", "Jest", "Cypress"]
+    extras: ["Acessibilidade", "WCAG", "Storybook", "Design System", "Playwright", "Webpack", "Vite"]
+  wwr_feeds: [remote-front-end-programming-jobs, remote-full-stack-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [frontend_br, hacker_news]
+
+fullstack:
+  name: "Full stack"
+  group: "Desenvolvimento"
+  titles_pt: ["Desenvolvedor Full Stack", "Engenheiro de Software Full Stack"]
+  titles_en: ["Full Stack Engineer", "Full Stack Developer", "Software Engineer"]
+  terms: ["full stack", "fullstack", "full-stack"]
+  hirers: ["Tech Recruiter", "Engineering Manager", "Tech Lead", "CTO"]
+  title_filter: [engineer, developer, desenvolvedor, programador, software, "full stack", fullstack, full-stack, backend, back-end, frontend, front-end]
+  skills:
+    core: ["Ruby on Rails", "Node.js", "Python", "Django", "Java", "PHP", "Laravel", "C#", ".NET", "React", "Vue.js", "Angular", "TypeScript"]
+    tools: ["PostgreSQL", "MySQL", "Redis", "Docker", "AWS", "REST", "GraphQL", "Next.js", "Tailwind"]
+    extras: ["Kubernetes", "Terraform", "CI/CD", "Acessibilidade", "Microsserviços"]
+  wwr_feeds: [remote-full-stack-programming-jobs, remote-back-end-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [backend_br, frontend_br, hacker_news]
+
+mobile:
+  name: "Mobile"
+  group: "Desenvolvimento"
+  titles_pt: ["Desenvolvedor Mobile", "Desenvolvedor iOS", "Desenvolvedor Android"]
+  titles_en: ["Mobile Engineer", "iOS Engineer", "Android Engineer", "React Native Developer"]
+  terms: ["mobile", "ios", "android"]
+  hirers: ["Tech Recruiter", "Engineering Manager", "Tech Lead", "CTO"]
+  title_filter: [mobile, ios, android, "react native", flutter, engineer, developer, desenvolvedor]
+  skills:
+    core: ["Swift", "Kotlin", "React Native", "Flutter", "Dart"]
+    tools: ["SwiftUI", "Jetpack Compose", "TypeScript", "Firebase", "REST", "GraphQL"]
+    extras: ["CI/CD", "Fastlane", "App Store", "Google Play", "Testes de UI"]
+  wwr_feeds: [remote-programming-jobs, remote-full-stack-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [hacker_news]
+
+qa:
+  name: "QA e testes"
+  group: "QA"
+  titles_pt: ["Analista de QA", "Engenheiro de QA", "Analista de Testes"]
+  titles_en: ["QA Engineer", "Software Engineer in Test", "Test Automation Engineer"]
+  terms: ["qa", "quality assurance", "testes"]
+  hirers: ["Tech Recruiter", "QA Manager", "Engineering Manager", "Head of Quality"]
+  title_filter: [qa, quality, test, tester, testes, sdet, automation, automação]
+  skills:
+    core: ["Testes automatizados", "Cypress", "Selenium", "Playwright", "Appium"]
+    tools: ["JavaScript", "TypeScript", "Python", "Java", "Postman", "API Testing", "BDD", "Cucumber"]
+    extras: ["k6", "JMeter", "CI/CD", "ISTQB", "Testes de performance"]
+  wwr_feeds: [remote-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [hacker_news]
+
+devops:
+  name: "DevOps, SRE e cloud"
+  group: "DevOps/SRE/cloud"
+  titles_pt: ["Engenheiro DevOps", "Engenheiro de Confiabilidade (SRE)", "Engenheiro de Cloud"]
+  titles_en: ["DevOps Engineer", "Site Reliability Engineer", "Platform Engineer", "Cloud Engineer"]
+  terms: ["devops", "sre", "cloud", "platform"]
+  hirers: ["Tech Recruiter", "Engineering Manager", "Head of Infrastructure", "CTO"]
+  title_filter: [devops, sre, "site reliability", platform, infrastructure, infraestrutura, cloud, sysadmin]
+  skills:
+    core: ["Kubernetes", "Terraform", "AWS", "GCP", "Azure", "Linux"]
+    tools: ["Docker", "Helm", "Ansible", "CI/CD", "GitHub Actions", "Prometheus", "Grafana", "Python", "Go", "Bash"]
+    extras: ["ArgoCD", "Datadog", "Observabilidade", "FinOps", "Segurança"]
+  wwr_feeds: [remote-devops-sysadmin-jobs]
+  working_nomads: ["Development", "Administration"]
+  niche_sources: [hacker_news]
+
+data:
+  name: "Dados"
+  group: "Dados"
+  titles_pt: ["Engenheiro de Dados", "Cientista de Dados", "Analista de Dados"]
+  titles_en: ["Data Engineer", "Data Scientist", "Data Analyst", "Machine Learning Engineer"]
+  terms: ["dados", "data", "machine learning"]
+  hirers: ["Tech Recruiter", "Head of Data", "Data Engineering Manager", "Analytics Manager"]
+  title_filter: [data, dados, analytics, "machine learning", ml, "business intelligence", bi, scientist, cientista]
+  skills:
+    core: ["Python", "SQL", "Spark", "dbt", "Machine Learning", "Power BI", "Tableau"]
+    tools: ["Airflow", "BigQuery", "Snowflake", "Databricks", "Pandas", "AWS", "Kafka", "Looker"]
+    extras: ["MLOps", "Estatística", "LLM", "Deep Learning", "Data Warehouse"]
+  wwr_feeds: [remote-programming-jobs]
+  working_nomads: ["Development"]
+  niche_sources: [hacker_news]
+
+design:
+  name: "UX/UI"
+  group: "UX/UI e produto"
+  titles_pt: ["Designer de Produto", "UX Designer", "UI Designer"]
+  titles_en: ["Product Designer", "UX Designer", "UI Designer", "UX Researcher"]
+  terms: ["ux", "ui", "product design"]
+  hirers: ["Design Manager", "Head of Design", "Head of Product", "Tech Recruiter"]
+  title_filter: [designer, design, ux, ui, researcher]
+  skills:
+    core: ["Figma", "UX Design", "UI Design", "Product Design", "UX Research"]
+    tools: ["Design System", "Prototipação", "Testes de usabilidade", "Acessibilidade", "Wireframes"]
+    extras: ["HTML", "CSS", "Motion", "Design Thinking", "Métricas de produto"]
+  wwr_feeds: [remote-design-jobs]
+  working_nomads: ["Design"]
+  niche_sources: []
+
+product:
+  name: "Produto"
+  group: "UX/UI e produto"
+  titles_pt: ["Gerente de Produto", "Product Owner", "Product Manager"]
+  titles_en: ["Product Manager", "Product Owner", "Technical Product Manager"]
+  terms: ["product manager", "product owner", "produto"]
+  hirers: ["Head of Product", "VP of Product", "CPO", "Tech Recruiter"]
+  title_filter: [product, produto, "product owner", po, pm]
+  skills:
+    core: ["Product Management", "Discovery", "Roadmap", "Scrum", "Métricas de produto"]
+    tools: ["OKR", "Jira", "SQL", "Analytics", "A/B Testing", "User Research"]
+    extras: ["B2B", "SaaS", "Fintech", "Growth", "Monetização"]
+  wwr_feeds: [remote-product-jobs]
+  working_nomads: []
+  niche_sources: []

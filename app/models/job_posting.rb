@@ -39,8 +39,8 @@ class JobPosting < ApplicationRecord
       (find_by(fingerprint: fingerprint_for(company, title)) if company.present?)
   end
 
-  def rescore!
-    result = JobScorer.call(title:, description:, location_text:, remote_scope_hint:)
+  def rescore!(profile = Profile.current)
+    result = JobScorer.call(title:, description:, location_text:, remote_scope_hint:, profile:)
     update!(score: result.score, matched_keywords: result.matched_keywords,
             remote_scope: result.remote_scope, seniority: result.seniority)
   end

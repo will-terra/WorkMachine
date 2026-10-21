@@ -25,14 +25,14 @@ RSpec.describe JobPostingFilter do
 
   it "filters by period, keyword, salary and open region" do
     create(:job_posting, title: "Rails BR", posted_at: 2.days.ago, remote_scope: "brazil", salary_text: "R$ 10 mil",
-                         matched_keywords: [ { "term" => "rails", "points" => 30 } ])
+                         matched_keywords: [ { "term" => "Rails", "points" => 30 } ])
     create(:job_posting, title: "React EUA", posted_at: 2.days.ago, remote_scope: "us_only",
-                         matched_keywords: [ { "term" => "react", "points" => 10 } ])
+                         matched_keywords: [ { "term" => "React", "points" => 10 } ])
     create(:job_posting, title: "Rails velha", posted_at: 20.days.ago, remote_scope: "latam",
-                         matched_keywords: [ { "term" => "rails", "points" => 30 } ])
+                         matched_keywords: [ { "term" => "Rails", "points" => 30 } ])
 
     expect(titles(period: "7")).to contain_exactly("Rails BR", "React EUA")
-    expect(titles(keyword: "rails")).to contain_exactly("Rails BR", "Rails velha")
+    expect(titles(keyword: "Rails")).to contain_exactly("Rails BR", "Rails velha")
     expect(titles(salary: "1")).to eq([ "Rails BR" ])
     expect(titles(remote_scope: "open")).to contain_exactly("Rails BR", "Rails velha")
     expect(titles(remote_scope: "us_only")).to eq([ "React EUA" ])

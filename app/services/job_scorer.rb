@@ -1,19 +1,8 @@
-# Scores a posting from 0 to 100 against Ana's stack (docs/PLANO.md, section 3) and
-# detects region and seniority. Every rule that fired goes to matched_keywords, so the
+# Scores a posting from 0 to 100 against the profile (Profile.current) and detects region and
+# seniority. Skill points come from the profile's levels; region, experience and seniority rules
+# are relative to what the profile accepts. Every rule that fired goes to matched_keywords, so the
 # triage screen can explain the score.
 class JobScorer
-  KEYWORDS = [
-    [ "rails", /\bruby on rails\b|\brails\b/i, 30 ],
-    [ "ruby", /\bruby\b/i, 10 ],
-    [ "react", /\breact(?:\.?js)?\b/i, 10 ],
-    [ "hotwire/turbo/stimulus", /\b(?:hotwire|turbo|stimulus)\b/i, 8 ],
-    [ "sidekiq", /\bsidekiq\b/i, 5 ],
-    [ "postgres", /\bpostgres(?:ql)?\b/i, 5 ],
-    [ "typescript", /\btypescript\b/i, 4 ],
-    [ "docker/kubernetes", /\b(?:docker|kubernetes|k8s)\b/i, 3 ],
-    [ "govtech", /\bgovtech\b|\bpublic sector\b|\bsetor p[úu]blico\b|\bgest[ãa]o p[úu]blica\b/i, 5 ]
-  ].freeze
-
   REGION_BONUS = 15
   REGION = /\b(?:latam|latin america|south america|brazil|brasil|anywhere|worldwide)\b/i
   OPEN_REGION = /\b(?:latam|latin|south america|brazil|brasil|anywhere|worldwide|global|international)\b/i
@@ -29,21 +18,24 @@ class JobScorer
   BRAZIL = /\b(?:brazil|brasil|são paulo|sao paulo|rio de janeiro|porto alegre|curitiba|belo horizonte|florian[óo]polis)\b/i
   LATAM = /\b(?:latam|latin america|south america|américa latina|america latina)\b/i
   WORLDWIDE = /\b(?:anywhere|worldwide|global)\b/i
-
-  EXPERIENCE_PENALTY = -15
-  LONG_EXPERIENCE = /\b(?:[7-9]|1\d)\s*\+?\s*(?:years|yrs|anos)\b/i
-  SOME_EXPERIENCE_PENALTY = -10
-  SOME_EXPERIENCE = /\b[56]\s*\+?\s*(?:years|yrs|anos)\b/i
-  SENIOR_PENALTY = -10
-  STAFF_PENALTY = -10
-  STAFF = /\b(?:staff|principal)\b/i
+  OPEN_REGIONS = %w[brazil latam worldwide].freeze
   RESTRICTED_TERM = "local restrito".freeze
+
+  # "5+ years", "8 anos"… The largest number asked for counts; above 19 it is not about experience.
+  EXPERIENCE = /\b(\d{1,2})\s*\+?\s*(?:years|yrs|anos)\b/i
+  EXPERIENCE_RANGE = 1..19
+  # Asking for this many years more than the profile has costs these points.
+  EXPERIENCE_GAPS = { 4 => -15, 2 => -10 }.freeze
+  ABOVE_LEVEL_PENALTY = -10
   MANAGEMENT_PENALTY = -15
   MANAGEMENT = /\b(?:manager|head of|director|diretor|vp|vice president|cto|gerente)\b/i
 
+  STAFF = /\b(?:staff|principal)\b/i
   SENIOR = /\b(?:senior|sênior|sr\.?|staff|principal|lead|líder)\b/i
   JUNIOR = /\b(?:junior|júnior|jr\.?|intern|internship|estágio|estagiári[oa]|trainee)\b/i
   MID = /\b(?:mid[- ]?level|mid|pleno|intermediate)\b|\b(?:engineer|developer) ii\b/i
+  LEVELS = %w[junior mid senior staff].freeze
+  LEVEL_TERMS = { "mid" => "pleno", "senior" => "sênior", "staff" => "staff/principal" }.freeze
 
   Result = Data.define(:score, :matched_keywords, :remote_scope, :seniority)
 
@@ -51,32 +43,24 @@ class JobScorer
     new(...).call
   end
 
-  def initialize(title:, description: nil, location_text: nil, remote_scope_hint: nil)
+  def initialize(title:, description: nil, location_text: nil, remote_scope_hint: nil, profile: Profile.current)
     @title = title.to_s
     @location = location_text.to_s
     @text = [ @title, @location, description ].compact.join("\n")
     @hint = remote_scope_hint
+    @profile = profile
   end
 
   def call
-    matches = KEYWORDS.filter_map { |term, pattern, points| { "term" => term, "points" => points } if @text.match?(pattern) }
+    normalized = Profile.normalize_text(@text)
     remote_scope = detect_remote_scope
+    matches = @profile.skill_matches(normalized)
 
-    matches << { "term" => "região aberta", "points" => REGION_BONUS } if @text.match?(REGION)
-    matches << { "term" => "só EUA/Canadá", "points" => REGION_PENALTY } if remote_scope == "us_only"
-    matches << { "term" => "só Europa", "points" => REGION_PENALTY } if remote_scope == "europe_only"
-    matches << { "term" => RESTRICTED_TERM, "points" => REGION_PENALTY } if remote_scope == "unknown" && restricted_location?
-    if @text.match?(LONG_EXPERIENCE)
-      matches << { "term" => "7+ anos", "points" => EXPERIENCE_PENALTY }
-    elsif @text.match?(SOME_EXPERIENCE)
-      matches << { "term" => "5+ anos", "points" => SOME_EXPERIENCE_PENALTY }
-    end
-    if @title.match?(STAFF)
-      matches << { "term" => "staff/principal", "points" => STAFF_PENALTY }
-    elsif @title.match?(SENIOR)
-      matches << { "term" => "sênior", "points" => SENIOR_PENALTY }
-    end
-    matches << { "term" => "gestão", "points" => MANAGEMENT_PENALTY } if @title.match?(MANAGEMENT)
+    matches.concat(region_rules(remote_scope))
+    matches << experience_rule if experience_rule
+    matches << level_rule if level_rule
+    matches << { "term" => "gestão", "points" => MANAGEMENT_PENALTY } if management?
+    matches.concat(@profile.avoid_matches(normalized))
 
     Result.new(
       score: matches.sum { it["points"] }.clamp(0, 100),
@@ -87,6 +71,52 @@ class JobScorer
   end
 
   private
+    def region_rules(remote_scope)
+      rules = []
+      rules << { "term" => "região aberta", "points" => REGION_BONUS } if @text.match?(REGION) && @profile.regions.intersect?(OPEN_REGIONS)
+      rules << { "term" => "só EUA/Canadá", "points" => REGION_PENALTY } if remote_scope == "us_only" && !@profile.accepts_region?("us")
+      rules << { "term" => "só Europa", "points" => REGION_PENALTY } if remote_scope == "europe_only" && !@profile.accepts_region?("europe")
+      rules << { "term" => RESTRICTED_TERM, "points" => REGION_PENALTY } if remote_scope == "unknown" && restricted_location?
+      rules
+    end
+
+    def experience_rule
+      return @experience_rule if defined?(@experience_rule)
+
+      @experience_rule =
+        if (years = @profile.years_experience) && (asked = experience_asked)
+          gap, points = EXPERIENCE_GAPS.find { |gap, _| asked - years >= gap }
+          { "term" => "#{asked}+ anos", "points" => points } if gap
+        end
+    end
+
+    def experience_asked
+      @text.scan(EXPERIENCE).flatten.map(&:to_i).select { EXPERIENCE_RANGE.cover?(it) }.max
+    end
+
+    # A title above the profile's level (sênior for a mid-level profile) costs a few points.
+    def level_rule
+      return @level_rule if defined?(@level_rule)
+
+      level = title_level
+      @level_rule =
+        if level && LEVELS.index(level) > LEVELS.index(@profile.seniority)
+          { "term" => LEVEL_TERMS.fetch(level), "points" => ABOVE_LEVEL_PENALTY }
+        end
+    end
+
+    def title_level
+      return "staff" if @title.match?(STAFF)
+      return "senior" if @title.match?(SENIOR)
+
+      "mid" if @title.match?(MID)
+    end
+
+    # Management titles cost points, unless they are what the profile looks for (Product Manager).
+    def management?
+      @title.match?(MANAGEMENT) && !@profile.target_title?(@title)
+    end
+
     def detect_remote_scope
       return "us_only" if @text.match?(US_ONLY) || location_segments_all?(NORTH_AMERICA)
       return "europe_only" if @text.match?(EUROPE_ONLY) || location_segments_all?(EUROPE)
