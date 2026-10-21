@@ -10,9 +10,9 @@ module Api
 
     private
       def authenticate_token!
-        expected = ENV["WORKMACHINE_API_TOKEN"].to_s
+        expected = AppKeys.api_token.to_s
         if expected.blank?
-          render json: { error: "WORKMACHINE_API_TOKEN não está configurado no servidor (.env)." }, status: :service_unavailable
+          render json: { error: "Gere o token da extensão no WorkMachine, em Ajustes → Extensão do navegador." }, status: :service_unavailable
         else
           authenticate_or_request_with_http_token do |token, _options|
             ActiveSupport::SecurityUtils.secure_compare(token, expected)

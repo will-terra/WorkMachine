@@ -46,10 +46,10 @@ RSpec.describe "AI artifacts" do
     allow(Ai::Client).to receive(:configured?).and_return(false)
 
     expect { post job_posting_ai_artifacts_path(posting), params: { kind: "fit_analysis" } }.not_to change(AiArtifact, :count)
-    expect(flash[:alert]).to include("OPENROUTER_API_KEY")
+    expect(flash[:alert]).to include("chave do OpenRouter em Ajustes")
 
     get job_posting_path(posting)
-    expect(response.body).to include("coloque sua chave")
+    expect(response.body).to include("coloque a sua chave do OpenRouter")
 
     get estimate_job_posting_ai_artifacts_path(posting)
     expect(response.body).not_to include("Custo estimado")

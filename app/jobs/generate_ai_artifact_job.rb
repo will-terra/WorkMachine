@@ -3,7 +3,7 @@ class GenerateAiArtifactJob < ApplicationJob
   queue_as :default
 
   ERRORS = {
-    401 => "OPENROUTER_API_KEY inválida. Confira o .env.",
+    401 => "A chave do OpenRouter é inválida. Confira em Ajustes → Chaves e contas.",
     402 => "Sem créditos no OpenRouter. Adicione créditos em openrouter.ai/settings/credits.",
     429 => "Limite de uso do OpenRouter atingido. Tente de novo em alguns minutos."
   }.freeze

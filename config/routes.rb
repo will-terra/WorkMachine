@@ -29,6 +29,13 @@ Rails.application.routes.draw do
   resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
   resource :settings, path: "ajustes", only: %i[ show update ] do
     post :backup
+    patch :keys, path: "chaves"
+    post :test_openrouter, path: "chaves/testar-openrouter"
+    post :test_gmail, path: "chaves/testar-gmail"
+    post :regenerate_token, path: "chaves/token"
+  end
+  resource :onboarding, path: "primeiro-uso", only: :show do
+    post :finish, path: "concluir"
   end
   resource :profile, path: "perfil", only: %i[ show update ] do
     match :preview, via: %i[ post patch ]

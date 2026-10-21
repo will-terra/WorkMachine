@@ -17,7 +17,7 @@
       <% end %>
     </div>
   <% else %>
-    <p class="card mb-4 p-4 text-sm">Para usar a IA, coloque sua chave do OpenRouter em <span class="font-mono">OPENROUTER_API_KEY</span> no arquivo <span class="font-mono">.env</span> e reinicie o app.</p>
+    <p class="card mb-4 p-4 text-sm">Para usar a IA, coloque a sua chave do OpenRouter em <%= link_to "Ajustes → Chaves e contas", settings_path(anchor: "chaves") %>.</p>
   <% end %>
 
   <div class="grid gap-3">

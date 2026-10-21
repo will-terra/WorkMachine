@@ -24,11 +24,11 @@ module Ai
     end
 
     def self.configured?
-      ENV["OPENROUTER_API_KEY"].present?
+      AppKeys.openrouter_api_key.present?
     end
 
     def self.model
-      ENV["OPENROUTER_MODEL"].presence || DEFAULT_MODEL
+      AppKeys.openrouter_model || DEFAULT_MODEL
     end
 
     def generate(kind, posting, language: "pt")
@@ -80,7 +80,7 @@ module Ai
 
       def headers
         {
-          "Authorization" => "Bearer #{ENV.fetch("OPENROUTER_API_KEY")}",
+          "Authorization" => "Bearer #{AppKeys.openrouter_api_key}",
           "HTTP-Referer" => "https://github.com/will-terra/WorkMachine",
           "X-Title" => "WorkMachine"
         }

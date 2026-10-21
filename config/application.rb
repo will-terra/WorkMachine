@@ -1,4 +1,5 @@
 require_relative "boot"
+require_relative "local_secrets"
 
 require "rails"
 # Pick the frameworks you want:
@@ -39,5 +40,13 @@ module WorkMachine
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Keys and passwords saved in Ajustes are encrypted with keys generated for this installation
+    # (config/local_secrets.rb). Tests set their own in config/environments/test.rb.
+    unless Rails.env.test?
+      config.active_record.encryption.primary_key = LocalSecrets["active_record_encryption_primary_key"]
+      config.active_record.encryption.deterministic_key = LocalSecrets["active_record_encryption_deterministic_key"]
+      config.active_record.encryption.key_derivation_salt = LocalSecrets["active_record_encryption_key_derivation_salt"]
+    end
   end
 end

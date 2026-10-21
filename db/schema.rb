@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_21_225221) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_21_230552) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -250,6 +250,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_225221) do
     t.boolean "notify_replies", default: true, null: false
     t.boolean "notify_follow_ups", default: true, null: false
     t.json "disabled_sources", default: [], null: false
+    t.text "openrouter_api_key"
+    t.string "openrouter_model"
+    t.text "gmail_user"
+    t.text "gmail_app_password"
+    t.text "api_token"
+    t.datetime "onboarded_at"
   end
 
   create_table "source_runs", force: :cascade do |t|
