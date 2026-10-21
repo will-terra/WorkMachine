@@ -7,7 +7,7 @@ namespace :jobs do
     end
   end
 
-  desc "Recalcula a nota de todas as vagas (depois de mudar os pesos do JobScorer)"
+  desc "Recalcula a nota de todas as vagas com o perfil atual"
   task rescore: :environment do
     JobPosting.find_each(&:rescore!)
     puts "#{JobPosting.count} vagas recalculadas."

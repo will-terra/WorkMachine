@@ -10,7 +10,7 @@ class JobPostingFilter
   DEFAULTS = { "triage" => "new", "sort" => "score" }.freeze
 
   def self.keywords
-    JobScorer::KEYWORDS.map(&:first)
+    Profile.current.skill_names
   end
 
   def initialize(params = {})
