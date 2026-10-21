@@ -53,4 +53,63 @@ RSpec.describe "Profile" do
     expect(response.body).to include("Prévia: nada foi salvo ainda", "Python Engineer", "(+20)", "Buscas do Radar que mudam", "python")
     expect(profile.reload.skill_names).to include("Rails")
   end
+
+  describe "CV and AI draft" do
+    let(:pdf) { fixture_file_upload("cv.pdf", "application/pdf") }
+
+    before { stub_request(:get, Ai::Pricing::MODELS_URL).to_return(body: { data: [] }.to_json) }
+
+    around do |example|
+      ENV["OPENROUTER_API_KEY"] = "chave-de-teste"
+      example.run
+    ensure
+      ENV.delete("OPENROUTER_API_KEY")
+    end
+
+    it "reads the CV, makes the draft in the background and opens it in the form" do
+      post upload_cv_profile_path, params: { cv: pdf }
+      expect(response).to redirect_to(profile_path(anchor: "cv"))
+      expect(flash[:notice]).to include("Currículo lido")
+      expect(profile.reload.cv).to be_attached
+      expect(profile.cv_text).to start_with("Ana Souza")
+
+      get profile_path
+      expect(response.body).to include("cv.pdf", "Montar perfil a partir do CV", "Custa cerca de US$")
+
+      expect { post draft_profile_path }.to have_enqueued_job(ProfileDraftJob)
+      get cv_profile_path
+      expect(response.body).to include("Montando o rascunho", 'data-controller="poll"')
+
+      profile.update!(cv_draft: { "name" => "Ana do CV", "skills" => [ { "name" => "Elixir", "level" => "essential", "synonyms" => [] } ] }, cv_draft_status: "done")
+      get cv_profile_path
+      expect(response.body).to include("Rascunho pronto", "Abrir no formulário")
+
+      get profile_path(rascunho: 1)
+      expect(response.body).to include("Rascunho da IA no formulário", 'value="Ana do CV"', 'value="Elixir"', 'name="from_draft"')
+      expect(profile.reload.name).to eq("Ana Souza")
+
+      patch profile_path, params: { from_draft: "1", profile: { name: "Ana do CV" } }
+      expect(profile.reload).to have_attributes(name: "Ana do CV", cv_draft: nil)
+    end
+
+    it "explains what is missing" do
+      post draft_profile_path
+      expect(flash[:alert]).to eq("Envie o currículo primeiro.")
+
+      ENV.delete("OPENROUTER_API_KEY")
+      post draft_profile_path
+      expect(flash[:alert]).to include("chave do OpenRouter")
+
+      post upload_cv_profile_path, params: { cv: fixture_file_upload("candidaturas_excel.csv", "image/png") }
+      expect(flash[:alert]).to include("PDF, DOCX ou TXT")
+    end
+
+    it "discards the draft" do
+      profile.update!(cv_text: "CV", cv_draft: { "name" => "X" }, cv_draft_status: "done")
+
+      delete discard_draft_profile_path
+
+      expect(profile.reload.cv_draft).to be_nil
+    end
+  end
 end

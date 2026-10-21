@@ -33,6 +33,10 @@ gem "web-push"
 # LinkedIn job alerts read from Gmail over IMAP
 gem "net-imap"
 
+# Text of the CV sent on the Perfil screen: PDF pages and the XML inside a .docx
+gem "pdf-reader"
+gem "rubyzip"
+
 # pt-BR translations for validation messages, dates and numbers
 gem "rails-i18n", "~> 8.0"
 

@@ -31,6 +31,10 @@ Rails.application.routes.draw do
   end
   resource :profile, path: "perfil", only: %i[ show update ] do
     match :preview, via: %i[ post patch ]
+    get :cv, path: "curriculo"
+    post :upload_cv, path: "curriculo"
+    post :draft, path: "rascunho"
+    delete :discard_draft, path: "rascunho"
   end
   resources :push_subscriptions, only: %i[ create destroy ] do
     collection do
