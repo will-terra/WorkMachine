@@ -1,6 +1,21 @@
 require "rails_helper"
 
 RSpec.describe FollowUpReminderJob do
+  around { |example| travel_to(Time.zone.now.change(hour: 8, min: 1)) { example.run } }
+
+  it "acts only at 8am in the profile's time zone" do
+    old = create(:job_application, status: "applied", applied_on: 6.days.ago.to_date)
+
+    travel_to(Time.zone.now.change(hour: 9))
+    described_class.perform_now
+    expect(old.reload.next_follow_up_on).to be_nil
+
+    Profile.current.update!(time_zone: "Lisbon")
+    travel_to(Time.find_zone("Lisbon").now.change(hour: 8, min: 5))
+    described_class.perform_now
+    expect(old.reload.next_follow_up_on).to be_present
+  end
+
   it "sets today's follow-up on applications waiting more than 5 days" do
     old = create(:job_application, status: "applied", applied_on: 6.days.ago.to_date)
     recent = create(:job_application, status: "applied", applied_on: 2.days.ago.to_date)
@@ -54,6 +69,6 @@ RSpec.describe FollowUpReminderJob do
     tasks = YAML.load(Rails.root.join("config/recurring.yml").read, aliases: true).fetch("production")
 
     expect(tasks.dig("fetch_jobs", "schedule")).to eq("every 3 hours")
-    expect(tasks.dig("follow_up_reminder", "schedule")).to eq("every day at 8am America/Sao_Paulo")
+    expect(tasks.dig("follow_up_reminder", "schedule")).to eq("every hour at minute 0")
   end
 end

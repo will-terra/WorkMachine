@@ -1,7 +1,7 @@
 class JobPostingsController < ApplicationController
   PER_PAGE = 50
 
-  before_action :set_job_posting, only: %i[ show save apply dismiss restore ]
+  before_action :set_job_posting, only: %i[ show save apply dismiss restore dream ]
 
   # Triage: new postings, with filters and ordering (JobPostingFilter).
   def index
@@ -54,6 +54,18 @@ class JobPostingsController < ApplicationController
   def apply
     application = @job_posting.mark_applied!
     redirect_to job_posting_path(@job_posting), notice: "#{application.company} · #{application.role} está em Candidaturas como #{application.human_enum(:status).downcase}."
+  end
+
+  # "Vaga dos sonhos": up to five postings the AI reads as the kind of role the person aims for.
+  def dream
+    profile = Profile.current
+    profile.save! if profile.new_record?
+    if profile.toggle_dream_posting!(@job_posting)
+      notice = profile.dream_posting?(@job_posting) ? "Marcada como vaga dos sonhos. A IA passa a usá-la como referência." : "Tirada das vagas dos sonhos."
+      redirect_back_or_to job_posting_path(@job_posting), notice:
+    else
+      redirect_back_or_to job_posting_path(@job_posting), alert: "Já são #{Profile::MAX_DREAM_POSTINGS} vagas dos sonhos. Tire uma no Perfil antes."
+    end
   end
 
   def dismiss

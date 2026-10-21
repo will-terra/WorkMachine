@@ -197,6 +197,25 @@
     </div>
   </details>
 
+  <section class="card grid gap-3 p-5" aria-labelledby="dream_title">
+    <div>
+      <h2 id="dream_title" class="text-base">Vagas dos sonhos</h2>
+      <p class="muted mt-1 text-sm">Até <%= Profile::MAX_DREAM_POSTINGS %> vagas que você aceitaria na hora. A IA usa como referência do nível e do tipo de vaga que você busca. Marque na página da vaga, em “☆ Vaga dos sonhos”.</p>
+    </div>
+    <% if @profile.dream_postings.any? %>
+      <ul class="grid gap-1.5">
+        <% @profile.dream_postings.each do |posting| %>
+          <li class="flex flex-wrap items-center justify-between gap-2 text-sm">
+            <%= link_to "#{posting.title} · #{posting.display_company}", job_posting_path(posting) %>
+            <button type="submit" form="dream_<%= posting.id %>" class="btn btn-ghost btn-sm">Tirar</button>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="muted text-sm">Nenhuma ainda.</p>
+    <% end %>
+  </section>
+
   <section class="card grid gap-3 p-5" aria-labelledby="ai_title">
     <div>
       <h2 id="ai_title" class="text-base">Texto para a IA</h2>
@@ -212,3 +231,8 @@
 <% end %>
 
 <%= turbo_frame_tag "profile_preview" %>
+
+<%# Forms of the "Tirar" buttons, outside the profile form. %>
+<% @profile.dream_postings.each do |posting| %>
+  <%= form_with url: dream_job_posting_path(posting), id: "dream_#{posting.id}", data: { turbo_confirm: "Tirar #{posting.title} das vagas dos sonhos?" } do %><% end %>
+<% end %>

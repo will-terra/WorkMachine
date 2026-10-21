@@ -1,6 +1,9 @@
 <%= page_header eyebrow: [ @job_posting.human_enum(:source), @job_posting.human_enum(:triage), (@job_posting.auto_dismissed_reason && "automaticamente: #{@job_posting.auto_dismissed_reason}") ].compact.join(" · "), title: @job_posting.title do %>
   <%= external_link "Abrir vaga", @job_posting.url, class: "btn btn-sm" %>
   <%= link_to "Mensagem", message_templates_path(job_posting_id: @job_posting.id), class: "btn btn-sm" %>
+  <% dream = Profile.current.dream_posting?(@job_posting) %>
+  <%= button_to dream ? "★ Vaga dos sonhos" : "☆ Vaga dos sonhos", dream_job_posting_path(@job_posting), class: [ "btn btn-sm", ("border-accent text-accent" if dream) ],
+                title: dream ? "Tirar das vagas dos sonhos" : "Usar como referência do que você busca (até #{Profile::MAX_DREAM_POSTINGS})", aria: { pressed: dream } %>
   <% close_tab = { controller: "close-tab", action: "turbo:submit-end->close-tab#closeOnSuccess" } %>
   <% if @job_posting.triage_new? %>
     <%= button_to "Descartar", dismiss_job_posting_path(@job_posting), class: "btn btn-sm", form: { data: close_tab } %>
