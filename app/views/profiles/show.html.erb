@@ -1,9 +1,18 @@
 <%= page_header eyebrow: "Você", title: "Perfil",
                 intro: "O que você procura. A nota das vagas, as buscas das fontes automáticas, o Radar e a IA saem daqui. Use “Ver prévia” para conferir antes de salvar." %>
 
+<%= render "profiles/cv", profile: @profile unless @from_draft %>
+
 <% areas = Area.all.to_h { [ it.key, { skills: it.suggested_skills, titles_pt: it.titles_pt, titles_en: it.titles_en } ] } %>
 <%= form_with model: @profile, url: profile_path, method: :patch, class: "grid gap-6",
               data: { controller: "profile-form", profile_form_areas_value: areas.to_json } do |form| %>
+  <% if @from_draft %>
+    <%= hidden_field_tag :from_draft, "1" %>
+    <p class="card border-accent bg-accent-soft p-4 text-sm" role="status">
+      <strong>Rascunho da IA no formulário.</strong> Nada foi salvo ainda: revise cada campo, ajuste os níveis das skills e clique em
+      <strong>Salvar perfil</strong>. <%= link_to "Voltar ao perfil salvo", profile_path %>
+    </p>
+  <% end %>
   <%= render "shared/errors", record: @profile %>
 
   <section class="card grid gap-4 p-5 sm:grid-cols-2" aria-labelledby="who_title">

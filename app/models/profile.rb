@@ -12,6 +12,9 @@ class Profile < ApplicationRecord
   SCORING_ATTRIBUTES = %w[skills avoid_terms regions seniority years_experience target_titles target_titles_en].freeze
   MAX_SKILLS = 60
   MAX_DREAM_POSTINGS = 5
+  MAX_CV_SIZE = 5.megabytes
+
+  has_one_attached :cv
 
   validates :seniority, inclusion: { in: SENIORITIES }
   validates :years_experience, numericality: { only_integer: true, in: 0..60 }, allow_nil: true
@@ -82,6 +85,12 @@ class Profile < ApplicationRecord
 
   def configured?
     skills.any? || search_terms.any?
+  end
+
+  # Fills the form with the AI draft (Perfil → Abrir no formulário), without saving.
+  def apply_draft
+    assign_attributes(cv_draft.to_h.slice(*Ai::ProfileDraft::TEXT_KEYS, *Ai::ProfileDraft::LIST_KEYS,
+                                          "primary_area", "plan_b_area", "seniority", "years_experience", "skills"))
   end
 
   def areas

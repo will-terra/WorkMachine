@@ -1,0 +1,55 @@
+<%= turbo_frame_tag "profile_cv" do %>
+  <section id="cv" class="card mb-6 grid scroll-mt-20 gap-4 p-5" aria-labelledby="cv_title">
+    <div>
+      <h2 id="cv_title" class="text-base">Comece pelo currículo</h2>
+      <p class="muted mt-1 max-w-prose text-sm">
+        Envie o CV (PDF, DOCX ou TXT). A IA monta um rascunho do perfil e você revisa no formulário antes de salvar.
+        O arquivo fica só neste computador; o texto vai para o OpenRouter apenas quando você clicar em montar o rascunho.
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-end gap-3">
+      <%= form_with url: upload_cv_profile_path, multipart: true, class: "flex flex-wrap items-end gap-2", data: { turbo_frame: "_top" } do |form| %>
+        <div>
+          <%= form.label :cv, profile.cv.attached? ? "Trocar o currículo" : "Arquivo do currículo", class: "label" %>
+          <%= form.file_field :cv, accept: ".pdf,.docx,.txt,.md", required: true, class: "input text-sm" %>
+        </div>
+        <%= form.submit "Enviar", class: "btn" %>
+      <% end %>
+      <% if profile.cv.attached? %>
+        <p class="muted text-sm">
+          <%= profile.cv.filename %> · <%= number_to_human_size(profile.cv.byte_size) %> · <%= pluralize(profile.cv_text.to_s.length, "caractere", plural: "caracteres") %> lidos
+        </p>
+      <% end %>
+    </div>
+
+    <% if profile.cv_text.present? %>
+      <details>
+        <summary class="cursor-pointer text-sm font-semibold">Texto lido do currículo</summary>
+        <pre class="code mt-2 max-h-64 overflow-y-auto whitespace-pre-wrap"><%= profile.cv_text %></pre>
+      </details>
+
+      <div class="border-t border-line pt-4" role="status">
+        <% if !Ai::ProfileDraft.configured? %>
+          <p class="text-sm text-warn">Para montar o rascunho com a IA, coloque a chave do OpenRouter em <%= link_to "Ajustes", settings_path, data: { turbo_frame: "_top" } %>. Sem ela, preencha o formulário abaixo.</p>
+        <% elsif profile.cv_draft_status == "pending" %>
+          <p class="text-sm font-semibold" data-controller="poll" data-poll-url-value="<%= cv_profile_path %>">Montando o rascunho com a IA…</p>
+        <% elsif profile.cv_draft.present? %>
+          <div class="flex flex-wrap items-center gap-2">
+            <p class="text-sm font-semibold text-ok">Rascunho pronto.</p>
+            <%= link_to "Abrir no formulário para revisar", profile_path(rascunho: 1), class: "btn btn-primary btn-sm", data: { turbo_frame: "_top" } %>
+            <%= button_to "Descartar", discard_draft_profile_path, method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } } %>
+          </div>
+        <% else %>
+          <% if profile.cv_draft_status == "failed" %>
+            <p class="mb-2 text-sm font-semibold text-accent" role="alert">O rascunho falhou: <%= profile.cv_draft_error %></p>
+          <% end %>
+          <div class="flex flex-wrap items-center gap-2">
+            <%= button_to "Montar perfil a partir do CV", draft_profile_path, class: "btn btn-primary btn-sm", form: { data: { turbo_frame: "_top" } } %>
+            <span class="muted text-xs">Custa cerca de US$ <%= number_with_precision(Ai::ProfileDraft.estimate(profile.cv_text), precision: 3) %> com <%= Ai::Client.model %>.</span>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </section>
+<% end %>
