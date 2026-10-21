@@ -3,6 +3,12 @@
   <%= link_to "Vagas novas (#{@new_postings_count})", job_postings_path, class: "btn btn-primary btn-sm" %>
 <% end %>
 
+<% unless @profile.configured? %>
+  <p class="card mb-6 p-4 text-sm" role="status">
+    As buscas saem do seu perfil. <%= link_to "Preencha o perfil", profile_path, class: "font-semibold" %> (área, cargos e skills) para o Radar montar todas.
+  </p>
+<% end %>
+
 <%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
 
 <nav class="mb-2 flex flex-wrap gap-1" aria-label="Frequência">

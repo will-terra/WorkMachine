@@ -29,6 +29,9 @@ Rails.application.routes.draw do
   resource :settings, path: "ajustes", only: %i[ show update ] do
     post :backup
   end
+  resource :profile, path: "perfil", only: %i[ show update ] do
+    match :preview, via: %i[ post patch ]
+  end
   resources :push_subscriptions, only: %i[ create destroy ] do
     collection do
       delete :unsubscribe

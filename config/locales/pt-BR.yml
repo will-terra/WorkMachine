@@ -37,6 +37,34 @@ pt-BR:
         contact_url: Link do contato ou da vaga
         salary_range: Faixa salarial
         notes: Notas
+      profile:
+        name: Nome
+        headline: Título profissional
+        location: Cidade
+        time_zone: Fuso horário
+        languages: Idiomas
+        linkedin_url: LinkedIn
+        github_url: GitHub
+        portfolio_url: Portfólio
+        primary_area: Área principal
+        plan_b_area: Plano B
+        target_titles: Cargos alvo em português
+        target_titles_en: Cargos alvo em inglês
+        seniority: Nível
+        years_experience: Anos de experiência
+        work_modes: Modelo de trabalho
+        regions: Regiões aceitas
+        salary_brl_min: Faixa em R$ (de)
+        salary_brl_max: Faixa em R$ (até)
+        salary_usd_min: Faixa em US$ (de)
+        salary_usd_max: Faixa em US$ (até)
+        skills: Skills
+        avoid_terms: Termos a evitar
+        search_terms: Termos de busca
+        plan_b_terms: Termos do plano B
+        domains: Setores de interesse
+        ai_profile: Texto para a IA
+        dream_posting_ids: Vagas dos sonhos
       contact:
         name: Nome
         headline: Cargo
@@ -115,6 +143,25 @@ pt-BR:
         rejected: Recusada
         no_response: Sem resposta
         withdrawn: Desisti
+    profile:
+      seniority:
+        junior: Júnior
+        mid: Pleno
+        senior: Sênior
+      regions:
+        brazil: Brasil
+        latam: América Latina
+        worldwide: Mundo todo
+        us: EUA e Canadá
+        europe: Europa
+      work_modes:
+        remote: Remoto
+        hybrid: Híbrido
+        onsite: Presencial
+      levels:
+        essential: Essencial (+30)
+        important: Importante (+10)
+        extra: Extra (+5)
     contact:
       kind:
         recruiter: Recrutador(a)
