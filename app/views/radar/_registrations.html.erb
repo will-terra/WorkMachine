@@ -10,7 +10,7 @@
 <details class="mt-4">
   <summary class="cursor-pointer text-sm font-semibold">Termos para preencher os perfis</summary>
   <div class="mt-2 grid gap-3 text-sm">
-    <% { "Títulos" => keywords["titles"], "Diferenciais" => keywords["skills"], "Plano B" => keywords["plan_b"] }.each do |label, terms| %>
+    <% { "Títulos" => keywords["titles"], "Skills" => keywords["skills"], "Plano B" => keywords["plan_b"] }.compact_blank.each do |label, terms| %>
       <div>
         <p class="label"><%= label %></p>
         <div class="flex flex-wrap gap-1.5"><% terms.each do |term| %><span class="chip"><%= term %></span><% end %></div>

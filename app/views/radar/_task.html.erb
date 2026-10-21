@@ -46,7 +46,7 @@
             </div>
             <div class="code text-xs" data-clipboard-target="source"><%= search["query"] %></div>
             <div class="flex gap-1.5">
-              <%= link_to "Abrir", Radar.url_for(search["builder"], search["query"], @filters), class: "btn btn-primary btn-sm", target: "_blank", rel: "noopener", aria: { label: "Abrir busca: #{search["title"]}" } %>
+              <%= link_to "Abrir", Radar.url_for(search["builder"], search["query"], @filters, location: @profile.location), class: "btn btn-primary btn-sm", target: "_blank", rel: "noopener", aria: { label: "Abrir busca: #{search["title"]}" } %>
               <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="Copiar termo: <%= search["title"] %>">Copiar</button>
             </div>
           </div>
@@ -73,5 +73,5 @@
     </p>
   <% end %>
 
-  <%= render "radar/registrations", registrations: @registrations, keywords: @config["profile_keywords"] if task["registrations"] %>
+  <%= render "radar/registrations", registrations: @registrations, keywords: Radar.profile_keywords(@profile) if task["registrations"] %>
 </article>

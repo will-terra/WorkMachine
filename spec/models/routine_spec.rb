@@ -10,6 +10,10 @@ RSpec.describe Routine do
     expect(described_class.rules).to be_present
   end
 
+  it "writes the items with the profile's words" do
+    expect(described_class.find_item("e1").label).to eq("Grupos do Telegram: buscar “rails” e “ruby” em cada um")
+  end
+
   it "keeps daily checks for the day only" do
     expect(described_class.toggle!("m1", monday)).to be(true)
 

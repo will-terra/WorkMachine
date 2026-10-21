@@ -1,6 +1,7 @@
-# Rotina diária e semanal (docs/radar-vagas-rails.html, seção Rotina), ajustada ao que o app já automatiza.
+# Rotina diária e semanal das diretrizes de recolocação, ajustada ao que o app já automatiza.
 # Itens de slots "weekly: true" ficam marcados a semana toda; os outros recomeçam a cada dia.
 # Não troque as chaves (key) de itens já usados: elas ficam gravadas em RoutineCheck.
+# Os textos aceitam as variáveis do perfil do Radar ({{termos}}, {{area}}…).
 
 slots:
   - title: "Manhã"
@@ -18,7 +19,7 @@ slots:
   - title: "Fim do dia"
     time: "~10 min"
     items:
-      - { key: e1, label: "Grupos do Telegram: buscar “rails” e “ruby” em cada um" }
+      - { key: e1, label: "Grupos do Telegram: buscar {{termos}} em cada um" }
       - { key: e2, label: "Revisar posts recentes sobre a stack e comentar em 1 ou 2" }
       - { key: e3, label: "Cobrar os follow-ups do Painel (o app marca quem está há mais de 5 dias sem resposta)" }
   - title: "Uma vez por semana"
@@ -26,8 +27,8 @@ slots:
     weekly: true
     items:
       - { key: w1, label: "Google nos ATS (filtro Semana) e cadastrar as empresas boas em Empresas-alvo" }
-      - { key: w2, label: "Radar → Sites sem API: Ruby on Remote e Programathor (o resto já é automático)" }
-      - { key: w3, label: "Conectar com 5 recrutadores da planilha (Ruby, React, Full Stack)" }
+      - { key: w2, label: "Radar → Sites sem API (o resto já é automático)" }
+      - { key: w3, label: "Conectar com 5 recrutadores da sua área (Radar → Recrutadores no LinkedIn)" }
       - { key: w4, label: "Radar → Automático: conferir se alguma fonte falhou e se os alertas do LinkedIn estão chegando" }
 
 rules:
