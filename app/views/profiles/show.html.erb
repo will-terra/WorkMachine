@@ -1,0 +1,205 @@
+<%= page_header eyebrow: "Você", title: "Perfil",
+                intro: "O que você procura. A nota das vagas, as buscas das fontes automáticas, o Radar e a IA saem daqui. Use “Ver prévia” para conferir antes de salvar." %>
+
+<% areas = Area.all.to_h { [ it.key, { skills: it.suggested_skills, titles_pt: it.titles_pt, titles_en: it.titles_en } ] } %>
+<%= form_with model: @profile, url: profile_path, method: :patch, class: "grid gap-6",
+              data: { controller: "profile-form", profile_form_areas_value: areas.to_json } do |form| %>
+  <%= render "shared/errors", record: @profile %>
+
+  <section class="card grid gap-4 p-5 sm:grid-cols-2" aria-labelledby="who_title">
+    <h2 id="who_title" class="text-base sm:col-span-2">Quem é você</h2>
+    <div>
+      <%= form.label :name, class: "label" %>
+      <%= form.text_field :name, class: "input", autocomplete: "name" %>
+    </div>
+    <div>
+      <%= form.label :headline, class: "label" %>
+      <%= form.text_field :headline, class: "input", placeholder: "Full Stack Engineer (Ruby on Rails + React)" %>
+    </div>
+    <div>
+      <%= form.label :location, class: "label" %>
+      <%= form.text_field :location, class: "input", placeholder: "Curitiba, PR, Brasil" %>
+      <p class="muted mt-1 text-xs">Usada no filtro “Perto de você” do Radar.</p>
+    </div>
+    <div>
+      <%= form.label :time_zone, class: "label" %>
+      <%= form.time_zone_select :time_zone, [ ActiveSupport::TimeZone["Brasilia"] ], {}, class: "input" %>
+    </div>
+    <div>
+      <%= form.label :languages, class: "label" %>
+      <%= form.text_field :languages, class: "input", placeholder: "Português (nativo), inglês (avançado)" %>
+    </div>
+    <div>
+      <%= form.label :linkedin_url, class: "label" %>
+      <%= form.url_field :linkedin_url, class: "input", placeholder: "https://www.linkedin.com/in/…" %>
+    </div>
+    <div>
+      <%= form.label :github_url, class: "label" %>
+      <%= form.url_field :github_url, class: "input", placeholder: "https://github.com/…" %>
+    </div>
+    <div>
+      <%= form.label :portfolio_url, class: "label" %>
+      <%= form.url_field :portfolio_url, class: "input", placeholder: "https://" %>
+    </div>
+  </section>
+
+  <section class="card grid gap-4 p-5 sm:grid-cols-2" aria-labelledby="goal_title">
+    <h2 id="goal_title" class="text-base sm:col-span-2">Área e objetivo</h2>
+    <div>
+      <%= form.label :primary_area, class: "label" %>
+      <%= form.select :primary_area, grouped_options_for_select(Area.grouped_options, @profile.primary_area), { include_blank: "Escolha" },
+                      class: "input", data: { action: "profile-form#areaChanged", profile_form_target: "area" } %>
+    </div>
+    <div>
+      <%= form.label :plan_b_area, class: "label" %>
+      <%= form.select :plan_b_area, grouped_options_for_select(Area.grouped_options, @profile.plan_b_area), { include_blank: "Nenhum" }, class: "input" %>
+    </div>
+    <div>
+      <%= form.label :target_titles, class: "label" %>
+      <%= form.text_area :target_titles, value: @profile.target_titles.join("\n"), rows: 3, class: "input", data: { profile_form_target: "titlesPt" } %>
+      <p class="muted mt-1 text-xs">Um por linha. Sugestões: <span data-profile-form-target="titlesPtSuggestions"></span></p>
+    </div>
+    <div>
+      <%= form.label :target_titles_en, class: "label" %>
+      <%= form.text_area :target_titles_en, value: @profile.target_titles_en.join("\n"), rows: 3, class: "input", data: { profile_form_target: "titlesEn" } %>
+      <p class="muted mt-1 text-xs">Um por linha. Sugestões: <span data-profile-form-target="titlesEnSuggestions"></span></p>
+    </div>
+    <div>
+      <%= form.label :seniority, class: "label" %>
+      <%= form.select :seniority, Profile::SENIORITIES.map { [ Profile.human_enum(:seniority, it), it ] }, {}, class: "input" %>
+      <p class="muted mt-1 text-xs">Títulos acima do seu nível perdem 10 pontos.</p>
+    </div>
+    <div>
+      <%= form.label :years_experience, class: "label" %>
+      <%= form.number_field :years_experience, min: 0, max: 60, class: "input w-32" %>
+      <p class="muted mt-1 text-xs">Vagas que pedem 2 ou mais anos a mais perdem pontos.</p>
+    </div>
+    <fieldset>
+      <legend class="label">Modelo de trabalho</legend>
+      <%= hidden_field_tag "profile[work_modes][]", "" %>
+      <div class="flex flex-wrap gap-3">
+        <% Profile::WORK_MODES.each do |mode| %>
+          <label class="flex items-center gap-1.5 text-sm">
+            <%= check_box_tag "profile[work_modes][]", mode, @profile.work_modes.include?(mode), id: "work_mode_#{mode}", class: "size-4 accent-accent" %>
+            <%= Profile.human_enum(:work_modes, mode) %>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend class="label">Regiões aceitas</legend>
+      <%= hidden_field_tag "profile[regions][]", "" %>
+      <div class="flex flex-wrap gap-3">
+        <% Profile::REGIONS.each do |region| %>
+          <label class="flex items-center gap-1.5 text-sm">
+            <%= check_box_tag "profile[regions][]", region, @profile.regions.include?(region), id: "region_#{region}", class: "size-4 accent-accent" %>
+            <%= Profile.human_enum(:regions, region) %>
+          </label>
+        <% end %>
+      </div>
+      <p class="muted mt-1 text-xs">Vagas só para uma região que você não aceita perdem 40 pontos.</p>
+    </fieldset>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <%= form.label :salary_brl_min, class: "label" %>
+        <%= form.number_field :salary_brl_min, min: 0, step: 100, class: "input" %>
+      </div>
+      <div>
+        <%= form.label :salary_brl_max, class: "label" %>
+        <%= form.number_field :salary_brl_max, min: 0, step: 100, class: "input" %>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <%= form.label :salary_usd_min, class: "label" %>
+        <%= form.number_field :salary_usd_min, min: 0, step: 100, class: "input" %>
+      </div>
+      <div>
+        <%= form.label :salary_usd_max, class: "label" %>
+        <%= form.number_field :salary_usd_max, min: 0, step: 100, class: "input" %>
+      </div>
+    </div>
+  </section>
+
+  <section class="card grid gap-3 p-5" aria-labelledby="skills_title">
+    <div>
+      <h2 id="skills_title" class="text-base">Skills</h2>
+      <p class="muted mt-1 text-sm">Cada skill que aparece na vaga soma os pontos do nível. Sinônimos contam como a mesma skill (Postgres e PostgreSQL).</p>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <thead><tr><th>Skill</th><th>Nível</th><th>Sinônimos</th><th><span class="sr-only">Ações</span></th></tr></thead>
+        <tbody data-profile-form-target="skills">
+          <% @profile.skills.each_with_index do |skill, index| %>
+            <%= render "profiles/skill_row", skill:, index: %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <%= hidden_field_tag "profile[skills][blank][name]", "" %>
+    <template data-profile-form-target="skillTemplate">
+      <%= render "profiles/skill_row", skill: {}, index: "NEW_INDEX" %>
+    </template>
+    <div class="flex flex-wrap items-center gap-2">
+      <button type="button" class="btn btn-sm" data-action="profile-form#addSkill">Adicionar skill</button>
+      <span class="muted text-xs">Sugestões da área (clique para adicionar):</span>
+    </div>
+    <div class="flex flex-wrap gap-1.5" data-profile-form-target="skillSuggestions"></div>
+  </section>
+
+  <section class="card grid gap-4 p-5 sm:grid-cols-2" aria-labelledby="search_title">
+    <div class="sm:col-span-2">
+      <h2 id="search_title" class="text-base">Busca</h2>
+      <p class="muted mt-1 text-sm">Separe por vírgula ou um por linha.</p>
+    </div>
+    <div>
+      <%= form.label :search_terms, class: "label" %>
+      <%= form.text_area :search_terms, value: @profile.search_terms.join(", "), rows: 2, class: "input" %>
+      <p class="muted mt-1 text-xs">O que as fontes automáticas buscam e o que uma vaga precisa ter para entrar. Vazio: as skills essenciais.</p>
+    </div>
+    <div>
+      <%= form.label :avoid_terms, class: "label" %>
+      <%= form.text_area :avoid_terms, value: @profile.avoid_terms.join(", "), rows: 2, class: "input", placeholder: "PHP, presencial" %>
+      <p class="muted mt-1 text-xs">Cada um que aparece na vaga tira 15 pontos.</p>
+    </div>
+    <div>
+      <%= form.label :plan_b_terms, class: "label" %>
+      <%= form.text_area :plan_b_terms, value: @profile.plan_b_terms.join(", "), rows: 2, class: "input", placeholder: "React, TypeScript, Next.js" %>
+      <p class="muted mt-1 text-xs">Vagas com dois deles entram pelo frontendbr e pelas buscas de plano B do Radar.</p>
+    </div>
+    <div>
+      <%= form.label :domains, class: "label" %>
+      <%= form.text_area :domains, value: @profile.domains.join(", "), rows: 2, class: "input", placeholder: "fintech, saúde, GovTech" %>
+      <p class="muted mt-1 text-xs">Para a busca “Setores de interesse” do Radar.</p>
+    </div>
+  </section>
+
+  <details class="card p-5" aria-labelledby="radar_title">
+    <summary id="radar_title" class="cursor-pointer text-base font-bold tracking-tight">Buscas do Radar</summary>
+    <p class="muted mt-2 text-sm">Montadas com o seu perfil. Para trocar uma, escreva a sua consulta; deixe vazio para usar a sugestão.</p>
+    <div class="mt-3 grid gap-3">
+      <% Radar.searches_for(@profile.dup.tap { it.search_overrides = {} }).each do |search| %>
+        <div>
+          <%= label_tag "search_override_#{search["key"]}", search["title"], class: "label" %>
+          <%= text_field_tag "profile[search_overrides][#{search["key"]}]", @profile.search_overrides[search["key"]],
+                             id: "search_override_#{search["key"]}", class: "input font-mono text-xs", placeholder: search["query"] %>
+        </div>
+      <% end %>
+    </div>
+  </details>
+
+  <section class="card grid gap-3 p-5" aria-labelledby="ai_title">
+    <div>
+      <h2 id="ai_title" class="text-base">Texto para a IA</h2>
+      <p class="muted mt-1 text-sm">Experiência, projetos, formação e o que você busca. A IA usa só o que está aqui: nunca inventa experiência.</p>
+    </div>
+    <%= form.text_area :ai_profile, rows: 14, class: "input font-mono text-xs", aria: { labelledby: "ai_title" } %>
+  </section>
+
+  <div class="flex flex-wrap gap-2">
+    <%= form.submit "Salvar perfil", class: "btn btn-primary" %>
+    <button type="submit" class="btn" formaction="<%= preview_profile_path %>" formmethod="post" data-turbo-frame="profile_preview">Ver prévia</button>
+  </div>
+<% end %>
+
+<%= turbo_frame_tag "profile_preview" %>

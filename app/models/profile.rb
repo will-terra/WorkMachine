@@ -61,6 +61,16 @@ class Profile < ApplicationRecord
     super(items.filter_map { self.class.clean_skill(it) }.uniq { it["name"].downcase })
   end
 
+  # Only queries that differ from the suggestion are kept, so the others follow the template.
+  def search_overrides=(value)
+    super(value.to_h.transform_values { it.to_s.squish }.compact_blank)
+  end
+
+  def drop_default_overrides
+    generated = Radar.searches_for(dup.tap { it.search_overrides = {} }).to_h { [ it["key"], it["query"] ] }
+    self.search_overrides = search_overrides.reject { |key, query| query == generated[key] || !generated.key?(key) }
+  end
+
   def self.clean_skill(skill)
     skill = skill.to_h.stringify_keys
     name = skill["name"].to_s.squish
