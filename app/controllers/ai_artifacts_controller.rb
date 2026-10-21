@@ -4,7 +4,7 @@ class AiArtifactsController < ApplicationController
   before_action :set_job_posting, only: %i[ create estimate ]
 
   def create
-    return redirect_to(job_posting_path(@job_posting, anchor: "ia"), alert: "Configure OPENROUTER_API_KEY no .env para usar a IA.") unless Ai::Client.configured?
+    return redirect_to(job_posting_path(@job_posting, anchor: "ia"), alert: "Coloque a chave do OpenRouter em Ajustes para usar a IA.") unless Ai::Client.configured?
 
     kind = params.require(:kind).presence_in(AiArtifact.kinds.keys) or return head(:unprocessable_content)
     language = params[:language].presence_in(%w[pt en]) || "pt"

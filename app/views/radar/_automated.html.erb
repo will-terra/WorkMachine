@@ -14,7 +14,7 @@
       </div>
       <div class="text-xs sm:text-right">
         <% if source.needs_gmail? && !gmail_configured %>
-          <span class="chip chip-warn">Gmail não configurado no .env</span>
+          <%= link_to "Gmail não configurado", settings_path(anchor: "chaves"), class: "chip chip-warn no-underline" %>
         <% elsif source.last_run_at.nil? %>
           <span class="muted">ainda não rodou</span>
         <% else %>

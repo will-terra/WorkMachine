@@ -13,9 +13,9 @@ RSpec.describe "Setups" do
       post setup_path, params: { user: { email_address: "ana@example.com", password: "senha-segura-123", password_confirmation: "senha-segura-123" } }
     }.to change(User, :count).by(1)
 
-    expect(response).to redirect_to(root_path)
+    expect(response).to redirect_to(onboarding_path)
     follow_redirect!
-    expect(response.body).to include("Painel")
+    expect(response.body).to include("Vamos deixar o WorkMachine pronto")
   end
 
   it "re-renders the form when the data is invalid" do

@@ -12,7 +12,7 @@
   <% if emails.any? %>
     <ul class="card divide-y divide-line"><%= render partial: "application_emails/application_email", collection: emails %></ul>
   <% else %>
-    <p class="muted text-sm">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado no .env)" unless GmailSession.configured? %>.</p>
+    <p class="muted text-sm">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado em Ajustes)" unless GmailSession.configured? %>.</p>
   <% end %>
   <% if @job_application.responded_on %>
     <p class="muted mt-2 text-xs">Primeira resposta em <%= l(@job_application.responded_on, format: "%d/%m/%Y") %><% if @job_application.applied_on %>, <%= pluralize((@job_application.responded_on - @job_application.applied_on).to_i, "dia", plural: "dias") %> depois de aplicar<% end %>.</p>

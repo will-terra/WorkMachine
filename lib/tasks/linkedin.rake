@@ -3,7 +3,7 @@ namespace :linkedin do
   task import: :environment do
     ImportLinkedinAlertsJob.perform_now
     run = SourceRun.where(source: "linkedin_alert").latest_first.first
-    puts run ? "#{run.status}: #{run.fetched_count} vagas lidas, #{run.created_count} novas. #{run.error_message}" : "Gmail não configurado (.env)."
+    puts run ? "#{run.status}: #{run.fetched_count} vagas lidas, #{run.created_count} novas. #{run.error_message}" : "Gmail não configurado (Ajustes → Chaves e contas)."
   end
 
   desc "Mostra o que o parser lê de um alerta exportado como .eml (não salva nada)"

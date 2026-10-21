@@ -1,5 +1,10 @@
 <%= page_header eyebrow: "WorkMachine", title: "Ajustes" %>
 
+<section class="mb-6 grid gap-6 lg:grid-cols-2">
+  <%= render "settings/keys", setting: @setting %>
+  <%= render "settings/extension", setting: @setting %>
+</section>
+
 <section class="grid gap-6 lg:grid-cols-2" aria-label="Notificações">
   <%= form_with model: @setting, url: settings_path, method: :patch, class: "card grid content-start gap-4 p-5" do |form| %>
     <div>

@@ -117,7 +117,7 @@ RSpec.describe "API v1 job postings" do
     get api_v1_ping_path, headers: headers
 
     expect(response).to have_http_status(:service_unavailable)
-    expect(response.parsed_body["error"]).to include("WORKMACHINE_API_TOKEN")
+    expect(response.parsed_body["error"]).to include("Gere o token da extensão")
   end
 
   it "answers the ping with a valid token" do

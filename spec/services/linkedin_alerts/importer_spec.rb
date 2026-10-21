@@ -69,7 +69,7 @@ RSpec.describe LinkedinAlerts::Importer do
     allow(imap).to receive(:login).and_raise(Net::IMAP::NoResponseError.new(imap_response("[AUTHENTICATIONFAILED] Invalid credentials (Failure)")))
     allow(imap).to receive(:logout).and_raise(IOError)
 
-    expect { importer.call }.to raise_error(LinkedinAlerts::Importer::LoginError, /Invalid credentials.*GMAIL_USER/)
+    expect { importer.call }.to raise_error(LinkedinAlerts::Importer::LoginError, /Invalid credentials.*senha de app em Ajustes/)
     expect(imap).to have_received(:disconnect)
   end
 

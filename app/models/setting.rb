@@ -1,12 +1,26 @@
-# App-wide preferences (a single row): new-posting notifications and the Web Push (VAPID) keys.
+# App-wide preferences (a single row): notifications, sources, the Web Push (VAPID) keys and the
+# keys and accounts typed in Ajustes (encrypted; see AppKeys).
 class Setting < ApplicationRecord
   VAPID_SUBJECT = "https://github.com/will-terra/WorkMachine".freeze
+
+  encrypts :openrouter_api_key, :gmail_user, :gmail_app_password, :api_token
+  normalizes :openrouter_api_key, :gmail_user, :api_token, :openrouter_model, with: ->(value) { value.strip.presence }
+  normalizes :gmail_app_password, with: ->(value) { value.delete(" ").presence }
 
   validates :notify_min_score, numericality: { only_integer: true, in: 0..100 }
   validates :auto_dismiss_below_score, numericality: { only_integer: true, in: 1..100 }, allow_nil: true
 
   def self.current
     first || create!
+  end
+
+  # The token the browser extension sends (Ajustes → Extensão do navegador).
+  def regenerate_api_token!
+    update!(api_token: SecureRandom.base58(40))
+  end
+
+  def onboarded?
+    onboarded_at.present?
   end
 
   def source_enabled?(key)
@@ -20,7 +34,7 @@ class Setting < ApplicationRecord
     self.disabled_sources = (disabled_sources - shown) | (shown - Array(keys).map(&:to_s))
   end
 
-  # Generated on first use and kept in the database, so there is nothing to configure in .env.
+  # Generated on first use and kept in the database, so there is nothing to configure.
   def vapid_keys!
     if vapid_public_key.blank? || vapid_private_key.blank?
       key = WebPush.generate_key

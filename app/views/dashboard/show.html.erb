@@ -3,6 +3,13 @@
   <%= link_to "Candidaturas", job_applications_path, class: "btn btn-sm" %>
 <% end %>
 
+<% unless Setting.current.onboarded? %>
+  <p class="card mb-6 flex flex-wrap items-center justify-between gap-3 p-4 text-sm" role="status">
+    <span>Falta pouco para o WorkMachine buscar vagas para você: chave da IA, perfil e primeira busca.</span>
+    <%= link_to "Continuar a configuração", onboarding_path, class: "btn btn-primary btn-sm" %>
+  </p>
+<% end %>
+
 <div class="mb-8 flex flex-wrap gap-2 text-sm" aria-label="Candidaturas por status">
   <% JobApplication::OPEN_STATUSES.each do |status| %>
     <%= link_to job_applications_path(view: "table", status:), class: "chip gap-1.5 px-3 py-1 text-sm text-ink no-underline hover:border-ink" do %>

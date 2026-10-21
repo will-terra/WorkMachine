@@ -1,0 +1,35 @@
+<%# Locals: setting, return_to (optional) %>
+<% return_to = local_assigns[:return_to] %>
+<div id="chaves" class="card grid scroll-mt-20 content-start gap-4 p-5">
+  <div>
+    <h2 class="text-base">Chaves e contas</h2>
+    <p class="muted mt-1 text-sm">Ficam criptografadas no banco deste computador. Uma variável no <span class="font-mono">.env</span> vale mais que o que estiver aqui.</p>
+  </div>
+
+  <%= form_with model: setting, url: keys_settings_path, method: :patch, class: "grid gap-4" do |form| %>
+    <%= hidden_field_tag :return_to, return_to if return_to %>
+    <fieldset class="grid gap-3">
+      <legend class="text-sm font-semibold">IA (OpenRouter)</legend>
+      <p class="muted text-xs">Crie a chave em <%= external_link "openrouter.ai/settings/keys", "https://openrouter.ai/settings/keys" %> e coloque alguns dólares de crédito. O CV e as vagas só vão para lá quando você clica numa função de IA.</p>
+      <%= render "settings/key_field", form:, field: :openrouter_api_key, label: "Chave", type: :password, placeholder: "sk-or-v1-…" %>
+      <div>
+        <%= form.label :openrouter_model, "Modelo (vazio = #{Ai::Client::DEFAULT_MODEL})", class: "label" %>
+        <%= form.text_field :openrouter_model, class: "input font-mono text-xs", placeholder: Ai::Client::DEFAULT_MODEL, disabled: AppKeys.from_env?(:openrouter_model) %>
+      </div>
+    </fieldset>
+
+    <fieldset class="grid gap-3 border-t border-line pt-4">
+      <legend class="text-sm font-semibold">Gmail (alertas do LinkedIn e respostas das empresas)</legend>
+      <p class="muted text-xs">Opcional. Com a verificação em duas etapas ligada, gere uma senha de app em <%= external_link "myaccount.google.com/apppasswords", "https://myaccount.google.com/apppasswords" %>. O WorkMachine só lê a caixa; nada é apagado ou marcado como lido.</p>
+      <%= render "settings/key_field", form:, field: :gmail_user, label: "E-mail do Gmail", type: :email, placeholder: "voce@gmail.com" %>
+      <%= render "settings/key_field", form:, field: :gmail_app_password, label: "Senha de app (16 letras)", type: :password, placeholder: "abcd efgh ijkl mnop" %>
+    </fieldset>
+
+    <div><%= form.submit "Salvar chaves", class: "btn btn-primary" %></div>
+  <% end %>
+
+  <div class="flex flex-wrap gap-2 border-t border-line pt-4">
+    <%= button_to "Testar OpenRouter", test_openrouter_settings_path, class: "btn btn-sm", disabled: !Ai::Client.configured? %>
+    <%= button_to "Testar Gmail", test_gmail_settings_path, class: "btn btn-sm", disabled: !GmailSession.configured? %>
+  </div>
+</div>

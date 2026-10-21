@@ -1,0 +1,45 @@
+<%= page_header eyebrow: "Primeiro uso", title: "Vamos deixar o WorkMachine pronto",
+                intro: "Quatro passos. Tudo fica neste computador: as vagas, o currículo e as senhas. Dá para mudar tudo depois em Perfil e Ajustes." %>
+
+<ol class="grid gap-6">
+  <li class="grid gap-3">
+    <h2 class="flex items-center gap-2 text-base">
+      <span class="chip <%= @steps[:keys] ? "chip-ok" : "chip-warn" %>"><%= @steps[:keys] ? "pronto" : "1" %></span> Chave da IA e Gmail
+    </h2>
+    <p class="muted max-w-prose text-sm">
+      A chave do OpenRouter liga a IA (rascunho do perfil pelo CV, análise de fit, resumo de CV, mensagens e a leitura das respostas das empresas).
+      Sem ela o app funciona, só sem IA. O Gmail é opcional: com ele, os alertas de vagas do LinkedIn e as respostas das empresas entram sozinhos.
+    </p>
+    <%= render "settings/keys", setting: @setting, return_to: onboarding_path %>
+  </li>
+
+  <li class="grid gap-3">
+    <h2 class="flex items-center gap-2 text-base">
+      <span class="chip <%= @steps[:profile] ? "chip-ok" : "chip-warn" %>"><%= @steps[:profile] ? "pronto" : "2" %></span> Seu perfil
+    </h2>
+    <p class="muted max-w-prose text-sm">
+      Envie o currículo e deixe a IA montar o rascunho, ou preencha à mão: área, cargos, nível e skills. A nota das vagas, as buscas das fontes e o Radar saem dele.
+    </p>
+    <p><%= link_to @steps[:profile] ? "Revisar o perfil" : "Montar o perfil", profile_path, class: "btn #{"btn-primary" unless @steps[:profile]}" %></p>
+  </li>
+
+  <li class="grid gap-3">
+    <h2 class="flex items-center gap-2 text-base"><span class="chip">3</span> Extensão do navegador (opcional)</h2>
+    <p class="muted max-w-prose text-sm">Para salvar vagas de qualquer site e recrutadores do LinkedIn com um clique. O passo a passo está no README; o token fica em Ajustes.</p>
+  </li>
+
+  <li class="grid gap-3">
+    <h2 class="flex items-center gap-2 text-base">
+      <span class="chip <%= @steps[:search] ? "chip-ok" : "" %>"><%= @steps[:search] ? "pronto" : "4" %></span> Primeira busca
+    </h2>
+    <p class="muted max-w-prose text-sm">O agregador busca nas fontes automáticas pelos termos do seu perfil e repete sozinho a cada 3 horas.</p>
+    <div class="flex flex-wrap gap-2">
+      <% if @steps[:profile] %>
+        <%= button_to "Buscar vagas e começar", finish_onboarding_path(search: 1), class: "btn btn-primary" %>
+      <% else %>
+        <span class="muted text-sm">Preencha o perfil primeiro.</span>
+      <% end %>
+      <%= button_to "Pular e ir para o Painel", finish_onboarding_path, class: "btn btn-ghost" %>
+    </div>
+  </li>
+</ol>

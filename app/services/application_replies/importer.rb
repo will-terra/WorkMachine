@@ -48,7 +48,7 @@ module ApplicationReplies
 
         sender = Array(envelope.from).first
         from_address = [ sender&.mailbox, sender&.host ].compact.join("@")
-        return if from_address.match?(IGNORED_SENDERS) || from_address.casecmp?(ENV["GMAIL_USER"].to_s)
+        return if from_address.match?(IGNORED_SENDERS) || from_address.casecmp?(AppKeys.gmail_user.to_s)
 
         from_name = decode(sender&.name)
         subject = decode(envelope.subject)

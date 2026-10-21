@@ -7,7 +7,7 @@
   <% if task["status"] == "linkedin_alert" %>
     <p class="mb-3 text-sm">
       <% if !@gmail_configured %>
-        <span class="chip chip-warn">Gmail não configurado no .env: os alertas não estão sendo importados</span>
+        <%= link_to "Gmail não configurado em Ajustes: os alertas não estão sendo importados", settings_path(anchor: "chaves"), class: "chip chip-warn no-underline" %>
       <% elsif @alerts[:emails].zero? %>
         <span class="chip chip-warn">Nenhum alerta importado ainda</span>
       <% else %>
