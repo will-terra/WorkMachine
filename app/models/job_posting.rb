@@ -4,7 +4,7 @@ class JobPosting < ApplicationRecord
   REMOTE_SCOPES = %w[brazil latam worldwide us_only europe_only unknown].freeze
   SENIORITIES = %w[junior mid senior unknown].freeze
   TRIAGES = %w[new saved dismissed].freeze
-  # Saved by Ana himself: never dismissed automatically.
+  # Saved by hand: never dismissed automatically.
   MANUAL_SOURCES = %w[extension manual].freeze
 
   enum :source, SOURCES.index_by(&:itself), validate: true

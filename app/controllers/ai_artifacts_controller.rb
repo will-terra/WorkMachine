@@ -1,5 +1,5 @@
 # AI results of a posting. Nothing here calls the model in bulk or on page load: generation
-# only starts when Ana clicks a button.
+# only starts on a click.
 class AiArtifactsController < ApplicationController
   before_action :set_job_posting, only: %i[ create estimate ]
 

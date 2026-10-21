@@ -1,4 +1,4 @@
-# Dismisses on arrival the postings Ana cannot take (Ajustes → Descarte automático):
+# Dismisses on arrival the postings the profile cannot take (Ajustes → Descarte automático):
 # restricted to the US/Canada, to Europe or to a list of other countries, and, optionally,
 # with a score below a minimum. Postings saved by hand (extension, manual) are never touched.
 module AutoDismissal

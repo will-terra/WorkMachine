@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Palette shared with docs/radar-vagas-rails.html. Dark values are swapped in below. */
+/* Palette of the app. Dark values are swapped in below. */
 @theme {
   --color-bg: #f6f4f5;
   --color-surface: #ffffff;

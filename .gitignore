@@ -33,3 +33,9 @@
 
 # Planos, pesquisa e CVs ficam só na máquina local.
 /docs/
+
+# Credentials are not used: the secrets of each installation are generated in storage/ (config/local_secrets.rb).
+/config/credentials.yml.enc
+
+# Personal context for Claude Code, kept out of the public repository.
+/CLAUDE.local.md
