@@ -83,7 +83,7 @@ depois de mudar, rode `docker compose up -d`. O que dá para configurar na tela 
 
 | Variável | Para que serve |
 | - | - |
-| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | IA. Valem mais que o que estiver em Ajustes. |
+| `OPENROUTER_API_KEY`, `OPENROUTER_MODEL` | IA. Valem mais que o que estiver em Ajustes; `OPENROUTER_MODEL` vale mais que a escolha entre o modelo gratuito e o pago. |
 | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Gmail com senha de app. |
 | `GMAIL_MAILBOX`, `LINKEDIN_ALERT_SENDERS` | Pasta do Gmail (padrão `INBOX`) e remetentes dos alertas. |
 | `WORKMACHINE_API_TOKEN` | Token da extensão (no lugar do gerado em Ajustes). |

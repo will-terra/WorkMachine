@@ -22,14 +22,30 @@ RSpec.describe Ai::Client do
     stub_request(:post, Ai::Client::URL).to_return(status:, body: body.to_json, headers: { "Content-Type" => "application/json" })
   end
 
-  it "calls DeepSeek V4 Pro on OpenRouter with the profile and medium reasoning" do
+  it "uses the free models by default, with OpenRouter's free router as the fallback" do
+    stub = stub_openrouter(body: response_body.merge(model: "minimax/minimax-m3.1-flash:free"))
+
+    result = described_class.new.complete(system: "s", user: "u", json: true)
+
+    expect(stub.with { |request|
+      body = JSON.parse(request.body)
+      body["model"] == "minimax/minimax-m3.1-flash:free" && body["models"] == %w[minimax/minimax-m3.1-flash:free openrouter/free] &&
+        body.dig("response_format", "type") == "json_object"
+    }).to have_been_requested
+    expect(result.model).to eq("minimax/minimax-m3.1-flash:free")
+    expect(described_class).to be_free
+    expect(Ai::Pricing.for(described_class.model)).to eq(Ai::Pricing::FREE)
+  end
+
+  it "calls DeepSeek V4 Pro on OpenRouter with the profile and medium reasoning on the paid plan" do
+    Setting.current.update!(ai_plan: "paid")
     stub = stub_openrouter
 
     result = described_class.new.generate("fit_analysis", posting)
 
     expect(stub.with(headers: { "Authorization" => "Bearer sk-or-test", "X-Title" => "WorkMachine" }) { |request|
       body = JSON.parse(request.body)
-      body["model"] == "deepseek/deepseek-v4-pro-0813" && body.dig("reasoning", "effort") == "medium" &&
+      body["model"] == "deepseek/deepseek-v4-pro-0813" && !body.key?("models") && body.dig("reasoning", "effort") == "medium" &&
         body.dig("messages", 0, "content").include?("<profile>") &&
         body.dig("messages", 1, "content").include?("Title: Rails Engineer") && body.dig("usage", "include") == true
     }).to have_been_requested
@@ -48,6 +64,15 @@ RSpec.describe Ai::Client do
       body = JSON.parse(request.body)
       body["model"] == "anthropic/claude-sonnet-5.5" && body.dig("messages", 0, "content", 0, "cache_control", "type") == "ephemeral"
     }).to have_been_requested
+  end
+
+  it "explains the errors, with the free models' limit and data policy" do
+    expect(described_class.explain(described_class::Error.new("x", status: 429))).to include("modelos gratuitos atingiram o limite")
+    expect(described_class.explain(described_class::Error.new("No endpoints found matching your data policy", status: 404))).to include("openrouter.ai/settings/privacy")
+    expect(described_class.explain(described_class::Error.new("x", status: 402))).to include("Sem créditos", "modelo gratuito")
+
+    Setting.current.update!(ai_plan: "paid")
+    expect(described_class.explain(described_class::Error.new("x", status: 429))).to include("Limite de uso do OpenRouter")
   end
 
   it "flags refusals and truncated answers" do

@@ -10,7 +10,7 @@ App de busca de emprego para pessoas de tecnologia que roda no próprio computad
 - **Áreas:** só tecnologia (desenvolvimento, QA, DevOps/SRE/cloud, dados, UX/UI e produto).
 - **Testes:** RSpec + FactoryBot + WebMock + SimpleCov (mínimo de 90% de linhas), CI no GitHub Actions com RuboCop omakase, Brakeman e bundler-audit. Testes nunca acessam a rede.
 - **LinkedIn:** sem scraping e sem candidatura automática (violam os termos e arriscam a conta). Em vez disso: a extensão (`extension/`, Manifest V3) lê a página só quando a pessoa clica; os alertas de vaga chegam pelo Gmail (IMAP, só leitura); o Radar gera links de busca prontos.
-- **IA:** OpenRouter com `deepseek/deepseek-v4-pro-0813` por padrão (outro modelo em Ajustes ou `OPENROUTER_MODEL`). Só roda quando a pessoa clica (a classificação das respostas das empresas roda sozinha), mostra o custo antes e nunca inventa experiência.
+- **IA:** OpenRouter. Padrão: modelo gratuito (`Ai::Client::FREE_MODELS`, com `openrouter/free` como reserva); em Ajustes dá para mudar para o pago, `deepseek/deepseek-v4-pro-0813` ou outro modelo digitado (`OPENROUTER_MODEL` vale mais que os dois). Só roda quando a pessoa clica (a classificação das respostas das empresas roda sozinha), mostra o custo antes e nunca inventa experiência.
 - **Chaves:** a pessoa digita em Ajustes (criptografadas no banco com chaves geradas em `storage/workmachine-secrets.yml`); variáveis do `.env` valem mais: `OPENROUTER_API_KEY`, `OPENROUTER_MODEL`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `WORKMACHINE_API_TOKEN`.
 - **Licença:** AGPL-3.0. **Repositório:** `will-terra/WorkMachine`.
 

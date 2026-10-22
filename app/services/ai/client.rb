@@ -1,9 +1,14 @@
 module Ai
-  # Calls DeepSeek V4 Pro through OpenRouter (OPENROUTER_API_KEY) for one AiArtifact; any other
-  # OpenRouter model can be set in OPENROUTER_MODEL. Runs only from a background job, after a click.
+  # Calls a model through OpenRouter with the key from Ajustes (or OPENROUTER_API_KEY). Ajustes picks
+  # the plan: the free models (no credit needed, with a daily limit) or the paid one (DeepSeek V4 Pro,
+  # or any OpenRouter model typed there). OPENROUTER_MODEL in .env wins over both. Runs only from a
+  # background job, after a click (the reply classifier runs on its own).
   class Client
     URL = "https://openrouter.ai/api/v1/chat/completions".freeze
-    DEFAULT_MODEL = "deepseek/deepseek-v4-pro-0813".freeze
+    PAID_MODEL = "deepseek/deepseek-v4-pro-0813".freeze
+    # The first free model, then OpenRouter's router of free models when it is down or rate-limited.
+    # Free model ids come and go; the router keeps the app working when the first one disappears.
+    FREE_MODELS = %w[minimax/minimax-m3.1-flash:free openrouter/free].freeze
     EFFORT = "medium"
     MAX_TOKENS = 16_000
     READ_TIMEOUT = 180
@@ -27,8 +32,36 @@ module Ai
       AppKeys.openrouter_api_key.present?
     end
 
+    def self.free?
+      !AppKeys.from_env?(:openrouter_model) && Setting.current.ai_plan_free?
+    end
+
     def self.model
-      AppKeys.openrouter_model || DEFAULT_MODEL
+      free? ? FREE_MODELS.first : (AppKeys.openrouter_model || PAID_MODEL)
+    end
+
+    def self.free_model?(model)
+      model.to_s.end_with?(":free") || model.to_s == "openrouter/free"
+    end
+
+    # A message people can act on, for the errors OpenRouter answers with.
+    def self.explain(error)
+      case error.status
+      when 401 then "A chave do OpenRouter é inválida. Confira em Ajustes → Chaves e contas."
+      when 402 then "Sem créditos no OpenRouter. Adicione créditos em openrouter.ai/settings/credits ou use o modelo gratuito (Ajustes → Chaves e contas)."
+      when 429
+        if free?
+          "Os modelos gratuitos atingiram o limite de uso agora (por minuto ou por dia). Tente mais tarde ou mude para o modelo pago em Ajustes."
+        else
+          "Limite de uso do OpenRouter atingido. Tente de novo em alguns minutos."
+        end
+      else
+        if error.message.match?(/data policy|privacy/i)
+          "O OpenRouter recusou por causa da sua política de dados: para os modelos gratuitos, libere-os em openrouter.ai/settings/privacy ou use o modelo pago."
+        else
+          "Erro do OpenRouter: #{error.message.truncate(300)}"
+        end
+      end
     end
 
     def generate(kind, posting, language: "pt")
@@ -50,6 +83,7 @@ module Ai
 
     private
       def request(body)
+        body = body.merge(models: FREE_MODELS) if self.class.free?
         response = HttpClient.post_json(URL, body, headers:, read_timeout: READ_TIMEOUT)
         raise Error.new(response.dig("error", "message") || "Erro do OpenRouter", status: response.dig("error", "code")) if response["error"]
 

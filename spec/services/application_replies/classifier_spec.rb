@@ -31,6 +31,12 @@ RSpec.describe ApplicationReplies::Classifier do
     expect(classify(subject: "Oi", configured: true).category).to eq("other")
   end
 
+  it "reads the JSON that some models wrap in fences" do
+    allow(client).to receive(:complete).and_return(ai_answer(%(```json\n{"category":"offer","summary":"Proposta."}\n```)))
+
+    expect(classify(subject: "Oi", configured: true)).to have_attributes(category: "offer", classified_by: "ai")
+  end
+
   it "classifies with keyword rules without the AI" do
     expect(classify(subject: "Update on your application", body: "Unfortunately we decided to move forward with other candidates").category).to eq("rejection")
     expect(classify(subject: "Desafio técnico da vaga").category).to eq("assessment")

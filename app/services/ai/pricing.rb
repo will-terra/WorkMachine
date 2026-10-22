@@ -4,6 +4,7 @@ module Ai
   module Pricing
     MODELS_URL = "https://openrouter.ai/api/v1/models".freeze
     FALLBACK = { input: 0.66, output: 1.98, cache_write: 0.66, cache_read: 0.022 }.freeze
+    FREE = { input: 0, output: 0, cache_write: 0, cache_read: 0 }.freeze
 
     # Typical output, reasoning included, used only for the estimate shown before a click.
     EXPECTED_OUTPUT_TOKENS = { "fit_analysis" => 3_000, "cv_summary" => 1_500, "message" => 1_500 }.freeze
@@ -13,6 +14,8 @@ module Ai
     module_function
 
     def for(model)
+      return FREE if Client.free_model?(model)
+
       Rails.cache.fetch([ "openrouter-pricing", model ], expires_in: 1.day) do
         entry = HttpClient.get_json(MODELS_URL).fetch("data", []).find { it["id"] == model }
         pricing = entry&.fetch("pricing", nil)
