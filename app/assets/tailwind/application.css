@@ -1,90 +1,229 @@
 @import "tailwindcss";
 
-/* Palette of the app. Dark values are swapped in below. */
-@theme {
-  --color-bg: #f6f4f5;
-  --color-surface: #ffffff;
-  --color-ink: #1d191b;
-  --color-muted: #675e62;
-  --color-line: #e3dcdf;
-  --color-code: #f0eaec;
-  --color-accent: #a8132d;
-  --color-accent-ink: #ffffff;
-  --color-accent-soft: #f7e1e5;
-  --color-ok: #1d7448;
-  --color-ok-soft: #dcf1e5;
-  --color-warn: #8a5a00;
-  --color-warn-soft: #fbefd5;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  /* Ordinal ramp of the accent (funnel stages), validated with the dataviz validator. */
-  --color-ramp-1: #eb8fa0;
-  --color-ramp-2: #d95f77;
-  --color-ramp-3: #bf2f4e;
-  --color-ramp-4: #a8132d;
+/* Dark Rails theme (the only theme): Rails red as the accent, amber as a second accent used
+   sparingly. The fonts are served from app/assets/fonts (see OFL.txt there), so pages load
+   nothing from the internet. */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("bricolage-grotesque-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("bricolage-grotesque-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("ibm-plex-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("ibm-plex-sans-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("ibm-plex-sans-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: italic;
+  font-weight: 100 700;
+  font-display: swap;
+  src: url("ibm-plex-sans-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("jetbrains-mono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("jetbrains-mono-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #151113;
-    --color-surface: #1e191b;
-    --color-ink: #f0eaec;
-    --color-muted: #a99ea3;
-    --color-line: #352d30;
-    --color-code: #262022;
-    --color-accent: #ff5d76;
-    --color-accent-ink: #1a0b0f;
-    --color-accent-soft: #3a1b22;
-    --color-ok: #5fcf95;
-    --color-ok-soft: #173426;
-    --color-warn: #f2c063;
-    --color-warn-soft: #3a2d12;
-    --color-ramp-1: #963d50;
-    --color-ramp-2: #c24a63;
-    --color-ramp-3: #e8607a;
-    --color-ramp-4: #ff8fa1;
-    color-scheme: dark;
-  }
+@theme {
+  --color-bg: #121010;
+  --color-surface: #1d1a19;          /* cards, selected list item, message preview, toast */
+  --color-ink: #ece6e3;
+  --color-ink-soft: #d0cac8;         /* queries and model ids: neutral, a step below the text */
+  --color-muted: #9b9593;            /* ink at 64% over bg */
+  --color-line: #2f2b2a;             /* ink at 13% over bg: hairlines, borders of fields and secondary buttons */
+  --color-code: #2c2726;             /* neutral chips */
+  --color-field: #3a3433;            /* progress track */
+  --color-switch-off: #524b49;
+
+  --color-accent: #c7262f;           /* Rails red: primary button, selection, active tab, links, score ≥ 60 */
+  --color-accent-hover: #f05a5f;
+  --color-accent-bright: #ff7a7c;    /* small red text on the dark ground (counts, points, numbers) */
+  --color-accent-ink: #ffffff;       /* text on the red: always white */
+  --color-accent-soft: #2a1214;      /* red tag, "on Rails" badge, kanban column under a dragged card */
+  --color-accent-soft-2: #3d1519;    /* essential skill chip */
+  --color-accent-line: #8a1f27;      /* border of a chip that is on, text selection */
+  --color-accent-text: #ffa3a3;      /* text on accent-soft */
+  --color-accent-strong: #ffd0cf;    /* text on accent-soft-2 */
+
+  --color-ok: #5fcf95;
+  --color-ok-soft: #173426;
+  --color-warn: #f0ad3a;             /* amber: rejection, overdue follow-up, partial score, negative points */
+  --color-warn-soft: #2a1f0c;
+  --color-warn-soft-2: #3d2c0f;      /* empty placeholder in a message */
+  --color-warn-text: #fad590;        /* text on warn-soft */
+  --color-warn-strong: #f5c060;      /* negative numbers, "com erro", counter over the limit */
+
+  /* Funnel (Métricas), from applied to offer */
+  --color-ramp-1: #5a1a20;
+  --color-ramp-2: #c7262f;
+  --color-ramp-3: #ff7a7c;
+  --color-ramp-4: #ffd0cf;
+
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
 }
+
+:root { color-scheme: dark; }
 
 @layer base {
-  body { @apply bg-bg text-ink antialiased; }
-  a { @apply text-accent underline-offset-2; }
-  h1 { @apply text-3xl font-extrabold tracking-tight; }
-  h2 { @apply text-xl font-bold tracking-tight; }
-  h3 { @apply text-base font-semibold; }
-  :focus-visible { @apply outline-2 outline-offset-2 outline-accent rounded; }
+  body { @apply bg-bg text-ink antialiased; font-size: 15px; line-height: 1.55; text-wrap: pretty; }
+  h1, h2, h3, h4 { @apply font-display; font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; }
+  h1 { font-size: 44px; letter-spacing: -0.03em; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 15px; }
+  a { @apply text-accent underline underline-offset-3 hover:text-accent-hover; }
+  summary { cursor: pointer; }
+  ::selection { background: var(--color-accent-line); color: #fff; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
 }
 
 @layer components {
-  .card { @apply bg-surface border border-line rounded-xl; }
+  .card { @apply flex flex-col gap-2.5 rounded-lg bg-surface p-[15px]; }
   .muted { @apply text-muted; }
-  .eyebrow { @apply font-mono text-xs uppercase tracking-widest text-accent; }
+  /* Page kicker and small status lines: mono, lowercase, discreet. */
+  .eyebrow { @apply font-mono text-xs text-muted; }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-line bg-surface
-           px-3 py-2 text-sm font-semibold text-ink no-underline cursor-pointer hover:border-ink disabled:opacity-50;
+    @apply inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md border border-line bg-transparent px-[18px] py-2.5
+           font-display text-sm leading-[1.2] font-semibold whitespace-nowrap text-ink no-underline
+           hover:bg-ink/7 hover:text-ink active:bg-ink/14 disabled:cursor-not-allowed disabled:opacity-45;
   }
-  .btn-primary { @apply bg-accent border-accent text-accent-ink hover:brightness-110 hover:border-accent; }
-  .btn-sm { @apply px-2 py-1 text-xs; }
-  .btn-ghost { @apply border-transparent bg-transparent hover:bg-code hover:border-transparent; }
+  .btn-primary {
+    @apply border-accent bg-accent text-accent-ink hover:border-accent-hover hover:bg-accent-hover hover:text-accent-ink
+           active:border-accent-bright active:bg-accent-bright active:text-accent-ink;
+  }
+  .btn-ghost { @apply border-transparent px-[5px] text-accent hover:bg-ink/7 hover:text-accent-hover; }
+  .btn-sm { @apply px-2.5 py-[5px] text-[13px]; }
+  .btn-ghost.btn-sm { @apply px-2 py-1; }
 
   .input {
-    @apply block w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-muted
-           focus:outline-2 focus:outline-accent;
+    @apply block min-h-9 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink caret-accent
+           placeholder:text-ink/65 hover:border-ink/45 focus-visible:border-accent focus-visible:outline-offset-0
+           disabled:cursor-not-allowed disabled:opacity-45;
   }
-  .label { @apply block text-xs font-semibold uppercase tracking-wide text-muted mb-1; }
+  textarea.input { @apply min-h-[90px] resize-y; }
+  .input-file {
+    @apply text-sm text-muted file:mr-3 file:cursor-pointer file:rounded-md file:border file:border-line file:bg-transparent
+           file:px-3 file:py-1.5 file:font-display file:text-[13px] file:font-semibold file:text-ink hover:file:bg-ink/7;
+  }
+  .label { @apply mb-[5px] block text-xs text-ink/70; }
 
-  .chip { @apply inline-flex items-center rounded-full border border-line bg-surface px-2.5 py-0.5 text-xs; }
-  .chip-hot { @apply border-accent text-accent bg-accent-soft; }
-  .chip-ok { @apply border-ok text-ok bg-ok-soft; }
-  .chip-warn { @apply border-warn text-warn bg-warn-soft; }
+  /* Segmented control: the chosen option in red with white text. Options are labels with a
+     radio inside, or links marked with aria-current. */
+  .seg { @apply inline-flex max-w-full flex-wrap overflow-hidden rounded-md border border-line; }
+  .seg-opt {
+    @apply relative inline-flex cursor-pointer items-center gap-1.5 px-3 py-[7px] text-[13px] whitespace-nowrap text-ink no-underline
+           hover:bg-ink/7 hover:text-ink;
+  }
+  .seg-opt + .seg-opt { @apply border-l border-line; }
+  .seg-opt:has(input:checked), .seg-opt[aria-current="true"], .seg-opt[aria-current="page"] {
+    @apply bg-accent text-white hover:bg-accent hover:text-white;
+  }
+  .seg-opt:has(input:focus-visible) { @apply outline-2 -outline-offset-2 outline-accent; }
+  .seg-opt input { @apply pointer-events-none absolute size-0 opacity-0; }
 
-  .code { @apply font-mono text-xs bg-code rounded-md px-2.5 py-2 break-words select-all; }
+  .chip { @apply inline-flex items-center gap-1 rounded-[1.5px] bg-code px-2.5 py-[3px] text-[11px] tracking-[0.02em] whitespace-nowrap text-ink no-underline; }
+  .chip-hot { @apply bg-accent-soft text-accent-text; }
+  .chip-warn { @apply bg-warn-soft text-warn-text; }
+  .chip-outline { @apply border border-accent bg-transparent px-[9px] py-[2px] text-accent; }
+  .chip-ok { @apply bg-ok-soft text-ok; }
 
-  .table { @apply w-full text-sm; }
-  .table th { @apply text-left text-xs font-semibold uppercase tracking-wide text-muted px-3 py-2 border-b border-line; }
-  .table td { @apply px-3 py-2 border-b border-line align-top; }
+  .code { @apply rounded-md bg-surface px-3 py-2 font-mono text-[12.5px] break-words; }
 
-  .nav-link { @apply rounded-md px-2.5 py-1.5 text-sm font-semibold text-muted no-underline whitespace-nowrap hover:text-ink hover:bg-code; }
-  .nav-link-active { @apply text-ink bg-code; }
+  .table { @apply w-full border-collapse text-sm; }
+  .table th { @apply border-b border-line p-2.5 text-left text-[11px] font-semibold tracking-[0.08em] text-ink/60 uppercase; }
+  .table td { @apply border-b border-ink/8 p-2.5 align-middle; }
+  .table tbody tr:hover { @apply bg-ink/4; }
+
+  /* Navigation: plain text; the current tab in red and bold, without a background. */
+  .nav-link { @apply flex items-baseline gap-1.5 text-[14.5px] whitespace-nowrap text-ink no-underline hover:text-accent-hover; }
+  .nav-link-active { @apply font-semibold text-accent; }
+  .nav-count { @apply font-mono text-[11.5px] font-semibold text-accent; }
+
+  /* Switch and checkbox: native inputs, so they work inside any form. */
+  .switch {
+    @apply relative h-5 w-9 flex-none cursor-pointer appearance-none rounded-full bg-switch-off transition-colors duration-150
+           checked:bg-accent disabled:cursor-not-allowed disabled:opacity-45;
+  }
+  .switch::before {
+    content: "";
+    @apply absolute top-0.5 left-0.5 size-4 rounded-full bg-ink transition-transform duration-150;
+  }
+  .switch:checked::before { transform: translateX(16px); }
+
+  .check {
+    @apply grid size-3.5 flex-none cursor-pointer appearance-none place-content-center rounded-[2px] border-[1.5px] border-ink/40 bg-transparent
+           checked:border-accent checked:bg-accent disabled:cursor-not-allowed disabled:opacity-45;
+  }
+  .check::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: var(--color-bg);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E") center / contain no-repeat;
+    transform: scale(0);
+  }
+  .check:checked::before { transform: scale(1); }
+
+  .toast {
+    @apply fixed bottom-6 left-[clamp(16px,4vw,56px)] z-20 flex max-w-[min(560px,calc(100vw-32px))] items-center gap-4 rounded-lg
+           bg-surface py-3 pr-3 pl-[18px] text-[14.5px];
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ink) 10%, transparent), 0 6px 18px #000a;
+  }
+
+  /* Score of a posting */
+  .score-high { @apply text-accent; }   /* ≥ 60 */
+  .score-mid  { @apply text-ink; }      /* 35–59 */
+  .score-low  { @apply text-muted; }    /* < 35 */
 }
