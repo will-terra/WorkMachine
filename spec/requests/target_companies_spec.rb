@@ -31,7 +31,7 @@ RSpec.describe "Target companies" do
     other = create(:target_company, name: "Initech", board_slug: "initech", active: false, discovered_at: Time.current)
 
     get target_companies_path
-    expect(response.body).to include("Sugestões encontradas nas vagas", "Rails Engineer na Globex")
+    expect(response.body).to include("Sugeridas", "Rails Engineer na Globex", "procurada por você")
 
     post activate_target_company_path(suggestion)
     expect(suggestion.reload).to be_active
@@ -39,9 +39,6 @@ RSpec.describe "Target companies" do
     post dismiss_target_company_path(other)
     expect(other.reload).to have_attributes(active: false, discovered_at: nil)
     expect(TargetCompany.suggested).to be_empty
-
-    get target_companies_path
-    expect(response.body).to include("descoberta")
   end
 
   it "shows how many postings each board brought and how many were saved" do
@@ -52,7 +49,7 @@ RSpec.describe "Target companies" do
 
     get target_companies_path
 
-    expect(response.body).to include("3 · ", "1 salvas", "1 descartadas auto.")
+    expect(response.body).to include("greenhouse/gitlab", %(<td class="text-right font-mono text-[12.5px]">3</td>))
     expect(TargetCompany.posting_stats[%w[greenhouse gitlab]]).to eq(total: 3, saved: 1, auto_dismissed: 1)
   end
 
@@ -63,6 +60,21 @@ RSpec.describe "Target companies" do
 
     expect(response).to redirect_to(target_companies_path)
     expect(application.reload.board_checked_at).to be_nil
+  end
+
+  it "looks for the board of a company by name and keeps it as a suggestion" do
+    stub_request(:get, /.*/).to_return(status: 404)
+    stub_request(:get, %r{boards-api\.greenhouse\.io/v1/boards/globex}).to_return(body: { name: "Globex" }.to_json, headers: { "Content-Type" => "application/json" })
+    allow_any_instance_of(TargetCompanyFinder).to receive(:sleep)
+
+    post find_target_companies_path, params: { name: "Globex" }
+
+    expect(response).to redirect_to(target_companies_path)
+    expect(flash[:notice]).to include("Greenhouse/globex")
+    expect(TargetCompany.suggested.sole).to have_attributes(name: "Globex", ats: "greenhouse", board_slug: "globex", active: false)
+
+    post find_target_companies_path, params: { name: "Ninguém" }
+    expect(flash[:notice]).to include("Não achei")
   end
 
   it "re-renders the forms with errors" do

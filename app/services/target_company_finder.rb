@@ -29,6 +29,21 @@ class TargetCompanyFinder
     added
   end
 
+  # Empresas-alvo → "Procurar o quadro de uma empresa": asks each ATS for this name and keeps the
+  # boards it finds as suggestions (inactive), to be activated or dismissed on the page.
+  def search(name)
+    name = name.to_s.strip
+    return [] if name.blank?
+
+    probed_boards(name).filter_map do |ats, slug, board_name|
+      next if TargetCompany.exists?(ats:, board_slug: slug)
+
+      TargetCompany.create!(name: board_name || name, ats:, board_slug: slug, active: false, discovered_at: Time.current)
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique
+      nil
+    end
+  end
+
   private
     def find_for(application)
       return [] if application.company.blank?

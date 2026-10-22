@@ -37,11 +37,18 @@ class TargetCompaniesController < ApplicationController
     redirect_to target_companies_path, notice: "Empresa removida.", status: :see_other
   end
 
-  # "Buscar nas candidaturas": checks every application again.
+  # "Procurar": with a name, asks the ATSs for that company now (the boards found become
+  # suggestions); without one, checks every application again in the background.
   def find
-    JobApplication.where.not(status: "saved").update_all(board_checked_at: nil)
-    FindTargetCompaniesJob.perform_later
-    redirect_to target_companies_path, notice: "Buscando os quadros de vagas das empresas em que você aplicou. As que forem encontradas aparecem aqui em alguns minutos."
+    if params[:name].present?
+      found = TargetCompanyFinder.new.search(params[:name])
+      message = found.any? ? "Achei #{found.map { "#{it.human_enum(:ats)}/#{it.board_slug}" }.to_sentence}. Ative em Sugeridas." : "Não achei um quadro público de “#{params[:name].strip}” no Greenhouse, Lever, Ashby ou Workable."
+      redirect_to target_companies_path, notice: message
+    else
+      JobApplication.where.not(status: "saved").update_all(board_checked_at: nil)
+      FindTargetCompaniesJob.perform_later
+      redirect_to target_companies_path, notice: "Buscando os quadros de vagas das empresas em que você aplicou. As que forem encontradas aparecem aqui em alguns minutos."
+    end
   end
 
   def activate
