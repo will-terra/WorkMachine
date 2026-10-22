@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkMachine · redesign</title>
+<link rel="stylesheet" href="_ds/broadsheet-b450a566-a100-4964-91e2-d181bf7f3fff/styles.css">
+<script src="_ds/broadsheet-b450a566-a100-4964-91e2-d181bf7f3fff/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  color-scheme: dark;
+  --color-bg: #121010; --color-surface: #1d1a19; --color-text: #ece6e3;
+  --color-accent: #c7262f; --color-accent-2: #f0ad3a;
+  --color-divider: color-mix(in srgb, #ece6e3 13%, transparent);
+  --color-neutral-100: #221e1d; --color-neutral-200: #2c2726; --color-neutral-300: #3a3433; --color-neutral-400: #524b49; --color-neutral-500: #6f6765; --color-neutral-600: #8f8785; --color-neutral-700: #b0a9a7; --color-neutral-800: #d0cac8; --color-neutral-900: #ece7e5;
+  --color-accent-100: #2a1214; --color-accent-200: #3d1519; --color-accent-300: #5a1a20; --color-accent-400: #8a1f27; --color-accent-500: #c7262f; --color-accent-600: #f05a5f; --color-accent-700: #ff7a7c; --color-accent-800: #ffa3a3; --color-accent-900: #ffd0cf;
+  --color-accent-2-100: #2a1f0c; --color-accent-2-200: #3d2c0f; --color-accent-2-300: #5a4013; --color-accent-2-400: #85601a; --color-accent-2-500: #c08a22; --color-accent-2-600: #e8a93a; --color-accent-2-700: #f5c060; --color-accent-2-800: #fad590; --color-accent-2-900: #fde9c4;
+  --font-heading: "Bricolage Grotesque", system-ui, sans-serif; --font-heading-weight: 600;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --shadow-sm: 0 0 0 1px color-mix(in srgb, #ece6e3 8%, transparent), 0 1px 2px #0008;
+  --shadow-md: 0 0 0 1px color-mix(in srgb, #ece6e3 10%, transparent), 0 6px 18px #000a;
+  --shadow-lg: 0 0 0 1px color-mix(in srgb, #ece6e3 12%, transparent), 0 16px 40px #000c;
+}
+body { margin: 0; text-wrap: pretty; background: var(--color-bg); color: var(--color-text); }
+a { color: var(--color-accent); text-underline-offset: 3px; }
+a:hover { color: var(--color-accent-600); }
+.btn, .seg-opt { white-space: nowrap; }
+.seg-opt:has(input:checked), .btn.btn-primary, .btn.btn-primary:hover, .btn.btn-primary:active { color: #fff !important; }
+::selection { background: var(--color-accent-400); color: #fff; }
+</style>
+</helmet>
+
+<header style="max-width:1280px; margin:0 auto; padding:20px clamp(20px,4vw,56px) 0;">
+  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px 24px; flex-wrap:wrap;">
+    <a href="#" onClick="{{ goPainel }}" style="display:flex; align-items:center; gap:10px; color:var(--color-text); text-decoration:none;">
+      <img src="assets/ruby.png" alt="" width="26" height="26" style="display:block;">
+      <span style="font-family:var(--font-heading); font-weight:700; font-size:24px; line-height:1; letter-spacing:-0.03em;">WorkMachine</span>
+      <span style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; padding:3px 7px; border-radius:var(--radius-md); background:var(--color-accent-100); color:var(--color-accent-800);">on Rails</span>
+    </a>
+    <div style="display:flex; align-items:center; gap:20px; font-size:14px;">
+      <a href="#" onClick="{{ goPerfil }}" style="text-decoration:none; color:{{ perfilColor }};">Perfil</a>
+      <a href="#" onClick="{{ goAjustes }}" style="text-decoration:none; color:{{ ajustesColor }};">Ajustes</a>
+      <button type="button" class="btn btn-ghost" style="font-size:14px; padding:4px 6px;">Sair</button>
+    </div>
+  </div>
+  <nav aria-label="Seções" style="display:flex; flex-wrap:wrap; gap:6px 22px; padding:16px 0 0; font-size:14.5px;">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="9">
+      <a href="#" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="display:flex; align-items:baseline; gap:6px; white-space:nowrap; text-decoration:none; color:{{ n.color }}; font-weight:{{ n.weight }};">{{ n.label }}<sc-if value="{{ n.hasCount }}"><span style="font-family:var(--font-mono); font-size:11.5px; font-weight:600; color:var(--color-accent);">{{ n.count }}</span></sc-if></a>
+    </sc-for>
+  </nav>
+</header>
+
+<main style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 96px;">
+
+  <!-- ═══════════ PAINEL ═══════════ -->
+  <sc-if value="{{ isPainel }}" hint-placeholder-val="{{ true }}">
+    <sc-if value="{{ showOnboarding }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 20px; padding:24px 0 0; font-size:15px;">
+        <span class="tag tag-accent-2">Primeiro uso</span>
+        <span>Falta pouco para o WorkMachine buscar vagas para você: chave da IA, perfil e primeira busca.</span>
+        <button type="button" class="btn btn-primary">Continuar a configuração</button>
+      </div>
+    </sc-if>
+
+    <section aria-labelledby="t-rot" style="padding:32px 0 0;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px 24px; flex-wrap:wrap;">
+        <h1 id="t-rot" style="font-size:24px; margin:0; letter-spacing:-0.02em;">Rotina de hoje</h1>
+        <div style="display:flex; align-items:center; gap:18px; font-size:13px;">
+          <span style="display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">
+            <span style="display:block; width:96px; height:4px; border-radius:2px; overflow:hidden; background:var(--color-neutral-300);"><span style="display:block; height:100%; width:{{ routinePct }}; background:var(--color-accent);"></span></span>
+            <span>{{ routineProgress }}</span>
+          </span>
+          <a href="#">Ver regras</a>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap:20px 36px; margin-top:16px;">
+        <sc-for list="{{ routine }}" as="slot" hint-placeholder-count="4">
+          <div>
+            <div style="display:flex; align-items:baseline; gap:8px; margin-bottom:6px;">
+              <h3 style="font-size:15px; margin:0;">{{ slot.title }}</h3>
+              <span style="font-family:var(--font-mono); font-size:11.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ slot.time }}</span>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <sc-for list="{{ slot.items }}" as="it" hint-placeholder-count="3">
+                <button type="button" role="checkbox" aria-checked="{{ it.aria }}" onClick="{{ it.toggle }}" style="display:flex; align-items:flex-start; gap:9px; padding:3px 0; border:0; background:none; font:inherit; font-size:13.5px; line-height:1.4; text-align:left; cursor:pointer; color:{{ it.color }};">
+                  <span style="flex:none; display:grid; place-items:center; width:14px; height:14px; margin-top:2px; border-radius:2px; border:1.5px solid {{ it.boxBorder }}; background:{{ it.boxBg }};">
+                    <sc-if value="{{ it.checked }}"><svg width="10" height="10" viewBox="0 0 256 256" fill="var(--color-bg)" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg></sc-if>
+                  </span>
+                  <span style="text-decoration:{{ it.deco }};">{{ it.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-label="Candidaturas por status" style="display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:10px 32px; margin-top:32px; padding:12px 0; border-top:1px solid var(--color-divider); border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex; flex-wrap:wrap; gap:4px 22px; font-size:14px;">
+        <sc-for list="{{ pipeline }}" as="s" hint-placeholder-count="7">
+          <a href="#" onClick="{{ goCandidaturas }}" style="display:flex; align-items:baseline; gap:6px; color:var(--color-text); text-decoration:none;">{{ s.label }}<span style="font-family:var(--font-mono); font-weight:600; font-size:13px; color:{{ s.color }};">{{ s.count }}</span></a>
+        </sc-for>
+      </div>
+      <p style="display:flex; flex-wrap:wrap; gap:4px 18px; margin:0; font-family:var(--font-mono); font-size:11.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">
+        <span>{{ openLine }}</span><span>busca 12:00 → 15:00</span><span>Gmail 12:40</span>
+      </p>
+    </section>
+
+    <div style="display:flex; flex-wrap:wrap; gap:40px clamp(36px,5vw,80px); padding-top:32px;">
+      <section aria-labelledby="t-novas" style="flex:7 1 480px; min-width:0;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap;">
+          <h2 id="t-novas" style="font-size:20px; margin:0;">Vagas novas por nota</h2>
+          <a href="#" onClick="{{ goVagas }}" style="font-size:13.5px;">{{ newCountLine }}</a>
+        </div>
+        <sc-if value="{{ hasLead }}" hint-placeholder-val="{{ true }}">
+          <article style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 22px; align-items:start; padding:18px 0 14px;">
+            <span title="Nota de 0 a 100" style="font-family:var(--font-heading); font-weight:700; font-size:60px; line-height:0.9; letter-spacing:-0.04em; color:var(--color-accent);">{{ lead.score }}</span>
+            <div style="min-width:0;">
+              <p style="margin:0; font-family:var(--font-mono); font-size:11.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">melhor nota · via {{ lead.source }} · {{ lead.posted }}</p>
+              <h3 style="font-size:21px; line-height:1.2; margin:6px 0 0;"><a href="#" onClick="{{ lead.open }}" style="color:var(--color-text); text-decoration:none;">{{ lead.title }}</a></h3>
+              <p style="margin:4px 0 0; font-size:14px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ lead.metaShort }}</p>
+              <div style="display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:12px;">
+                <button type="button" class="btn btn-primary" onClick="{{ lead.save }}">Salvar</button>
+                <button type="button" class="btn btn-secondary" onClick="{{ lead.dismiss }}">Descartar</button>
+                <button type="button" class="btn btn-ghost" onClick="{{ lead.open }}">Ler a vaga</button>
+                <span style="display:flex; flex-wrap:wrap; gap:4px; margin-left:6px;"><sc-for list="{{ lead.terms }}" as="k" hint-placeholder-count="4"><span class="tag {{ k.cls }}">{{ k.text }}</span></sc-for></span>
+              </div>
+            </div>
+          </article>
+        </sc-if>
+        <sc-if value="{{ noLead }}" hint-placeholder-val="{{ false }}">
+          <p style="padding:20px 0; margin:0; font-size:15px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Nenhuma vaga nova. O agregador roda a cada 3 horas.</p>
+        </sc-if>
+        <div style="display:flex; flex-direction:column;">
+          <sc-for list="{{ dashRest }}" as="p" hint-placeholder-count="5">
+            <a href="#" onClick="{{ p.open }}" style="display:grid; grid-template-columns:44px minmax(0,1fr); gap:14px; align-items:baseline; padding:7px 0; color:var(--color-text); text-decoration:none;">
+              <span style="font-family:var(--font-mono); font-weight:600; font-size:17px; line-height:1; color:{{ p.scoreColor }};">{{ p.score }}</span>
+              <span style="min-width:0;">
+                <span style="display:block; font-size:15px; font-weight:500; line-height:1.3;">{{ p.title }}</span>
+                <span style="display:block; margin-top:2px; font-size:13px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ p.meta }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+      </section>
+
+      <aside style="flex:5 1 340px; min-width:0; display:flex; flex-direction:column; gap:36px;">
+        <section aria-labelledby="t-fu">
+          <h2 id="t-fu" style="font-size:20px; margin:0;">Follow-ups do dia</h2>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-top:14px;">
+            <sc-for list="{{ followUps }}" as="f" hint-placeholder-count="3">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+                <div style="min-width:0;">
+                  <p style="margin:0; font-size:15px; font-weight:600; line-height:1.3;">{{ f.company }}</p>
+                  <p style="margin:2px 0 0; font-size:13px; line-height:1.4; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ f.role }} · {{ f.when }}</p>
+                </div>
+                <div style="display:flex; gap:4px; flex:none;">
+                  <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:13px;">Follow-up</button>
+                  <button type="button" class="btn btn-ghost" style="font-size:13px;">Editar</button>
+                </div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noFollowUps }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0; font-size:14px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Nada para cobrar hoje.</p>
+            </sc-if>
+          </div>
+        </section>
+        <section aria-labelledby="t-resp">
+          <h2 id="t-resp" style="font-size:20px; margin:0;">Respostas das empresas</h2>
+          <div style="display:flex; flex-direction:column; gap:16px; margin-top:14px;">
+            <sc-for list="{{ replies }}" as="r" hint-placeholder-count="3">
+              <div>
+                <div style="display:flex; flex-wrap:wrap; align-items:center; gap:4px 10px;">
+                  <span class="tag {{ r.cls }}">{{ r.category }}</span>
+                  <a href="#" style="font-weight:600; font-size:14.5px;">{{ r.company }}</a>
+                  <span style="font-family:var(--font-mono); font-size:11.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ r.at }} · {{ r.from }} → <strong style="font-weight:600; color:var(--color-text);">{{ r.to }}</strong></span>
+                </div>
+                <p style="margin:5px 0 0; font-size:14px; line-height:1.45;">{{ r.summary }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ VAGAS ═══════════ -->
+  <sc-if value="{{ isVagas }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:64px 0 36px;">
+      <div style="max-width:62ch;">
+        <p style="margin:0; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Triagem</p>
+        <h1 style="font-size:46px; margin:14px 0 0 -0.035em;">Vagas</h1>
+        <p style="margin:14px 0 0; font-size:16px; line-height:1.6;">Vagas do agregador, dos alertas do LinkedIn e da extensão. Salve as que valem a pena e descarte o resto.</p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        <button type="button" class="btn btn-secondary">Buscar agora</button>
+        <button type="button" class="btn btn-primary">Adicionar vaga</button>
+      </div>
+    </section>
+
+    <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px 20px; padding-bottom:32px;">
+      <div class="field">
+        <label>Triagem</label>
+        <div class="seg" role="radiogroup" aria-label="Triagem">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+            <label class="seg-opt"><input type="radio" name="triage" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label>
+          </sc-for>
+        </div>
+      </div>
+      <div class="field">
+        <label>Ordenar por</label>
+        <div class="seg" role="radiogroup" aria-label="Ordenar por">
+          <sc-for list="{{ sorts }}" as="t" hint-placeholder-count="2">
+            <label class="seg-opt"><input type="radio" name="sort" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label>
+          </sc-for>
+        </div>
+      </div>
+      <div class="field" style="width:130px;">
+        <label for="f-min">Nota mínima</label>
+        <select id="f-min" class="input" value="{{ minScore }}" onChange="{{ setMinScore }}">
+          <option value="">Qualquer</option><option value="20">20+</option><option value="35">35+</option><option value="40">40+</option><option value="50">50+</option><option value="60">60+</option><option value="75">75+</option>
+        </select>
+      </div>
+      <div class="field" style="width:170px;">
+        <label for="f-reg">Região</label>
+        <select id="f-reg" class="input"><option>Todas</option><option>Abertas ao Brasil</option><option>Brasil</option><option>LATAM</option><option>Mundo todo</option><option>Só EUA/Canadá</option><option>Só Europa</option><option>Não informada</option></select>
+      </div>
+      <div class="field" style="width:140px;">
+        <label for="f-sen">Senioridade</label>
+        <select id="f-sen" class="input"><option>Todas</option><option>Júnior</option><option>Pleno</option><option>Sênior</option><option>Não informada</option></select>
+      </div>
+      <div class="field" style="flex:1 1 200px; max-width:320px;">
+        <label for="f-q">Buscar</label>
+        <input id="f-q" class="input" type="search" placeholder="título, empresa…" value="{{ q }}" onChange="{{ setQ }}">
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px 24px; padding-bottom:12px; font-size:13.5px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">
+      <span>{{ countLine }}</span>
+      <span>↑ ↓ navegar · S salvar · A salvar em aplicadas · D descartar</span>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:48px clamp(36px,5vw,72px);">
+      <div role="listbox" aria-label="Vagas" style="flex:5 1 300px; min-width:0; display:flex; flex-direction:column; gap:2px;">
+        <sc-for list="{{ list }}" as="p" hint-placeholder-count="8">
+          <div role="option" aria-selected="{{ p.aria }}" onClick="{{ p.select }}" style="display:grid; grid-template-columns:48px minmax(0,1fr); gap:14px; align-items:baseline; padding:14px 14px 15px; margin:0 -14px; border-radius:var(--radius-md); cursor:pointer; background:{{ p.bg }};">
+            <span title="Nota de 0 a 100" style="font-family:var(--font-heading); font-weight:600; font-size:26px; line-height:1; font-variant-numeric:tabular-nums; color:{{ p.scoreColor }};">{{ p.score }}</span>
+            <div style="min-width:0;">
+              <p style="margin:0; font-size:16px; font-weight:600; line-height:1.3;">{{ p.title }}</p>
+              <p style="margin:3px 0 0; font-size:13.5px; line-height:1.45; color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ p.meta }}</p>
+              <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:8px;">
+                <sc-if value="{{ p.hasStatus }}"><span class="tag tag-outline">{{ p.status }}</span></sc-if>
+                <sc-if value="{{ p.partial }}"><span class="tag tag-accent-2">nota parcial</span></sc-if>
+                <sc-for list="{{ p.top }}" as="k"><span class="tag {{ k.cls }}">{{ k.text }}</span></sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ false }}">
+          <p style="margin:0; padding:40px 0; font-size:15.5px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Nenhuma vaga com esses filtros.</p>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ true }}">
+        <article aria-label="Vaga selecionada" style="flex:7 1 380px; min-width:0; position:sticky; top:24px;">
+          <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ sel.kicker }}</p>
+          <h2 style="font-size:clamp(26px,2.6vw,34px); line-height:1.12; margin:12px 0 0 -0.02em;">{{ sel.title }}</h2>
+          <p style="margin:8px 0 0; font-size:16px;">{{ sel.company }}</p>
+
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:24px;">
+            <sc-if value="{{ sel.isNew }}" hint-placeholder-val="{{ true }}">
+              <button type="button" class="btn btn-primary" onClick="{{ sel.save }}">Salvar</button>
+              <button type="button" class="btn btn-secondary" onClick="{{ sel.apply }}">Salvar em aplicadas</button>
+              <button type="button" class="btn btn-secondary" onClick="{{ sel.dismiss }}">Descartar</button>
+            </sc-if>
+            <sc-if value="{{ sel.notNew }}" hint-placeholder-val="{{ false }}">
+              <span class="tag tag-outline" style="align-self:center;">{{ sel.status }}</span>
+              <button type="button" class="btn btn-secondary" onClick="{{ sel.restore }}">Voltar para triagem</button>
+            </sc-if>
+            <button type="button" class="btn btn-ghost"><svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path opacity="0.25" d="M194.82,151.43l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0l-20.3-55.09-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3A7.92,7.92,0,0,1,194.82,151.43Z"></path><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"></path></svg>Analisar com IA</button>
+            <button type="button" class="btn btn-ghost" aria-pressed="{{ sel.dreamPressed }}" onClick="{{ sel.toggleDream }}">{{ sel.dreamLabel }}</button>
+            <a href="#" class="btn btn-ghost">Abrir vaga ↗</a>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; gap:36px 56px; margin-top:40px;">
+            <div style="flex:1 1 220px; min-width:0;">
+              <div style="display:flex; align-items:flex-end; gap:10px;">
+                <span style="display:block; font-family:var(--font-heading); font-weight:700; font-size:72px; line-height:0.9; letter-spacing:-0.04em; color:{{ sel.scoreColor }};">{{ sel.score }}</span>
+                <span style="font-size:16px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">/ 100</span>
+              </div>
+              <div style="margin-top:20px;">
+                <sc-for list="{{ sel.terms }}" as="k" hint-placeholder-count="4">
+                  <p style="display:flex; align-items:baseline; gap:8px; margin:0; font-size:15px; line-height:28px;">
+                    <span>{{ k.term }}</span>
+                    <span style="flex:1; min-width:24px; align-self:flex-end; margin-bottom:0.34em; border-bottom:1px dotted color-mix(in srgb, var(--color-text) 45%, transparent);"></span>
+                    <span style="font-weight:600; font-variant-numeric:tabular-nums; color:{{ k.color }};">{{ k.pts }}</span>
+                  </p>
+                </sc-for>
+              </div>
+            </div>
+            <dl style="flex:1 1 220px; min-width:0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px 20px; margin:6px 0 0; font-size:14.5px; align-content:start;">
+              <sc-for list="{{ sel.facts }}" as="d" hint-placeholder-count="7">
+                <dt style="color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ d.k }}</dt>
+                <dd style="margin:0;">{{ d.v }}</dd>
+              </sc-for>
+            </dl>
+          </div>
+
+          <div style="margin-top:40px; max-width:64ch;">
+            <sc-if value="{{ sel.partial }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0; font-size:15.5px; line-height:1.65;"><span class="tag tag-accent-2" style="margin-right:8px;">nota parcial</span>Esta vaga chegou sem descrição (os e-mails de alerta do LinkedIn não trazem o texto), então a nota usa só o título e o local. Para completar: abra a vaga e salve pela extensão, que traz a descrição e recalcula a nota. Ou use Analisar com IA como segunda opinião.</p>
+            </sc-if>
+            <sc-for list="{{ sel.desc }}" as="para" hint-placeholder-count="2">
+              <p style="margin:0 0 16px; font-size:16px; line-height:1.7;">{{ para.text }}</p>
+            </sc-for>
+          </div>
+        </article>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ CANDIDATURAS ═══════════ -->
+  <sc-if value="{{ isCandidaturas }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:64px 0 36px;">
+      <div style="max-width:62ch;">
+        <p style="margin:0; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb, var(--color-text) 70%, transparent);">A planilha</p>
+        <h1 style="font-size:46px; margin:14px 0 0 -0.035em;">Candidaturas</h1>
+        <p style="margin:14px 0 0; font-size:16px; line-height:1.6;">{{ appsIntro }}</p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px;">
+        <div class="seg" role="radiogroup" aria-label="Visualização">
+          <label class="seg-opt"><input type="radio" name="view" checked="{{ isBoard }}" onChange="{{ setBoard }}">Kanban</label>
+          <label class="seg-opt"><input type="radio" name="view" checked="{{ isTable }}" onChange="{{ setTable }}">Tabela</label>
+        </div>
+        <button type="button" class="btn btn-secondary">Verificar respostas</button>
+        <button type="button" class="btn btn-secondary">Exportar .xlsx</button>
+        <button type="button" class="btn btn-primary">Nova candidatura</button>
+      </div>
+    </section>
+
+    <sc-if value="{{ isBoard }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex; gap:16px; overflow-x:auto; margin:0 calc(-1 * clamp(20px,4vw,56px)); padding:0 clamp(20px,4vw,56px) 24px;">
+        <sc-for list="{{ columns }}" as="c" hint-placeholder-count="5">
+          <section aria-label="{{ c.label }}" onDragOver="{{ c.onDragOver }}" onDrop="{{ c.onDrop }}" style="flex:0 0 252px; display:flex; flex-direction:column; gap:10px; padding:10px; border-radius:var(--radius-lg); background:{{ c.bg }};">
+            <header style="display:flex; justify-content:space-between; align-items:baseline; gap:8px; padding:0 2px 6px;">
+              <h2 style="font-size:17px; margin:0; color:{{ c.labelColor }};">{{ c.label }}</h2>
+              <span style="font-family:var(--font-heading); font-weight:600; font-size:17px; font-variant-numeric:tabular-nums; color:{{ c.labelColor }};">{{ c.count }}</span>
+            </header>
+            <sc-for list="{{ c.cards }}" as="a" hint-placeholder-count="2">
+              <div class="card" draggable="true" onDragStart="{{ a.onDragStart }}" onDragEnd="{{ dragEnd }}" style="gap:6px; cursor:grab; opacity:{{ a.opacity }};">
+                <p style="margin:0; font-family:var(--font-heading); font-weight:600; font-size:16px; line-height:1.25;">{{ a.company }}</p>
+                <p style="margin:0; font-size:13.5px; line-height:1.4; color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ a.role }}</p>
+                <div style="display:flex; flex-wrap:wrap; gap:4px; margin-top:4px;">
+                  <span class="tag tag-neutral">{{ a.origin }}</span>
+                  <sc-if value="{{ a.hasApplied }}"><span class="tag tag-neutral" title="Aplicou em">↗ {{ a.applied }}</span></sc-if>
+                  <sc-if value="{{ a.hasFu }}"><span class="tag {{ a.fuCls }}" title="Próximo follow-up">follow-up&nbsp;{{ a.fu }}</span></sc-if>
+                </div>
+                <div style="display:flex; gap:14px; margin-top:4px; font-size:13px;">
+                  <a href="#">Editar</a><a href="#">Mensagem</a><a href="#">Abrir vaga</a>
+                </div>
+              </div>
+            </sc-for>
+            <button type="button" class="btn btn-ghost" style="justify-content:flex-start; font-size:13px;">+ Adicionar</button>
+          </section>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isTable }}" hint-placeholder-val="{{ false }}">
+      <div style="overflow-x:auto;">
+        <table class="table" style="min-width:760px;">
+          <thead><tr><th>Empresa</th><th>Vaga</th><th>Status</th><th>Origem</th><th>Aplicou em</th><th>Próximo follow-up</th></tr></thead>
+          <tbody>
+            <sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="8">
+              <tr>
+                <td style="font-weight:600;">{{ r.company }}</td>
+                <td>{{ r.role }}</td>
+                <td><select class="input" aria-label="Status" value="{{ r.status }}" onChange="{{ r.onStatus }}" style="min-height:30px; padding:3px 8px; font-size:13px; width:auto;"><sc-for list="{{ r.options }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for></select></td>
+                <td>{{ r.origin }}</td>
+                <td style="font-variant-numeric:tabular-nums;">{{ r.applied }}</td>
+                <td style="font-variant-numeric:tabular-nums; color:{{ r.fuColor }};">{{ r.fu }}</td>
+              </tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </div>
+    </sc-if>
+  </sc-if>
+
+  <!-- ═══════════ MÉTRICAS ═══════════ -->
+  <sc-if value="{{ isMetricas }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:64px 0 16px;">
+      <div style="max-width:62ch;">
+        <p style="margin:0; font-size:13px; letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Funil</p>
+        <h1 style="font-size:46px; margin:14px 0 0 -0.035em;">Métricas</h1>
+        <p style="margin:14px 0 0; font-size:16px; line-height:1.6;">Como suas candidaturas andam e de onde vêm as melhores vagas. As respostas vêm dos e-mails lidos no Gmail e das mudanças que você faz no kanban.</p>
+      </div>
+      <div class="field">
+        <label>Período</label>
+        <div class="seg" role="radiogroup" aria-label="Período">
+          <sc-for list="{{ periods }}" as="t" hint-placeholder-count="3">
+            <label class="seg-opt"><input type="radio" name="period" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="Resumo" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap:36px 48px; padding:44px 0 80px;">
+      <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+        <div>
+          <p style="margin:0; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ t.label }}</p>
+          <p style="margin:16px 0 12px -0.03em; font-family:var(--font-heading); font-weight:600; font-size:58px; line-height:1; letter-spacing:-0.025em; font-variant-numeric:tabular-nums;">{{ t.value }}</p>
+          <p style="margin:0; font-size:14px; line-height:1.45; color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ t.detail }}</p>
+        </div>
+      </sc-for>
+    </section>
+
+    <div style="display:flex; flex-wrap:wrap; gap:64px clamp(40px,6vw,96px); padding-bottom:88px;">
+      <figure aria-labelledby="t-week" style="flex:1 1 420px; min-width:0; margin:0;">
+        <h2 id="t-week" style="font-size:24px; margin:0;">Candidaturas por semana</h2>
+        <p style="margin:6px 0 0; font-size:14px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Semanas de segunda a domingo; a última é a atual.</p>
+        <div style="display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 10px; margin-top:28px;">
+          <div aria-hidden="true" style="height:200px; display:flex; flex-direction:column; justify-content:space-between; text-align:right; font-size:12px; line-height:1; color:color-mix(in srgb, var(--color-text) 70%, transparent); font-variant-numeric:tabular-nums;">
+            <span style="transform:translateY(-50%);">{{ yTop }}</span><span>{{ yMid }}</span><span style="transform:translateY(50%);">0</span>
+          </div>
+          <div style="position:relative; height:200px;">
+            <div aria-hidden="true" style="position:absolute; inset:0 0 auto 0; border-top:1px solid var(--color-divider);"></div>
+            <div aria-hidden="true" style="position:absolute; top:50%; left:0; right:0; border-top:1px solid var(--color-divider);"></div>
+            <div aria-hidden="true" style="position:absolute; inset:auto 0 0 0; border-top:1px solid var(--color-text);"></div>
+            <ol style="position:relative; display:flex; align-items:flex-end; gap:3px; height:100%; margin:0; padding:0; list-style:none;">
+              <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="13">
+                <li title="{{ w.title }}" aria-label="{{ w.title }}" style="position:relative; flex:1; height:100%; display:flex; align-items:flex-end; justify-content:center;">
+                  <span style="display:block; width:100%; max-width:22px; height:{{ w.h }}; background:var(--color-accent); border-radius:2px 2px 0 0;"></span>
+                  <span style="position:absolute; left:0; right:0; bottom:{{ w.h }}; padding-bottom:4px; text-align:center; font-size:12px; font-weight:600; font-variant-numeric:tabular-nums;">{{ w.label }}</span>
+                </li>
+              </sc-for>
+            </ol>
+          </div>
+          <div></div>
+          <ol aria-hidden="true" style="display:flex; gap:3px; margin:0; padding:0; list-style:none; font-size:11.5px; color:color-mix(in srgb, var(--color-text) 70%, transparent); font-variant-numeric:tabular-nums;">
+            <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="13"><li style="flex:1; text-align:center; white-space:nowrap;">{{ w.date }}</li></sc-for>
+          </ol>
+        </div>
+      </figure>
+
+      <figure aria-labelledby="t-funil" style="flex:1 1 420px; min-width:0; margin:0;">
+        <h2 id="t-funil" style="font-size:24px; margin:0;">Funil</h2>
+        <p style="margin:6px 0 0; font-size:14px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Percentuais sobre as candidaturas aplicadas.</p>
+        <ol style="display:flex; flex-direction:column; gap:22px; margin:32px 0 0; padding:0; list-style:none;">
+          <sc-for list="{{ funnel }}" as="f" hint-placeholder-count="4">
+            <li aria-label="{{ f.aria }}" style="display:grid; grid-template-columns:minmax(0,10rem) minmax(0,1fr); gap:6px 16px; align-items:center;">
+              <span style="font-size:15px; line-height:1.3;">{{ f.label }}</span>
+              <span style="display:flex; align-items:center; gap:10px; min-width:0;">
+                <span style="flex:none; height:20px; width:{{ f.width }}; background:{{ f.bg }}; border-radius:0 2px 2px 0;"></span>
+                <span style="white-space:nowrap; font-size:14px; font-variant-numeric:tabular-nums;"><strong style="font-weight:600;">{{ f.count }}</strong> <span style="color:color-mix(in srgb, var(--color-text) 70%, transparent);">· {{ f.rate }}</span></span>
+              </span>
+              <span></span>
+              <span style="font-size:13px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">{{ f.step }}</span>
+            </li>
+          </sc-for>
+        </ol>
+      </figure>
+    </div>
+
+    <div style="display:flex; flex-wrap:wrap; gap:64px clamp(40px,6vw,96px);">
+      <section aria-labelledby="t-orig" style="flex:3 1 520px; min-width:0;">
+        <h2 id="t-orig" style="font-size:24px; margin:0;">Por origem da candidatura</h2>
+        <p style="margin:6px 0 20px; font-size:14px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Onde você achou a vaga e quanto cada origem rende em respostas e entrevistas.</p>
+        <div style="overflow-x:auto;">
+          <table class="table" style="font-variant-numeric:tabular-nums; min-width:560px;">
+            <thead><tr><th>Origem</th><th style="text-align:right;">Aplicadas</th><th style="text-align:right;">Responderam</th><th style="text-align:right;">Taxa de resposta</th><th style="text-align:right;">Entrevistas</th><th style="text-align:right;">Taxa de entrevista</th></tr></thead>
+            <tbody>
+              <sc-for list="{{ origins }}" as="o" hint-placeholder-count="6">
+                <tr><td style="font-weight:600;">{{ o.name }}</td><td style="text-align:right;">{{ o.total }}</td><td style="text-align:right;">{{ o.answered }}</td><td style="text-align:right;">{{ o.rr }}</td><td style="text-align:right;">{{ o.interviewed }}</td><td style="text-align:right;">{{ o.ir }}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section aria-labelledby="t-src" style="flex:2 1 380px; min-width:0;">
+        <h2 id="t-src" style="font-size:24px; margin:0;">Fontes de vagas</h2>
+        <p style="margin:6px 0 20px; font-size:14px; color:color-mix(in srgb, var(--color-text) 70%, transparent);">Quantas vagas cada fonte trouxe no período e quantas você salvou: as do topo são as que mais valem o seu tempo.</p>
+        <div style="overflow-x:auto;">
+          <table class="table" style="font-variant-numeric:tabular-nums; min-width:380px;">
+            <thead><tr><th>Fonte</th><th style="text-align:right;">Vagas</th><th style="text-align:right;">Salvas</th><th style="text-align:right;">Aproveitamento</th></tr></thead>
+            <tbody>
+              <sc-for list="{{ sources }}" as="s" hint-placeholder-count="9">
+                <tr><td style="font-weight:600;">{{ s.name }}</td><td style="text-align:right;">{{ s.total }}</td><td style="text-align:right;">{{ s.saved }}</td><td style="text-align:right;">{{ s.rate }}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </sc-if>
+  <!-- ═══════════ RADAR ═══════════ -->
+  <sc-if value="{{ isRadar }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">o que fazer à mão</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Radar</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">As buscas já vêm montadas com o seu perfil. O que o WorkMachine busca sozinho fica no resumo abaixo; aqui fica só o que precisa ser feito à mão.</p>
+      </div>
+      <div class="seg" role="radiogroup" aria-label="Frequência">
+        <sc-for list="{{ cadences }}" as="c" hint-placeholder-count="3"><label class="seg-opt"><input type="radio" name="cad" checked="{{ c.checked }}" onChange="{{ c.select }}">{{ c.label }}</label></sc-for>
+      </div>
+    </section>
+    <section aria-label="Fontes automáticas" style="padding:10px 0; border-top:1px solid var(--color-divider); border-bottom:1px solid var(--color-divider);">
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 24px;">
+        <p style="display:flex; flex-wrap:wrap; gap:4px 16px; margin:0; font-size:14px;"><span>{{ autoLine }}</span><span style="font-family:var(--font-mono); font-size:12.5px; color:var(--color-accent-2-700);">{{ autoFailLine }}</span></p>
+        <button type="button" class="btn btn-ghost" style="font-size:13px; padding:4px 6px;" onClick="{{ toggleAuto }}">{{ autoToggleLabel }}</button>
+      </div>
+      <sc-if value="{{ showAuto }}" hint-placeholder-val="{{ false }}">
+        <div style="overflow-x:auto; margin-top:8px;">
+          <table class="table" style="min-width:680px;">
+            <thead><tr><th>Fonte</th><th>Última execução</th><th style="text-align:right;">Lidas</th><th style="text-align:right;">Novas</th><th>Situação</th></tr></thead>
+            <tbody>
+              <sc-for list="{{ autoRows }}" as="r" hint-placeholder-count="13">
+                <tr><td><span style="font-weight:600;">{{ r.name }}</span><span style="display:block; font-size:12.5px; line-height:1.4; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ r.note }}</span></td><td style="font-family:var(--font-mono); font-size:12.5px; white-space:nowrap;">{{ r.at }}</td><td style="text-align:right; font-family:var(--font-mono); font-size:12.5px;">{{ r.fetched }}</td><td style="text-align:right; font-family:var(--font-mono); font-size:12.5px;">{{ r.created }}</td><td><span class="tag {{ r.cls }}">{{ r.status }}</span></td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </sc-if>
+    </section>
+    <p style="margin:24px 0 0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ cadenceTime }}</p>
+    <div style="display:flex; flex-direction:column; gap:44px; padding-top:14px;">
+      <sc-for list="{{ tasks }}" as="t" hint-placeholder-count="2">
+        <section>
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:12px 32px;">
+            <div style="max-width:72ch;">
+              <h2 style="font-size:22px; margin:0;">{{ t.title }}</h2>
+              <p style="margin:6px 0 0; font-size:14.5px; line-height:1.55;">{{ t.action }}</p>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px;">
+              <sc-for list="{{ t.filters }}" as="f">
+                <div class="field"><label>{{ f.label }}</label><div class="seg" role="radiogroup" aria-label="{{ f.label }}"><sc-for list="{{ f.options }}" as="o"><label class="seg-opt"><input type="radio" name="{{ f.name }}" checked="{{ o.checked }}" onChange="{{ o.select }}">{{ o.label }}</label></sc-for></div></div>
+              </sc-for>
+            </div>
+          </div>
+          <sc-if value="{{ t.hasStatus }}"><p style="display:flex; align-items:center; gap:10px; margin:12px 0 0; font-size:13.5px;"><span class="tag tag-accent">{{ t.statusTag }}</span><span style="color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ t.status }}</span></p></sc-if>
+          <div style="display:flex; flex-direction:column; margin-top:12px;">
+            <sc-for list="{{ t.searches }}" as="s">
+              <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 20px; padding:8px 0; border-top:1px solid var(--color-divider);">
+                <span style="flex:0 0 14rem; min-width:0; font-size:14.5px; font-weight:500;">{{ s.title }}<sc-if value="{{ s.hasNote }}"><span style="display:block; font-size:12.5px; font-weight:400; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ s.note }}</span></sc-if></span>
+                <code style="flex:1 1 300px; min-width:0; font-family:var(--font-mono); font-size:12.5px; line-height:1.55; color:var(--color-neutral-800); overflow-wrap:anywhere;">{{ s.query }}</code>
+                <span style="display:flex; gap:4px; flex:none;"><button type="button" class="btn btn-ghost" style="font-size:13px; padding:4px 8px;" onClick="{{ s.copy }}">{{ s.copyLabel }}</button><a class="btn btn-secondary" href="{{ s.url }}" target="_blank" rel="noopener" style="font-size:13px; padding:4px 10px;">Abrir ↗</a></span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ t.hasLinks }}">
+            <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;">
+              <sc-for list="{{ t.links }}" as="l"><a href="{{ l.url }}" target="_blank" rel="noopener" class="btn btn-secondary" title="{{ l.note }}" style="font-size:13px; padding:5px 12px;">{{ l.name }} ↗</a></sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ t.hasMore }}"><p style="margin:12px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ t.more }} <a href="{{ t.linkUrl }}" target="_blank" rel="noopener">{{ t.linkLabel }} ↗</a></p></sc-if>
+          <sc-if value="{{ t.hasRegs }}">
+            <div style="display:flex; flex-wrap:wrap; gap:24px 48px; margin-top:16px;">
+              <sc-for list="{{ regGroups }}" as="g">
+                <div style="flex:1 1 260px; min-width:0;">
+                  <h3 style="font-size:15px; margin:0 0 6px;">{{ g.title }} <span style="font-family:var(--font-mono); font-size:11.5px; font-weight:400; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ g.progress }}</span></h3>
+                  <sc-for list="{{ g.items }}" as="it">
+                    <div style="display:flex; align-items:flex-start; gap:9px; padding:3px 0;">
+                      <button type="button" role="checkbox" aria-checked="{{ it.aria }}" aria-label="{{ it.name }}" onClick="{{ it.toggle }}" style="display:flex; padding:0; border:0; background:none; cursor:pointer;"><span style="flex:none; display:grid; place-items:center; width:14px; height:14px; margin-top:3px; border-radius:2px; border:1.5px solid {{ it.boxBorder }}; background:{{ it.boxBg }};"><sc-if value="{{ it.checked }}"><svg width="10" height="10" viewBox="0 0 256 256" fill="var(--color-bg)" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg></sc-if></span></button>
+                      <span style="min-width:0; font-size:13.5px; line-height:1.45;"><a href="{{ it.url }}" target="_blank" rel="noopener" style="color:{{ it.color }}; text-decoration:{{ it.deco }};">{{ it.name }}</a><sc-if value="{{ it.hasNote }}"><span style="color:color-mix(in srgb, var(--color-text) 64%, transparent);"> · {{ it.notes }}</span></sc-if></span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </section>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ MENSAGENS ═══════════ -->
+  <sc-if value="{{ isMensagens }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">modelos</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Mensagens</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">Escolha um modelo e preencha nome, cargo e empresa. Seu resumo e sua stack vêm do Perfil. O que falta preencher fica marcado em amarelo.</p>
+      </div>
+      <button type="button" class="btn btn-primary">Novo modelo</button>
+    </section>
+    <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:40px clamp(36px,5vw,72px);">
+      <div role="listbox" aria-label="Modelos" style="flex:3 1 260px; min-width:0; display:flex; flex-direction:column; gap:2px;">
+        <sc-for list="{{ tplList }}" as="m" hint-placeholder-count="7">
+          <div role="option" aria-selected="{{ m.aria }}" onClick="{{ m.select }}" style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:10px 12px; margin:0 -12px; border-radius:var(--radius-md); cursor:pointer; background:{{ m.bg }};">
+            <span style="font-size:14.5px; font-weight:500;">{{ m.name }}</span>
+            <span style="display:flex; gap:8px; flex:none; font-family:var(--font-mono); font-size:11.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);"><span>{{ m.limit }}</span><span>{{ m.lang }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+      <article style="flex:7 1 440px; min-width:0;">
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px 20px;">
+          <h2 style="font-size:24px; margin:0;">{{ tpl.name }}</h2>
+          <div class="field" style="width:280px; max-width:100%;">
+            <label for="m-app">Preencher com uma candidatura</label>
+            <select id="m-app" class="input" value="{{ msgApp }}" onChange="{{ setMsgApp }}"><option value="">Nenhuma</option><sc-for list="{{ appOptions }}" as="o"><option value="{{ o.value }}">{{ o.label }}</option></sc-for></select>
+          </div>
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:12px 16px; margin-top:18px;">
+          <sc-for list="{{ msgFields }}" as="f" hint-placeholder-count="3">
+            <div class="field" style="flex:1 1 160px;"><label for="{{ f.id }}">{{ f.label }}</label><input id="{{ f.id }}" class="input" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}"></div>
+          </sc-for>
+        </div>
+        <div style="margin-top:22px; padding:18px 20px; border-radius:var(--radius-lg); background:var(--color-surface); font-size:15.5px; line-height:1.65; white-space:pre-wrap;"><sc-for list="{{ tpl.segments }}" as="g"><span style="color:{{ g.color }}; background:{{ g.bg }}; border-radius:2px;">{{ g.text }}</span></sc-for></div>
+        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px 20px; margin-top:12px;">
+          <span style="font-family:var(--font-mono); font-size:12px; color:{{ tpl.countColor }};">{{ tpl.count }}</span>
+          <div style="display:flex; gap:8px;"><button type="button" class="btn btn-ghost" onClick="{{ toggleEdit }}">{{ editLabel }}</button><button type="button" class="btn btn-primary" onClick="{{ copyMsg }}">{{ copyMsgLabel }}</button></div>
+        </div>
+        <sc-if value="{{ editing }}" hint-placeholder-val="{{ false }}">
+          <div class="field" style="margin-top:20px;">
+            <label for="m-body">Texto do modelo · use {{ phNome }}, {{ phCargo }}, {{ phEmpresa }}, {{ phResumo }} e {{ phStack }}</label>
+            <textarea id="m-body" class="input" rows="5" value="{{ tpl.body }}" onChange="{{ setBody }}" style="font-family:var(--font-mono); font-size:13px; line-height:1.6;"></textarea>
+          </div>
+        </sc-if>
+      </article>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ ROTINA ═══════════ -->
+  <sc-if value="{{ isRotina }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">checklist</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Rotina</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">O que fazer a cada dia, ajustado ao que o WorkMachine já automatiza. Os itens da semana ficam marcados até domingo; os outros recomeçam todo dia.</p>
+      </div>
+      <span style="display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);"><span style="display:block; width:140px; height:5px; border-radius:3px; overflow:hidden; background:var(--color-neutral-300);"><span style="display:block; height:100%; width:{{ routinePct }}; background:var(--color-accent);"></span></span><span>{{ routineProgress }}</span></span>
+    </section>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap:36px 56px;">
+      <sc-for list="{{ routine }}" as="slot" hint-placeholder-count="4">
+        <section>
+          <div style="display:flex; align-items:baseline; gap:10px; margin-bottom:10px;"><h2 style="font-size:20px; margin:0;">{{ slot.title }}</h2><span style="font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ slot.time }}</span></div>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <sc-for list="{{ slot.items }}" as="it" hint-placeholder-count="3">
+              <button type="button" role="checkbox" aria-checked="{{ it.aria }}" onClick="{{ it.toggle }}" style="display:flex; align-items:flex-start; gap:10px; padding:5px 0; border:0; background:none; font:inherit; font-size:15px; line-height:1.5; text-align:left; cursor:pointer; color:{{ it.color }};"><span style="flex:none; display:grid; place-items:center; width:14px; height:14px; margin-top:3px; border-radius:2px; border:1.5px solid {{ it.boxBorder }}; background:{{ it.boxBg }};"><sc-if value="{{ it.checked }}"><svg width="10" height="10" viewBox="0 0 256 256" fill="var(--color-bg)" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg></sc-if></span><span style="text-decoration:{{ it.deco }};">{{ it.label }}</span></button>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+    </div>
+    <section aria-labelledby="t-rules" style="margin-top:56px; max-width:76ch;">
+      <h2 id="t-rules" style="font-size:20px; margin:0;">Regras</h2>
+      <ol style="display:flex; flex-direction:column; gap:12px; margin:14px 0 0; padding:0; list-style:none;">
+        <sc-for list="{{ rules }}" as="r" hint-placeholder-count="4">
+          <li style="display:grid; grid-template-columns:28px minmax(0,1fr); gap:8px; font-size:15px; line-height:1.55;"><span style="font-family:var(--font-mono); font-size:13px; color:var(--color-accent-700);">{{ r.n }}</span><span><strong style="font-weight:600;">{{ r.title }}</strong> {{ r.text }}</span></li>
+        </sc-for>
+      </ol>
+    </section>
+  </sc-if>
+
+  <!-- ═══════════ CONTATOS ═══════════ -->
+  <sc-if value="{{ isContatos }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">recrutadores e gestores</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Contatos</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">Salve pessoas pelo ícone da extensão, no perfil delas no LinkedIn, ou à mão. A mensagem já abre preenchida com o nome e a empresa.</p>
+      </div>
+      <button type="button" class="btn btn-primary">Novo contato</button>
+    </section>
+    <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:16px 20px; padding-bottom:20px;">
+      <div class="field"><label>Tipo</label><div class="seg" role="radiogroup" aria-label="Tipo"><sc-for list="{{ contactKinds }}" as="t" hint-placeholder-count="3"><label class="seg-opt"><input type="radio" name="ckind" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label></sc-for></div></div>
+      <div class="field" style="flex:1 1 220px; max-width:320px;"><label for="c-q">Buscar</label><input id="c-q" class="input" type="search" placeholder="nome, empresa…" value="{{ contactQ }}" onChange="{{ setContactQ }}"></div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="table" style="min-width:760px;">
+        <thead><tr><th>Nome</th><th>Empresa</th><th>Tipo</th><th>Último contato</th><th></th></tr></thead>
+        <tbody>
+          <sc-for list="{{ contactRows }}" as="c" hint-placeholder-count="8">
+            <tr>
+              <td><span style="font-weight:600;">{{ c.name }}</span><span style="display:block; font-size:12.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ c.headline }}</span></td>
+              <td>{{ c.company }}</td>
+              <td><span class="tag {{ c.cls }}">{{ c.kind }}</span></td>
+              <td style="font-family:var(--font-mono); font-size:12.5px; color:{{ c.lastColor }};">{{ c.last }}</td>
+              <td style="text-align:right; white-space:nowrap;"><a href="{{ c.url }}" target="_blank" rel="noopener" class="btn btn-ghost" style="font-size:13px; padding:4px 8px;">LinkedIn ↗</a><button type="button" class="btn btn-ghost" style="font-size:13px; padding:4px 8px;" onClick="{{ c.message }}">Mensagem</button><button type="button" class="btn btn-ghost" style="font-size:13px; padding:4px 8px;">Editar</button></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <sc-if value="{{ contactsEmpty }}" hint-placeholder-val="{{ false }}"><p style="margin:0; padding:32px 0; font-size:15px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Nenhum contato com esses filtros.</p></sc-if>
+  </sc-if>
+
+  <!-- ═══════════ EMPRESAS-ALVO ═══════════ -->
+  <sc-if value="{{ isEmpresas }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">quadros de vagas</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Empresas-alvo</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">Empresas com quadro público no Greenhouse, Lever, Ashby ou Workable. O agregador lê esses quadros e guarda só os cargos da sua área.</p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px;"><div class="field" style="width:240px;"><label for="e-find">Procurar o quadro de uma empresa</label><input id="e-find" class="input" placeholder="nome da empresa"></div><button type="button" class="btn btn-secondary">Procurar</button><button type="button" class="btn btn-primary">Adicionar</button></div>
+    </section>
+    <sc-if value="{{ hasSuggestions }}" hint-placeholder-val="{{ true }}">
+      <section aria-labelledby="t-sug" style="padding-bottom:36px;">
+        <h2 id="t-sug" style="font-size:20px; margin:0;">Sugeridas</h2>
+        <p style="margin:4px 0 0; font-size:13.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Uma vaga salva apontava para o quadro destas empresas.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap:12px; margin-top:14px;">
+          <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+            <div class="card" style="gap:4px;">
+              <p style="margin:0; font-family:var(--font-heading); font-weight:600; font-size:17px;">{{ s.name }}</p>
+              <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ s.ats }} · {{ s.slug }}</p>
+              <p style="margin:4px 0 0; font-size:13px; line-height:1.4; color:color-mix(in srgb, var(--color-text) 64%, transparent);">via “{{ s.from }}”</p>
+              <div style="display:flex; gap:6px; margin-top:8px;"><button type="button" class="btn btn-primary" style="font-size:13px; padding:5px 12px;" onClick="{{ s.activate }}">Ativar</button><button type="button" class="btn btn-ghost" style="font-size:13px;" onClick="{{ s.dismiss }}">Dispensar</button></div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+    </sc-if>
+    <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; padding-bottom:8px;"><h2 style="font-size:20px; margin:0;">Quadros consultados</h2><span style="font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ targetsLine }}</span></div>
+    <div style="overflow-x:auto;">
+      <table class="table" style="min-width:780px;">
+        <thead><tr><th>Empresa</th><th>Quadro</th><th style="text-align:right;">Vagas</th><th style="text-align:right;">Salvas</th><th style="text-align:right;">Auto-descartadas</th><th>Última leitura</th><th>Ativa</th></tr></thead>
+        <tbody>
+          <sc-for list="{{ targetRows }}" as="t" hint-placeholder-count="9">
+            <tr style="opacity:{{ t.opacity }};">
+              <td><span style="display:flex; align-items:center; gap:8px; font-weight:600;">{{ t.name }}<sc-if value="{{ t.example }}"><span class="tag tag-neutral">exemplo</span></sc-if></span></td>
+              <td><a href="{{ t.url }}" target="_blank" rel="noopener" style="font-family:var(--font-mono); font-size:12.5px;">{{ t.ats }}/{{ t.slug }}</a></td>
+              <td style="text-align:right; font-family:var(--font-mono); font-size:12.5px;">{{ t.total }}</td>
+              <td style="text-align:right; font-family:var(--font-mono); font-size:12.5px;">{{ t.saved }}</td>
+              <td style="text-align:right; font-family:var(--font-mono); font-size:12.5px;">{{ t.auto }}</td>
+              <td style="font-family:var(--font-mono); font-size:12.5px;">{{ t.last }}</td>
+              <td><button type="button" role="switch" aria-checked="{{ t.aria }}" aria-label="Ativa" onClick="{{ t.toggle }}" style="position:relative; display:block; width:36px; height:20px; border:0; border-radius:10px; padding:0; cursor:pointer; background:{{ t.track }};"><span style="position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--color-text); transition:transform .15s; transform:{{ t.knob }};"></span></button></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ PERFIL ═══════════ -->
+  <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">de onde saem a nota, as buscas e a IA</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Perfil</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">Quem você é e o que procura. Mudar skills, termos a evitar, regiões ou nível recalcula a nota de todas as vagas. A prévia ao lado mostra o efeito antes de salvar.</p>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;"><button type="button" class="btn btn-secondary">Montar perfil a partir do CV</button><button type="button" class="btn btn-primary" onClick="{{ saveProfile }}">{{ saveProfileLabel }}</button></div>
+    </section>
+    <div style="display:flex; flex-wrap:wrap; align-items:flex-start; gap:40px clamp(36px,5vw,72px);">
+      <div style="flex:7 1 520px; min-width:0; display:flex; flex-direction:column; gap:40px;">
+        <section aria-labelledby="t-skills">
+          <h2 id="t-skills" style="font-size:20px; margin:0;">Skills</h2>
+          <p style="margin:4px 0 0; font-size:13.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Cada skill achada na vaga soma pontos à nota. Escreva e tecle Enter para adicionar.</p>
+          <div style="display:flex; flex-direction:column; margin-top:12px;">
+            <sc-for list="{{ skillLevels }}" as="lv" hint-placeholder-count="4">
+              <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 20px; padding:12px 0; border-top:1px solid var(--color-divider);">
+                <span style="flex:0 0 8.5rem; font-size:14.5px; font-weight:600;">{{ lv.label }} <span style="font-family:var(--font-mono); font-size:12px; font-weight:400; color:{{ lv.ptsColor }};">{{ lv.pts }}</span></span>
+                <div style="flex:1 1 300px; min-width:0; display:flex; flex-wrap:wrap; align-items:center; gap:6px;">
+                  <sc-for list="{{ lv.items }}" as="k">
+                    <span style="display:inline-flex; align-items:center; gap:2px; padding:2px 2px 2px 9px; border-radius:var(--radius-md); background:{{ lv.chipBg }}; color:{{ lv.chipColor }}; font-size:13.5px;">{{ k.name }}<button type="button" aria-label="Remover {{ k.name }}" onClick="{{ k.remove }}" style="display:grid; place-items:center; width:20px; height:20px; border:0; background:none; color:inherit; cursor:pointer; font:inherit; opacity:0.7;">×</button></span>
+                  </sc-for>
+                  <input class="input" aria-label="Adicionar em {{ lv.label }}" placeholder="adicionar…" value="{{ lv.draft }}" onChange="{{ lv.onDraft }}" onKeyDown="{{ lv.onKey }}" style="width:130px; min-height:28px; padding:3px 8px; font-size:13px;">
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+
+        <section aria-labelledby="t-busca">
+          <h2 id="t-busca" style="font-size:20px; margin:0;">O que procura</h2>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap:16px 20px; margin-top:14px;">
+            <div class="field"><label for="p-area">Área principal</label><select id="p-area" class="input"><option>Back-end</option><option>Full-stack</option><option>Front-end</option><option>DevOps / SRE / cloud</option><option>Dados</option><option>QA</option></select></div>
+            <div class="field"><label for="p-b">Plano B</label><select id="p-b" class="input"><option>Full-stack</option><option>Front-end</option><option>Nenhum</option></select></div>
+            <div class="field"><label for="p-anos">Anos de experiência</label><input id="p-anos" class="input" type="number" min="0" max="60" defaultValue="5"></div>
+            <div class="field" style="grid-column:1 / -1;"><label for="p-cargos">Cargos alvo</label><input id="p-cargos" class="input" defaultValue="Desenvolvedor Ruby, Desenvolvedor Back-end, Engenheiro de Software"></div>
+            <div class="field" style="grid-column:1 / -1;"><label for="p-cargos-en">Cargos alvo em inglês</label><input id="p-cargos-en" class="input" defaultValue="Rails Engineer, Backend Engineer, Ruby Developer"></div>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:16px 28px; margin-top:18px;">
+            <div class="field"><label>Nível</label><div class="seg" role="radiogroup" aria-label="Nível"><sc-for list="{{ seniorities }}" as="t" hint-placeholder-count="3"><label class="seg-opt"><input type="radio" name="sen" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label></sc-for></div></div>
+            <div class="field"><label>Modo de trabalho</label><div style="display:flex; flex-wrap:wrap; gap:6px;"><sc-for list="{{ modeChips }}" as="c" hint-placeholder-count="3"><button type="button" aria-pressed="{{ c.aria }}" onClick="{{ c.toggle }}" class="btn" style="font-size:13px; padding:5px 11px; background:{{ c.bg }}; color:{{ c.color }}; border:1px solid {{ c.border }};">{{ c.label }}</button></sc-for></div></div>
+            <div class="field"><label>Regiões aceitas</label><div style="display:flex; flex-wrap:wrap; gap:6px;"><sc-for list="{{ regionChips }}" as="c" hint-placeholder-count="5"><button type="button" aria-pressed="{{ c.aria }}" onClick="{{ c.toggle }}" class="btn" style="font-size:13px; padding:5px 11px; background:{{ c.bg }}; color:{{ c.color }}; border:1px solid {{ c.border }};">{{ c.label }}</button></sc-for></div></div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap:16px 20px; margin-top:18px;">
+            <div class="field"><label for="p-brl1">Pretensão R$ mín.</label><input id="p-brl1" class="input" inputMode="numeric" defaultValue="11.000"></div>
+            <div class="field"><label for="p-brl2">R$ máx.</label><input id="p-brl2" class="input" inputMode="numeric" defaultValue="15.000"></div>
+            <div class="field"><label for="p-usd1">US$ mín./mês</label><input id="p-usd1" class="input" inputMode="numeric" defaultValue="4.000"></div>
+            <div class="field"><label for="p-usd2">US$ máx./mês</label><input id="p-usd2" class="input" inputMode="numeric" defaultValue="6.500"></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="t-quem">
+          <h2 id="t-quem" style="font-size:20px; margin:0;">Quem você é</h2>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap:16px 20px; margin-top:14px;">
+            <div class="field"><label for="p-nome">Nome</label><input id="p-nome" class="input" defaultValue="Will Terra"></div>
+            <div class="field"><label for="p-head">Título</label><input id="p-head" class="input" defaultValue="Desenvolvedor Back-end Ruby on Rails"></div>
+            <div class="field"><label for="p-loc">Local</label><input id="p-loc" class="input" defaultValue="Brasil"></div>
+            <div class="field"><label for="p-tz">Fuso</label><select id="p-tz" class="input"><option>Brasília (UTC−3)</option><option>Manaus (UTC−4)</option><option>Lisboa (UTC+0)</option></select></div>
+            <div class="field"><label for="p-lang">Idiomas</label><input id="p-lang" class="input" defaultValue="Português nativo, inglês avançado"></div>
+            <div class="field"><label for="p-li">LinkedIn</label><input id="p-li" class="input" placeholder="linkedin.com/in/…"></div>
+            <div class="field"><label for="p-gh">GitHub</label><input id="p-gh" class="input" defaultValue="github.com/will-terra"></div>
+            <div class="field"><label for="p-pf">Portfólio</label><input id="p-pf" class="input" placeholder="https://…"></div>
+          </div>
+        </section>
+
+        <section aria-labelledby="t-cv">
+          <h2 id="t-cv" style="font-size:20px; margin:0;">Currículo</h2>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px 20px; margin-top:12px;">
+            <span style="font-family:var(--font-mono); font-size:13px;">curriculo.pdf <span style="color:color-mix(in srgb, var(--color-text) 64%, transparent);">· enviado em 14/10</span></span>
+            <button type="button" class="btn btn-secondary" style="font-size:13px;">Trocar arquivo</button>
+            <a href="#" style="font-size:13.5px;">Ver texto extraído</a>
+          </div>
+          <p style="margin:8px 0 0; font-size:13px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">PDF, DOCX ou TXT, até 5 MB. A IA monta um rascunho do perfil que você revisa antes de salvar.</p>
+        </section>
+      </div>
+
+      <aside aria-labelledby="t-prev" style="flex:4 1 320px; min-width:0; position:sticky; top:24px;">
+        <h2 id="t-prev" style="font-size:20px; margin:0;">Prévia das notas</h2>
+        <p style="margin:4px 0 0; font-size:13.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ previewLine }}</p>
+        <div style="display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:0 14px; margin-top:12px; font-size:12px; font-family:var(--font-mono); color:color-mix(in srgb, var(--color-text) 64%, transparent);"><span>vaga</span><span style="text-align:right;">agora</span><span style="text-align:right; min-width:52px;">prévia</span></div>
+        <div style="display:flex; flex-direction:column;">
+          <sc-for list="{{ previewRows }}" as="p" hint-placeholder-count="8">
+            <div style="display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:0 14px; align-items:baseline; padding:8px 0; border-top:1px solid var(--color-divider);">
+              <span style="min-width:0;"><span style="display:block; font-size:14px; font-weight:500; line-height:1.3;">{{ p.title }}</span><span style="display:block; font-size:12.5px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ p.company }}</span></span>
+              <span style="text-align:right; font-family:var(--font-mono); font-size:13px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ p.now }}</span>
+              <span style="min-width:52px; text-align:right; font-family:var(--font-mono); font-size:14px; font-weight:600; color:{{ p.color }};">{{ p.next }}<span style="display:block; font-size:11px; font-weight:400;">{{ p.delta }}</span></span>
+            </div>
+          </sc-for>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <!-- ═══════════ AJUSTES ═══════════ -->
+  <sc-if value="{{ isAjustes }}" hint-placeholder-val="{{ false }}">
+    <section style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:20px 32px; padding:48px 0 28px;">
+      <div style="max-width:64ch;">
+        <p style="margin:0; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">configuração</p>
+        <h1 style="font-size:44px; margin:10px 0 0; letter-spacing:-0.03em;">Ajustes</h1>
+        <p style="margin:12px 0 0; font-size:15.5px; line-height:1.6;">Chaves e contas, extensão, notificações, descarte automático, fontes e backup. As senhas ficam criptografadas no banco do seu computador.</p>
+      </div>
+      
+    </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Chaves e contas</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">A IA usa o OpenRouter com a sua chave. O Gmail entra com uma senha de app, só para leitura: nada é marcado como lido, movido ou apagado.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px;">
+            <div class="field" style="flex:1 1 260px;"><label for="a-or">Chave do OpenRouter</label><input id="a-or" class="input" type="password" defaultValue="sk-or-v1-0000000000000000" style="font-family:var(--font-mono);"></div>
+            <button type="button" class="btn btn-secondary" onClick="{{ testOr }}">Testar OpenRouter</button>
+          </div>
+          <sc-if value="{{ orTested }}"><p style="margin:-4px 0 0; font-family:var(--font-mono); font-size:12.5px; color:var(--color-accent-700);">✓ conectado · {{ modelName }}</p></sc-if>
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 16px;">
+            <div class="field"><label>Modelo</label><div class="seg" role="radiogroup" aria-label="Plano da IA"><sc-for list="{{ aiPlans }}" as="t" hint-placeholder-count="2"><label class="seg-opt"><input type="radio" name="plan" checked="{{ t.checked }}" onChange="{{ t.select }}">{{ t.label }}</label></sc-for></div></div>
+            <code style="font-family:var(--font-mono); font-size:12.5px; padding-bottom:8px; color:var(--color-neutral-800);">{{ modelId }}</code>
+          </div>
+          <p style="margin:-4px 0 0; font-size:13px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ planNote }}</p>
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px; margin-top:8px;">
+            <div class="field" style="flex:1 1 220px;"><label for="a-gu">Gmail</label><input id="a-gu" class="input" type="email" defaultValue="voce@gmail.com"></div>
+            <div class="field" style="flex:1 1 200px;"><label for="a-gp">Senha de app</label><input id="a-gp" class="input" type="password" defaultValue="abcdabcdabcdabcd" style="font-family:var(--font-mono);"></div>
+            <button type="button" class="btn btn-secondary" onClick="{{ testGmail }}">Testar Gmail</button>
+          </div>
+          <sc-if value="{{ gmTested }}"><p style="margin:-4px 0 0; font-family:var(--font-mono); font-size:12.5px; color:var(--color-accent-700);">✓ caixa aberta só para leitura · última leitura hoje, 12:40</p></sc-if></div>
+      </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Extensão do navegador</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Salva a vaga aberta em qualquer site e recrutadores em Contatos. Cole este token nas Opções da extensão.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px 12px;">
+            <code style="flex:1 1 280px; min-width:0; padding:8px 12px; border-radius:var(--radius-md); background:var(--color-surface); font-family:var(--font-mono); font-size:13px; overflow-wrap:anywhere;">{{ tokenText }}</code>
+            <button type="button" class="btn btn-ghost" onClick="{{ toggleToken }}">{{ tokenToggle }}</button>
+            <button type="button" class="btn btn-secondary" onClick="{{ copyToken }}">{{ copyTokenLabel }}</button>
+            <button type="button" class="btn btn-ghost" onClick="{{ regenToken }}">Gerar outro</button>
+          </div>
+          <p style="margin:0; font-size:13px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Versão esperada da extensão: <span style="font-family:var(--font-mono);">0.9</span>. Depois de atualizar o WorkMachine, recarregue a extensão em chrome://extensions.</p></div>
+      </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Notificações</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Chegam no navegador, de preferência com o app instalado.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; flex-direction:column;"><sc-for list="{{ notifSwitches }}" as="w" hint-placeholder-count="2">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:7px 0;">
+              <div style="min-width:0;"><p style="margin:0; font-size:14.5px; font-weight:500;">{{ w.label }}</p><p style="margin:2px 0 0; font-size:13px; line-height:1.45; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ w.note }}</p></div>
+              <button type="button" role="switch" aria-checked="{{ w.aria }}" aria-label="{{ w.label }}" onClick="{{ w.toggle }}" style="flex:none; position:relative; width:36px; height:20px; margin-top:2px; border:0; border-radius:10px; padding:0; cursor:pointer; background:{{ w.track }};"><span style="position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--color-text); transition:transform .15s; transform:{{ w.knob }};"></span></button>
+            </div>
+          </sc-for></div>
+          <div style="display:flex; flex-wrap:wrap; align-items:flex-end; gap:10px 12px;">
+            <div class="field" style="width:200px;"><label for="a-min">Avisar vagas com nota a partir de</label><input id="a-min" class="input" type="number" min="0" max="100" value="{{ notifyMin }}" onChange="{{ setNotifyMin }}"></div>
+            <button type="button" class="btn btn-ghost">Enviar notificação de teste</button>
+          </div></div>
+      </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Descarte automático</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">Vagas descartadas sozinhas continuam em Vagas → Descartadas, com o motivo.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; flex-direction:column;"><sc-for list="{{ dismissSwitches }}" as="w" hint-placeholder-count="2">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:7px 0;">
+              <div style="min-width:0;"><p style="margin:0; font-size:14.5px; font-weight:500;">{{ w.label }}</p><p style="margin:2px 0 0; font-size:13px; line-height:1.45; color:color-mix(in srgb, var(--color-text) 64%, transparent);">{{ w.note }}</p></div>
+              <button type="button" role="switch" aria-checked="{{ w.aria }}" aria-label="{{ w.label }}" onClick="{{ w.toggle }}" style="flex:none; position:relative; width:36px; height:20px; margin-top:2px; border:0; border-radius:10px; padding:0; cursor:pointer; background:{{ w.track }};"><span style="position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:var(--color-text); transition:transform .15s; transform:{{ w.knob }};"></span></button>
+            </div>
+          </sc-for></div>
+          <div class="field" style="width:240px;"><label for="a-below">Descartar vagas com nota abaixo de</label><select id="a-below" class="input" value="{{ autoBelow }}" onChange="{{ setAutoBelow }}"><option value="">Não descartar</option><option value="10">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option><option value="30">30</option></select></div></div>
+      </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Fontes</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">As fontes de nicho só aparecem quando combinam com o seu perfil. Desligue as que não rendem.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap:4px 24px;">
+            <sc-for list="{{ sourceToggles }}" as="s" hint-placeholder-count="13">
+              <button type="button" role="checkbox" aria-checked="{{ s.aria }}" onClick="{{ s.toggle }}" style="display:flex; align-items:flex-start; gap:9px; padding:4px 0; border:0; background:none; font:inherit; font-size:14px; line-height:1.45; text-align:left; cursor:pointer; color:var(--color-text);"><span style="flex:none; display:grid; place-items:center; width:14px; height:14px; margin-top:3px; border-radius:2px; border:1.5px solid {{ s.boxBorder }}; background:{{ s.boxBg }};"><sc-if value="{{ s.checked }}"><svg width="10" height="10" viewBox="0 0 256 256" fill="var(--color-bg)" aria-hidden="true"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path></svg></sc-if></span><span>{{ s.name }}</span></button>
+            </sc-for>
+          </div></div>
+      </section>
+    <section style="display:flex; flex-wrap:wrap; gap:12px 48px; padding:28px 0; border-top:1px solid var(--color-divider);">
+        <div style="flex:1 1 220px; max-width:320px;"><h2 style="font-size:19px; margin:0;">Backup</h2><p style="margin:6px 0 0; font-size:13.5px; line-height:1.5; color:color-mix(in srgb, var(--color-text) 64%, transparent);">A cada hora o banco é copiado para a pasta backups. Ficam as cópias das últimas 24 horas e uma por dia dos últimos 14 dias.</p></div>
+        <div style="flex:3 1 420px; min-width:0; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px 20px;">
+            <span style="font-family:var(--font-mono); font-size:13px;">{{ backupLine }}</span>
+            <button type="button" class="btn btn-secondary" onClick="{{ runBackup }}">Fazer backup agora</button>
+          </div></div>
+      </section>
+  </sc-if>
+
+</main>
+
+<footer style="max-width:1280px; margin:0 auto; padding:0 clamp(20px,4vw,56px) 40px; display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; font-family:var(--font-mono); font-size:12px; color:color-mix(in srgb, var(--color-text) 64%, transparent);">
+  <span style="display:flex; align-items:center; gap:8px; color:var(--color-text);"><img src="assets/ruby.png" alt="" width="16" height="16" style="display:block;">Feito com Ruby on Rails</span>
+  <span>WorkMachine 0.9</span>
+  <span>código aberto sob a <a href="https://github.com/will-terra/WorkMachine/blob/main/LICENSE" style="color:inherit;">AGPL-3.0</a></span>
+  <a href="https://github.com/will-terra/WorkMachine" style="color:inherit;">código-fonte</a>
+</footer>
+
+<sc-if value="{{ hasFlash }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed; left:clamp(16px,4vw,56px); bottom:24px; z-index:20; display:flex; align-items:center; gap:16px; max-width:min(560px, calc(100vw - 32px)); padding:12px 12px 12px 18px; border-radius:var(--radius-lg); background:var(--color-surface); box-shadow:var(--shadow-md); font-size:14.5px;">
+    <span>{{ flashText }}</span>
+    <button type="button" class="btn btn-ghost" onClick="{{ undo }}" style="flex:none;">Desfazer</button>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Painel&quot;,&quot;Vagas&quot;,&quot;Candidaturas&quot;,&quot;Métricas&quot;,&quot;Radar&quot;,&quot;Mensagens&quot;,&quot;Rotina&quot;,&quot;Contatos&quot;,&quot;Empresas-alvo&quot;,&quot;Perfil&quot;,&quot;Ajustes&quot;],&quot;default&quot;:&quot;Painel&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Protótipo&quot;},&quot;showOnboarding&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Protótipo&quot;}}">
+const TODAY = '2026-10-22';
+const MINUS5 = '2026-10-17';
+const MUTED = 'color-mix(in srgb, var(--color-text) 64%, transparent)';
+const BUILT = ['painel', 'vagas', 'candidaturas', 'metricas', 'radar', 'mensagens', 'rotina', 'contatos', 'empresas', 'perfil', 'ajustes'];
+const STATUSES = [['saved','Salva'],['applied','Aplicada'],['recruiter_contact','Contato do recrutador'],['hr_interview','Entrevista RH'],['tech_interview','Entrevista técnica'],['take_home','Teste prático'],['offer','Proposta'],['rejected','Recusada'],['no_response','Sem resposta'],['withdrawn','Desisti']];
+const CLOSED = ['rejected','no_response','withdrawn'];
+const STATUS_OPTS = STATUSES.map(([value, label]) => ({ value, label }));
+const SL = Object.fromEntries(STATUSES);
+
+const POSTINGS = [
+  { id:1, score:85, title:'Engenheira(o) de Software Sênior — Ruby on Rails', company:'Lumen Labs', source:'Greenhouse', region:'Mundo todo', seniority:'Sênior', location:'Remoto', salary:'US$ 5.500 – 7.000/mês', hours:3, published:'22/10/2026',
+    terms:[['Ruby',30],['Rails',30],['PostgreSQL',10],['Sidekiq',10],['Hotwire',5]],
+    desc:['A Lumen Labs faz software de agendamento para clínicas em 14 países e procura alguém para o time de Core, que cuida do monolito Rails e da fila de jobs.','Stack: Ruby 3.4, Rails 8, PostgreSQL, Sidekiq e Hotwire no front. Time distribuído, com 4 horas de sobreposição com o fuso de Lisboa. Contratação como PJ internacional, pagamento em dólar.'] },
+  { id:2, score:80, title:'Desenvolvedor(a) Back-end Pleno — Ruby', company:'Paçoca Pagamentos', source:'Remotar', region:'Brasil', seniority:'Pleno', location:'Remoto (Brasil)', salary:'R$ 11.000 – 14.000', hours:5, published:'22/10/2026',
+    terms:[['Ruby',30],['Rails',30],['PostgreSQL',10],['Redis',10]],
+    desc:['Squad de conciliação financeira, responsável pelas APIs que recebem os arquivos dos bancos.','Ruby on Rails, Redis e PostgreSQL. CLT, 100% remoto, para quem mora no Brasil.'] },
+  { id:3, score:70, title:'Full-stack Developer, Rails + Hotwire', company:'Northwind Health', source:'Himalayas', region:'LATAM', seniority:'Sênior', location:'Remote (LATAM)', salary:'', hours:26, published:'21/10/2026',
+    terms:[['Ruby',30],['Rails',30],['Hotwire',5],['Stimulus',5]],
+    desc:['Produto de telemedicina para pequenas clínicas. Você vai trabalhar do banco ao Stimulus, com deploy contínuo e revisão de código em pares.','Aceitamos candidatos de toda a América Latina.'] },
+  { id:4, score:58, title:'Senior Rails Engineer', company:'Oakline', source:'Remotive', region:'Só EUA/Canadá', seniority:'Sênior', location:'Remote (US, Canada)', salary:'US$ 140k – 170k/ano', hours:8, published:'22/10/2026',
+    terms:[['Ruby',30],['Rails',30],['PostgreSQL',10],['Sidekiq',10],['Só EUA/Canadá',-22]],
+    desc:['Oakline builds billing infrastructure for SaaS companies. We are looking for a Senior Rails Engineer to own our invoicing service.','Ruby, Rails, PostgreSQL, Sidekiq. This role is open to candidates in the US and Canada only.'] },
+  { id:5, score:55, title:'Backend Engineer (Go / Rails)', company:'Kestrel', source:'Lever', region:'Mundo todo', seniority:'Sênior', location:'Remote', salary:'', hours:50, published:'20/10/2026',
+    terms:[['Rails',30],['Go',10],['APIs REST',10],['Docker',5]],
+    desc:['Kestrel is a logistics platform with services in Go and a Rails admin. You will work on the routing API and the internal tools.','Fully remote, any time zone with 3 hours of overlap with UTC.'] },
+  { id:6, score:45, title:'Desenvolvedor Ruby Pleno', company:'Vinha Software', source:'backend-br/vagas', region:'Brasil', seniority:'Pleno', location:'Remoto', salary:'', hours:30, published:'21/10/2026',
+    terms:[['Ruby',30],['RSpec',10],['GitHub Actions',5]],
+    desc:['Consultoria com clientes no varejo. Projetos em Ruby, cobertura de testes com RSpec e integração contínua no GitHub Actions.'] },
+  { id:7, score:30, title:'Engenheiro(a) de Software — Produto', company:'Trama', source:'backend-br/vagas', region:'Brasil', seniority:'Pleno', location:'Híbrido, São Paulo', salary:'', hours:70, published:'19/10/2026',
+    terms:[['Rails',30],['React',10],['Java',-10]],
+    desc:['Time de produto de uma plataforma de e-commerce. Back-end em Rails, front em React. Parte dos serviços legados está em Java.'] },
+  { id:8, score:35, title:'Full Stack Engineer (Node / React)', company:'Cobalto', source:'We Work Remotely', region:'Mundo todo', seniority:'', location:'Remote', salary:'', hours:12, published:'22/10/2026',
+    terms:[['React',10],['TypeScript',10],['Node.js',10],['Docker',5]],
+    desc:['Cobalto is hiring a Full Stack Engineer to work on our React and TypeScript dashboard and the Node.js API behind it.'] },
+  { id:9, score:30, title:'Desenvolvedor Ruby', company:'Grupo Atlas', source:'Alerta do LinkedIn', region:'Não informada', seniority:'', location:'Brasil', salary:'', hours:2, published:'', partial:true,
+    terms:[['Ruby',30]], desc:[] },
+  { id:10, score:25, title:'Platform Engineer', company:'Halyard', source:'Ashby', region:'Só Europa', seniority:'Sênior', location:'Remote (EU)', salary:'', hours:40, published:'20/10/2026',
+    terms:[['Kubernetes',10],['Terraform',10],['AWS',10],['Docker',5],['Só Europa',-10]],
+    desc:['Halyard runs its platform on AWS with Kubernetes and Terraform. Candidates must be based in the EU.'] },
+  { id:11, score:20, title:'Engenheiro(a) de Dados Pleno', company:'Sabiá', source:'Himalayas', region:'Brasil', seniority:'Pleno', location:'Remoto', salary:'', hours:20, published:'21/10/2026',
+    terms:[['PostgreSQL',10],['AWS',10]],
+    desc:['Pipelines de dados em Python e Airflow, com armazenamento em PostgreSQL e AWS.'] },
+];
+
+const APPS = [
+  { id:101, company:'Ateliê Digital', role:'Desenvolvedor Rails Pleno', origin:'Remotar', status:'saved' },
+  { id:102, company:'Brisa Energia', role:'Back-end Engineer', origin:'Greenhouse', status:'saved' },
+  { id:103, company:'Quanta Saúde', role:'Engenheiro de Software Sênior', origin:'Alerta do LinkedIn', status:'applied', applied:'2026-10-08', fu:'2026-10-22' },
+  { id:104, company:'Faro Logística', role:'Ruby Developer', origin:'Himalayas', status:'applied', applied:'2026-10-12' },
+  { id:105, company:'Moinho', role:'Backend Engineer', origin:'Lever', status:'applied', applied:'2026-10-15', fu:'2026-10-24' },
+  { id:106, company:'Prisma Edu', role:'Full-stack Rails', origin:'backend-br/vagas', status:'applied', applied:'2026-10-19' },
+  { id:107, company:'Tessela', role:'Senior Software Engineer', origin:'Indicação', status:'recruiter_contact', applied:'2026-10-06' },
+  { id:108, company:'Ondina Seguros', role:'Desenvolvedor Back-end Sênior', origin:'Extensão', status:'hr_interview', applied:'2026-10-01', fu:'2026-10-21' },
+  { id:109, company:'Carambola', role:'Rails Engineer', origin:'Greenhouse', status:'tech_interview', applied:'2026-09-28' },
+  { id:110, company:'Lumiar Labs', role:'Engenheiro de Produto', origin:'Ashby', status:'take_home', applied:'2026-09-25', fu:'2026-10-23' },
+  { id:111, company:'Vértice', role:'Software Engineer II', origin:'Lever', status:'rejected', applied:'2026-09-20' },
+  { id:112, company:'Granito', role:'Desenvolvedor Ruby', origin:'Remotive', status:'rejected', applied:'2026-09-18' },
+  { id:113, company:'Pomar', role:'Backend Developer', origin:'We Work Remotely', status:'no_response', applied:'2026-09-10' },
+  { id:114, company:'Âncora Bank', role:'Desenvolvedor Sênior', origin:'Alerta do LinkedIn', status:'withdrawn', applied:'2026-09-05' },
+];
+
+const REPLIES = [
+  { category:'Entrevista', cls:'tag-accent', company:'Ondina Seguros', at:'20/10 14:32', from:'Contato do recrutador', to:'Entrevista RH', summary:'Convite para a conversa com o RH na sexta, 24/10, às 10h.', sender:'Marina Lopes', subject:'Próximos passos — Desenvolvedor Back-end Sênior' },
+  { category:'Teste', cls:'tag-neutral', company:'Lumiar Labs', at:'16/10 18:05', from:'Entrevista técnica', to:'Teste prático', summary:'Desafio de código para entregar em até 7 dias.', sender:'Lumiar Labs Recruiting', subject:'Your take-home assignment' },
+  { category:'Recusa', cls:'tag-accent-2', company:'Vértice', at:'18/10 09:10', from:'Aplicada', to:'Recusada', summary:'Seguiram com outros candidatos; dizem que guardam o perfil para vagas futuras.', sender:'Talent Team', subject:'Atualização sobre sua candidatura' },
+];
+
+const ROUTINE = [
+  { title:'Manhã', time:'~15 min', items:[['m1','Triar as vagas novas no WorkMachine (alertas do LinkedIn e agregador): salvar ou descartar'],['m2','Aplicar nas que têm aderência real (Analisar com IA e Resumo de CV ajudam)'],['m3','Mover no kanban as candidaturas que andaram (aplicada, entrevista, recusa…)']] },
+  { title:'Depois do almoço', time:'~20 min', items:[['a1','LinkedIn Publicações no Radar: contratando, hiring e looking for (24 h)'],['a2','Mandar mensagem direta para quem postou (modelos em Mensagens)'],['a3','X: 2 ou 3 buscas em “Mais recentes”']] },
+  { title:'Fim do dia', time:'~10 min', items:[['e1','Grupos do Telegram: buscar Ruby, Rails em cada um'],['e2','Revisar posts recentes sobre a stack e comentar em 1 ou 2'],['e3','Cobrar os follow-ups do Painel (o app marca quem está há mais de 5 dias sem resposta)']] },
+  { title:'Uma vez por semana', time:'segunda', items:[['w1','Google nos ATS (filtro Semana) e cadastrar as empresas boas em Empresas-alvo'],['w2','Radar → Sites sem API (o resto já é automático)'],['w3','Conectar com 5 recrutadores da sua área (Radar → Recrutadores no LinkedIn)'],['w4','Radar → Automático: conferir se alguma fonte falhou e se os alertas do LinkedIn estão chegando']] },
+];
+
+const METRICS = {
+  '30': { applied:14, answered:5, interviewed:3, offers:0, median:5, weekly:[3,4,3,2,2],
+    origins:[['Alerta do LinkedIn',5,2,1],['Greenhouse',4,2,1],['Remotar',2,1,1],['Extensão',2,0,0],['Himalayas',1,0,0]], scale:0.35 },
+  '90': { applied:38, answered:16, interviewed:7, offers:1, median:6, weekly:[2,3,1,4,5,3,2,4,6,3,2,1,2],
+    origins:[['Alerta do LinkedIn',12,5,2],['Greenhouse',9,4,2],['Remotar',6,3,1],['Extensão',5,2,1],['Himalayas',4,1,0],['Indicação',2,1,1]], scale:1 },
+  'all': { applied:52, answered:21, interviewed:9, offers:1, median:7, weekly:[1,3,2,2,3,1,2,2,3,1,4,5,3,2,4,6,3,2,1,2],
+    origins:[['Alerta do LinkedIn',16,7,3],['Greenhouse',12,5,2],['Remotar',8,4,1],['Extensão',7,3,1],['Himalayas',6,1,0],['Indicação',3,1,2]], scale:1.4 },
+};
+const SOURCES = [['Greenhouse',140,18],['Alerta do LinkedIn',410,31],['Remotar',96,9],['backend-br/vagas',120,8],['Himalayas',230,11],['Lever',64,4],['Remotive',310,7],['We Work Remotely',180,3],['Hacker News',75,1]];
+
+
+const VARS = { stack:'Ruby', stack_or:'(Ruby OR Rails OR "Ruby on Rails")', cargo:'Desenvolvedor Ruby',
+  cargos_or:'("Desenvolvedor Ruby" OR "Desenvolvedor Back-end" OR "Rails Engineer" OR "Backend Engineer")',
+  cargos_en_or:'("Rails Engineer" OR "Backend Engineer" OR "Ruby Developer")', importantes_or:'(PostgreSQL OR Sidekiq OR Redis OR RSpec)',
+  extras_or:'(Hotwire OR Stimulus OR Docker)', area:'back-end', area_or:'(backend OR "back-end" OR "back end")',
+  quem_contrata_or:'("engineering manager" OR "tech lead" OR "head of engineering" OR CTO)', senioridade_or:'(pleno OR "mid-level" OR sênior OR senior)',
+  plano_b_or:'(React OR TypeScript OR "Next.js")', dominios_or:'(fintech OR healthtech OR SaaS)', termos:'Ruby, Rails' };
+const fillVars = s => s.replace(/\{\{(\w+)\}\}/g, (_, k) => VARS[k] || '');
+const enc = encodeURIComponent;
+const LOC = { br_remote:'&location=Brasil&f_WT=2', world_remote:'&location=Worldwide&f_WT=2', local:'', br_all:'&location=Brasil' };
+const buildUrl = (b, q, f) => ({
+  li_posts: 'https://www.linkedin.com/search/results/content/?keywords=' + enc(q) + '&datePosted=' + enc('"' + f.post_period + '"'),
+  li_people_br: 'https://www.linkedin.com/search/results/people/?keywords=' + enc(q) + '&geoUrn=' + enc('["106057199"]'),
+  li_people: 'https://www.linkedin.com/search/results/people/?keywords=' + enc(q),
+  li_jobs: 'https://www.linkedin.com/jobs/search/?keywords=' + enc(q) + '&f_TPR=' + f.li_period + LOC[f.li_region],
+  li_jobs_world: 'https://www.linkedin.com/jobs/search/?keywords=' + enc(q) + '&f_TPR=' + f.li_period + LOC.world_remote,
+  google: 'https://www.google.com/search?q=' + enc(q) + (f.g_period ? '&tbs=qdr:' + f.g_period : ''),
+  google_jobs: 'https://www.google.com/search?q=' + enc(q) + '&ibp=htl;jobs',
+  x: 'https://x.com/search?q=' + enc(q) + '&f=live',
+}[b]);
+const FILTERS = {
+  li_region: ['Local', [['br_remote','Brasil · remoto'],['world_remote','Mundo · remoto'],['local','Perto de você'],['br_all','Brasil · todos']]],
+  li_period: ['Publicadas', [['r86400','24 h'],['r604800','7 dias'],['r2592000','30 dias']]],
+  post_period: ['Publicados', [['past-24h','24 h'],['past-week','Semana'],['past-month','Mês']]],
+  g_period: ['Indexadas', [['w','Semana'],['m','Mês'],['','Qualquer data']]],
+};
+const CADENCES = [['daily','Todo dia','~15 min, depois de triar as vagas novas'],['weekly','Toda semana','~30 min, de preferência na segunda'],['once','Uma vez','e revisar quando o CV mudar']];
+const TASKS = [
+  { cad:'daily', title:'Publicações no LinkedIn', action:'Abra cada busca das últimas 24 h e mande mensagem direta para quem postou: recrutadores e gestores postam aqui antes de abrir a vaga.', filters:['post_period'], searches:[
+    ['Contratando (PT)','{{stack}} AND (vaga OR contratando OR "estamos contratando")','li_posts'],
+    ['Hiring (EN)','{{stack_or}} AND (hiring OR "we are hiring" OR "we\'re hiring")','li_posts'],
+    ['“Looking for”','"looking for" AND {{cargos_en_or}}','li_posts'],
+    ['Gestor com time crescendo','("my team is hiring" OR "my team is growing" OR "meu time está crescendo") AND {{stack_or}}','li_posts'],
+    ['Indicação / referral','(indicação OR referral) AND {{stack_or}}','li_posts'],
+    ['Stack e área','(vaga OR hiring) AND {{area_or}} AND {{stack_or}}','li_posts'],
+    ['Remoto para Brasil/LATAM','{{stack_or}} AND (remoto OR remote) AND (LATAM OR Brasil OR Brazil)','li_posts'],
+    ['Links de grupos de vagas','("grupo de whatsapp" OR "link do grupo" OR "grupo do telegram") AND vagas AND (TI OR tech OR {{area}})','li_posts','Para achar grupos de WhatsApp e Telegram.'] ] },
+  { cad:'daily', title:'Grupos do Telegram', action:'Em cada grupo, use a busca interna com Ruby, Rails. O Telegram não tem alerta por palavra-chave.', links:[
+    ['Vagas TI Brasil','https://t.me/vagastibr'],['Vagas Tech Remotas','https://t.me/vagastechrn'],['Vagas Home Office Brasil','https://t.me/vagashomeofficebr'],['Recrutei Empregos','https://t.me/recrutei_empregos'],['Cafeína Vagas','https://t.me/CafeinaVagas'] ],
+    more:'Mais grupos: procure no Telegram por “Vagas” com o nome da sua stack ou da sua área.', link:['Diretório Kombo','https://www2.kombo.com.br/grupos/'] },
+  { cad:'weekly', title:'Recrutadores no LinkedIn', action:'Conecte com 5 por semana, com a nota de conexão de Mensagens, e salve cada um em Contatos pelo ícone da extensão.', searches:[
+    ['Tech recruiters da sua stack (Brasil)','("tech recruiter" OR "technical recruiter" OR recrutador) AND {{stack_or}}','li_people_br'],
+    ['Talent acquisition (Brasil)','"talent acquisition" AND {{stack_or}}','li_people_br'],
+    ['Quem contrata na sua área (Brasil)','{{quem_contrata_or}} AND {{stack}}','li_people_br'],
+    ['Recrutadores das consultorias tech','(recruiter OR recrutador) AND (Yoctoo OR Hunter4Tech OR Rehva OR Huntz OR GeekHunter OR Intera)','li_people'],
+    ['Recrutadores internacionais para LATAM','("technical recruiter" OR "talent acquisition") AND (LATAM OR "Latin America") AND {{stack_or}}','li_people'] ] },
+  { cad:'weekly', title:'Buscas no X', action:'Passe por 3 a 5 buscas na aba “Mais recentes”.', searches:[
+    ['Vaga em português','{{stack}} (vaga OR contratando OR "estamos contratando") -filter:replies','x'],
+    ['Hiring remoto','{{stack_or}} (hiring OR "we\'re hiring" OR "join our team") remote -filter:replies','x'],
+    ['Por cargo','{{cargos_en_or}} hiring','x'],
+    ['Remoto em PT','{{stack_or}} (vaga OR remoto) lang:pt -filter:replies','x'],
+    ['Stack e área','{{area_or}} {{stack_or}} (hiring OR vaga)','x'] ] },
+  { cad:'weekly', title:'Google', action:'Rode com o filtro Semana. Achou vaga boa? Salve pela extensão: se ela estiver num Greenhouse, Lever, Ashby ou Workable, a empresa entra sozinha em Empresas-alvo.', filters:['g_period'], searches:[
+    ['Gupy','site:gupy.io {{stack_or}}','google'],
+    ['InHire, Recrutei, Sólides','(site:inhire.app OR site:jobs.recrutei.com.br OR site:vagas.solides.com.br) {{stack_or}}','google'],
+    ['“Trabalhe conosco”','"trabalhe conosco" {{stack}}','google'],
+    ['Google Empregos','vagas {{cargo}} remoto','google_jobs','Não usa o filtro de data.'],
+    ['Empresas novas no Greenhouse','(site:boards.greenhouse.io OR site:job-boards.greenhouse.io) {{stack}} (brazil OR brasil OR latam OR "latin america")','google'],
+    ['Empresas novas no Lever','site:jobs.lever.co {{stack_or}} (brazil OR latam OR "latin america")','google'],
+    ['Empresas novas no Ashby','site:jobs.ashbyhq.com {{stack_or}} (brazil OR latam OR "latin america" OR americas)','google'],
+    ['Empresas novas no Workable','site:apply.workable.com {{stack}} (brazil OR brasil OR latam OR remote)','google'] ] },
+  { cad:'weekly', title:'Sites sem API', action:'Confira as vagas novas da semana. Os demais, só se sobrar tempo.', links:[
+    ['Programathor','https://programathor.com.br/jobs'],['GeekHunter','https://www.geekhunter.com.br/vagas'],['Indeed Brasil','https://br.indeed.com/jobs?q=Desenvolvedor+Ruby'],['Glassdoor','https://www.glassdoor.com/'],['Jooble','https://br.jooble.org/'],['Vagas.com','https://www.vagas.com.br/'],['Wellfound','https://wellfound.com/jobs','startups'],
+    ['Ruby on Remote','https://rubyonremote.com/','filtros “Remote – South America” e “Remote – Anywhere”'],['RubyEvents · Brasil','https://www.rubyevents.org/events/countries/brazil','meetups e Tropical on Rails'],['Fórum do Rails','https://discuss.rubyonrails.org/'] ] },
+  { cad:'once', title:'Alertas do LinkedIn', action:'Abra cada busca e ligue “Alerta de vaga”, por e-mail e diário. O WorkMachine lê os alertas no Gmail a cada hora.', status:['funcionando','14 alertas lidos hoje, o último às 12:40'], filters:['li_region','li_period'], searches:[
+    ['Cargos alvo','{{cargos_or}}','li_jobs'],
+    ['Stack e skills importantes','{{stack_or}} AND {{importantes_or}}','li_jobs'],
+    ['No seu nível','{{stack_or}} AND {{senioridade_or}}','li_jobs'],
+    ['Stack e área','{{stack_or}} AND {{area_or}}','li_jobs'],
+    ['Seus diferenciais','{{stack}} AND {{extras_or}}','li_jobs'],
+    ['Setores de interesse','{{stack_or}} AND {{dominios_or}}','li_jobs'],
+    ['Plano B','{{plano_b_or}} AND {{senioridade_or}}','li_jobs'],
+    ['Internacional para LATAM','{{stack_or}} AND (LATAM OR "Latin America" OR Brazil)','li_jobs_world','Sempre em Mundo · remoto.'] ] },
+  { cad:'once', title:'Cadastros', action:'Crie o perfil uma vez e marque aqui. Consultorias puxam candidatos do próprio banco quando abre um processo; pule as de executive search, que são para diretoria.', regs:true },
+];
+const AUTO = [
+  ['Alertas do LinkedIn','E-mails de alerta lidos no Gmail.','hoje 12:40',14,3,'ok'],
+  ['Respostas das empresas','E-mails das empresas em que você aplicou.','hoje 12:40',2,2,'ok'],
+  ['Empresas-alvo','Quadros Greenhouse, Lever, Ashby e Workable.','hoje 12:00',86,4,'ok'],
+  ['Remotive','Buscas por Ruby, Rails, até 4 vezes por dia.','hoje 12:00',31,1,'ok'],
+  ['Remote OK','Vagas com Ruby, Rails no título ou nas tags.','hoje 12:00',0,0,'fail'],
+  ['We Work Remotely','Feeds da sua área.','hoje 12:00',18,1,'ok'],
+  ['Remotar','Remotas para quem está no Brasil.','hoje 12:00',9,2,'ok'],
+  ['Himalayas','Com os países aceitos em cada vaga.','hoje 12:00',22,1,'ok'],
+  ['Working Nomads','Feed de remotas.','hoje 12:00',6,0,'ok'],
+  ['GoRails Jobs','Quadro da comunidade GoRails; todas as vagas são de Rails.','hoje 12:00',4,1,'ok'],
+  ['backend-br/vagas','Issues de back-end que citam Ruby, Rails.','hoje 12:00',12,1,'ok'],
+  ['frontendbr/vagas','Issues de front-end com o seu plano B.','—',0,0,'off'],
+  ['Hacker News · Who is hiring','Comentários da thread do mês.','hoje 09:00',7,0,'ok'],
+];
+const CONSULT = [
+  ['platform','RailsDevs','https://railsdevs.com/','Para quem é de Rails: as empresas entram em contato.'],['platform','Turing','https://www.turing.com/jobs','Empresas dos EUA; pede 3+ anos e inglês fluente.'],['platform','Strider','https://www.onstrider.com/','Devs da América Latina para empresas americanas.'],['platform','Revelo','https://www.revelo.com/','Boa referência de salário em dólar.'],['platform','Wellfound','https://www.wellfound.com/','Startups do mundo todo.'],['platform','Gupy','https://portal.gupy.io/','Mantenha o cadastro completo.'],['platform','InHire','https://www.inhire.com.br/',''],
+  ['tech','Yoctoo','https://yoctoo.com/',''],['tech','Hunter4Tech','https://hunter4tech.com.br/',''],['tech','Rehva Tech','https://rehva.com.br/',''],['tech','Huntz','https://huntz.com.br/',''],['tech','GeekHunter','https://www.geekhunter.com.br/',''],['tech','Intera','https://www.byintera.com/',''],
+  ['multinational','Robert Half','https://www.roberthalf.com/br/pt/procurando-oportunidade','Anuncia vagas de tecnologia.'],['multinational','Michael Page','https://www.michaelpage.com.br/',''],['multinational','Hays','https://www.hays.com.br/',''],['multinational','Randstad','https://www.randstad.com.br/',''],
+];
+const TEMPLATES = [
+  { id:1, name:'Conexão com recrutador (PT)', lang:'pt', max:200, body:'Oi, {{nome}}! Sou {{meu_resumo}}. Vi que você recruta para tech e quero acompanhar as vagas da minha área. Obrigado!' },
+  { id:2, name:'Connection note (EN)', lang:'en', max:200, body:'Hi {{nome}}! I\'m a {{meu_resumo}} based in Brazil. I\'d love to connect and follow your openings. Thanks!' },
+  { id:3, name:'Achei a vaga no post (PT)', lang:'pt', body:'Oi, {{nome}}. Vi seu post sobre a vaga de {{cargo}} na {{empresa}}. Sou {{meu_resumo}} e trabalho com {{minha_stack}}. Achei a posição bem alinhada ao meu perfil. Posso te enviar meu currículo?' },
+  { id:4, name:'Found your post (EN)', lang:'en', body:'Hi {{nome}}, I saw your post about the {{cargo}} opening at {{empresa}}. I\'m a {{meu_resumo}}, working with {{minha_stack}}. The role looks like a strong match. Could I send you my resume?' },
+  { id:5, name:'Resposta a recrutador (PT)', lang:'pt', body:'Oi, {{nome}}! Obrigado pelo contato. Tenho interesse na vaga de {{cargo}} na {{empresa}}. Sou {{meu_resumo}} e trabalho com {{minha_stack}}. Qual é o melhor horário para conversarmos?' },
+  { id:6, name:'Follow-up de candidatura (PT)', lang:'pt', body:'Oi, {{nome}}! Tudo bem? Apliquei para a vaga de {{cargo}} na {{empresa}} há alguns dias e queria saber se há novidades no processo. Sigo bastante interessado e à disposição para conversar. Obrigado!' },
+  { id:7, name:'Application follow-up (EN)', lang:'en', body:'Hi {{nome}}, hope you\'re doing well. I applied for the {{cargo}} role at {{empresa}} a few days ago and wanted to check whether there are any updates. I\'m still very interested and happy to talk anytime. Thanks!' },
+];
+const PROFILE_VALS = { pt:{ meu_resumo:'Desenvolvedor Back-end Ruby on Rails, com cerca de 5 anos de experiência', minha_stack:'Ruby, Rails, PostgreSQL e Sidekiq' }, en:{ meu_resumo:'Ruby on Rails Back-end Developer with about 5 years of experience', minha_stack:'Ruby, Rails, PostgreSQL, and Sidekiq' } };
+const CONTACTS = [
+  ['Marina Lopes','Talent Acquisition','Ondina Seguros','recruiter','2026-10-20','marina-lopes'],
+  ['Rafael Prado','Tech Recruiter · Ruby e Go','Yoctoo','recruiter','2026-10-14','rafael-prado'],
+  ['Bruno Kato','Head of Engineering','Lumiar Labs','manager','2026-10-16','bruno-kato'],
+  ['Juliana Ferraz','Engineering Manager','Carambola','manager','2026-10-09','juliana-ferraz'],
+  ['Diego Alves','Tech Lead','Tessela','manager','2026-10-06','diego-alves'],
+  ['Camila Rocha','Technical Recruiter LATAM','Strider','recruiter','2026-09-12','camila-rocha'],
+  ['Patrícia Nunes','Recrutadora Tech','Hunter4Tech','recruiter','2026-08-28','patricia-nunes'],
+  ['Leonardo Sá','Talent Partner','Quanta Saúde','recruiter','','leonardo-sa'],
+];
+const TARGETS = [
+  ['GitLab','greenhouse','gitlab',true,true,42,1,6,'hoje 12:00'],['Gusto','greenhouse','gusto',true,true,18,0,3,'hoje 12:00'],['Doximity','greenhouse','doximity',true,true,9,0,1,'hoje 12:00'],['Betterment','greenhouse','betterment',true,true,7,0,0,'hoje 12:00'],
+  ['Wealthsimple','lever','wealthsimple',true,true,11,1,2,'hoje 12:00'],['ezCater','lever','ezcater',true,true,5,0,1,'hoje 12:00'],['Kit (ConvertKit)','ashby','kit',true,true,3,1,0,'hoje 12:00'],
+  ['Lumen Labs','greenhouse','lumenlabs',true,false,6,1,0,'hoje 12:00'],['Kestrel','lever','kestrel',true,false,4,0,1,'hoje 12:00'],['Brisa Energia','ashby','brisa',false,false,2,1,0,'15/10'],
+];
+const SUGGESTED = [['Oakline','greenhouse','oakline','Senior Rails Engineer'],['Northwind Health','workable','northwind-health','Full-stack Developer, Rails + Hotwire'],['Halyard','ashby','halyard','Platform Engineer']];
+const BOARD = { greenhouse:'https://job-boards.greenhouse.io/', lever:'https://jobs.lever.co/', ashby:'https://jobs.ashbyhq.com/', workable:'https://apply.workable.com/' };
+const LEVELS = { essential:30, important:10, extra:5 };
+const INIT_SKILLS = [['Ruby','essential'],['Rails','essential'],['PostgreSQL','important'],['Sidekiq','important'],['Redis','important'],['RSpec','important'],['Hotwire','extra'],['Stimulus','extra'],['Docker','extra'],['GitHub Actions','extra']];
+const INIT_AVOID = ['Java','PHP'];
+const RULES = [['Aderência antes de volume.','Aplique onde a stack bate de verdade e invista energia nessas.'],['Puxe a conversa para o privado.','Fale direto com quem postou a vaga.'],['Tudo passa pelas candidaturas:','salve pela triagem ou pela extensão (a candidatura já nasce com empresa, vaga, origem e link) e mantenha status e contato em dia.'],['Pretensão em faixa, nunca número único.','Antes, analise de 10 a 20 vagas parecidas e consulte Glassdoor, Revelo, Levels.fyi e Indeed. Para vaga em dólar, refaça a conta.']];
+const termPts = (skills, avoid, t, p) => {
+  const lt = t.toLowerCase();
+  if (avoid.some(a => a.toLowerCase() === lt)) return -15;
+  if (p < 0) return p;
+  const s = skills.find(([n]) => n.toLowerCase() === lt);
+  return s ? LEVELS[s[1]] : 0;
+};
+const sumTerms = (terms, skills, avoid) => terms.reduce((a, [t, p]) => a + termPts(skills, avoid, t, p), 0);
+const swStyle = on => ({ aria: on ? 'true' : 'false', track: on ? 'var(--color-accent)' : 'var(--color-neutral-400)', knob: on ? 'translateX(16px)' : 'none' });
+const boxStyle = c => ({ checked: c, aria: c ? 'true' : 'false', boxBorder: c ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 40%, transparent)', boxBg: c ? 'var(--color-accent)' : 'transparent' });
+
+const pct = (a, b) => (b ? Math.round(a * 100 / b) : 0);
+const dm = s => (s ? s.slice(8, 10) + '/' + s.slice(5, 7) : '—');
+const daysSince = s => Math.round((new Date(TODAY) - new Date(s)) / 86400000);
+const posted = h => (h < 24 ? `há ${h} h` : h < 48 ? 'ontem' : `há ${Math.floor(h / 24)} dias`);
+const scoreColor = s => (s >= 60 ? 'var(--color-accent)' : s >= 35 ? 'var(--color-text)' : MUTED);
+const fmtPts = n => (n > 0 ? '+' + n : '−' + Math.abs(n));
+const termTag = ([t, n]) => ({ text: `${t} ${fmtPts(n)}`, cls: n < 0 ? 'tag-accent-2' : 'tag-neutral' });
+const TRIAGE_LABEL = { new: 'Nova', saved: 'Salva', dismissed: 'Descartada' };
+
+class Component extends DCLogic {
+  state = {
+    screen: null, postings: POSTINGS.map(p => ({ ...p, triage: 'new' })), apps: APPS.map(a => ({ ...a })),
+    selId: 1, tab: 'new', sort: 'score', minScore: '', q: '', dreams: {},
+    checked: { m1: true, m2: true, w1: true }, period: '90', view: 'board',
+    dragId: null, dragOver: null, flash: null, nextAppId: 200,
+    cad: 'daily', showAuto: false, rf: { li_region: 'br_remote', li_period: 'r86400', post_period: 'past-24h', g_period: 'w' }, copied: null,
+    regs: { RailsDevs: true, Gupy: true, Revelo: true, Yoctoo: true, GeekHunter: true },
+    tplId: 3, bodies: {}, mv: { nome: '', cargo: '', empresa: '' }, msgApp: '', editing: false,
+    ckind: 'all', cq: '', targets: TARGETS.map(t => t[3]), sugg: SUGGESTED.map(() => true),
+    skills: INIT_SKILLS, avoid: INIT_AVOID, savedSkills: INIT_SKILLS, savedAvoid: INIT_AVOID, drafts: {}, seniority: 'mid',
+    modes: { remote: true, hybrid: false, onsite: false }, regions: { brazil: true, latam: true, worldwide: true, us: false, europe: false },
+    set: { notif: true, replies: true, follow: true, restricted: true, track: true }, notifyMin: 40, autoBelow: '', plan: 'free', orOk: false, gmOk: false,
+    tokenShown: false, token: 'wm_7Hq2kV9xPzR4mT8cLbN3sJ6dFgY1aWe5', disabled: { frontend_br: true }, backupAt: 'hoje, 12:00', profileSaved: false,
+  };
+
+  componentDidMount() {
+    this.onKey = e => {
+      if (this.screen() !== 'vagas' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName))) return;
+      const list = this.filtered();
+      const i = list.findIndex(p => p.id === this.state.selId);
+      const k = e.key.toLowerCase();
+      if (k === 'arrowdown' || k === 'j') { e.preventDefault(); const n = list[Math.min(i + 1, list.length - 1)]; n && this.setState({ selId: n.id }); }
+      else if (k === 'arrowup' || k === 'k') { e.preventDefault(); const n = list[Math.max(i - 1, 0)]; n && this.setState({ selId: n.id }); }
+      else if (i >= 0 && list[i].triage === 'new' && (k === 's' || k === 'a' || k === 'd')) this.act(list[i].id, { s: 'save', a: 'apply', d: 'dismiss' }[k]);
+    };
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('keydown', this.onKey); clearTimeout(this.ft); }
+  componentDidUpdate(prev) { if (prev.startScreen !== this.props.startScreen) this.setState({ screen: null }); }
+
+  screen() {
+    return this.state.screen ?? ({ 'Painel': 'painel', 'Vagas': 'vagas', 'Candidaturas': 'candidaturas', 'Métricas': 'metricas', 'Radar': 'radar', 'Mensagens': 'mensagens', 'Rotina': 'rotina', 'Contatos': 'contatos', 'Empresas-alvo': 'empresas', 'Perfil': 'perfil', 'Ajustes': 'ajustes' }[this.props.startScreen] || 'painel');
+  }
+  go(s) { this.setState({ screen: s }); window.scrollTo(0, 0); }
+
+  filtered() {
+    const { postings, tab, sort, minScore, q } = this.state;
+    let l = postings.filter(p => tab === 'all' || p.triage === tab);
+    if (minScore) l = l.filter(p => p.score >= +minScore);
+    const t = q.trim().toLowerCase();
+    if (t) l = l.filter(p => (p.title + ' ' + p.company + ' ' + p.desc.join(' ')).toLowerCase().includes(t));
+    return [...l].sort(sort === 'score' ? (a, b) => b.score - a.score || a.hours - b.hours : (a, b) => a.hours - b.hours);
+  }
+
+  act(id, kind) {
+    const { postings, apps, tab, selId, nextAppId } = this.state;
+    const p = postings.find(x => x.id === id);
+    if (!p) return;
+    const list = this.filtered();
+    const i = list.findIndex(x => x.id === id);
+    const existing = apps.find(a => a.postingId === id);
+    let newApps = apps, text = '';
+    const base = { id: nextAppId, postingId: id, company: p.company, role: p.title, origin: p.source };
+    if (kind === 'save') {
+      if (!existing) newApps = [...apps, { ...base, status: 'saved' }];
+      text = `Salva em Candidaturas: ${p.company} · ${p.title}.`;
+    } else if (kind === 'apply') {
+      if (!existing) newApps = [...apps, { ...base, status: 'applied', applied: TODAY }];
+      else if (existing.status === 'saved') newApps = apps.map(a => (a.id === existing.id ? { ...a, status: 'applied', applied: TODAY } : a));
+      text = `${p.company} · ${p.title} está em Candidaturas como aplicada.`;
+    } else if (kind === 'dismiss') text = 'Vaga descartada. Ela continua em Triagem → Descartadas.';
+    else text = 'Vaga de volta para a triagem.';
+    const triage = kind === 'dismiss' ? 'dismissed' : kind === 'restore' ? 'new' : 'saved';
+    const stays = tab === 'all' || tab === triage;
+    const nextSel = stays || id !== selId ? selId : ((list[i + 1] || list[i - 1] || {}).id ?? null);
+    this.setState({
+      postings: postings.map(x => (x.id === id ? { ...x, triage } : x)), apps: newApps, selId: nextSel,
+      nextAppId: nextAppId + 1, flash: { text, snap: { postings, apps, selId } },
+    });
+    clearTimeout(this.ft);
+    this.ft = setTimeout(() => this.setState({ flash: null }), 6000);
+  }
+  undo() { const f = this.state.flash; if (f) this.setState({ ...f.snap, flash: null }); }
+
+  moveApp(id, status) {
+    this.setState(s => ({ apps: s.apps.map(a => (a.id === id ? { ...a, status, applied: a.applied || (status === 'saved' ? undefined : TODAY) } : a)), dragId: null, dragOver: null }));
+  }
+
+  copy(key, text) {
+    try { navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {}
+    this.setState({ copied: key }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: null }), 1600);
+  }
+  extraVals(S) {
+    const st = this.state;
+    const MUT = MUTED;
+    // Radar
+    const cadences = CADENCES.map(([k, label]) => ({ label, checked: st.cad === k, select: () => this.setState({ cad: k }) }));
+    const regGroups = [['platform','Plataformas'],['tech','Consultorias tech'],['multinational','Multinacionais']].map(([k, title]) => {
+      const items = CONSULT.filter(c => c[0] === k).map(([, name, url, notes]) => { const c = !!st.regs[name]; return { name, url, notes, hasNote: !!notes, ...boxStyle(c),
+        color: c ? MUT : 'var(--color-text)', deco: c ? 'line-through' : 'none', toggle: () => this.setState(s => ({ regs: { ...s.regs, [name]: !s.regs[name] } })) }; });
+      return { title, items, progress: items.filter(i => i.checked).length + '/' + items.length };
+    });
+    const tasks = TASKS.filter(t => t.cad === st.cad).map((t, ti) => ({
+      title: t.title, action: t.action,
+      filters: (t.filters || []).map(fk => ({ label: FILTERS[fk][0], name: 'rf-' + fk + '-' + ti, options: FILTERS[fk][1].map(([v, l]) => ({ label: l, checked: st.rf[fk] === v, select: () => this.setState(s => ({ rf: { ...s.rf, [fk]: v } })) })) })),
+      hasStatus: !!t.status, statusTag: t.status ? t.status[0] : '', status: t.status ? t.status[1] : '',
+      searches: (t.searches || []).map(([title, q, b, note], si) => { const query = fillVars(q); const key = ti + '-' + si + '-' + st.cad;
+        return { title, query, note: note || '', hasNote: !!note, url: buildUrl(b, query, st.rf), copyLabel: st.copied === key ? 'Copiado' : 'Copiar', copy: () => this.copy(key, query) }; }),
+      hasLinks: !!t.links, links: (t.links || []).map(([name, url, note]) => ({ name, url, note: note || '' })),
+      hasMore: !!t.more, more: t.more || '', linkLabel: t.link ? t.link[0] : '', linkUrl: t.link ? t.link[1] : '#',
+      hasRegs: !!t.regs,
+    }));
+    const fails = AUTO.filter(a => a[5] === 'fail').length, offs = AUTO.filter(a => a[5] === 'off').length;
+    const autoRows = AUTO.map(([name, note, at, fetched, created, s]) => ({ name, note: s === 'fail' ? 'HTTP 429: a API pediu para esperar. Tenta de novo às 15:00.' : note, at, fetched, created,
+      status: s === 'ok' ? 'ok' : s === 'fail' ? 'falhou' : 'desligada', cls: s === 'ok' ? 'tag-neutral' : s === 'fail' ? 'tag-accent-2' : 'tag-outline' }));
+    // Mensagens
+    const T = TEMPLATES.find(t => t.id === st.tplId) || TEMPLATES[0];
+    const body = st.bodies[T.id] ?? T.body;
+    const segments = body.split(/(\{\{\s*\w+\s*\}\})/).filter(Boolean).map(part => {
+      const m = part.match(/^\{\{\s*(\w+)\s*\}\}$/);
+      if (!m) return { text: part, color: 'inherit', bg: 'transparent' };
+      const k = m[1];
+      const v = ['nome','cargo','empresa'].includes(k) ? (st.mv[k] || '').trim() : (PROFILE_VALS[T.lang] || {})[k];
+      return v ? { text: v, color: 'var(--color-accent-800)', bg: 'transparent' } : { text: part, color: 'var(--color-accent-2-800)', bg: 'var(--color-accent-2-200)' };
+    });
+    const rendered = segments.map(g => g.text).join('');
+    const over = T.max && rendered.length > T.max;
+    const msgFields = [['nome','Nome','Marina'],['cargo','Cargo','Desenvolvedor Back-end Sênior'],['empresa','Empresa','Ondina Seguros']].map(([k, label, ph]) => ({ id: 'mf-' + k, label, placeholder: ph, value: st.mv[k],
+      onChange: e => { const v = e.target.value; this.setState(s => ({ mv: { ...s.mv, [k]: v } })); } }));
+    const appOptions = st.apps.filter(a => !CLOSED.includes(a.status)).map(a => ({ value: String(a.id), label: a.company + ' · ' + a.role }));
+    // Contatos
+    const cq = st.cq.trim().toLowerCase();
+    const contactRows = CONTACTS.filter(c => (st.ckind === 'all' || c[3] === st.ckind) && (!cq || (c[0] + ' ' + c[2]).toLowerCase().includes(cq)))
+      .map(([name, headline, company, kind, last, slug]) => { const d = last ? daysSince(last) : null;
+        return { name, headline, company, kind: kind === 'recruiter' ? 'Recrutador(a)' : 'Gestor(a)', cls: kind === 'recruiter' ? 'tag-neutral' : 'tag-accent',
+          last: last ? dm(last) + (d > 30 ? ' · há ' + d + ' dias' : '') : 'nunca', lastColor: !last || d > 30 ? MUT : 'var(--color-text)',
+          url: 'https://www.linkedin.com/in/' + slug,
+          message: () => { this.setState({ screen: 'mensagens', tplId: kind === 'recruiter' ? 1 : 3, mv: { nome: name.split(' ')[0], cargo: '', empresa: company }, msgApp: '' }); window.scrollTo(0, 0); } }; });
+    // Empresas-alvo
+    const targetRows = TARGETS.map(([name, ats, slug, , example, total, saved, auto, last], i) => { const on = st.targets[i];
+      return { name, ats, slug, example, total, saved, auto, last, url: BOARD[ats] + slug, opacity: on ? 1 : 0.55, ...swStyle(on),
+        toggle: () => this.setState(s => ({ targets: s.targets.map((v, j) => (j === i ? !v : v)) })) }; });
+    const suggestions = SUGGESTED.map(([name, ats, slug, from], i) => ({ i, name, ats, slug, from })).filter(s => st.sugg[s.i])
+      .map(s => ({ ...s, activate: () => this.setState(x => ({ sugg: x.sugg.map((v, j) => (j === s.i ? false : v)), flash: { text: s.name + ' entrou nos quadros consultados. A próxima leitura é às 15:00.', snap: {} } })),
+        dismiss: () => this.setState(x => ({ sugg: x.sugg.map((v, j) => (j === s.i ? false : v)) })) }));
+    // Perfil
+    const levelDefs = [['essential','Essencial','+30'],['important','Importante','+10'],['extra','Extra','+5'],['avoid','Evitar','−15']];
+    const skillLevels = levelDefs.map(([k, label, pts]) => {
+      const isAvoid = k === 'avoid';
+      const names = isAvoid ? st.avoid : st.skills.filter(s => s[1] === k).map(s => s[0]);
+      const add = () => { const v = (st.drafts[k] || '').trim(); if (!v) return;
+        this.setState(s => isAvoid ? { avoid: s.avoid.some(a => a.toLowerCase() === v.toLowerCase()) ? s.avoid : [...s.avoid, v], drafts: { ...s.drafts, [k]: '' } }
+          : { skills: [...s.skills.filter(x => x[0].toLowerCase() !== v.toLowerCase()), [v, k]], drafts: { ...s.drafts, [k]: '' } }); };
+      return { label, pts, ptsColor: isAvoid ? 'var(--color-accent-2-700)' : 'var(--color-accent-700)',
+        chipBg: isAvoid ? 'var(--color-accent-2-100)' : k === 'essential' ? 'var(--color-accent-200)' : 'var(--color-neutral-200)',
+        chipColor: isAvoid ? 'var(--color-accent-2-800)' : k === 'essential' ? 'var(--color-accent-900)' : 'var(--color-text)',
+        draft: st.drafts[k] || '', onDraft: e => { const v = e.target.value; this.setState(s => ({ drafts: { ...s.drafts, [k]: v } })); },
+        onKey: e => { if (e.key === 'Enter') { e.preventDefault(); add(); } },
+        items: names.map(name => ({ name, remove: () => this.setState(s => isAvoid ? { avoid: s.avoid.filter(a => a !== name) } : { skills: s.skills.filter(x => x[0] !== name) }) })) };
+    });
+    const prev = st.postings.map(p => { const d = sumTerms(p.terms, st.skills, st.avoid) - sumTerms(p.terms, st.savedSkills, st.savedAvoid);
+      return { p, next: Math.max(0, Math.min(100, p.score + d)), d }; }).sort((a, b) => b.next - a.next);
+    const changed = prev.filter(x => x.d !== 0).length;
+    const previewRows = prev.slice(0, 9).map(({ p, next, d }) => ({ title: p.title, company: p.company, now: p.score, next,
+      delta: d === 0 ? '' : (d > 0 ? '+' : '−') + Math.abs(d), color: d > 0 ? 'var(--color-accent-700)' : d < 0 ? 'var(--color-accent-2-700)' : 'var(--color-text)' }));
+    const chip = (on, label, toggle) => ({ label, toggle, aria: on ? 'true' : 'false', bg: on ? 'var(--color-accent-100)' : 'transparent', color: on ? 'var(--color-accent-800)' : MUT, border: on ? 'var(--color-accent-400)' : 'var(--color-divider)' });
+    const modeChips = [['remote','Remoto'],['hybrid','Híbrido'],['onsite','Presencial']].map(([k, l]) => chip(st.modes[k], l, () => this.setState(s => ({ modes: { ...s.modes, [k]: !s.modes[k] } }))));
+    const regionChips = [['brazil','Brasil'],['latam','LATAM'],['worldwide','Mundo todo'],['us','EUA/Canadá'],['europe','Europa']].map(([k, l]) => chip(st.regions[k], l, () => this.setState(s => ({ regions: { ...s.regions, [k]: !s.regions[k] } }))));
+    const seniorities = [['junior','Júnior'],['mid','Pleno'],['senior','Sênior']].map(([k, label]) => ({ label, checked: st.seniority === k, select: () => this.setState({ seniority: k }) }));
+    // Ajustes
+    const sw = (k, label, note) => ({ label, note, ...swStyle(st.set[k]), toggle: () => this.setState(s => ({ set: { ...s.set, [k]: !s.set[k] } })) });
+    const SRC = [['linkedin_alert','Alertas do LinkedIn'],['greenhouse','Greenhouse'],['lever','Lever'],['ashby','Ashby'],['workable','Workable'],['remotive','Remotive'],['remote_ok','Remote OK'],['we_work_remotely','We Work Remotely'],['remotar','Remotar'],['himalayas','Himalayas'],['working_nomads','Working Nomads'],['gorails','GoRails Jobs'],['backend_br','backend-br/vagas'],['frontend_br','frontendbr/vagas'],['hacker_news','Hacker News · Who is hiring']];
+    const free = st.plan === 'free';
+    return {
+      isRadar: S === 'radar', isMensagens: S === 'mensagens', isRotina: S === 'rotina', isContatos: S === 'contatos', isEmpresas: S === 'empresas', isPerfil: S === 'perfil', isAjustes: S === 'ajustes',
+      goPerfil: e => { e && e.preventDefault(); this.go('perfil'); }, goAjustes: e => { e && e.preventDefault(); this.go('ajustes'); },
+      perfilColor: S === 'perfil' ? 'var(--color-accent)' : 'var(--color-text)', ajustesColor: S === 'ajustes' ? 'var(--color-accent)' : 'var(--color-text)',
+      cadences, cadenceTime: (CADENCES.find(c => c[0] === st.cad) || [])[2], tasks, regGroups,
+      autoLine: 'O WorkMachine consulta ' + AUTO.length + ' fontes sozinho: ' + (AUTO.length - fails - offs) + ' ok', autoFailLine: fails + ' com erro · ' + offs + ' desligada',
+      showAuto: st.showAuto, autoToggleLabel: st.showAuto ? 'Esconder fontes' : 'Ver fontes', toggleAuto: () => this.setState(s => ({ showAuto: !s.showAuto })), autoRows,
+      tplList: TEMPLATES.map(t => ({ name: t.name, lang: t.lang.toUpperCase(), limit: t.max ? 'até ' + t.max : '', aria: t.id === T.id ? 'true' : 'false', bg: t.id === T.id ? 'var(--color-surface)' : 'transparent', select: () => this.setState({ tplId: t.id, editing: false }) })),
+      tpl: { name: T.name, body, segments, count: rendered.length + (T.max ? ' / ' + T.max + ' caracteres' : ' caracteres'), countColor: over ? 'var(--color-accent-2-700)' : MUT },
+      msgFields, appOptions, msgApp: st.msgApp,
+      setMsgApp: e => { const v = e.target.value; const a = st.apps.find(x => String(x.id) === v); this.setState(s => ({ msgApp: v, mv: a ? { ...s.mv, cargo: a.role, empresa: a.company } : s.mv })); },
+      editing: st.editing, editLabel: st.editing ? 'Fechar edição' : 'Editar modelo', toggleEdit: () => this.setState(s => ({ editing: !s.editing })),
+      setBody: e => { const v = e.target.value; this.setState(s => ({ bodies: { ...s.bodies, [T.id]: v } })); },
+      copyMsgLabel: st.copied === 'msg' ? 'Copiado' : 'Copiar mensagem', copyMsg: () => this.copy('msg', rendered),
+      phNome: '{{nome}}', phCargo: '{{cargo}}', phEmpresa: '{{empresa}}', phResumo: '{{meu_resumo}}', phStack: '{{minha_stack}}',
+      rules: RULES.map(([title, text], i) => ({ n: String(i + 1).padStart(2, '0'), title, text })),
+      contactKinds: [['all','Todos'],['recruiter','Recrutadores'],['manager','Gestores']].map(([k, label]) => ({ label, checked: st.ckind === k, select: () => this.setState({ ckind: k }) })),
+      contactQ: st.cq, setContactQ: e => this.setState({ cq: e.target.value }), contactRows, contactsEmpty: contactRows.length === 0,
+      targetRows, suggestions, hasSuggestions: suggestions.length > 0,
+      targetsLine: st.targets.filter(Boolean).length + ' ativos · leitura a cada 3 horas',
+      skillLevels, previewRows, previewLine: changed ? changed + (changed === 1 ? ' vaga muda' : ' vagas mudam') + ' de nota com as alterações.' : 'Nenhuma alteração ainda. Mude as skills para ver o efeito.',
+      modeChips, regionChips, seniorities,
+      saveProfileLabel: st.profileSaved ? 'Perfil salvo' : 'Salvar perfil',
+      saveProfile: () => { const m = new Map(prev.map(x => [x.p.id, x.next]));
+        this.setState(s => ({ postings: s.postings.map(p => ({ ...p, score: m.get(p.id) ?? p.score })), savedSkills: s.skills, savedAvoid: s.avoid, profileSaved: true,
+          flash: { text: changed ? 'Perfil salvo. ' + changed + ' vagas foram recalculadas.' : 'Perfil salvo.', snap: { postings: s.postings, apps: s.apps, selId: s.selId } } }));
+        clearTimeout(this.ft); this.ft = setTimeout(() => this.setState({ flash: null, profileSaved: false }), 4000); },
+      orTested: st.orOk, gmTested: st.gmOk, testOr: () => this.setState({ orOk: true }), testGmail: () => this.setState({ gmOk: true }),
+      aiPlans: [['free','Gratuito'],['paid','Pago']].map(([k, label]) => ({ label, checked: st.plan === k, select: () => this.setState({ plan: k }) })),
+      modelId: free ? 'minimax/minimax-m3.1-flash:free' : 'deepseek/deepseek-v4-pro-0813', modelName: free ? 'MiniMax M3.1 Flash' : 'DeepSeek V4 Pro',
+      planNote: free ? 'Sem custo. Se o modelo estiver fora do ar ou no limite, o OpenRouter escolhe outro gratuito. Os provedores gratuitos podem usar o que você envia para treinar modelos.' : 'Centavos de dólar por mês no uso normal. O botão de cada função mostra o custo estimado antes de rodar.',
+      tokenText: st.tokenShown ? st.token : st.token.slice(0, 6) + '•'.repeat(24), tokenToggle: st.tokenShown ? 'Esconder' : 'Mostrar',
+      toggleToken: () => this.setState(s => ({ tokenShown: !s.tokenShown })), copyTokenLabel: st.copied === 'tok' ? 'Copiado' : 'Copiar', copyToken: () => this.copy('tok', st.token),
+      regenToken: () => this.setState({ token: 'wm_' + Math.random().toString(36).slice(2, 12) + Math.random().toString(36).slice(2, 12), tokenShown: true }),
+      notifSwitches: [sw('notif', 'Ativar notificações', 'Vagas novas com nota alta.'), sw('replies', 'Respostas das empresas', 'Recusa, entrevista, teste ou proposta lidos no Gmail.'), sw('follow', 'Follow-ups do dia', 'Um aviso às 8h com quem cobrar.')],
+      notifyMin: st.notifyMin, setNotifyMin: e => this.setState({ notifyMin: e.target.value }),
+      dismissSwitches: [sw('restricted', 'Descartar vagas restritas a outros países', 'Só EUA, só Europa e afins, quando o perfil não aceita a região.'), sw('track', 'Ler as respostas das empresas', 'Move o cartão sozinho quando a empresa responde.')],
+      autoBelow: st.autoBelow, setAutoBelow: e => this.setState({ autoBelow: e.target.value }),
+      sourceToggles: SRC.map(([k, name]) => ({ name, ...boxStyle(!st.disabled[k]), toggle: () => this.setState(s => ({ disabled: { ...s.disabled, [k]: !s.disabled[k] } })) })),
+      backupLine: 'último backup: ' + st.backupAt + ' · backups/', runBackup: () => this.setState({ backupAt: 'agora há pouco' }),
+    };
+  }
+
+  renderVals() {
+    const st = this.state;
+    const S = this.screen();
+    const plates = false;
+    const newOnes = st.postings.filter(p => p.triage === 'new').sort((a, b) => b.score - a.score || a.hours - b.hours);
+    const meta = p => [p.company, 'via ' + p.source, p.region, p.seniority, posted(p.hours)].filter(Boolean).join(' · ');
+    const openPosting = id => e => { e && e.preventDefault(); this.setState({ screen: 'vagas', tab: 'new', selId: id }); window.scrollTo(0, 0); };
+
+    const nav = [['painel','Painel'],['vagas','Vagas'],['candidaturas','Candidaturas'],['metricas','Métricas'],['radar','Radar'],['mensagens','Mensagens'],['rotina','Rotina'],['contatos','Contatos'],['empresas','Empresas-alvo']]
+      .map(([k, label]) => ({ label, go: e => { e.preventDefault(); if (BUILT.includes(k)) this.go(k); },
+        color: S === k ? 'var(--color-accent)' : 'var(--color-text)', weight: S === k ? 600 : 400,
+        current: S === k ? 'page' : 'false', hasCount: k === 'vagas' && newOnes.length > 0, count: newOnes.length }));
+
+    // Painel
+    const open = st.apps.filter(a => !CLOSED.includes(a.status));
+    const followUps = open.filter(a => (a.fu && a.fu <= TODAY) || (a.status === 'applied' && !a.fu && a.applied && a.applied <= MINUS5))
+      .map(a => ({ company: a.company, role: a.role,
+        when: a.fu ? (a.fu < TODAY ? `follow-up atrasado desde ${dm(a.fu)}` : 'follow-up hoje') : `aplicou em ${dm(a.applied)}, sem resposta há ${daysSince(a.applied)} dias` }));
+    const n = newOnes.length;
+    const headline1 = n === 0 ? 'Triagem em dia.' : n === 1 ? '1 vaga nova na triagem.' : `${n} vagas novas na triagem.`;
+    const headline2 = followUps.length === 0 ? 'Nenhum follow-up para hoje.' : followUps.length === 1 ? '1 candidatura pede follow-up.' : `${followUps.length} candidaturas pedem follow-up.`;
+    const L = newOnes[0];
+    const lead = L ? { score: L.score, title: L.title, source: L.source, posted: posted(L.hours),
+      metaShort: [L.company, L.region, L.seniority, L.salary].filter(Boolean).join(' · '),
+      terms: L.terms.map(termTag), open: openPosting(L.id), save: () => this.act(L.id, 'save'), dismiss: () => this.act(L.id, 'dismiss') }
+      : { score: '', title: '', source: '', posted: '', metaShort: '', terms: [], open: () => {}, save: () => {}, dismiss: () => {} };
+    const dashRest = newOnes.slice(1, 6).map(p => ({ score: p.score, title: p.title, meta: meta(p), scoreColor: scoreColor(p.score), open: openPosting(p.id) }));
+    const pipeline = STATUSES.filter(([k]) => !CLOSED.includes(k)).map(([k, label]) => { const count = st.apps.filter(a => a.status === k).length; return { label, count, color: count ? 'var(--color-accent-700)' : MUTED }; });
+    const routine = ROUTINE.map(slot => ({ title: slot.title, time: slot.time,
+      items: slot.items.map(([key, label]) => { const c = !!st.checked[key]; return { label, checked: c, aria: c ? 'true' : 'false',
+        toggle: () => this.setState(s => ({ checked: { ...s.checked, [key]: !s.checked[key] } })),
+        color: c ? MUTED : 'var(--color-text)', deco: c ? 'line-through' : 'none',
+        boxBorder: c ? 'var(--color-accent)' : 'color-mix(in srgb, var(--color-text) 40%, transparent)', boxBg: c ? 'var(--color-accent)' : 'transparent' }; }) }));
+    const totalItems = ROUTINE.reduce((t, s) => t + s.items.length, 0);
+    const doneItems = ROUTINE.reduce((t, s) => t + s.items.filter(([k]) => st.checked[k]).length, 0);
+
+    // Vagas
+    const counts = { new: n, saved: st.postings.filter(p => p.triage === 'saved').length, dismissed: st.postings.filter(p => p.triage === 'dismissed').length, all: st.postings.length };
+    const tabs = [['new','Novas'],['saved','Salvas'],['dismissed','Descartadas'],['all','Todas']].map(([k, label]) => ({ label: `${label} ${counts[k]}`, checked: st.tab === k,
+      select: () => { const l = st.postings.filter(p => k === 'all' || p.triage === k).sort((a, b) => b.score - a.score); this.setState({ tab: k, selId: l[0] ? l[0].id : null }); } }));
+    const sorts = [['score','Nota'],['recent','Mais novas']].map(([k, label]) => ({ label, checked: st.sort === k, select: () => this.setState({ sort: k }) }));
+    const fl = this.filtered();
+    const list = fl.map(p => ({ score: p.score, title: p.title, meta: meta(p), scoreColor: scoreColor(p.score), partial: !!p.partial,
+      top: p.terms.slice(0, 3).map(termTag), hasStatus: p.triage !== 'new', status: TRIAGE_LABEL[p.triage],
+      bg: p.id === st.selId ? 'var(--color-surface)' : 'transparent', aria: p.id === st.selId ? 'true' : 'false',
+      select: () => this.setState({ selId: p.id }) }));
+    const P = fl.find(p => p.id === st.selId);
+    const dream = P ? !!st.dreams[P.id] : false;
+    const sel = P ? { kicker: `via ${P.source} · ${TRIAGE_LABEL[P.triage]}`, title: P.title, company: P.company, score: P.score, scoreColor: scoreColor(P.score),
+      isNew: P.triage === 'new', notNew: P.triage !== 'new', status: TRIAGE_LABEL[P.triage], partial: !!P.partial,
+      terms: P.terms.map(([term, pts]) => ({ term, pts: fmtPts(pts), color: pts < 0 ? 'var(--color-accent-2-700)' : 'var(--color-text)' })),
+      facts: [['Empresa', P.company], ['Local', P.location || '—'], ['Região', P.region], ['Senioridade', P.seniority || 'Não informada'], ['Salário', P.salary || '—'], ['Publicada', P.published || '—'], ['Fonte', P.source]].map(([k, v]) => ({ k, v })),
+      desc: P.desc.map(text => ({ text })),
+      save: () => this.act(P.id, 'save'), apply: () => this.act(P.id, 'apply'), dismiss: () => this.act(P.id, 'dismiss'), restore: () => this.act(P.id, 'restore'),
+      dreamLabel: dream ? '★ Vaga dos sonhos' : '☆ Vaga dos sonhos', dreamPressed: dream ? 'true' : 'false',
+      toggleDream: () => this.setState(s => ({ dreams: { ...s.dreams, [P.id]: !s.dreams[P.id] } })) } : null;
+    const sortLabel = st.sort === 'score' ? 'mais bem classificadas primeiro' : 'mais novas primeiro';
+
+    // Candidaturas
+    const columns = STATUSES.map(([key, label]) => {
+      const cards = st.apps.filter(a => a.status === key).map(a => ({ company: a.company, role: a.role, origin: a.origin,
+        hasApplied: !!a.applied, applied: dm(a.applied), hasFu: !!a.fu, fu: dm(a.fu), fuCls: a.fu && a.fu <= TODAY ? 'tag-accent-2' : 'tag-neutral',
+        opacity: st.dragId === a.id ? 0.4 : 1,
+        onDragStart: e => { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(a.id)); this.setState({ dragId: a.id }); } }));
+      return { label, count: cards.length, cards, labelColor: CLOSED.includes(key) ? MUTED : 'var(--color-text)',
+        bg: st.dragOver === key ? 'var(--color-accent-100)' : 'transparent',
+        onDragOver: e => { e.preventDefault(); if (st.dragOver !== key) this.setState({ dragOver: key }); },
+        onDrop: e => { e.preventDefault(); const id = st.dragId ?? +e.dataTransfer.getData('text/plain'); if (id) this.moveApp(id, key); } };
+    });
+    const order = Object.fromEntries(STATUSES.map(([k], i) => [k, i]));
+    const tableRows = [...st.apps].sort((a, b) => order[a.status] - order[b.status] || (b.applied || '').localeCompare(a.applied || ''))
+      .map(a => ({ company: a.company, role: a.role, status: a.status, options: STATUS_OPTS, origin: a.origin, applied: a.applied ? dm(a.applied) + '/26' : '—',
+        fu: a.fu ? dm(a.fu) + '/26' : '—', fuColor: a.fu && a.fu <= TODAY ? 'var(--color-accent-2-700)' : 'var(--color-text)',
+        onStatus: e => this.moveApp(a.id, e.target.value) }));
+    const isBoard = st.view === 'board';
+
+    // Métricas
+    const M = METRICS[st.period];
+    const periods = [['30','30 dias'],['90','90 dias'],['all','Tudo']].map(([k, label]) => ({ label, checked: st.period === k, select: () => this.setState({ period: k }) }));
+    const tiles = [
+      { label: 'Candidaturas aplicadas', value: M.applied, detail: 'no período' },
+      { label: 'Taxa de resposta', value: pct(M.answered, M.applied) + '%', detail: `${M.answered} de ${M.applied} responderam` },
+      { label: 'Chegaram à entrevista', value: pct(M.interviewed, M.applied) + '%', detail: `${M.interviewed} entrevistas ou testes` },
+      { label: 'Tempo até a resposta', value: `${M.median} dias`, detail: 'mediana entre aplicar e a primeira resposta' },
+    ];
+    let top = Math.max(1, ...M.weekly); if (top > 1 && top % 2) top += 1;
+    const maxIdx = M.weekly.indexOf(Math.max(...M.weekly));
+    const lastMonday = new Date(2026, 9, 19);
+    const step = M.weekly.length > 13 ? 2 : 1;
+    const weeks = M.weekly.map((c, i) => {
+      const d = new Date(lastMonday); d.setDate(d.getDate() - 7 * (M.weekly.length - 1 - i));
+      const date = String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0');
+      return { h: (c * 100 / top).toFixed(2) + '%', title: `${c} ${c === 1 ? 'candidatura' : 'candidaturas'} · semana de ${date}`,
+        label: (i === maxIdx || i === M.weekly.length - 1) && c > 0 ? String(c) : '', date: (M.weekly.length - 1 - i) % step === 0 ? date : '' };
+    });
+    const stages = [['Aplicadas', M.applied], ['Responderam', M.answered], ['Entrevista ou teste', M.interviewed], ['Proposta', M.offers]];
+    const ramp = ['var(--color-accent-300)', 'var(--color-accent-500)', 'var(--color-accent-700)', 'var(--color-accent-900)'];
+    const funnel = stages.map(([label, count], i) => { const rate = pct(count, M.applied); return { label, count, rate: rate + '%', bg: ramp[i],
+      width: count > 0 ? `max(4px, ${rate * 0.82}%)` : '0px', aria: `${label}: ${count} (${rate}%)`,
+      step: i === 0 ? '' : `${pct(count, stages[i - 1][1])}% de “${stages[i - 1][0]}”` }; });
+    const origins = M.origins.map(([name, total, answered, interviewed]) => ({ name, total, answered, interviewed, rr: pct(answered, total) + '%', ir: pct(interviewed, total) + '%' }));
+    const sources = SOURCES.map(([name, t, s]) => { const total = Math.round(t * M.scale), saved = Math.round(s * M.scale); return { name, total, saved, r: pct(saved, total), rate: pct(saved, total) + '%' }; })
+      .sort((a, b) => b.r - a.r || b.total - a.total);
+
+    return {
+      ...this.extraVals(S),
+      nav, plates, noPlates: !plates, showOnboarding: !!this.props.showOnboarding,
+      isPainel: S === 'painel', isVagas: S === 'vagas', isCandidaturas: S === 'candidaturas', isMetricas: S === 'metricas',
+      goPainel: e => { e && e.preventDefault && e.preventDefault(); this.go('painel'); }, goVagas: e => { e && e.preventDefault && e.preventDefault(); this.setState({ tab: 'new', selId: newOnes[0] ? newOnes[0].id : null }); this.go('vagas'); },
+      goCandidaturas: e => { e && e.preventDefault && e.preventDefault(); this.go('candidaturas'); },
+      headline1, headline2, openLine: `${open.length} candidaturas em andamento`, pipeline,
+      newCountLine: `${n} para triar →`, hasLead: !!L, noLead: !L, lead, dashRest,
+      followUps, noFollowUps: followUps.length === 0, replies: REPLIES, routine, routineProgress: `${doneItems}/${totalItems} feitos`, routinePct: Math.round(doneItems * 100 / totalItems) + '%',
+      tabs, sorts, minScore: st.minScore, q: st.q,
+      setMinScore: e => this.setState({ minScore: e.target.value }), setQ: e => this.setState({ q: e.target.value }),
+      countLine: `${fl.length} ${fl.length === 1 ? 'vaga' : 'vagas'} · ${sortLabel}`, list, listEmpty: fl.length === 0, hasSel: !!sel,
+      sel: sel || { terms: [], facts: [], desc: [] },
+      appsIntro: isBoard ? 'Arraste os cartões entre as colunas para mudar o status. A ordem dentro da coluna também fica salva.' : 'Todas as candidaturas, da mais avançada à mais antiga. Mude o status direto na linha.',
+      isBoard, isTable: !isBoard, setBoard: () => this.setState({ view: 'board' }), setTable: () => this.setState({ view: 'table' }),
+      columns, dragEnd: () => this.setState({ dragId: null, dragOver: null }), tableRows,
+      periods, tiles, weeks, yTop: top, yMid: top / 2, funnel, origins, sources,
+      hasFlash: !!st.flash, flashText: st.flash ? st.flash.text : '', undo: () => this.undo(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

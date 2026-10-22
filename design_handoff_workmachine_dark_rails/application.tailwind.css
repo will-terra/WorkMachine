@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* WorkMachine · tema escuro Rails (padrão).
+   Proposta para substituir app/assets/tailwind/application.css.
+   Mantém os MESMOS nomes de token que as views já usam (bg, surface, ink, muted, line, code,
+   accent, accent-ink, accent-soft, ok, warn, ramp-1..4) e acrescenta alguns novos (marcados NOVO).
+   O modo escuro deixa de depender de prefers-color-scheme: é o padrão. */
+
+@theme {
+  --color-bg: #121010;
+  --color-surface: #1d1a19;
+  --color-ink: #ece6e3;
+  --color-muted: #9b9593;          /* = ink a 64% sobre bg */
+  --color-line: #2f2b2a;           /* = ink a 13% sobre bg; hairlines */
+  --color-code: #2c2726;           /* chips neutros, fundo de código */
+  --color-field: #3a3433;          /* NOVO: trilho de progresso, bordas de campo */
+  --color-switch-off: #524b49;     /* NOVO: switch desligado */
+
+  --color-accent: #c7262f;         /* vermelho Rails: botões, seleção, aba ativa, links, nota ≥ 60 */
+  --color-accent-hover: #f05a5f;   /* NOVO: hover de botão/link */
+  --color-accent-ink: #ffffff;     /* texto sobre o vermelho: SEMPRE branco */
+  --color-accent-soft: #2a1214;    /* fundo de tag/realce vermelho */
+  --color-accent-soft-2: #3d1519;  /* NOVO: chip de skill essencial */
+  --color-accent-text: #ffa3a3;    /* NOVO: texto sobre accent-soft */
+  --color-accent-strong: #ffd0cf;  /* NOVO: texto do chip essencial */
+
+  --color-ok: #5fcf95;
+  --color-ok-soft: #173426;
+  --color-warn: #f0ad3a;           /* âmbar: recusa, follow-up vencido, pontos negativos, placeholders */
+  --color-warn-soft: #2a1f0c;
+  --color-warn-text: #fad590;      /* NOVO: texto sobre warn-soft */
+  --color-warn-strong: #f5c060;    /* NOVO: números negativos, "com erro" */
+
+  /* Funil (Métricas), do topo à proposta */
+  --color-ramp-1: #5a1a20;
+  --color-ramp-2: #c7262f;
+  --color-ramp-3: #ff7a7c;
+  --color-ramp-4: #ffd0cf;
+
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+}
+
+:root { color-scheme: dark; }
+
+@layer base {
+  body { @apply bg-bg text-ink antialiased font-sans; font-size: 15px; line-height: 1.55; text-wrap: pretty; }
+  h1, h2, h3, h4 { @apply font-display; font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; }
+  h1 { font-size: 44px; letter-spacing: -0.03em; }
+  h2 { font-size: 20px; }
+  h3 { font-size: 15px; }
+  a { @apply text-accent underline-offset-3 hover:text-accent-hover; }
+  ::selection { background: #8a1f27; color: #fff; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+}
+
+@layer components {
+  .card { @apply bg-surface rounded-lg p-4 flex flex-col; }
+  .muted { @apply text-muted; }
+  .eyebrow { @apply font-mono text-xs text-muted; }   /* era caixa-alta em vermelho; agora mono minúsculo e discreto */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-line bg-transparent
+           px-3.5 py-2 text-sm font-display font-semibold text-ink no-underline cursor-pointer
+           hover:bg-ink/7 disabled:opacity-45;
+  }
+  .btn-primary { @apply bg-accent border-accent text-accent-ink hover:bg-accent-hover hover:border-accent-hover hover:text-accent-ink; }
+  .btn-ghost { @apply border-transparent hover:bg-ink/7; }
+  .btn-sm { @apply px-2.5 py-1 text-[13px]; }
+
+  .input {
+    @apply block w-full rounded-md border border-line bg-bg px-3 py-2 text-sm text-ink placeholder:text-muted
+           focus:outline-2 focus:outline-accent;
+  }
+  .label { @apply block text-xs text-muted mb-1; }
+
+  /* Controle segmentado: opção marcada em vermelho com texto branco */
+  .seg { @apply inline-flex rounded-md border border-line overflow-hidden; }
+  .seg-opt { @apply inline-flex items-center px-3 py-[7px] text-[13px] whitespace-nowrap cursor-pointer hover:bg-ink/7; }
+  .seg-opt + .seg-opt { @apply border-l border-line; }
+  .seg-opt:has(input:checked) { @apply bg-accent text-white; }
+  .seg-opt input { @apply absolute opacity-0 w-0 h-0; }
+
+  .chip { @apply inline-flex items-center rounded-[1.5px] px-2 py-0.5 text-xs bg-code text-ink; }
+  .chip-hot { @apply bg-accent-soft text-accent-text; }
+  .chip-warn { @apply bg-warn-soft text-warn-text; }
+  .chip-outline { @apply border border-accent text-accent bg-transparent; }
+
+  .code { @apply font-mono text-[12.5px] bg-surface rounded-md px-3 py-2 break-words select-all; }
+
+  .table { @apply w-full text-sm; }
+  .table th { @apply text-left text-[11px] uppercase tracking-[0.08em] text-muted px-3 py-2 border-b border-line font-normal; }
+  .table td { @apply px-3 py-2.5 border-b border-line align-top; }
+
+  /* Navegação: texto simples; a aba ativa fica vermelha e em negrito, sem fundo */
+  .nav-link { @apply text-[14.5px] text-ink no-underline whitespace-nowrap hover:text-accent-hover; }
+  .nav-link-active { @apply text-accent font-semibold; }
+  .nav-count { @apply font-mono text-[11.5px] font-semibold text-accent ml-1.5; }
+
+  /* Switch (Ajustes, Empresas-alvo) */
+  .switch { @apply relative w-9 h-5 rounded-full bg-switch-off cursor-pointer border-0 p-0 flex-none; }
+  .switch[aria-checked="true"] { @apply bg-accent; }
+  .switch::after { content: ""; @apply absolute top-0.5 left-0.5 size-4 rounded-full bg-ink transition-transform duration-150; }
+  .switch[aria-checked="true"]::after { @apply translate-x-4; }
+
+  /* Nota da vaga */
+  .score-high { @apply text-accent; }   /* ≥ 60 */
+  .score-mid  { @apply text-ink; }      /* 35–59 */
+  .score-low  { @apply text-muted; }    /* < 35 */
+}
