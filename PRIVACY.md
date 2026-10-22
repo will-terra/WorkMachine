@@ -40,7 +40,7 @@ pagamento ou histórico de navegação.
 As vagas, candidaturas, contatos, currículo e senhas ficam no banco de dados do seu computador. O app só
 se comunica com: as fontes públicas de vagas que ele consulta; o seu Gmail, em modo só leitura, se você
 ligar; e o OpenRouter, com a sua chave, quando você usa uma função de IA (só o texto necessário para
-aquela função). Detalhes no [README](README.md#privacidade).
+aquela função). Detalhes no [README](README.pt-BR.md#privacidade).
 
 ## Dúvidas
 

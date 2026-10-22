@@ -1,331 +1,337 @@
 <div align="center">
 
+**English** · [Português (Brasil)](README.pt-BR.md)
+
 <img src="app/assets/images/ruby.png" alt="" width="72">
 
 # WorkMachine
 
-### Sua busca de emprego em tech no piloto automático, rodando no seu computador.
+### Your tech job search on autopilot, running on your own computer.
 
-Junta vagas de mais de 10 fontes, dá nota para cada uma pelo **seu** perfil, controla as candidaturas
-num kanban, lê as respostas das empresas no seu Gmail e usa IA para analisar vagas e escrever mensagens.
-**Grátis, código aberto e 100% local**: seus dados nunca saem da sua máquina.
+Pulls jobs from 10+ sources, scores each one against **your** profile, tracks your applications on a
+kanban board, reads the companies' replies in your Gmail and uses AI to analyze jobs and write messages.
+**Free, open source and 100% local**: your data never leaves your machine.
 
 [![GitHub stars](https://img.shields.io/github/stars/will-terra/WorkMachine?style=for-the-badge&logo=github&color=c7262f)](https://github.com/will-terra/WorkMachine/stargazers)
-[![CI](https://img.shields.io/github/actions/workflow/status/will-terra/WorkMachine/ci.yml?branch=main&style=for-the-badge&label=testes)](https://github.com/will-terra/WorkMachine/actions/workflows/ci.yml)
-[![Licença AGPL-3.0](https://img.shields.io/badge/licen%C3%A7a-AGPL--3.0-2c2726?style=for-the-badge)](LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/will-terra/WorkMachine/ci.yml?branch=main&style=for-the-badge&label=tests)](https://github.com/will-terra/WorkMachine/actions/workflows/ci.yml)
+[![License AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-2c2726?style=for-the-badge)](LICENSE)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-c7262f?style=for-the-badge&logo=rubyonrails&logoColor=white)](https://rubyonrails.org)
 
-**[Instalar em 5 minutos](#instalar)** · **[Ver as telas](#tour-pelas-telas)** · **[Deixar uma ⭐](https://github.com/will-terra/WorkMachine/stargazers)**
+**[Install in 5 minutes](#install)** · **[See the screens](#screen-tour)** · **[Leave a ⭐](https://github.com/will-terra/WorkMachine/stargazers)**
 
 <br>
 
-<img src=".github/readme/painel.png" alt="Painel do WorkMachine: rotina de hoje, candidaturas por status, vagas novas por nota, follow-ups e respostas das empresas" width="100%">
+<img src=".github/readme/en/painel.png" alt="WorkMachine dashboard: today's routine, applications by status, new jobs by score, follow-ups and company replies" width="100%">
 
 </div>
 
 > [!TIP]
-> **Gostou da ideia?** Dê uma ⭐ no repositório: é o que faz o projeto chegar em mais gente que está
-> procurando emprego, e leva dois segundos. Clique em **Star** no topo desta página.
+> **Like the idea?** Give the repository a ⭐: it's what gets the project to more people who are looking
+> for a job, and it takes two seconds. Click **Star** at the top of this page.
 
-## Por que o WorkMachine
+## Why WorkMachine
 
-Procurar emprego em tecnologia virou um segundo emprego: dez abas de sites de vagas, alertas do LinkedIn
-lotando a caixa, uma planilha que ninguém atualiza e a sensação de mandar currículo para o vazio. O
-WorkMachine junta tudo num lugar só e faz a parte chata por você.
+Looking for a tech job has become a second job: ten tabs of job boards, LinkedIn alerts flooding your
+inbox, a spreadsheet nobody updates and the feeling of sending your CV into the void. WorkMachine puts
+it all in one place and does the boring part for you.
 
 | | |
 | - | - |
-| 🎯 **Nota de 0 a 100 para cada vaga** | Pelas suas skills (essencial +30, importante +10, extra +5), nível, região e termos a evitar. Você abre o app e já vê as melhores primeiro, com a conta explicada. |
-| 🔎 **Mais de 10 fontes, sozinho** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Hacker News, quadros Greenhouse, Lever, Ashby e Workable e os seus alertas do LinkedIn. A cada 3 horas, sem você abrir nada. |
-| 📬 **Lê as respostas das empresas** | Pelo seu Gmail (só leitura), a IA reconhece recusa, entrevista, entrevista com IA, teste e proposta e move o cartão no kanban. Você recebe uma notificação. |
-| 🤖 **IA que não inventa** | Monta o perfil a partir do currículo, analisa o fit com cada vaga, adapta o resumo do CV e escreve mensagens para recrutadores. Usa um modelo gratuito por padrão. |
-| 🗂️ **Kanban + planilha** | Arraste candidaturas entre as etapas, exporte para `.xlsx` e acompanhe follow-ups vencidos. |
-| 📈 **Métricas do funil** | Taxa de resposta, de entrevista, tempo até a resposta e quais origens e fontes rendem de verdade. |
-| 🧭 **Radar e rotina** | Buscas prontas para LinkedIn, X, Google e grupos (montadas com o seu perfil) e uma rotina diária editável, com o passo a passo de configuração do app. |
-| 🔒 **Privacidade de verdade** | Roda no seu computador via Docker. Sem conta, sem servidor, sem rastreamento. Instale como app (PWA) e use como um programa. |
+| 🎯 **A 0 to 100 score for every job** | Based on your skills (essential +30, important +10, extra +5), level, region and terms to avoid. You open the app and see the best ones first, with the math explained. |
+| 🔎 **10+ sources, on its own** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Hacker News, Greenhouse, Lever, Ashby and Workable boards and your LinkedIn alerts. Every 3 hours, without you opening anything. |
+| 📬 **Reads the companies' replies** | Through your Gmail (read only), the AI recognizes rejections, interviews, AI interviews, take-home tests and offers and moves the card on the board. You get a notification. |
+| 🤖 **AI that doesn't make things up** | Builds your profile from your CV, analyzes your fit with each job, tailors your CV summary and writes messages to recruiters. Uses a free model by default. |
+| 🗂️ **Kanban + spreadsheet** | Drag applications between stages, export to `.xlsx` and keep track of overdue follow-ups. |
+| 📈 **Funnel metrics** | Reply rate, interview rate, time to answer and which origins and sources really pay off. |
+| 🧭 **Radar and routine** | Ready-made searches for LinkedIn, X, Google and groups (built from your profile) and an editable daily routine, with a step-by-step setup of the app. |
+| 🌎 **English and Portuguese** | The interface follows your browser's language (Portuguese for pt-BR and pt-PT, English for everything else), and you can pick one in Settings. The extension too. |
+| 🔒 **Real privacy** | Runs on your computer with Docker. No account, no server, no tracking. Install it as an app (PWA) and use it like any program. |
 
-> O WorkMachine **não raspa o LinkedIn e não se candidata sozinho**: isso viola os termos do LinkedIn e
-> arrisca a sua conta. Os alertas de vaga chegam pelo seu Gmail, e a extensão do navegador só lê uma
-> página quando você clica nela.
+> WorkMachine **does not scrape LinkedIn and does not apply on its own**: that breaks LinkedIn's terms
+> and puts your account at risk. Job alerts arrive through your Gmail, and the browser extension only
+> reads a page when you click it.
 
-## Tour pelas telas
+## Screen tour
 
-### Vagas: triagem com nota e explicação
-Lista e detalhe lado a lado. Cada vaga mostra de onde a nota veio (Ruby +30, região aberta +15…).
-Atalhos de teclado (`S` salva, `A` salva em aplicadas, `D` descarta) e **Desfazer** em tudo. Um clique em
-**Analisar com IA** compara a vaga com o seu perfil.
+### Jobs: triage with a score and the reason for it
+List and detail side by side. Every job shows where its score came from (Ruby +30, open region +15…).
+Keyboard shortcuts (`S` saves, `A` saves as applied, `D` dismisses) and **Undo** for everything. One click
+on **Analyze with AI** compares the job with your profile.
 
-<img src=".github/readme/vagas.png" alt="Tela de Vagas com a lista por nota e o detalhe da vaga com a composição da nota" width="100%">
+<img src=".github/readme/en/vagas.png" alt="Jobs screen with the list by score and the job detail with the score breakdown" width="100%">
 
-### Candidaturas: o kanban que se atualiza sozinho
-Da vaga salva à proposta, incluindo a coluna **Entrevista com IA** para entrevistas gravadas em vídeo ou
-áudio. Cada coluna rola sozinha; passe o mouse num cartão para ver vaga, origem, datas e atalhos. O ponto
-amarelo avisa que o follow-up venceu.
+### Applications: the kanban that updates itself
+From saved job to offer, including an **AI interview** column for recorded video or audio interviews.
+Each column scrolls on its own; hover over a card to see the job, origin, dates and shortcuts. The yellow
+dot means the follow-up is due.
 
-<img src=".github/readme/candidaturas.png" alt="Kanban de candidaturas com o cartão de detalhes aberto" width="100%">
+<img src=".github/readme/en/candidaturas.png" alt="Applications kanban with the details card open" width="100%">
 
-### Métricas: saiba o que está funcionando
-Candidaturas por semana, funil de aplicadas até proposta e as taxas por origem. Pare de gastar energia
-onde não dá retorno.
+### Metrics: know what's working
+Applications per week, the funnel from applied to offer and the rates by origin. Stop spending energy
+where it doesn't pay off.
 
-<img src=".github/readme/metricas.png" alt="Métricas: candidaturas aplicadas, taxa de resposta, entrevistas, gráfico semanal e funil" width="100%">
+<img src=".github/readme/en/metricas.png" alt="Metrics: applications sent, reply rate, interviews, weekly chart and funnel" width="100%">
 
-### Radar: o que fazer à mão, já pronto
-As buscas certas para o LinkedIn (publicações e pessoas), X, Google e grupos do Telegram, montadas com as
-suas skills e cargos. Copie ou abra com um clique. Também mostra se alguma fonte automática falhou.
+### Radar: what to do by hand, ready to go
+The right searches for LinkedIn (posts and people), X, Google and Telegram groups, built from your skills
+and titles. Copy or open them with one click. It also shows whether an automatic source failed.
 
-<img src=".github/readme/radar.png" alt="Radar com as buscas do LinkedIn prontas para copiar ou abrir" width="100%">
+<img src=".github/readme/en/radar.png" alt="Radar with the LinkedIn searches ready to copy or open" width="100%">
 
-### Perfil: mude uma skill e veja o efeito na hora
-Skills em três níveis, termos a evitar, regiões e nível. A **prévia das notas** ao lado recalcula as
-últimas vagas enquanto você edita, antes de salvar. Envie o currículo e deixe a IA montar o rascunho.
+### Profile: change a skill and see the effect right away
+Skills in three levels, terms to avoid, regions and level. The **score preview** on the side recalculates
+the latest jobs while you edit, before you save. Upload your CV and let the AI build the draft.
 
-<img src=".github/readme/perfil.png" alt="Perfil com skills em chips por nível e a prévia das notas ao lado" width="100%">
+<img src=".github/readme/en/perfil.png" alt="Profile with skill chips by level and the score preview on the side" width="100%">
 
-### Mensagens e Rotina
-Modelos de mensagem para recrutadores que se preenchem com o contato, a vaga e o seu perfil (com
-contador de caracteres para a nota de conexão do LinkedIn). E uma rotina diária e semanal que você edita
-em Ajustes, para manter a constância sem pensar.
+### Messages and Routine
+Message templates for recruiters that fill themselves in with the contact, the job and your profile (with
+a character counter for LinkedIn's connection note). And a daily and weekly routine you edit in Settings,
+to stay consistent without thinking about it.
 
 <p>
-  <img src=".github/readme/mensagens.png" alt="Mensagens: modelo preenchido com o nome e a empresa do contato" width="49%">
-  <img src=".github/readme/rotina.png" alt="Rotina: passo a passo de configuração do app e rotina de busca" width="49%">
+  <img src=".github/readme/en/mensagens.png" alt="Messages: template filled in with the contact's name and company" width="49%">
+  <img src=".github/readme/en/rotina.png" alt="Routine: step-by-step app setup and job search routine" width="49%">
 </p>
 
-### Ajustes
-Chaves da IA e do Gmail (criptografadas no seu computador), extensão do navegador, notificações,
-descarte automático, fontes, rotinas e backup automático do banco.
+### Settings
+Language, AI and Gmail keys (encrypted on your computer), browser extension, notifications, auto-dismiss,
+sources, routines and automatic database backup.
 
-<img src=".github/readme/ajustes.png" alt="Ajustes com chaves e contas, extensão, notificações e descarte automático" width="100%">
+<img src=".github/readme/en/ajustes.png" alt="Settings with language, keys and accounts, extension, notifications and auto-dismiss" width="100%">
 
 <div align="center">
 
-**Isso pode ajudar alguém que você conhece?** Mande o link para quem está procurando emprego em tech e
-[⭐ dê uma estrela](https://github.com/will-terra/WorkMachine/stargazers) para o projeto ser encontrado.
+**Could this help someone you know?** Send the link to anyone looking for a tech job and
+[⭐ star the project](https://github.com/will-terra/WorkMachine/stargazers) so more people can find it.
 
 </div>
 
-## O que você precisa
+## What you need
 
-- Um computador com **Windows 10/11, macOS ou Linux** e uns 2 GB livres.
-- O **Docker Desktop** (no Linux, o Docker Engine com o plugin Compose).
-- Opcional, para a IA: uma conta gratuita no [OpenRouter](https://openrouter.ai). O padrão é um modelo
-  gratuito, que não precisa de crédito. Se preferir o modelo pago (DeepSeek V4 Pro), alguns dólares de
-  crédito duram meses: montar o perfil pelo currículo custa menos de 1 centavo de dólar.
-- Opcional, para os alertas do LinkedIn e as respostas das empresas: um Gmail com a verificação em
-  duas etapas ligada.
+- A computer with **Windows 10/11, macOS or Linux** and about 2 GB free.
+- **Docker Desktop** (on Linux, Docker Engine with the Compose plugin).
+- Optional, for the AI: a free [OpenRouter](https://openrouter.ai) account. The default is a free model,
+  which needs no credit. If you prefer the paid model (DeepSeek V4 Pro), a few dollars of credit last
+  for months: building your profile from your CV costs less than 1 cent.
+- Optional, for the LinkedIn alerts and the companies' replies: a Gmail account with 2-step verification
+  turned on.
 
-## Instalar
+## Install
 
-1. **Instale o Docker Desktop** em [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
-   e abra o programa uma vez. No Windows ele ativa o WSL2 sozinho (pode pedir para reiniciar).
-2. **Baixe o WorkMachine.** Quem usa git:
+1. **Install Docker Desktop** from [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+   and open it once. On Windows it turns on WSL2 by itself (it may ask you to restart).
+2. **Download WorkMachine.** With git:
    ```bash
    git clone https://github.com/will-terra/WorkMachine.git
    cd WorkMachine
    ```
-   Sem git: na página do projeto no GitHub, clique em **Code → Download ZIP**, descompacte e abra um
-   terminal na pasta (no Windows, clique com o botão direito na pasta → **Abrir no Terminal**).
-3. **Suba o app:**
+   Without git: on the project's GitHub page, click **Code → Download ZIP**, unzip it and open a terminal
+   in the folder (on Windows, right-click the folder → **Open in Terminal**).
+3. **Start the app:**
    ```bash
    docker compose up -d
    ```
-   Na primeira vez ele baixa a imagem do WorkMachine (alguns minutos). Daí em diante o app sobe
-   sozinho junto com o Docker.
-4. Abra **http://localhost:3000**, crie a sua conta (ela só existe no seu computador) e siga o
-   **Primeiro uso**: chave da IA, Gmail, perfil e a primeira busca de vagas.
+   The first time, it downloads the WorkMachine image (a few minutes). From then on, the app starts by
+   itself together with Docker.
+4. Open **http://localhost:3000**, create your account (it only exists on your computer) and follow the
+   **First run**: AI key, Gmail, profile and the first job search.
 
-### Instalar como aplicativo
+### Install as an app
 
-Com o app aberto no Chrome ou no Edge: ícone de instalar na barra de endereço (Chrome) ou menu `…` →
-**Aplicativos** → **Instalar este site como um aplicativo** (Edge). Ele ganha ícone e janela própria;
-continua precisando do Docker rodando.
+With the app open in Chrome or Edge: install icon in the address bar (Chrome) or `…` menu → **Apps** →
+**Install this site as an app** (Edge). It gets its own icon and window; Docker still needs to be running.
 
-## Primeiros passos
+## First steps
 
-O app abre com a rotina **Configuração do app**: um passo a passo com link para cada tela. Em resumo:
+The app opens with the **App setup** routine: a step-by-step list with a link to each screen. In short:
 
-1. **Perfil.** Envie o currículo (PDF, DOCX ou TXT) e clique em **Montar perfil a partir do CV**: a IA
-   preenche um rascunho que você revisa antes de salvar. Ajuste a área, os cargos alvo, o nível e as
-   skills em três níveis. A prévia ao lado mostra como ficam as notas. Sem IA, preencha à mão: a tela
-   sugere cargos e skills da sua área.
-2. **Vagas.** A cada 3 horas o agregador busca pelos termos do seu perfil. Na triagem, salve as boas
-   (viram candidaturas) e descarte o resto.
-3. **Candidaturas.** Mova os cartões no kanban. Se o Gmail estiver ligado, as respostas das empresas
-   (recusa, entrevista, teste, proposta) movem os cartões sozinhas. Convites para entrevista assíncrona
-   (vídeo ou áudio gravado, entrevista com IA, como HireVue e Willo) vão para a coluna **Entrevista com IA**.
-4. **Radar.** O que fazer à mão, por frequência, com as buscas já montadas para o seu perfil. Crie os
-   alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn**.
+1. **Profile.** Upload your CV (PDF, DOCX or TXT) and click **Build profile from the CV**: the AI fills
+   in a draft that you review before saving. Adjust the area, the target titles, the level and the skills
+   in three levels. The preview on the side shows how the scores turn out. Without AI, fill it in by
+   hand: the screen suggests titles and skills for your area.
+2. **Jobs.** Every 3 hours the aggregator searches with your profile's terms. In the triage, save the
+   good ones (they become applications) and dismiss the rest.
+3. **Applications.** Move the cards on the board. With Gmail connected, the companies' replies
+   (rejection, interview, test, offer) move the cards by themselves. Invitations to asynchronous
+   interviews (recorded video or audio, AI interviews such as HireVue and Willo) go to the
+   **AI interview** column.
+4. **Radar.** What to do by hand, by frequency, with the searches already built for your profile. Create
+   your LinkedIn job alerts from the searches in the **LinkedIn alerts** section.
 
-| Tela | Para que serve |
+| Screen | What it's for |
 | - | - |
-| **Painel** | Rotina de hoje, vagas novas por nota, follow-ups do dia e respostas das empresas. |
-| **Vagas** | Triagem com filtros e ordenação: salvar, salvar em aplicadas, descartar, analisar com IA, marcar como vaga dos sonhos. |
-| **Candidaturas** | Kanban e tabela, e-mails da empresa em cada candidatura, exportação `.xlsx` e CSV. |
-| **Métricas** | Candidaturas por semana, funil, taxas de resposta e de entrevista por origem e as fontes que mais rendem. |
-| **Radar** | O que fazer à mão: publicações e pessoas no LinkedIn, X, Google, grupos do Telegram, sites sem API e cadastros. |
-| **Mensagens** | Modelos de mensagem preenchidos com a vaga, o contato e o seu perfil. |
-| **Rotina** | Checklist diário e semanal e o passo a passo de configuração do app. As rotinas são editadas em **Ajustes → Rotinas**. |
-| **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
-| **Perfil** | Quem você é e o que procura: dele saem a nota, as buscas, o Radar e a IA. |
-| **Ajustes** | Chaves e contas, extensão, notificações, descarte automático, fontes, rotinas e backup. |
+| **Dashboard** | Today's routine, new jobs by score, today's follow-ups and the companies' replies. |
+| **Jobs** | Triage with filters and sorting: save, save as applied, dismiss, analyze with AI, mark as a dream job. |
+| **Applications** | Kanban and table, the company's e-mails in each application, `.xlsx` and CSV export. |
+| **Routine** | Daily and weekly checklist and the step-by-step app setup. Routines are edited in **Settings → Routines**. |
+| **Radar** | What to do by hand: LinkedIn posts and people, X, Google, Telegram groups, sites without an API and sign-ups. |
+| **Contacts** and **Target companies** | Recruiters and hiring managers; companies whose job boards the aggregator reads. |
+| **Messages** | Message templates filled in with the job, the contact and your profile. |
+| **Metrics** | Applications per week, funnel, reply and interview rates by origin and the sources that pay off most. |
+| **Profile** | Who you are and what you're looking for: the score, the searches, the Radar and the AI come from it. |
+| **Settings** | Language, keys and accounts, extension, notifications, auto-dismiss, sources, routines and backup. |
 
-As fontes automáticas: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
-backend-br e frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse,
-Lever, Ashby e Workable das empresas-alvo. As de nicho só rodam quando combinam com o seu perfil, e
-cada uma pode ser desligada em Ajustes. Cada fonte respeita os limites e os créditos que a API pede.
+The automatic sources: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
+backend-br and frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs and the Greenhouse, Lever,
+Ashby and Workable boards of your target companies. The niche ones only run when they match your
+profile, and each one can be turned off in Settings. Every source respects the limits and the credits
+its API asks for.
 
-## IA (OpenRouter)
+## AI (OpenRouter)
 
-1. Crie a conta em [openrouter.ai](https://openrouter.ai).
-2. Gere a chave em [Settings → Keys](https://openrouter.ai/settings/keys) e cole em **Ajustes → Chaves
-   e contas** (ou no Primeiro uso). Use **Testar OpenRouter** para conferir.
-3. Escolha o modelo em **Ajustes → Chaves e contas → Modelo**:
+1. Create an account at [openrouter.ai](https://openrouter.ai).
+2. Create a key at [Settings → Keys](https://openrouter.ai/settings/keys) and paste it in **Settings →
+   Keys and accounts** (or in the First run). Use **Test OpenRouter** to check it.
+3. Choose the model in **Settings → Keys and accounts → Model**:
 
-| | Gratuito (padrão) | Pago |
+| | Free (default) | Paid |
 | - | - | - |
-| Modelo | MiniMax M3.1 Flash (`minimax/minimax-m3.1-flash:free`); se ele estiver fora do ar ou no limite, o OpenRouter escolhe outro modelo gratuito (`openrouter/free`) | DeepSeek V4 Pro (`deepseek/deepseek-v4-pro-0813`), ou outro modelo do OpenRouter que você digitar |
-| Custo | Nenhum; não precisa de crédito | Centavos de dólar por mês no uso normal; precisa de créditos em [Settings → Credits](https://openrouter.ai/settings/credits) |
-| Limites | O OpenRouter limita os pedidos gratuitos por minuto e por dia (o limite diário sobe para quem já comprou créditos). Quando passar, a IA avisa e volta a funcionar mais tarde | Sem limite apertado |
-| Seus dados | Os provedores dos modelos gratuitos podem guardar e usar o que você envia (currículo, vagas, e-mails das empresas) para treinar modelos | Seguem a política de cada provedor, que você vê e controla em [Settings → Privacy](https://openrouter.ai/settings/privacy) |
+| Model | MiniMax M3.1 Flash (`minimax/minimax-m3.1-flash:free`); if it's down or at its limit, OpenRouter picks another free model (`openrouter/free`) | DeepSeek V4 Pro (`deepseek/deepseek-v4-pro-0813`), or any other OpenRouter model you type in |
+| Cost | None; no credit needed | Cents of a dollar a month with normal use; needs credits at [Settings → Credits](https://openrouter.ai/settings/credits) |
+| Limits | OpenRouter limits free requests per minute and per day (the daily limit goes up once you have bought credits). When you go over, the AI tells you and works again later | No tight limit |
+| Your data | The providers of the free models may store and use what you send (CV, jobs, company e-mails) to train models | Each provider's policy applies, which you see and control at [Settings → Privacy](https://openrouter.ai/settings/privacy) |
 
-Se o OpenRouter recusar os modelos gratuitos por causa da sua política de dados, libere-os em
-[Settings → Privacy](https://openrouter.ai/settings/privacy) ou mude para o pago. Os ids dos modelos
-gratuitos mudam com o tempo; por isso o app tem a reserva `openrouter/free`.
+If OpenRouter refuses the free models because of your data policy, allow them at
+[Settings → Privacy](https://openrouter.ai/settings/privacy) or switch to the paid model. The ids of the
+free models change over time; that's why the app has `openrouter/free` as a fallback.
 
-A IA só roda quando você clica: montar o perfil, analisar o fit, adaptar o resumo do CV ou escrever uma
-mensagem. A exceção é a leitura das respostas das empresas no Gmail, que roda sozinha. No modelo pago, o
-botão mostra o custo estimado antes, e cada resultado guarda o custo real. A IA usa só os fatos do seu
-perfil e nunca inventa experiência.
+The AI only runs when you click: building the profile, analyzing the fit, tailoring the CV summary or
+writing a message. The exception is reading the companies' replies in Gmail, which runs on its own. On
+the paid model, the button shows the estimated cost beforehand, and every result keeps its real cost.
+The AI only uses the facts in your profile and never invents experience.
 
-## Gmail (alertas do LinkedIn e respostas das empresas)
+## Gmail (LinkedIn alerts and company replies)
 
-O WorkMachine entra no Gmail com uma **senha de app**: uma senha de 16 letras, separada da senha da
-conta, que o Google gera para um programa só. A senha normal da conta não funciona.
+WorkMachine signs in to Gmail with an **app password**: a 16-letter password, separate from your account
+password, that Google creates for a single program. Your regular account password doesn't work.
 
-1. Ligue a **verificação em duas etapas** na conta Google: em
-   [myaccount.google.com/security](https://myaccount.google.com/security), **Verificação em duas
-   etapas** → **Ativar**. Sem ela, o Google não oferece senha de app.
-2. Abra [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) (o Google pode
-   pedir a senha da conta de novo), digite o nome "WorkMachine" e clique em **Criar**.
-3. Copie as 16 letras que aparecem. Elas são mostradas uma vez só; se perder, apague essa senha e crie
-   outra. Os espaços entre os blocos não fazem diferença.
-4. Em **Ajustes → Chaves e contas**, informe o e-mail e a senha de app e clique em **Testar Gmail**.
-5. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar.
+1. Turn on **2-Step Verification** for your Google account: at
+   [myaccount.google.com/security](https://myaccount.google.com/security), **2-Step Verification** →
+   **Turn on**. Without it, Google doesn't offer app passwords.
+2. Open [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) (Google may ask
+   for your password again), type the name "WorkMachine" and click **Create**.
+3. Copy the 16 letters that show up. They are shown only once; if you lose them, delete that password
+   and create another one. The spaces between the blocks don't matter.
+4. In **Settings → Keys and accounts**, enter the e-mail and the app password and click **Test Gmail**.
+5. On LinkedIn, create your job alerts (by e-mail, daily) from the Radar's searches.
 
-O WorkMachine abre a caixa só para leitura: nada é marcado como lido, movido ou apagado. A cada hora ele
-importa os alertas do LinkedIn e procura as respostas das empresas em que você aplicou. Na primeira vez,
-ele olha os alertas dos últimos 14 dias e as respostas dos últimos 30.
+WorkMachine opens the mailbox read only: nothing is marked as read, moved or deleted. Every hour it
+imports the LinkedIn alerts and looks for the replies from the companies you applied to. The first time,
+it looks at the alerts from the last 14 days and the replies from the last 30.
 
-Problemas comuns:
+Common problems:
 
-- **A página de senhas de app diz que a opção não está disponível:** a verificação em duas etapas está
-  desligada, a conta é de trabalho ou de escola (o administrador pode ter bloqueado) ou a conta usa a
-  Proteção Avançada do Google. Nos dois últimos casos, use outro Gmail para receber os alertas.
-- **"Testar Gmail" diz que o Google exige uma senha de app:** foi usada a senha normal da conta. Gere a
-  senha de app e cole as 16 letras.
-- **Os alertas do LinkedIn não chegam ao app:** se um filtro do Gmail tira os alertas da caixa de
-  entrada, o WorkMachine não os vê. Tire o filtro, ou faça o app ler todos os e-mails com a linha
-  `GMAIL_MAILBOX=[Gmail]/Todos os e-mails` no `.env` (`[Gmail]/All Mail` se o Gmail estiver em inglês);
-  depois rode `docker compose up -d`.
-- **Para cortar o acesso:** apague a senha "WorkMachine" em
-  [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords). A senha da conta não
-  muda, e o app para de ler a caixa na hora.
+- **The app passwords page says the option isn't available:** 2-Step Verification is off, the account
+  belongs to work or school (the administrator may have blocked it) or the account uses Google's
+  Advanced Protection. In the last two cases, use another Gmail account to receive the alerts.
+- **"Test Gmail" says Google requires an app password:** the regular account password was used. Create
+  the app password and paste the 16 letters.
+- **The LinkedIn alerts don't reach the app:** if a Gmail filter takes the alerts out of the inbox,
+  WorkMachine doesn't see them. Remove the filter, or make the app read every e-mail with the line
+  `GMAIL_MAILBOX=[Gmail]/All Mail` in `.env` (`[Gmail]/Todos os e-mails` if your Gmail is in Portuguese);
+  then run `docker compose up -d`.
+- **To cut access:** delete the "WorkMachine" password at
+  [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords). Your account password
+  doesn't change, and the app stops reading the mailbox right away.
 
-## Extensão do navegador
+## Browser extension
 
-Ela salva no WorkMachine a vaga aberta em qualquer site (LinkedIn, Greenhouse, Lever, Gupy, páginas de
-carreira…), mostra no ícone a nota das vagas do LinkedIn que já estão no app e salva recrutadores em
-Contatos.
+It saves the job open in any site (LinkedIn, Greenhouse, Lever, Gupy, career pages…) to WorkMachine,
+shows on its icon the score of the LinkedIn jobs already in the app and saves recruiters to Contacts.
 
-1. Em **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
-2. Abra `chrome://extensions` (ou `edge://extensions`), ligue o **Modo do desenvolvedor** e clique em
-   **Carregar sem compactação**. Escolha a pasta `extension` de dentro da pasta do WorkMachine.
-   - **Windows com o projeto dentro do WSL:** o Chrome nem sempre abre pastas do WSL. Copie a pasta para
-     o Windows e carregue a cópia:
+1. In **Settings → Browser extension**, click **Generate token** and copy it.
+2. Open `chrome://extensions` (or `edge://extensions`), turn on **Developer mode** and click
+   **Load unpacked**. Choose the `extension` folder inside the WorkMachine folder.
+   - **Windows with the project inside WSL:** Chrome doesn't always open WSL folders. Copy the folder to
+     Windows and load the copy:
      ```bash
-     cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/
+     cp -r extension/. /mnt/c/Users/YOUR_USER/WorkMachine-extension/
      ```
-3. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
+3. Pin the icon to the toolbar, open the extension's **Options**, paste the token and click
+   **Test connection**.
 
-Depois de atualizar o WorkMachine, clique em recarregar (↻) no cartão da extensão (no Windows com WSL,
-copie a pasta de novo antes). Ajustes mostra a versão esperada. Detalhes em
-[extension/README.md](extension/README.md).
+After updating WorkMachine, click reload (↻) on the extension's card (on Windows with WSL, copy the folder
+again first). Settings shows the expected version. Details in [extension/README.md](extension/README.md).
 
-## Notificações
+## Notifications
 
-Em **Ajustes**, clique em **Ativar notificações** (de preferência dentro do app instalado). Chegam
-avisos de vagas novas com nota alta (padrão 40), de respostas das empresas e, às 8h, dos follow-ups do
-dia. Cada tipo pode ser desligado.
+In **Settings**, click **Turn on notifications** (preferably inside the installed app). You get alerts
+for new jobs with a high score (default 40), for the companies' replies and, at 8 a.m., for the day's
+follow-ups. Each kind can be turned off.
 
-## Backup e dados
+## Backup and data
 
-Tudo fica no volume `storage` do Docker: banco, currículo e as chaves que criptografam as senhas.
+Everything lives in Docker's `storage` volume: the database, your CV and the keys that encrypt the
+passwords.
 
-- **Backup automático:** a cada hora o banco é copiado para a pasta `backups` dentro da pasta do
-  WorkMachine. Ficam as cópias das últimas 24 horas e uma por dia dos últimos 14 dias. Para gravar em
-  outra pasta (uma que já vai para a nuvem, por exemplo), crie um arquivo `.env` na pasta do
-  WorkMachine com a linha `WORKMACHINE_BACKUP_DIR=` e o caminho da pasta (exemplos no
-  [DEVELOPMENT.md](DEVELOPMENT.md#variáveis-de-ambiente)); depois rode `docker compose up -d`.
-- **Planilha:** Candidaturas → Exportar .xlsx ou Exportar CSV.
-- **Restaurar um backup** (troque o nome do arquivo):
+- **Automatic backup:** every hour the database is copied to the `backups` folder inside the WorkMachine
+  folder. The copies from the last 24 hours and one a day from the last 14 days are kept. To save them
+  in another folder (one that already syncs to the cloud, for example), create a `.env` file in the
+  WorkMachine folder with the line `WORKMACHINE_BACKUP_DIR=` and the folder's path (examples in
+  [DEVELOPMENT.md](DEVELOPMENT.md#variáveis-de-ambiente)); then run `docker compose up -d`.
+- **Spreadsheet:** Applications → Export .xlsx or Export CSV.
+- **Restore a backup** (change the file name):
   ```bash
   docker compose stop web
   docker compose run --rm --no-deps --entrypoint sh web -c \
-    'cp backups/workmachine-AAAA-MM-DD-HHMM.sqlite3 storage/production.sqlite3 && rm -f storage/production.sqlite3-wal storage/production.sqlite3-shm'
+    'cp backups/workmachine-YYYY-MM-DD-HHMM.sqlite3 storage/production.sqlite3 && rm -f storage/production.sqlite3-wal storage/production.sqlite3-shm'
   docker compose start web
   ```
-  As senhas salvas em Ajustes só abrem com o arquivo `storage/workmachine-secrets.yml` do mesmo volume.
-  Num volume novo, informe as chaves de novo em Ajustes.
-- **Apagar tudo:** `docker compose down -v` remove o app e o volume com os dados. Os backups ficam.
+  The passwords saved in Settings only open with the `storage/workmachine-secrets.yml` file of the same
+  volume. On a new volume, enter the keys again in Settings.
+- **Delete everything:** `docker compose down -v` removes the app and the volume with the data. The
+  backups stay.
 
-## Atualizar
+## Update
 
 ```bash
 docker compose pull && docker compose up -d
 ```
 
-O banco é atualizado sozinho ao subir. Quem baixou com git pode rodar `git pull` antes, para receber
-também a extensão nova (e recarregá-la no navegador).
+The database is updated by itself on start. If you downloaded with git, run `git pull` first to get the
+new extension too (and reload it in the browser).
 
-## Problemas comuns
+## Troubleshooting
 
-- **A porta 3000 já está em uso:** troque `127.0.0.1:3000:3000` por `127.0.0.1:3001:3000` no
-  `docker-compose.yml` e abra http://localhost:3001 (nas Opções da extensão, troque o endereço também).
-- **Esqueci a senha:**
+- **Port 3000 is already in use:** change `127.0.0.1:3000:3000` to `127.0.0.1:3001:3000` in
+  `docker-compose.yml` and open http://localhost:3001 (change the address in the extension's Options too).
+- **I forgot my password:**
   ```bash
-  docker compose exec web bin/rails runner 'User.first.update!(password: "uma-senha-nova")'
+  docker compose exec web bin/rails runner 'User.first.update!(password: "a-new-password")'
   ```
-- **Ver o que está acontecendo:** `docker compose logs -f web`.
-- **Buscar vagas agora:** botão **Buscar agora** em Vagas.
+- **See what's going on:** `docker compose logs -f web`.
+- **Search for jobs now:** **Search now** button in Jobs.
 
-## Privacidade
+## Privacy
 
-O WorkMachine roda só no seu computador e não manda dados para o autor nem para servidor algum. Saem
-dele apenas: as buscas às fontes públicas de vagas; a conexão de leitura com o seu Gmail, se ligada; e,
-quando você usa uma função de IA, o texto necessário (currículo, perfil, vaga ou e-mail da empresa) para o
-OpenRouter, com a sua chave. As senhas ficam criptografadas no banco local. A política completa, com o
-que a extensão do navegador lê, está em [PRIVACY.md](PRIVACY.md).
+WorkMachine runs only on your computer and sends no data to the author or to any server. All that leaves
+it: the requests to the public job sources; the read-only connection to your Gmail, if turned on; and,
+when you use an AI feature, the text it needs (CV, profile, job or company e-mail) to OpenRouter, with
+your key. Passwords are stored encrypted in the local database. The full policy, including what the
+browser extension reads, is in [PRIVACY.md](PRIVACY.md#privacy-policy).
 
-## Licença e contribuição
+## License and contributing
 
-Código aberto sob a [GNU AGPL-3.0](LICENSE): você pode usar, estudar, modificar e distribuir; quem
-distribuir ou oferecer pela rede uma versão modificada precisa abrir o código dela sob a mesma licença.
+Open source under the [GNU AGPL-3.0](LICENSE): you can use, study, change and share it; whoever shares or
+offers over a network a modified version must publish its code under the same license.
 
-Achou um problema ou tem uma sugestão? Abra uma issue. Quer mexer no código? Veja
-[CONTRIBUTING.md](CONTRIBUTING.md) e [DEVELOPMENT.md](DEVELOPMENT.md). Os prints deste README usam dados
-fictícios e são refeitos com `script/readme/` (instruções no topo de cada arquivo).
+Found a problem or have a suggestion? Open an issue. Want to work on the code? See
+[CONTRIBUTING.md](CONTRIBUTING.md) and [DEVELOPMENT.md](DEVELOPMENT.md) (in Portuguese). The screenshots
+in this README use fictional data and are made with `script/readme/`, in English and in Portuguese
+(instructions at the top of each file).
 
 ---
 
 <div align="center">
 
-### O WorkMachine te ajudou?
+### Did WorkMachine help you?
 
-Uma ⭐ é a forma mais simples de agradecer e de fazer o projeto chegar em quem está procurando emprego.
+A ⭐ is the simplest way to say thanks and to get the project to people who are looking for a job.
 
-**[⭐ Dar uma estrela no GitHub](https://github.com/will-terra/WorkMachine/stargazers)**
+**[⭐ Star it on GitHub](https://github.com/will-terra/WorkMachine/stargazers)**
 
-Feito com Ruby on Rails, para quem está do outro lado do processo seletivo.
+Made with Ruby on Rails, for people on the other side of the hiring process.
 
 </div>
