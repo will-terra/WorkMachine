@@ -1,6 +1,6 @@
 module ApplicationReplies
   # Reads the replies of the companies you applied to from Gmail (read-only), classifies each
-  # one (Classifier), moves the kanban card forward (rejection → Recusada, interview → Entrevista,
+  # one (Classifier), moves the kanban card forward (rejection → Recusada, interview → Entrevista com IA, RH ou técnica,
   # test → Teste prático, offer → Proposta, a recruiter writing → Contato do recrutador) and
   # sends a notification. Only the headers of other e-mails are read.
   class Importer
@@ -8,8 +8,9 @@ module ApplicationReplies
     BATCH = 200
     IGNORED_SENDERS = /\Ajobalerts-noreply@linkedin\.com\z/i
     TARGETS = { "rejection" => "rejected", "offer" => "offer", "assessment" => "take_home", "recruiter_contact" => "recruiter_contact" }.freeze
+    INTERVIEW_TARGETS = { "ai" => "ai_interview", "technical" => "tech_interview", "hr" => "hr_interview" }.freeze
     # Order of the pipeline used to only move cards forward.
-    PIPELINE = %w[saved applied no_response recruiter_contact hr_interview tech_interview take_home offer].freeze
+    PIPELINE = %w[saved applied no_response recruiter_contact ai_interview hr_interview tech_interview take_home offer].freeze
     LABELS = { "rejection" => "recusa", "interview" => "convite para entrevista", "assessment" => "teste",
                "offer" => "proposta", "recruiter_contact" => "mensagem do recrutador" }.freeze
 
@@ -74,7 +75,7 @@ module ApplicationReplies
       end
 
       def move(application, result, received_at)
-        target = result.category == "interview" ? (result.interview_type == "technical" ? "tech_interview" : "hr_interview") : TARGETS.fetch(result.category)
+        target = result.category == "interview" ? INTERVIEW_TARGETS.fetch(result.interview_type, "hr_interview") : TARGETS.fetch(result.category)
         application.responded_on ||= (received_at || Time.current).to_date
         application.next_follow_up_on = nil
         unless forward?(application.status, target)

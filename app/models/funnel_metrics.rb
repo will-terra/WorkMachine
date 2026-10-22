@@ -4,7 +4,7 @@
 # or responded_on is set, and as interviewed when its status or a company e-mail says so.
 class FunnelMetrics
   PERIODS = { "30" => [ 30, "30 dias" ], "90" => [ 90, "90 dias" ], "all" => [ nil, "Tudo" ] }.freeze
-  INTERVIEW_STATUSES = %w[hr_interview tech_interview take_home offer].freeze
+  INTERVIEW_STATUSES = %w[ai_interview hr_interview tech_interview take_home offer].freeze
   INTERVIEW_EMAILS = %w[interview assessment offer].freeze
   MAX_WEEKS = 26
 

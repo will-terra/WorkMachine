@@ -61,7 +61,8 @@ continua precisando do Docker rodando.
 2. **Vagas.** A cada 3 horas o agregador busca pelos termos do seu perfil. Na triagem, salve as boas
    (viram candidaturas) e descarte o resto.
 3. **Candidaturas.** Mova os cartões no kanban. Se o Gmail estiver ligado, as respostas das empresas
-   (recusa, entrevista, teste, proposta) movem os cartões sozinhas.
+   (recusa, entrevista, teste, proposta) movem os cartões sozinhas. Convites para entrevista assíncrona
+   (vídeo ou áudio gravado, entrevista com IA, como HireVue e Willo) vão para a coluna **Entrevista com IA**.
 4. **Radar.** O que fazer à mão, por frequência, com as buscas já montadas para o seu perfil. Crie os
    alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn**.
 

@@ -2,7 +2,7 @@ module ApplicationReplies
   # Finds which open application an e-mail is about, from the company name in the sender
   # name or the subject ("Acme Recruiting", "Your application to Acme") or the sender domain.
   class Matcher
-    OPEN_STATUSES = %w[applied no_response recruiter_contact hr_interview tech_interview take_home offer].freeze
+    OPEN_STATUSES = %w[applied no_response recruiter_contact ai_interview hr_interview tech_interview take_home offer].freeze
     PROVIDER_LABELS = %w[com br io net org co mail email gmail outlook hotmail yahoo app jobs careers hire noreply no reply].freeze
 
     def initialize(applications = JobApplication.where(status: OPEN_STATUSES))

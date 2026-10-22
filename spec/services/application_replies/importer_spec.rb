@@ -88,8 +88,8 @@ RSpec.describe ApplicationReplies::Importer do
     expect(ApplicationEmail.sole.category).to eq("unrelated")
   end
 
-  it "maps technical interviews, tests and offers" do
-    { [ "interview", "technical" ] => "tech_interview", [ "assessment", "hr" ] => "take_home", [ "offer", "hr" ] => "offer" }.each do |(category, type), status|
+  it "maps AI and technical interviews, tests and offers" do
+    { [ "interview", "ai" ] => "ai_interview", [ "interview", "technical" ] => "tech_interview", [ "assessment", "hr" ] => "take_home", [ "offer", "hr" ] => "offer" }.each do |(category, type), status|
       ApplicationEmail.delete_all
       acme.update!(status: "applied")
       allow(classifier).to receive(:call).and_return(answer(category, "x", type))

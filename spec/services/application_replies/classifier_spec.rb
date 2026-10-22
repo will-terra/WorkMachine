@@ -31,6 +31,12 @@ RSpec.describe ApplicationReplies::Classifier do
     expect(classify(subject: "Oi", configured: true).category).to eq("other")
   end
 
+  it "keeps the AI interview type from the model" do
+    allow(client).to receive(:complete).and_return(ai_answer('{"category":"interview","summary":"Entrevista gravada.","interview_type":"ai"}'))
+
+    expect(classify(subject: "Oi", configured: true).interview_type).to eq("ai")
+  end
+
   it "reads the JSON that some models wrap in fences" do
     allow(client).to receive(:complete).and_return(ai_answer(%(```json\n{"category":"offer","summary":"Proposta."}\n```)))
 
@@ -43,6 +49,8 @@ RSpec.describe ApplicationReplies::Classifier do
     expect(classify(subject: "Recebemos sua candidatura").category).to eq("confirmation")
     expect(classify(subject: "Vamos agendar uma entrevista?").to_h).to include(category: "interview", interview_type: "hr")
     expect(classify(subject: "Job offer - Rails Dev").category).to eq("offer")
+    expect(classify(subject: "Next step: HireVue assessment", body: "Record your answers to a few questions").to_h).to include(category: "interview", interview_type: "ai")
+    expect(classify(subject: "Próxima etapa: entrevista com IA").to_h).to include(category: "interview", interview_type: "ai")
     expect(classify(subject: "Promoção de Black Friday").category).to eq("unrelated")
     expect(classify(subject: "Sobre a vaga").category).to eq("other")
   end

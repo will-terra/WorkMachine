@@ -1,9 +1,9 @@
 class JobApplication < ApplicationRecord
-  STATUSES = %w[saved applied recruiter_contact hr_interview tech_interview take_home
+  STATUSES = %w[saved applied recruiter_contact ai_interview hr_interview tech_interview take_home
                 offer rejected no_response withdrawn].freeze
   CLOSED_STATUSES = %w[rejected no_response withdrawn].freeze
   # Statuses that mean the company answered (responded_on, funnel metrics).
-  RESPONSE_STATUSES = %w[recruiter_contact hr_interview tech_interview take_home offer rejected].freeze
+  RESPONSE_STATUSES = %w[recruiter_contact ai_interview hr_interview tech_interview take_home offer rejected].freeze
   OPEN_STATUSES = (STATUSES - CLOSED_STATUSES).freeze
   FOLLOW_UP_AFTER = 5.days
 
