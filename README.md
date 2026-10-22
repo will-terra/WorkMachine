@@ -76,10 +76,10 @@ continua precisando do Docker rodando.
 | **Métricas** | Candidaturas por semana, funil, taxas de resposta e de entrevista por origem e as fontes que mais rendem. |
 | **Radar** | O que fazer à mão: publicações e pessoas no LinkedIn, X, Google, grupos do Telegram, sites sem API e cadastros. |
 | **Mensagens** | Modelos de mensagem preenchidos com a vaga, o contato e o seu perfil. |
-| **Rotina** | Checklist diário e semanal. |
+| **Rotina** | Checklist diário e semanal e o passo a passo de configuração do app. As rotinas são editadas em **Ajustes → Rotinas**. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
 | **Perfil** | Quem você é e o que procura: dele saem a nota, as buscas, o Radar e a IA. |
-| **Ajustes** | Chaves e contas, extensão, notificações, descarte automático, fontes e backup. |
+| **Ajustes** | Chaves e contas, extensão, notificações, descarte automático, fontes, rotinas e backup. |
 
 As fontes automáticas: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
 backend-br e frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse,
