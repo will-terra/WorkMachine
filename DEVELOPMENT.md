@@ -38,6 +38,7 @@ bin/rails jobs:fetch          # busca vagas agora (FORCE=1 ignora os intervalos 
 bin/rails jobs:rescore        # recalcula as notas com o perfil atual
 bin/rails linkedin:import     # importa os alertas do Gmail agora
 bin/rails "linkedin:parse[alerta.eml]"   # mostra o que o parser lê de um alerta (não salva)
+bin/rails extension:zip       # pacote da extensão para a Chrome Web Store (ficha em .github/chrome-web-store/)
 bin/rails backup:now          # backup do banco
 bin/rails target_companies:find          # procura os quadros das empresas das candidaturas
 ```

@@ -304,7 +304,8 @@ também a extensão nova (e recarregá-la no navegador).
 O WorkMachine roda só no seu computador e não manda dados para o autor nem para servidor algum. Saem
 dele apenas: as buscas às fontes públicas de vagas; a conexão de leitura com o seu Gmail, se ligada; e,
 quando você usa uma função de IA, o texto necessário (currículo, perfil, vaga ou e-mail da empresa) para o
-OpenRouter, com a sua chave. As senhas ficam criptografadas no banco local.
+OpenRouter, com a sua chave. As senhas ficam criptografadas no banco local. A política completa, com o
+que a extensão do navegador lê, está em [PRIVACY.md](PRIVACY.md).
 
 ## Licença e contribuição
 
