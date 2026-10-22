@@ -3,7 +3,12 @@
   <%= form_with url: toggle_routine_path(key: item.key), method: :post, data: { controller: "auto-submit" } do %>
     <label class="flex cursor-pointer items-start gap-2.5 py-[3px]">
       <%= check_box_tag "done", "1", checked, id: "routine_check_#{item.key}", class: "check peer mt-[0.2em]", data: { action: "auto-submit#submit" } %>
-      <span class="peer-checked:text-muted peer-checked:line-through"><%= item.label %></span>
+      <span class="peer-checked:text-muted peer-checked:line-through">
+        <%= routine_label(item) %>
+        <% if item.url %>
+          <%= item.url.start_with?("/") ? link_to("abrir →", item.url, class: "ml-1 text-[0.9em]") : external_link("abrir →", item.url, class: "ml-1 text-[0.9em]") %>
+        <% end %>
+      </span>
     </label>
     <noscript><%= submit_tag "Marcar", class: "btn btn-sm mt-1" %></noscript>
   <% end %>

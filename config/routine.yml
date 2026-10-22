@@ -1,35 +1,78 @@
-# Rotina diária e semanal das diretrizes de recolocação, ajustada ao que o app já automatiza.
-# Itens de slots "weekly: true" ficam marcados a semana toda; os outros recomeçam a cada dia.
+# Rotinas que vêm prontas. Na primeira vez que a Rotina abre, elas são copiadas para o banco e daí em
+# diante a pessoa edita em Ajustes → Rotinas ("Restaurar as rotinas prontas" copia de novo).
+# period: daily (recomeça todo dia), weekly (fica marcado até domingo) ou once (fica marcado de vez).
 # Não troque as chaves (key) de itens já usados: elas ficam gravadas em RoutineCheck.
-# Os textos aceitam as variáveis do perfil do Radar ({{termos}}, {{area}}…).
+# Os textos aceitam as variáveis do perfil do Radar ({{termos}}, {{area}}…); url é opcional
+# (uma tela do app, como /ajustes, ou um endereço https://).
 
-slots:
-  - title: "Manhã"
-    time: "~15 min"
-    items:
-      - { key: m1, label: "Triar as vagas novas no WorkMachine (alertas do LinkedIn e agregador): salvar ou descartar" }
-      - { key: m2, label: "Aplicar nas que têm aderência real (Analisar com IA e Resumo de CV ajudam)" }
-      - { key: m3, label: "Mover no kanban as candidaturas que andaram (aplicada, entrevista, recusa…)" }
-  - title: "Depois do almoço"
-    time: "~20 min"
-    items:
-      - { key: a1, label: "LinkedIn Publicações no Radar: contratando, hiring e looking for (24 h)" }
-      - { key: a2, label: "Mandar mensagem direta para quem postou (modelos em Mensagens)" }
-      - { key: a3, label: "X: 2 ou 3 buscas em “Mais recentes”" }
-  - title: "Fim do dia"
-    time: "~10 min"
-    items:
-      - { key: e1, label: "Grupos do Telegram: buscar {{termos}} em cada um" }
-      - { key: e2, label: "Revisar posts recentes sobre a stack e comentar em 1 ou 2" }
-      - { key: e3, label: "Cobrar os follow-ups do Painel (o app marca quem está há mais de 5 dias sem resposta)" }
-  - title: "Uma vez por semana"
-    time: "segunda"
-    weekly: true
-    items:
-      - { key: w1, label: "Google nos ATS (filtro Semana) e cadastrar as empresas boas em Empresas-alvo" }
-      - { key: w2, label: "Radar → Sites sem API (o resto já é automático)" }
-      - { key: w3, label: "Conectar com 5 recrutadores da sua área (Radar → Recrutadores no LinkedIn)" }
-      - { key: w4, label: "Radar → Automático: conferir se alguma fonte falhou e se os alertas do LinkedIn estão chegando" }
+routines:
+  - name: "Configuração do app"
+    description: "Primeiros passos para deixar o WorkMachine pronto e conhecer cada tela. Os itens ficam marcados de vez."
+    slots:
+      - title: "Para começar"
+        time: "~20 min"
+        period: once
+        items:
+          - { key: s1, label: "Instalar como aplicativo: ícone de instalar na barra de endereço do Chrome (ou menu … → Aplicativos no Edge)" }
+          - { key: s2, label: "Criar a conta no OpenRouter, colar a chave em Ajustes → Chaves e contas e clicar em Testar OpenRouter", url: "/ajustes#chaves" }
+          - { key: s3, label: "Escolher o modelo da IA (gratuito ou pago) em Ajustes → Chaves e contas", url: "/ajustes#chaves" }
+          - { key: s4, label: "Ligar a verificação em duas etapas do Google, gerar a senha de app e clicar em Testar Gmail", url: "/ajustes#chaves" }
+          - { key: s5, label: "Enviar o currículo e montar o perfil com a IA (ou à mão): área, cargos, nível e skills", url: "/perfil" }
+          - { key: s6, label: "Revisar as skills em três níveis (essencial, importante, extra) e conferir as notas com Ver prévia", url: "/perfil" }
+      - title: "Ligar as automações"
+        time: "~15 min"
+        period: once
+        items:
+          - { key: s7, label: "Ativar as notificações neste navegador (de preferência no app instalado)", url: "/ajustes" }
+          - { key: s8, label: "Escolher a nota mínima das notificações, o descarte automático e as fontes automáticas", url: "/ajustes" }
+          - { key: s9, label: "Criar os alertas de vaga do LinkedIn (por e-mail, diários) pelas buscas do Radar", url: "/radar#linkedin_alerts" }
+          - { key: s10, label: "Instalar a extensão do navegador, colar o token em Opções e clicar em Testar conexão", url: "/ajustes#extensao" }
+          - { key: s11, label: "Conferir se o backup automático está gravando (Ajustes → Backup do banco)", url: "/ajustes" }
+      - title: "Conhecer as telas"
+        time: "~15 min"
+        period: once
+        items:
+          - { key: s12, label: "Vagas: triar as primeiras vagas (salvar, descartar, analisar com IA)", url: "/vagas" }
+          - { key: s13, label: "Candidaturas: mover um cartão no kanban e abrir a tabela", url: "/candidaturas" }
+          - { key: s14, label: "Radar: conhecer as buscas prontas por frequência e os cadastros", url: "/radar" }
+          - { key: s15, label: "Mensagens: revisar os modelos para recrutadores", url: "/mensagens" }
+          - { key: s16, label: "Empresas-alvo e Contatos: cadastrar as empresas que você quer e os recrutadores", url: "/empresas-alvo" }
+          - { key: s17, label: "Métricas: entender o funil (depois das primeiras candidaturas)", url: "/metricas" }
+          - { key: s18, label: "Rotinas: ajustar a rotina de busca ao seu dia em Ajustes → Rotinas", url: "/ajustes/rotinas" }
+
+  - name: "Rotina de busca"
+    description: "Os itens do dia recomeçam todo dia; os semanais ficam marcados até domingo."
+    slots:
+      - title: "Manhã"
+        time: "~15 min"
+        period: daily
+        items:
+          - { key: m1, label: "Triar as vagas novas no WorkMachine (alertas do LinkedIn e agregador): salvar ou descartar" }
+          - { key: m2, label: "Aplicar nas que têm aderência real (Analisar com IA e Resumo de CV ajudam)" }
+          - { key: m3, label: "Mover no kanban as candidaturas que andaram (aplicada, entrevista, recusa…)" }
+          - { key: m4, label: "Cadastrar seu perfil em uma plataforma da lista do Radar", url: "/radar#cadastros" }
+      - title: "Depois do almoço"
+        time: "~20 min"
+        period: daily
+        items:
+          - { key: a1, label: "LinkedIn Publicações no Radar: contratando, hiring e looking for (24 h)" }
+          - { key: a2, label: "Mandar mensagem direta para quem postou (modelos em Mensagens)" }
+          - { key: a3, label: "X: 2 ou 3 buscas em “Mais recentes”" }
+      - title: "Fim do dia"
+        time: "~10 min"
+        period: daily
+        items:
+          - { key: e1, label: "Grupos do Telegram: buscar {{termos}} em cada um" }
+          - { key: e2, label: "Revisar posts recentes sobre a stack e comentar em 1 ou 2" }
+          - { key: e3, label: "Cobrar os follow-ups do Painel (o app marca quem está há mais de 5 dias sem resposta)" }
+      - title: "Uma vez por semana"
+        time: "segunda"
+        period: weekly
+        items:
+          - { key: w1, label: "Google nos ATS (filtro Semana) e cadastrar as empresas boas em Empresas-alvo" }
+          - { key: w2, label: "Radar → Sites sem API (o resto já é automático)" }
+          - { key: w3, label: "Conectar com 5 recrutadores da sua área (Radar → Recrutadores no LinkedIn)" }
+          - { key: w4, label: "Radar → Automático: conferir se alguma fonte falhou e se os alertas do LinkedIn estão chegando" }
 
 rules:
   - { title: "Aderência antes de volume.", text: "Aplique onde a stack bate de verdade e invista energia nessas." }

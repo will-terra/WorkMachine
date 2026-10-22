@@ -25,7 +25,7 @@ RSpec.describe "Dashboard" do
 
     get root_path
 
-    expect(response.body).to include("1/#{Routine.items.size} feitos", "busca 12:30 → 15:30", "Gmail 12:40")
+    expect(response.body).to include("1/#{Routine.find_by!(name: "Rotina de busca").items.size} feitos", "busca 12:30 → 15:30", "Gmail 12:40")
   end
 
   it "shows empty states" do

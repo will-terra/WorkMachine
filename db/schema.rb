@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_22_125315) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_22_180000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -225,6 +225,37 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_125315) do
     t.index ["date", "item_key"], name: "index_routine_checks_on_date_and_item_key", unique: true
   end
 
+  create_table "routine_items", force: :cascade do |t|
+    t.integer "routine_slot_id", null: false
+    t.string "key", null: false
+    t.text "label", null: false
+    t.string "url"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_routine_items_on_key", unique: true
+    t.index ["routine_slot_id"], name: "index_routine_items_on_routine_slot_id"
+  end
+
+  create_table "routine_slots", force: :cascade do |t|
+    t.integer "routine_id", null: false
+    t.string "title", null: false
+    t.string "time"
+    t.string "period", default: "daily", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["routine_id"], name: "index_routine_slots_on_routine_id"
+  end
+
+  create_table "routines", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"
@@ -257,6 +288,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_125315) do
     t.text "api_token"
     t.datetime "onboarded_at"
     t.string "ai_plan", default: "free", null: false
+    t.datetime "routines_seeded_at"
   end
 
   create_table "source_runs", force: :cascade do |t|
@@ -299,6 +331,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_125315) do
   add_foreign_key "ai_artifacts", "job_postings", on_delete: :cascade
   add_foreign_key "application_emails", "job_applications", on_delete: :cascade
   add_foreign_key "job_applications", "job_postings", on_delete: :nullify
+  add_foreign_key "routine_items", "routine_slots"
+  add_foreign_key "routine_slots", "routines"
   add_foreign_key "sessions", "users"
   add_foreign_key "target_companies", "job_postings", column: "discovered_from_id", on_delete: :nullify
 end

@@ -2,6 +2,7 @@ class DashboardController < ApplicationController
   GMAIL_SOURCES = %w[linkedin_alert application_replies].freeze
 
   def show
+    @setup_routines, @routines = Routine.current.partition(&:once?)
     @checked = Routine.checked_keys
     @pipeline = JobApplication.group(:status).count
     @new_postings = JobPosting.triage_new.ranked.limit(6)

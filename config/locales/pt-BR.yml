@@ -8,7 +8,20 @@ pt-BR:
       target_company: Empresa-alvo
       consultancy: Consultoria
       message_template: Modelo de mensagem
+      routine: Rotina
+      routine_slot: Bloco
+      routine_item: Tarefa
     attributes:
+      routine:
+        name: Nome
+        slots: Blocos
+      routine_slot:
+        title: Bloco
+        period: Período
+        items: Tarefas
+      routine_item:
+        label: Tarefa
+        url: Link
       user:
         email_address: E-mail
         password: Senha
@@ -91,6 +104,11 @@ pt-BR:
         max_chars: Limite de caracteres
 
   enums:
+    routine_slot:
+      period:
+        daily: Todo dia
+        weekly: Toda semana
+        once: Uma vez
     job_posting:
       source:
         remotive: Remotive

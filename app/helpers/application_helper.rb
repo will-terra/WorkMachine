@@ -14,6 +14,11 @@ module ApplicationHelper
     ]
   end
 
+  # A routine item with the profile's words ({{termos}}, {{area}}…).
+  def routine_label(item)
+    (@routine_terms ||= SearchTerms.new(Profile.current)).render_text(item.label)
+  end
+
   def nav_link(label, path, count: nil, **options)
     active = path == root_path ? current_page?(root_path) : request.path.start_with?(path)
     link_to path, class: [ "nav-link", ("nav-link-active" if active), options[:class] ], aria: { current: (active ? "page" : nil) } do

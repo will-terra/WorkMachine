@@ -28,6 +28,11 @@ Rails.application.routes.draw do
     end
   end
   resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
+  namespace :settings, path: "ajustes" do
+    resources :routines, path: "rotinas", except: :show do
+      post :restore, on: :collection, path: "restaurar"
+    end
+  end
   resource :settings, path: "ajustes", only: %i[ show update ] do
     post :backup
     patch :keys, path: "chaves"

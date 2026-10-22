@@ -1,8 +1,8 @@
-<%# Locals: checked, track (size of the bar). The toggle answer updates the bar and the count by id. %>
-<% done, total = Routine.progress(checked) %>
+<%# Locals: routine, checked, track (size of the bar). The toggle answer updates the bar and the count by id. %>
+<% done, total = routine.progress(checked) %>
 <span class="flex items-center gap-2.5 font-mono text-xs text-muted">
   <span class="block overflow-hidden rounded-sm bg-field <%= track %>" aria-hidden="true">
-    <%= render "routines/progress_bar", done:, total: %>
+    <%= render "routines/progress_bar", routine:, done:, total: %>
   </span>
-  <span id="routine_progress_text"><%= done %>/<%= total %> feitos</span>
+  <span id="routine_progress_text_<%= routine.id %>"><%= done %>/<%= total %> feitos</span>
 </span>
