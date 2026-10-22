@@ -49,7 +49,7 @@ RSpec.describe "Target companies" do
 
     get target_companies_path
 
-    expect(response.body).to include("greenhouse/gitlab", %(<td class="text-right font-mono text-[12.5px]">3</td>))
+    expect(response.body).to include("greenhouse/gitlab", %(<td data-label="Vagas" class="text-right font-mono text-[12.5px]">3</td>))
     expect(TargetCompany.posting_stats[%w[greenhouse gitlab]]).to eq(total: 3, saved: 1, auto_dismissed: 1)
   end
 

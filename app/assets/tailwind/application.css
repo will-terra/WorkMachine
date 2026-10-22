@@ -119,6 +119,7 @@
   body { @apply bg-bg text-ink antialiased; font-size: 15px; line-height: 1.55; text-wrap: pretty; }
   h1, h2, h3, h4 { @apply font-display; font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; }
   h1 { font-size: 44px; letter-spacing: -0.03em; }
+  @media (width < 40rem) { h1 { font-size: 34px; } }
   h2 { font-size: 20px; }
   h3 { font-size: 15px; }
   a { @apply text-accent underline underline-offset-3 hover:text-accent-hover; }
@@ -141,7 +142,7 @@
 @layer components {
   .card { @apply flex flex-col gap-2.5 rounded-lg bg-surface p-[15px]; }
   /* Page header and filter bar: a block with the surface ground; the fields inside go a step darker. */
-  .panel { @apply rounded-xl border border-line bg-surface px-[clamp(18px,3vw,32px)] py-6; }
+  .panel { @apply rounded-xl border border-line bg-surface px-[clamp(18px,3vw,32px)] py-6 max-sm:py-5; }
   .panel .input { @apply bg-bg; }
   .muted { @apply text-muted; }
   /* Page kicker and small status lines: mono, lowercase, discreet. */
@@ -161,7 +162,7 @@
   .btn-ghost.btn-sm { @apply px-2 py-1; }
 
   .input {
-    @apply block min-h-9 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink caret-accent
+    @apply block min-h-9 w-full rounded-md border border-line bg-surface px-2.5 py-1.5 text-sm text-ink caret-accent max-sm:min-h-10 max-sm:text-base
            placeholder:text-ink/65 hover:border-ink/45 focus-visible:border-accent focus-visible:outline-offset-0
            disabled:cursor-not-allowed disabled:opacity-45;
   }
@@ -177,7 +178,7 @@
   .seg { @apply inline-flex max-w-full flex-wrap overflow-hidden rounded-md border border-line; }
   .seg-opt {
     @apply relative inline-flex cursor-pointer items-center gap-1.5 px-3 py-[7px] text-[13px] whitespace-nowrap text-ink no-underline
-           hover:bg-ink/7 hover:text-ink;
+           hover:bg-ink/7 hover:text-ink max-sm:py-2.5;
   }
   .seg-opt + .seg-opt { @apply border-l border-line; }
   .seg-opt:has(input:checked), .seg-opt[aria-current="true"], .seg-opt[aria-current="page"] {
@@ -199,10 +200,41 @@
   .table td { @apply border-b border-ink/8 p-2.5 align-middle; }
   .table tbody tr:hover { @apply bg-ink/4; }
 
+  /* A wide table scrolls inside its own box (bleeding to the screen edges on phones), never the page. */
+  .table-scroll { @apply relative -mx-[clamp(20px,4vw,56px)] overflow-x-auto px-[clamp(20px,4vw,56px)] sm:mx-0 sm:px-0; }
+
+  /* On phones a .table-stack turns each row into a block: the first cell on its own line, the others
+     flowing after it with their data-label, the actions on the last line. */
+  @media (width < 40rem) {
+    .table-stack, .table-stack tbody { display: block; }
+    .table-stack thead { @apply sr-only; }
+    .table-stack tbody tr { @apply flex flex-wrap items-center gap-x-4 gap-y-1.5 border-b border-ink/8 py-3.5; }
+    .table-stack td { @apply block border-0 p-0; }
+    .table-stack td:first-child, .table-stack td:last-child { @apply basis-full; }
+    .table-stack td:last-child { @apply -ml-2 text-left; }
+    .table-stack td[data-label]::before { content: attr(data-label) " "; @apply text-xs font-normal text-muted; }
+  }
+
+  /* Header actions: on phones they fill the width, two or three to a line. */
+  @media (width < 40rem) {
+    .page-actions { @apply w-full; }
+    .page-actions > * { @apply flex-auto; }
+    .page-actions > .button_to > .btn { @apply w-full; }
+    .page-actions .seg { @apply flex; }
+    .page-actions .seg-opt { @apply flex-auto justify-center; }
+  }
+
   /* Navigation: plain text; the current tab in red and bold, without a background. */
   .nav-link { @apply flex items-baseline gap-1.5 text-[14.5px] whitespace-nowrap text-ink no-underline hover:text-accent-hover; }
   .nav-link-active { @apply font-semibold text-accent; }
+  /* Perfil and Ajustes: words on wide screens, 40px icon buttons on phones. */
+  .account-link { @apply text-sm max-sm:size-10 max-sm:items-center max-sm:justify-center; }
   .nav-count { @apply font-mono text-[11.5px] font-semibold text-accent; }
+  /* On phones the sections are one line that scrolls sideways, fading at the right edge. */
+  @media (width < 40rem) {
+    .nav-scroll { scrollbar-width: none; mask-image: linear-gradient(to right, #000 calc(100% - 20px), transparent); }
+    .nav-scroll::-webkit-scrollbar { display: none; }
+  }
 
   /* Switch and checkbox: native inputs, so they work inside any form. */
   .switch {

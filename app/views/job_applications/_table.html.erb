@@ -1,11 +1,11 @@
 <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-4 pb-5">
-  <%= form_with url: job_applications_path, method: :get, class: "flex flex-wrap items-end gap-x-4 gap-y-3", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+  <%= form_with url: job_applications_path, method: :get, class: "flex flex-wrap items-end gap-x-4 gap-y-3 max-sm:grid max-sm:w-full max-sm:grid-cols-2 max-sm:gap-x-3", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
     <%= form.hidden_field :view, value: "table" %>
-    <div class="w-64">
+    <div class="w-64 max-sm:col-span-2 max-sm:w-auto">
       <%= form.label :q, t(".search"), class: "label" %>
       <%= form.search_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "input" %>
     </div>
-    <div class="w-52">
+    <div class="w-52 max-sm:col-span-2 max-sm:w-auto">
       <%= form.label :status, t(".status"), class: "label" %>
       <%= form.select :status, JobApplication.enum_options(:status), { include_blank: t(".all"), selected: params[:status] }, class: "input", data: { action: "auto-submit#submit" } %>
     </div>
@@ -24,8 +24,8 @@
   </div>
 </div>
 
-<div class="overflow-x-auto">
-  <table class="table min-w-[760px]">
+<div class="table-scroll">
+  <table class="table table-stack min-w-[760px] max-sm:min-w-0">
     <thead>
       <tr><th><%= t(".company") %></th><th><%= t(".role") %></th><th><%= t(".status") %></th><th><%= t(".origin") %></th><th><%= t(".applied_on") %></th><th><%= t(".next_follow_up") %></th><th><span class="sr-only"><%= t(".actions") %></span></th></tr>
     </thead>
@@ -33,19 +33,19 @@
       <% @job_applications.in_order_of(:status, JobApplication::STATUSES).latest_first.each do |application| %>
         <tr id="<%= dom_id(application, :row) %>">
           <td class="font-semibold"><%= application.company %></td>
-          <td><%= external_link application.role, application.url, class: "text-ink no-underline hover:underline" %></td>
+          <td class="max-sm:basis-full"><%= external_link application.role, application.url, class: "text-ink no-underline hover:underline" %></td>
           <td>
             <%= form_with model: application, data: { controller: "auto-submit" } do |form| %>
               <%= hidden_field_tag :return_to, request.fullpath, id: nil %>
-              <%= form.select :status, JobApplication.enum_options(:status), {}, class: "input min-h-[30px] w-auto px-2 py-[3px] text-[13px]",
+              <%= form.select :status, JobApplication.enum_options(:status), {}, class: "input min-h-[30px] w-auto px-2 py-[3px] text-[13px] max-sm:min-h-9 max-sm:text-base",
                               id: dom_id(application, :status), aria: { label: t(".status") }, data: { action: "auto-submit#submit" } %>
               <noscript><%= form.submit t(".change"), class: "btn btn-sm mt-1" %></noscript>
             <% end %>
           </td>
           <td><%= application.origin %></td>
-          <td class="whitespace-nowrap tabular-nums"><%= short_date(application.applied_on) %></td>
-          <td class="whitespace-nowrap tabular-nums <%= "text-warn-strong" if application.next_follow_up_on&.<=(Date.current) %>"><%= short_date(application.next_follow_up_on) %></td>
-          <td class="text-right whitespace-nowrap"><%= link_to t(".edit"), edit_job_application_path(application, return_view: "table"), class: "btn btn-ghost btn-sm" %></td>
+          <td data-label="<%= t(".applied_on") %>" class="whitespace-nowrap tabular-nums"><%= short_date(application.applied_on) %></td>
+          <td data-label="<%= t(".next_follow_up") %>" class="whitespace-nowrap tabular-nums <%= "text-warn-strong" if application.next_follow_up_on&.<=(Date.current) %>"><%= short_date(application.next_follow_up_on) %></td>
+          <td class="text-right whitespace-nowrap max-sm:text-left"><%= link_to t(".edit"), edit_job_application_path(application, return_view: "table"), class: "btn btn-ghost btn-sm" %></td>
         </tr>
       <% end %>
     </tbody>

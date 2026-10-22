@@ -8,11 +8,11 @@
   <ol class="mt-8 flex flex-col gap-[22px]">
     <% stages.each_with_index do |stage, index| %>
       <% previous = index.zero? ? nil : stages[index - 1] %>
-      <li class="grid grid-cols-[minmax(0,10rem)_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5" aria-label="<%= stage.label %>: <%= stage.count %> (<%= stage.rate %>%)">
+      <li class="grid grid-cols-[minmax(0,10rem)_minmax(0,1fr)] items-center gap-x-4 gap-y-1.5 max-sm:grid-cols-[minmax(0,7rem)_minmax(0,1fr)] max-sm:gap-x-3" aria-label="<%= stage.label %>: <%= stage.count %> (<%= stage.rate %>%)">
         <span class="text-[15px] leading-[1.3]"><%= stage.label %></span>
         <span class="flex min-w-0 items-center gap-2.5">
           <% if stage.count.positive? %>
-            <span class="h-5 flex-none rounded-r-[2px] <%= ramp[index] %>" style="width: max(4px, <%= stage.rate * 0.82 %>%)"></span>
+            <span class="h-5 flex-none rounded-r-[2px] <%= ramp[index] %>" style="width: max(4px, calc((100% - 5.5rem) * <%= stage.rate / 100.0 %>))"></span>
           <% end %>
           <span class="text-sm whitespace-nowrap tabular-nums"><strong class="font-semibold"><%= stage.count %></strong> <span class="text-ink/70">· <%= stage.rate %>%</span></span>
         </span>

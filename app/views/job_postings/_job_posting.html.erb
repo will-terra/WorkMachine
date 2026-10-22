@@ -7,7 +7,7 @@
    ].compact %>
 <%= link_to job_posting_path(job_posting), id: dom_id(job_posting), role: "option",
       aria: { selected: local_assigns[:selected] == job_posting },
-      class: "-mx-3.5 grid grid-cols-[48px_minmax(0,1fr)] items-baseline gap-3.5 rounded-md px-3.5 pt-3.5 pb-[15px] text-ink no-underline hover:bg-ink/4 hover:text-ink aria-selected:bg-surface",
+      class: "-mx-3.5 grid grid-cols-[48px_minmax(0,1fr)] items-baseline gap-3.5 rounded-md px-3.5 pt-3.5 pb-[15px] text-ink no-underline hover:bg-ink/4 hover:text-ink lg:aria-selected:bg-surface",
       data: { triage_target: "item", action: "triage#pick", id: job_posting.id, triage: job_posting.triage, auto: job_posting.auto_dismissed_reason.present?, turbo_frame: "_top" } do %>
   <span class="font-display text-[26px] leading-none font-semibold tabular-nums <%= score_class(job_posting.score) %>" title="<%= t("job_postings.posting.score_title") %>"><%= job_posting.score %></span>
   <span class="block min-w-0">

@@ -63,8 +63,8 @@
     </div>
 
     <% if (lead = @new_postings.first) %>
-      <article class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-[22px] gap-y-1.5 pt-[18px] pb-3.5">
-        <span class="font-display text-6xl leading-[0.9] font-bold tracking-[-0.04em] text-accent" title="<%= t(".score_title") %>"><%= lead.score %></span>
+      <article class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-[22px] gap-y-1.5 pt-[18px] pb-3.5 max-sm:gap-x-3.5">
+        <span class="font-display text-6xl leading-[0.9] max-sm:text-[44px] font-bold tracking-[-0.04em] text-accent" title="<%= t(".score_title") %>"><%= lead.score %></span>
         <div class="min-w-0">
           <p class="font-mono text-[11.5px] text-muted"><%= t(".best_score", source: lead.human_enum(:source), ago: posted_ago(lead.posted_or_found_at)) %></p>
           <h3 class="mt-1.5 text-[21px] leading-tight"><%= link_to lead.title, job_postings_path(selected: lead.id), class: "text-ink no-underline hover:underline" %></h3>

@@ -1,8 +1,9 @@
-<div class="-mx-[clamp(20px,4vw,56px)] flex items-start gap-4 overflow-x-auto px-[clamp(20px,4vw,56px)] pb-6" data-controller="kanban">
+<%# On phones a column is almost as wide as the screen and the board snaps to it (not while dragging). %>
+<div class="-mx-[clamp(20px,4vw,56px)] flex items-start gap-4 overflow-x-auto px-[clamp(20px,4vw,56px)] pb-6 max-sm:snap-x max-sm:snap-mandatory max-sm:scroll-px-[clamp(20px,4vw,56px)] data-dragging:snap-none" data-controller="kanban">
   <% JobApplication::STATUSES.each do |status| %>
     <% cards = @columns.fetch(status, []) %>
     <% closed = JobApplication::CLOSED_STATUSES.include?(status) %>
-    <section class="flex max-h-[calc(100dvh-24rem)] min-h-48 w-[236px] flex-none flex-col gap-2.5 rounded-lg p-2.5 transition-colors has-[.kanban-ghost]:bg-accent-soft" aria-labelledby="column_title_<%= status %>">
+    <section class="flex max-h-[calc(100dvh-24rem)] min-h-48 w-[236px] flex-none snap-start flex-col max-sm:w-[calc(100vw-80px)] gap-2.5 rounded-lg p-2.5 transition-colors has-[.kanban-ghost]:bg-accent-soft" aria-labelledby="column_title_<%= status %>">
       <header class="flex items-baseline justify-between gap-2 px-0.5 pb-1.5 <%= closed ? "text-muted" : "text-ink" %>">
         <h2 id="column_title_<%= status %>" class="text-[17px]"><%= JobApplication.human_enum(:status, status) %></h2>
         <span id="column_count_<%= status %>" class="font-display text-[17px] font-semibold tabular-nums"><%= cards.size %></span>

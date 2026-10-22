@@ -23,29 +23,37 @@
   </head>
 
   <body class="min-h-screen">
-    <header class="mx-auto max-w-[1280px] px-[clamp(20px,4vw,56px)] pt-5">
+    <header class="mx-auto max-w-[1280px] px-[clamp(20px,4vw,56px)] pt-5 max-sm:pt-3">
       <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         <%= link_to root_path, class: "flex items-center gap-2.5 text-ink no-underline hover:text-ink" do %>
           <%= image_tag "ruby.png", alt: "", width: 26, height: 26, class: "block" %>
           <span class="font-display text-2xl leading-none font-bold tracking-[-0.03em]">WorkMachine</span>
-          <span class="rounded-md bg-accent-soft px-[7px] py-[3px] font-mono text-[11px] tracking-[0.02em] text-accent-text">on Rails</span>
+          <span class="rounded-md bg-accent-soft px-[7px] py-[3px] font-mono text-[11px] tracking-[0.02em] text-accent-text max-sm:hidden">on Rails</span>
         <% end %>
         <% if authenticated? %>
-          <div class="flex items-center gap-5 text-sm">
-            <%= nav_link t("layouts.nav.profile"), profile_path, class: "text-sm" %>
-            <%= nav_link t("layouts.nav.settings"), settings_path, class: "text-sm" %>
-            <%= button_to t("layouts.sign_out"), session_path, method: :delete, class: "btn btn-ghost px-1.5 py-1 text-sm", form: { data: { turbo_confirm: t("layouts.sign_out_confirm") } } %>
+          <%# On phones Perfil, Ajustes and Sair are icons, so they fit beside the logo. %>
+          <div class="flex items-center gap-5 text-sm max-sm:-mr-2 max-sm:gap-0">
+            <%= nav_link safe_join([ icon(:user, class: "sm:hidden"), tag.span(t("layouts.nav.profile"), class: "max-sm:sr-only") ]), profile_path, class: "account-link" %>
+            <%= nav_link safe_join([ icon(:sliders, class: "sm:hidden"), tag.span(t("layouts.nav.settings"), class: "max-sm:sr-only") ]), settings_path, class: "account-link" %>
+            <%= button_to session_path, method: :delete, class: "btn btn-ghost px-1.5 py-1 text-sm max-sm:size-10 max-sm:p-0", form: { data: { turbo_confirm: t("layouts.sign_out_confirm") } } do %>
+              <%= icon(:sign_out, class: "sm:hidden") %><span class="max-sm:sr-only"><%= t("layouts.sign_out") %></span>
+            <% end %>
           </div>
         <% end %>
       </div>
-      <% if authenticated? %>
-        <nav class="mt-4 flex flex-wrap gap-x-[22px] gap-y-1.5 rounded-xl border border-line bg-surface px-[18px] py-2.5" aria-label="<%= t("layouts.sections") %>">
+    </header>
+    <% if authenticated? %>
+      <%# Stuck to the top on phones, as one line that scrolls sideways (nav_controller centers the current section). %>
+      <div class="mx-auto max-w-[1280px] px-[clamp(20px,4vw,56px)] pt-4 max-sm:sticky max-sm:top-0 max-sm:z-40 max-sm:mt-2.5 max-sm:px-0 max-sm:pt-0">
+        <nav class="nav-scroll relative flex flex-wrap gap-x-[22px] gap-y-1.5 rounded-xl border border-line bg-surface px-[18px] py-2.5
+                    max-sm:flex-nowrap max-sm:gap-x-5 max-sm:overflow-x-auto max-sm:rounded-none max-sm:border-x-0 max-sm:px-5 max-sm:py-3
+                    max-sm:shadow-[0_10px_18px_-14px_#000]" aria-label="<%= t("layouts.sections") %>" data-controller="nav">
           <% nav_items.each do |label, path, count| %>
             <%= nav_link label, path, count: %>
           <% end %>
         </nav>
-      <% end %>
-    </header>
+      </div>
+    <% end %>
 
     <main class="mx-auto max-w-[1280px] px-[clamp(20px,4vw,56px)] pb-24">
       <%= yield %>

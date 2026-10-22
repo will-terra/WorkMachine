@@ -1,6 +1,6 @@
 <%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
   <%= form_with url: find_target_companies_path, class: "flex flex-wrap items-end gap-2.5" do |form| %>
-    <div class="w-[240px]">
+    <div class="w-[240px] max-sm:w-auto max-sm:min-w-0 max-sm:flex-1">
       <%= form.label :name, t(".find_label"), class: "label" %>
       <%= form.text_field :name, placeholder: t(".find_placeholder"), class: "input", title: t(".find_title") %>
     </div>
@@ -39,8 +39,8 @@
   <h2><%= t(".boards") %></h2>
   <span class="font-mono text-xs text-muted"><%= t(".boards_count", active: @target_companies.count(&:active?), paused: @target_companies.count { !it.active? }) %></span>
 </div>
-<div class="overflow-x-auto">
-  <table class="table min-w-[780px]">
+<div class="table-scroll">
+  <table class="table table-stack min-w-[780px] max-sm:min-w-0">
     <thead>
       <tr>
         <th><%= t(".company") %></th><th><%= t(".board") %></th><th class="text-right"><%= t(".postings") %></th><th class="text-right"><%= t(".saved") %></th>
@@ -58,17 +58,17 @@
             </span>
           </td>
           <td><%= external_link "#{company.ats}/#{company.board_slug}", company.board_url, class: "font-mono text-[12.5px]" %></td>
-          <td class="text-right font-mono text-[12.5px]"><%= stats[:total] %></td>
-          <td class="text-right font-mono text-[12.5px]"><%= stats[:saved] %></td>
-          <td class="text-right font-mono text-[12.5px]"><%= stats[:auto_dismissed] %></td>
-          <td class="font-mono text-[12.5px] whitespace-nowrap"><%= short_time(company.last_fetched_at) %></td>
-          <td>
+          <td data-label="<%= t(".postings") %>" class="text-right font-mono text-[12.5px]"><%= stats[:total] %></td>
+          <td data-label="<%= t(".saved") %>" class="text-right font-mono text-[12.5px]"><%= stats[:saved] %></td>
+          <td data-label="<%= t(".auto_dismissed") %>" class="text-right font-mono text-[12.5px]"><%= stats[:auto_dismissed] %></td>
+          <td data-label="<%= t(".last_read") %>" class="font-mono text-[12.5px] whitespace-nowrap"><%= short_time(company.last_fetched_at) %></td>
+          <td data-label="<%= t(".active") %>" class="max-sm:flex max-sm:items-center max-sm:gap-2">
             <%= form_with model: company, class: "flex", data: { controller: "auto-submit" } do |form| %>
               <%= form.check_box :active, class: "switch", role: "switch", aria: { label: t(".active_label", name: company.name) }, data: { action: "auto-submit#submit" } %>
               <noscript><%= form.submit t(".save"), class: "btn btn-sm ml-2" %></noscript>
             <% end %>
           </td>
-          <td class="text-right"><%= link_to t(".edit"), edit_target_company_path(company), class: "btn btn-ghost btn-sm" %></td>
+          <td class="text-right max-sm:text-left"><%= link_to t(".edit"), edit_target_company_path(company), class: "btn btn-ghost btn-sm" %></td>
         </tr>
       <% end %>
     </tbody>

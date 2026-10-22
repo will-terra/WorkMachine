@@ -4,13 +4,18 @@ import { Controller } from "@hotwired/stimulus"
 // a posting and loads its detail in the frame; S, A and D press Salvar, Salvar em aplicadas and
 // Descartar of the detail. A posting that no longer belongs to the list (saved from "Novas", say)
 // leaves it, and the next one is picked. Shortcuts stay off while typing in a field.
-// On small screens the detail is hidden and a click opens the posting's page instead.
+// On small screens the detail is hidden and a click opens the posting's page instead; a link to one
+// posting of the list (?selected=, from the Painel) opens its page too.
 export default class extends Controller {
   static targets = ["item", "frame"]
   static values = { tab: String }
 
   connect() {
     this.selectedId = this.itemTargets.find((item) => item.getAttribute("aria-selected") === "true")?.dataset.id
+
+    const wanted = new URL(window.location.href).searchParams.get("selected")
+    const item = wanted && this.itemTargets.find((other) => other.dataset.id === wanted)
+    if (item && !this.detailVisible) Turbo.visit(item.href, { action: "replace" })
   }
 
   pick(event) {

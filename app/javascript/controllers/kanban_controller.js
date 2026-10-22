@@ -11,6 +11,9 @@ export default class extends Controller {
       Sortable.create(column, {
         group: "kanban",
         animation: 150,
+        // On touch screens a swipe scrolls the board; a long press picks the card up.
+        delay: 180,
+        delayOnTouchOnly: true,
         ghostClass: "kanban-ghost",
         filter: "a, button, [popover]",
         preventOnFilter: false,

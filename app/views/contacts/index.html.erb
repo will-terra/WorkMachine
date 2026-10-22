@@ -3,23 +3,23 @@
 <% end %>
 
 <%= form_with url: contacts_path, method: :get, class: "flex flex-wrap items-end gap-x-5 gap-y-4 pb-5", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
-  <fieldset>
+  <fieldset class="max-sm:w-full">
     <legend class="label"><%= t(".kind") %></legend>
-    <div class="seg">
+    <div class="seg max-sm:flex max-sm:w-full">
       <% { "" => "all", "recruiter" => "recruiters", "manager" => "managers" }.each do |value, key| %>
-        <label class="seg-opt"><%= form.radio_button :kind, value, checked: @kind.to_s == value, data: { action: "auto-submit#submit" } %><%= t(".kinds.#{key}") %></label>
+        <label class="seg-opt max-sm:flex-auto max-sm:justify-center"><%= form.radio_button :kind, value, checked: @kind.to_s == value, data: { action: "auto-submit#submit" } %><%= t(".kinds.#{key}") %></label>
       <% end %>
     </div>
   </fieldset>
-  <div class="max-w-[320px] flex-[1_1_220px]">
+  <div class="max-w-[320px] flex-[1_1_220px] max-sm:max-w-none">
     <%= form.label :q, t(".search"), class: "label" %>
     <%= form.search_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "input" %>
   </div>
 <% end %>
 
 <% if @contacts.any? %>
-  <div class="overflow-x-auto">
-    <table class="table min-w-[760px]">
+  <div class="table-scroll">
+    <table class="table table-stack min-w-[760px] max-sm:min-w-0">
       <thead>
         <tr><th><%= t(".name") %></th><th><%= t(".company") %></th><th><%= t(".kind") %></th><th><%= t(".last_contact") %></th><th><span class="sr-only"><%= t(".actions") %></span></th></tr>
       </thead>
@@ -32,10 +32,10 @@
             </td>
             <td><%= contact.company %></td>
             <td><span class="chip <%= "chip-hot" if contact.manager? %>"><%= contact.human_enum(:kind) %></span></td>
-            <td class="font-mono text-[12.5px] whitespace-nowrap <%= "text-muted" if contact.last_contacted_on.nil? || contact.last_contacted_on < 30.days.ago.to_date %>" title="<%= short_date(contact.last_contacted_on) %>">
+            <td data-label="<%= t(".last_contact") %>" class="font-mono text-[12.5px] whitespace-nowrap <%= "text-muted" if contact.last_contacted_on.nil? || contact.last_contacted_on < 30.days.ago.to_date %>" title="<%= short_date(contact.last_contacted_on) %>">
               <%= days_ago(contact.last_contacted_on) %>
             </td>
-            <td class="text-right whitespace-nowrap">
+            <td class="text-right whitespace-nowrap max-sm:text-left">
               <%= external_link "LinkedIn ↗", contact.linkedin_url, class: "btn btn-ghost btn-sm" if contact.linkedin_url.present? %>
               <%= link_to t(".message"), message_templates_path(contact_id: contact.id), class: "btn btn-ghost btn-sm" %>
               <%= link_to t(".edit"), edit_contact_path(contact), class: "btn btn-ghost btn-sm" %>
