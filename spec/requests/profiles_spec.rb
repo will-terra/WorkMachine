@@ -8,7 +8,7 @@ RSpec.describe "Profile" do
   it "shows the form with the area suggestions and the Radar searches" do
     get profile_path
 
-    expect(response.body).to include("Área e objetivo", "Skills", "Buscas do Radar", "Texto para a IA", 'value="Rails"', "profile-form-areas-value")
+    expect(response.body).to include("O que procura", "Skills", "Evitar", "Prévia das notas", "Buscas do Radar", "Texto para a IA", 'value="Rails"', "profile-form-areas-value")
     expect(response.body).to include("search_override_feed_contratando")
   end
 
@@ -19,7 +19,7 @@ RSpec.describe "Profile" do
         target_titles: "Engenheira de Dados\nAnalista de Dados", regions: [ "", "brazil", "us" ], work_modes: [ "" ],
         skills: { "0" => { name: "Python", level: "essential", synonyms: "py" }, "1" => { name: "Rails", level: "extra", _destroy: "1" },
                   "1761091234567890" => { name: "" } },
-        search_terms: "python, sql", avoid_terms: "", search_overrides: { feed_contratando: "  Python AND vaga ", feed_hiring: "" }
+        search_terms: "python, sql", avoid_terms: [ "", "PHP", "presencial" ], search_overrides: { feed_contratando: "  Python AND vaga ", feed_hiring: "" }
       } }
     }.to have_enqueued_job(RescorePostingsJob)
 
@@ -27,8 +27,16 @@ RSpec.describe "Profile" do
     expect(flash[:notice]).to include("recalculadas")
     expect(profile.reload).to have_attributes(name: "Bia", primary_area: "data", seniority: "senior", years_experience: 6,
                                               target_titles: [ "Engenheira de Dados", "Analista de Dados" ], regions: %w[brazil us],
-                                              work_modes: [], search_terms: %w[python sql], search_overrides: { "feed_contratando" => "Python AND vaga" })
+                                              work_modes: [], search_terms: %w[python sql], avoid_terms: %w[PHP presencial], search_overrides: { "feed_contratando" => "Python AND vaga" })
     expect(profile.skills).to eq([ { "name" => "Python", "level" => "essential", "synonyms" => [ "py" ] } ])
+  end
+
+  it "clears the skills and the terms to avoid when every chip is removed" do
+    profile.update!(avoid_terms: [ "PHP" ])
+
+    patch profile_path, params: { profile: { skills: { "-1" => { name: "" } }, avoid_terms: [ "" ] } }
+
+    expect(profile.reload).to have_attributes(skills: [], avoid_terms: [])
   end
 
   it "does not keep a search equal to the suggestion" do
@@ -50,7 +58,7 @@ RSpec.describe "Profile" do
 
     patch preview_profile_path, params: { profile: { skills: { "0" => { name: "Python", level: "essential" } }, search_terms: "python" } }
 
-    expect(response.body).to include("Prévia: nada foi salvo ainda", "Python Engineer", "(+20)", "Buscas do Radar que mudam", "python")
+    expect(response.body).to include("1 das últimas vagas muda de nota", "Python Engineer", "+20", "buscas do Radar mudam", "python")
     expect(profile.reload.skill_names).to include("Rails")
   end
 
@@ -74,7 +82,7 @@ RSpec.describe "Profile" do
       expect(profile.cv_text).to start_with("Ana Souza")
 
       get profile_path
-      expect(response.body).to include("cv.pdf", "Montar perfil a partir do CV", "Grátis com o modelo gratuito")
+      expect(response.body).to include("cv.pdf", "Montar perfil a partir do CV", "grátis com o modelo gratuito")
 
       expect { post draft_profile_path }.to have_enqueued_job(ProfileDraftJob)
       get cv_profile_path

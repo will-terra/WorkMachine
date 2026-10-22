@@ -222,6 +222,21 @@
   }
   .toast:not(:has(button)) { @apply pr-[18px]; }
 
+  /* On/off option shown as a button (Perfil: modo de trabalho, regiões): a label with a hidden checkbox. */
+  .toggle-chip {
+    @apply relative inline-flex cursor-pointer items-center rounded-md border border-line bg-transparent px-[11px] py-[5px]
+           font-display text-[13px] leading-[1.2] font-semibold whitespace-nowrap text-muted hover:bg-ink/7;
+  }
+  .toggle-chip:has(input:checked) { @apply border-accent-line bg-accent-soft text-accent-text; }
+  .toggle-chip:has(input:focus-visible) { @apply outline-2 outline-offset-2 outline-accent; }
+  .toggle-chip input { @apply pointer-events-none absolute size-0 opacity-0; }
+
+  /* Skill chips of the profile, by level, with a × to remove. */
+  .skill-chip { @apply inline-flex items-center gap-0.5 rounded-md bg-code py-0.5 pr-0.5 pl-[9px] text-[13.5px] text-ink; }
+  .skill-chip-essential { @apply bg-accent-soft-2 text-accent-strong; }
+  .skill-chip-avoid { @apply bg-warn-soft text-warn-text; }
+  .skill-chip-remove { @apply grid size-5 cursor-pointer place-items-center border-0 bg-transparent text-inherit opacity-70 hover:opacity-100; }
+
   /* A closed popover stays hidden even when a component class (.card) sets display. */
   [popover]:not(:popover-open) { display: none; }
 
