@@ -1,8 +1,17 @@
-<div id="flash">
-  <% if notice.present? %>
-    <p class="mb-6 rounded-lg bg-ok-soft px-3 py-2 text-sm font-semibold text-ok" role="status"><%= notice %></p>
-  <% end %>
+<%# Toasts at the bottom left. A notice goes away after 6 seconds (with "Desfazer" when the action set flash[:undo]); an alert stays until closed. %>
+<div id="flash" class="fixed bottom-6 left-[clamp(16px,4vw,56px)] z-20 flex flex-col items-start gap-2">
   <% if alert.present? %>
-    <p class="mb-6 rounded-lg bg-accent-soft px-3 py-2 text-sm font-semibold text-accent" role="alert"><%= alert %></p>
+    <div class="toast" role="alert" data-controller="toast" data-turbo-temporary>
+      <span class="text-warn-text"><%= alert %></span>
+      <button type="button" class="btn btn-ghost flex-none" data-action="toast#close">Fechar</button>
+    </div>
+  <% end %>
+  <% if notice.present? %>
+    <div class="toast" role="status" data-controller="toast" data-toast-delay-value="6000" data-turbo-temporary>
+      <span><%= notice %></span>
+      <% if (undo = flash[:undo]).present? %>
+        <%= button_to "Desfazer", undo["url"], params: undo["params"].to_h, class: "btn btn-ghost", form: { class: "flex-none" } %>
+      <% end %>
+    </div>
   <% end %>
 </div>

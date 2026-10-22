@@ -217,10 +217,10 @@
   .check:checked::before { transform: scale(1); }
 
   .toast {
-    @apply fixed bottom-6 left-[clamp(16px,4vw,56px)] z-20 flex max-w-[min(560px,calc(100vw-32px))] items-center gap-4 rounded-lg
-           bg-surface py-3 pr-3 pl-[18px] text-[14.5px];
+    @apply flex max-w-[min(560px,calc(100vw-32px))] items-center gap-4 rounded-lg bg-surface py-3 pr-3 pl-[18px] text-[14.5px];
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-ink) 10%, transparent), 0 6px 18px #000a;
   }
+  .toast:not(:has(button)) { @apply pr-[18px]; }
 
   /* Score of a posting */
   .score-high { @apply text-accent; }   /* ≥ 60 */
