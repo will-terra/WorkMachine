@@ -140,6 +140,9 @@
 
 @layer components {
   .card { @apply flex flex-col gap-2.5 rounded-lg bg-surface p-[15px]; }
+  /* Page header and filter bar: a block with the surface ground; the fields inside go a step darker. */
+  .panel { @apply rounded-xl border border-line bg-surface px-[clamp(18px,3vw,32px)] py-6; }
+  .panel .input { @apply bg-bg; }
   .muted { @apply text-muted; }
   /* Page kicker and small status lines: mono, lowercase, discreet. */
   .eyebrow { @apply font-mono text-xs text-muted; }

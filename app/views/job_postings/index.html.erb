@@ -7,7 +7,7 @@
 <% end %>
 
 <% more = %w[period keyword source salary].any? { @filter[it].present? } %>
-<%= form_with url: job_postings_path, method: :get, class: "flex flex-wrap items-end gap-x-5 gap-y-4 pb-8", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+<%= form_with url: job_postings_path, method: :get, class: "panel mb-7 flex flex-wrap items-end gap-x-5 gap-y-4", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
   <% submit = { action: "auto-submit#submit" } %>
   <fieldset>
     <legend class="label"><%= t(".filter.triage") %></legend>

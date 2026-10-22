@@ -28,7 +28,7 @@ module ApplicationHelper
 
   def page_header(eyebrow:, title:, intro: nil, &actions)
     content_for :title, title
-    tag.header(class: "flex flex-wrap items-end justify-between gap-x-8 gap-y-5 pt-12 pb-7") do
+    tag.header(class: "panel mt-6 mb-7 flex flex-wrap items-end justify-between gap-x-8 gap-y-5") do
       safe_join([
         tag.div(class: "max-w-[64ch]") do
           safe_join([
