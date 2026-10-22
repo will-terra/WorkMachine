@@ -144,6 +144,11 @@
   /* Page header and filter bar: a block with the surface ground; the fields inside go a step darker. */
   .panel { @apply rounded-xl border border-line bg-surface px-[clamp(18px,3vw,32px)] py-6 max-sm:py-5; }
   .panel .input { @apply bg-bg; }
+  /* On a gray ground (panels and cards) the secondary buttons and the off options of a segmented
+     control are black, like the fields. */
+  :is(.panel, .card) :is(.btn:not(.btn-primary, .btn-ghost), .seg) { @apply bg-bg; }
+  :is(.panel, .card) .btn:not(.btn-primary, .btn-ghost):hover { @apply bg-code; }
+  :is(.panel, .card) .btn:not(.btn-primary, .btn-ghost):active { @apply bg-field; }
   .muted { @apply text-muted; }
   /* Page kicker and small status lines: mono, lowercase, discreet. */
   .eyebrow { @apply font-mono text-xs text-muted; }
