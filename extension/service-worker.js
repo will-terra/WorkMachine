@@ -3,14 +3,14 @@
 // It also keeps the icon badge: on a LinkedIn job already in WorkMachine, the badge shows its
 // score. Only the tab's address is used for that; the page itself is read only when you click.
 import { loadSettings } from "./config.js"
+import { t } from "./i18n.js"
 
 const BADGE_COLORS = { applied: "#1d7448", dismissed: "#524b49", other: "#c7262f" }
-const DEFAULT_TITLE = "Salvar no WorkMachine"
 const badgeUrls = new Map()
 
 async function request(path, options = {}) {
   const { server, token } = await loadSettings()
-  if (!token) return { ok: false, error: "Configure o token nas opções da extensão." }
+  if (!token) return { ok: false, error: t("configureToken") }
 
   try {
     const response = await fetch(`${server}${path}`, {
@@ -18,9 +18,9 @@ async function request(path, options = {}) {
       headers: { "Content-Type": "application/json", "Accept": "application/json", "Authorization": `Bearer ${token}` }
     })
     const body = await response.json().catch(() => ({}))
-    return response.ok ? { ok: true, body } : { ok: false, error: body.error || (body.errors || []).join(", ") || `Erro ${response.status}` }
+    return response.ok ? { ok: true, body } : { ok: false, error: body.error || (body.errors || []).join(", ") || t("httpError", response.status) }
   } catch (_) {
-    return { ok: false, error: `Não consegui falar com ${server}. O WorkMachine está rodando?` }
+    return { ok: false, error: t("cannotReach", server) }
   }
 }
 
@@ -38,7 +38,7 @@ function linkedInJobUrl(address) {
   return /^\d+$/.test(id || "") ? `https://www.linkedin.com/jobs/view/${id}` : null
 }
 
-function paintBadge(tabId, { text = "", color = BADGE_COLORS.other, title = DEFAULT_TITLE } = {}) {
+function paintBadge(tabId, { text = "", color = BADGE_COLORS.other, title = t("actionTitle") } = {}) {
   // The tab may be gone by the time the lookup answers.
   Promise.all([
     chrome.action.setBadgeText({ tabId, text }),
@@ -58,13 +58,13 @@ async function updateBadge(tabId, address) {
   if (!response.ok) return paintBadge(tabId)
 
   const job = response.body
-  if (!job.found) return paintBadge(tabId, { title: "WorkMachine: vaga ainda não salva. Clique para salvar." })
+  if (!job.found) return paintBadge(tabId, { title: t("notSavedYet") })
 
   const applied = job.application_status && job.application_status !== "saved"
   paintBadge(tabId, {
     text: String(job.score),
     color: applied ? BADGE_COLORS.applied : job.triage === "dismissed" ? BADGE_COLORS.dismissed : BADGE_COLORS.other,
-    title: `WorkMachine: nota ${job.score}${job.partial_score ? " (parcial)" : ""} · ${job.summary}`
+    title: t(job.partial_score ? "badgeTitlePartial" : "badgeTitle", job.score, job.summary)
   })
 }
 

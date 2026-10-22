@@ -1,0 +1,255 @@
+{
+  "lang": {
+    "message": "pt-PT"
+  },
+  "description": {
+    "message": "Salva vagas e recrutadores no WorkMachine (localhost:3000) e mostra no ícone a nota das vagas do LinkedIn que já estão lá."
+  },
+  "actionTitle": {
+    "message": "Salvar no WorkMachine"
+  },
+  "options": {
+    "message": "Opções"
+  },
+  "reading": {
+    "message": "Lendo esta aba…"
+  },
+  "jobTitle": {
+    "message": "Título"
+  },
+  "company": {
+    "message": "Empresa"
+  },
+  "location": {
+    "message": "Local"
+  },
+  "alsoApplication": {
+    "message": "Também criar candidatura (status Salva)"
+  },
+  "saveToWorkMachine": {
+    "message": "Salvar no WorkMachine"
+  },
+  "saveApplied": {
+    "message": "Salvar em aplicadas"
+  },
+  "hiringTeam": {
+    "message": "Equipe de contratação"
+  },
+  "hiringTeamNote": {
+    "message": "Salve em Contatos para mandar mensagem depois."
+  },
+  "name": {
+    "message": "Nome"
+  },
+  "headline": {
+    "message": "Cargo"
+  },
+  "kind": {
+    "message": "Tipo"
+  },
+  "recruiter": {
+    "message": "Recrutador(a)"
+  },
+  "manager": {
+    "message": "Gestor(a)"
+  },
+  "saveContact": {
+    "message": "Salvar contato"
+  },
+  "noDescription": {
+    "message": "Sem descrição nesta página; a nota vai usar só o título."
+  },
+  "descriptionSize": {
+    "message": "Descrição: $value1$ caracteres.",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "partialNote": {
+    "message": "$value1$ No WorkMachine a nota está parcial: atualize para completar.",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "alreadyIn": {
+    "message": "Já está no WorkMachine · nota $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "alreadyInPartial": {
+    "message": "Já está no WorkMachine · nota $value1$ (parcial)",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "openInWorkMachine": {
+    "message": "Abrir no WorkMachine"
+  },
+  "updateInWorkMachine": {
+    "message": "Atualizar no WorkMachine"
+  },
+  "markApplied": {
+    "message": "Marcar como aplicada"
+  },
+  "cantRead": {
+    "message": "Não consegui ler esta página."
+  },
+  "checkAndSave": {
+    "message": "Confira e salve:"
+  },
+  "noTitle": {
+    "message": "Não achei o título. Preencha antes de salvar:"
+  },
+  "saving": {
+    "message": "Salvando…"
+  },
+  "inApplied": {
+    "message": "Em aplicadas · nota $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "updatedJob": {
+    "message": "Atualizada · nota $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "savedJob": {
+    "message": "Salva · nota $value1$ · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unknownError": {
+    "message": "Erro desconhecido."
+  },
+  "open": {
+    "message": "Abrir"
+  },
+  "updateContact": {
+    "message": "Atualizar contato"
+  },
+  "updateContactHint": {
+    "message": "Só preenche o que estiver vazio no WorkMachine."
+  },
+  "alreadyContact": {
+    "message": "Já está nos contatos"
+  },
+  "updatedContact": {
+    "message": "Atualizado nos contatos"
+  },
+  "savedContact": {
+    "message": "Salvo nos contatos"
+  },
+  "saveToContacts": {
+    "message": "Salvar em Contatos:"
+  },
+  "noName": {
+    "message": "Não achei o nome. Preencha antes de salvar:"
+  },
+  "setupToken": {
+    "message": "Primeiro, configure o token nas Opções."
+  },
+  "openJobPage": {
+    "message": "Abra a página de uma vaga ou um perfil do LinkedIn e clique de novo."
+  },
+  "optionsTitle": {
+    "message": "WorkMachine · Opções"
+  },
+  "browserExtension": {
+    "message": "extensão do navegador"
+  },
+  "optionsIntro": {
+    "message": "Conecte a extensão ao WorkMachine que roda no seu computador."
+  },
+  "serverLabel": {
+    "message": "Endereço do WorkMachine"
+  },
+  "tokenLabel": {
+    "message": "Token da API"
+  },
+  "tokenHelp": {
+    "message": "Copie em Ajustes → Extensão do navegador no WorkMachine (ou use o valor de WORKMACHINE_API_TOKEN do .env)."
+  },
+  "save": {
+    "message": "Salvar"
+  },
+  "testConnection": {
+    "message": "Testar conexão"
+  },
+  "privacyNote": {
+    "message": "A extensão só lê a página quando você clica no ícone dela, e só fala com localhost:3000 ou 127.0.0.1:3000."
+  },
+  "optionsSaved": {
+    "message": "Opções salvas."
+  },
+  "connected": {
+    "message": "Conectado ao WorkMachine."
+  },
+  "failed": {
+    "message": "Falhou."
+  },
+  "configureToken": {
+    "message": "Configure o token nas opções da extensão."
+  },
+  "httpError": {
+    "message": "Erro $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "cannotReach": {
+    "message": "Não consegui falar com $value1$. O WorkMachine está rodando?",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "notSavedYet": {
+    "message": "WorkMachine: vaga ainda não salva. Clique para salvar."
+  },
+  "badgeTitle": {
+    "message": "WorkMachine: nota $value1$ · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  },
+  "badgeTitlePartial": {
+    "message": "WorkMachine: nota $value1$ (parcial) · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  }
+}

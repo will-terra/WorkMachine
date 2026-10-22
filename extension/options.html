@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>WorkMachine · Opções</title>
+  <title data-i18n="optionsTitle">WorkMachine · Options</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="options">
@@ -11,24 +11,24 @@
     <span class="brand">WorkMachine</span>
     <span class="badge">on Rails</span>
   </header>
-  <p class="eyebrow">extensão do navegador</p>
-  <h1>Opções</h1>
-  <p class="muted">Conecte a extensão ao WorkMachine que roda no seu computador.</p>
+  <p class="eyebrow" data-i18n="browserExtension">browser extension</p>
+  <h1 data-i18n="options">Options</h1>
+  <p class="muted" data-i18n="optionsIntro">Connect the extension to the WorkMachine running on your computer.</p>
   <form id="options-form">
-    <label>Endereço do WorkMachine
+    <label><span data-i18n="serverLabel">WorkMachine address</span>
       <input name="server" placeholder="http://localhost:3000" required>
     </label>
-    <label>Token da API
+    <label><span data-i18n="tokenLabel">API token</span>
       <input name="token" type="password" autocomplete="off" required>
-      <span class="muted small">Copie em Ajustes → Extensão do navegador no WorkMachine (ou use o valor de WORKMACHINE_API_TOKEN do .env).</span>
+      <span class="muted small" data-i18n="tokenHelp">Copy it in WorkMachine under Settings → Browser extension (or use the WORKMACHINE_API_TOKEN value from .env).</span>
     </label>
     <div class="row">
-      <button type="submit" class="primary">Salvar</button>
-      <button type="button" id="test">Testar conexão</button>
+      <button type="submit" class="primary" data-i18n="save">Save</button>
+      <button type="button" id="test" data-i18n="testConnection">Test connection</button>
     </div>
   </form>
   <p id="message" role="status"></p>
-  <p class="muted small note">A extensão só lê a página quando você clica no ícone dela, e só fala com localhost:3000 ou 127.0.0.1:3000.</p>
+  <p class="muted small note" data-i18n="privacyNote">The extension only reads the page when you click its icon, and only talks to localhost:3000 or 127.0.0.1:3000.</p>
   <script type="module" src="options.js"></script>
 </body>
 </html>

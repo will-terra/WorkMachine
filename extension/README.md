@@ -82,6 +82,8 @@ antes de salvar e ajuste os seletores em `extract.js`.
 - `service-worker.js`: fala com a API do WorkMachine (`Authorization: Bearer <token>`) e mantém a
   nota no ícone. Como a requisição sai da extensão, o Rails não precisa de CORS.
 - `options.html` / `options.js`: endereço do servidor e token.
+- `i18n.js` e `_locales/`: os textos em inglês (padrão) e em português (`pt_BR` e `pt_PT`). O Chrome
+  escolhe pelo idioma do navegador; as páginas marcam os textos com `data-i18n`.
 
 ## API usada
 

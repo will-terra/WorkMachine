@@ -1,5 +1,6 @@
 import { extractJob, extractProfile } from "./extract.js"
 import { loadSettings } from "./config.js"
+import { localize, t } from "./i18n.js"
 
 const JOB_FIELDS = ["title", "company", "location_text", "url"]
 const CONTACT_FIELDS = ["name", "headline", "company", "linkedin_url", "kind"]
@@ -17,6 +18,9 @@ const contactForm = document.getElementById("contact-form")
 const personTemplate = document.getElementById("person-template")
 let tab
 let job = {}
+
+localize()
+localize(personTemplate.content)
 
 document.getElementById("open-options").addEventListener("click", (event) => {
   event.preventDefault()
@@ -48,9 +52,9 @@ async function inject(func) {
 }
 
 function describeDescription(posting = {}) {
-  if (!job.description) return "Sem descrição nesta página; a nota vai usar só o título."
-  const size = `Descrição: ${job.description.length.toLocaleString("pt-BR")} caracteres.`
-  return posting.partial_score ? `${size} No WorkMachine a nota está parcial: atualize para completar.` : size
+  if (!job.description) return t("noDescription")
+  const size = t("descriptionSize", job.description.length.toLocaleString(t("lang")))
+  return posting.partial_score ? t("partialNote", size) : size
 }
 
 // What WorkMachine already knows about this job, and only the buttons that still make sense.
@@ -61,28 +65,28 @@ function showPosting(posting) {
 
   const status = posting.application_status
   found.append(
-    line(`Já está no WorkMachine · nota ${posting.score}${posting.partial_score ? " (parcial)" : ""}`, "strong"),
+    line(t(posting.partial_score ? "alreadyInPartial" : "alreadyIn", posting.score), "strong"),
     line(posting.summary, "muted small"),
-    link("Abrir no WorkMachine", posting.app_url)
+    link(t("openInWorkMachine"), posting.app_url)
   )
   descriptionInfo.textContent = describeDescription(posting)
-  saveButton.textContent = "Atualizar no WorkMachine"
+  saveButton.textContent = t("updateInWorkMachine")
   document.getElementById("saved-option").hidden = Boolean(status)
   applyButton.hidden = Boolean(status) && status !== "saved"
-  applyButton.textContent = status === "saved" ? "Marcar como aplicada" : "Salvar em aplicadas"
+  applyButton.textContent = t(status === "saved" ? "markApplied" : "saveApplied")
 }
 
 async function showJob() {
   try {
     job = (await inject(extractJob)) || {}
   } catch (_) {
-    statusLine.textContent = "Não consegui ler esta página."
+    statusLine.textContent = t("cantRead")
     return
   }
 
   for (const name of JOB_FIELDS) jobForm.elements[name].value = job[name] || ""
   descriptionInfo.textContent = describeDescription()
-  statusLine.textContent = job.title ? "Confira e salve:" : "Não achei o título. Preencha antes de salvar:"
+  statusLine.textContent = t(job.title ? "checkAndSave" : "noTitle")
   jobForm.hidden = false
   jobForm.elements.title.focus()
   showPeople(job.people || [])
@@ -97,7 +101,7 @@ jobForm.addEventListener("submit", async (event) => {
   const applying = button === applyButton
   const label = button.textContent
   button.disabled = true
-  button.textContent = "Salvando…"
+  button.textContent = t("saving")
 
   const { people: _people, ...extracted } = job
   const edited = Object.fromEntries(JOB_FIELDS.map((name) => [name, jobForm.elements[name].value.trim()]))
@@ -114,8 +118,8 @@ jobForm.addEventListener("submit", async (event) => {
 
   if (response?.ok) {
     const { body } = response
-    const headline = applying ? `Em aplicadas · nota ${body.score}`
-      : body.duplicate ? `Atualizada · nota ${body.score}` : `Salva · nota ${body.score} · ${body.remote_scope}`
+    const headline = applying ? t("inApplied", body.score)
+      : body.duplicate ? t("updatedJob", body.score) : t("savedJob", body.score, body.remote_scope)
     result.replaceChildren(line(headline, "ok"))
     statusLine.hidden = true
     showPosting({ ...body, found: true })
@@ -127,16 +131,16 @@ jobForm.addEventListener("submit", async (event) => {
 function showContact(form, contact, text) {
   const output = form.querySelector("[data-result]")
   output.className = "small ok"
-  output.replaceChildren(`${text} (${contact.kind_label}) · `, link("Abrir", contact.app_url))
+  output.replaceChildren(`${text} (${contact.kind_label}) · `, link(t("open"), contact.app_url))
   const button = form.querySelector("button")
-  button.textContent = "Atualizar contato"
-  button.title = "Só preenche o que estiver vazio no WorkMachine."
+  button.textContent = t("updateContact")
+  button.title = t("updateContactHint")
 }
 
 async function lookupContact(form) {
   const linkedinUrl = form.elements.linkedin_url.value
   const response = linkedinUrl && await chrome.runtime.sendMessage({ type: "lookupContact", linkedinUrl })
-  if (response?.ok && response.body.found) showContact(form, response.body, "Já está nos contatos")
+  if (response?.ok && response.body.found) showContact(form, response.body, t("alreadyContact"))
 }
 
 async function saveContact(event) {
@@ -156,7 +160,7 @@ async function saveContact(event) {
 
   button.disabled = false
   if (response?.ok) {
-    showContact(form, response.body, response.body.duplicate ? "Atualizado nos contatos" : "Salvo nos contatos")
+    showContact(form, response.body, t(response.body.duplicate ? "updatedContact" : "savedContact"))
   } else {
     const output = form.querySelector("[data-result]")
     output.className = "small error"
@@ -182,14 +186,14 @@ async function showProfile() {
   try {
     person = (await inject(extractProfile)) || {}
   } catch (_) {
-    statusLine.textContent = "Não consegui ler esta página."
+    statusLine.textContent = t("cantRead")
     return
   }
 
   for (const name of ["name", "headline", "company"]) contactForm.elements[name].value = person[name] || ""
   contactForm.elements.linkedin_url.value = person.linkedin_url || tab.url
   contactForm.elements.kind.value = guessKind(person.headline || "")
-  statusLine.textContent = person.name ? "Salvar em Contatos:" : "Não achei o nome. Preencha antes de salvar:"
+  statusLine.textContent = t(person.name ? "saveToContacts" : "noName")
   contactForm.hidden = false
   contactForm.addEventListener("submit", saveContact)
   lookupContact(contactForm)
@@ -197,13 +201,13 @@ async function showProfile() {
 
 loadSettings().then(async ({ token }) => {
   if (!token) {
-    statusLine.textContent = "Primeiro, configure o token nas Opções."
+    statusLine.textContent = t("setupToken")
     return
   }
 
   tab = (await chrome.tabs.query({ active: true, currentWindow: true }))[0]
   if (!tab?.id || !/^https?:/.test(tab.url || "")) {
-    statusLine.textContent = "Abra a página de uma vaga ou um perfil do LinkedIn e clique de novo."
+    statusLine.textContent = t("openJobPage")
   } else if (LINKEDIN_PROFILE.test(tab.url)) {
     showProfile()
   } else {

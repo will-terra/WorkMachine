@@ -14,7 +14,7 @@ RSpec.describe "extension rake tasks" do
     expect { Rake::Task["extension:zip"].invoke(output.to_s) }.to output(/versão #{Regexp.escape(ExtensionVersion.current)}/).to_stdout
 
     names = Zip::File.open(output.to_s) { |zip| zip.map(&:name) }
-    expect(names).to include("manifest.json", "popup.html", "service-worker.js", "icons/icon-128.png", "fonts/OFL.txt")
+    expect(names).to include("manifest.json", "popup.html", "service-worker.js", "icons/icon-128.png", "fonts/OFL.txt", "_locales/en/messages.json", "_locales/pt_BR/messages.json")
     expect(names).not_to include("README.md")
   ensure
     output&.delete if output&.exist?

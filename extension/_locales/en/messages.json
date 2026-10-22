@@ -1,0 +1,255 @@
+{
+  "lang": {
+    "message": "en"
+  },
+  "description": {
+    "message": "Saves jobs and recruiters to WorkMachine (localhost:3000) and shows on the icon the score of the LinkedIn jobs already there."
+  },
+  "actionTitle": {
+    "message": "Save to WorkMachine"
+  },
+  "options": {
+    "message": "Options"
+  },
+  "reading": {
+    "message": "Reading this tab…"
+  },
+  "jobTitle": {
+    "message": "Title"
+  },
+  "company": {
+    "message": "Company"
+  },
+  "location": {
+    "message": "Location"
+  },
+  "alsoApplication": {
+    "message": "Also create an application (status Saved)"
+  },
+  "saveToWorkMachine": {
+    "message": "Save to WorkMachine"
+  },
+  "saveApplied": {
+    "message": "Save as applied"
+  },
+  "hiringTeam": {
+    "message": "Hiring team"
+  },
+  "hiringTeamNote": {
+    "message": "Save them to Contacts to message them later."
+  },
+  "name": {
+    "message": "Name"
+  },
+  "headline": {
+    "message": "Headline"
+  },
+  "kind": {
+    "message": "Type"
+  },
+  "recruiter": {
+    "message": "Recruiter"
+  },
+  "manager": {
+    "message": "Manager"
+  },
+  "saveContact": {
+    "message": "Save contact"
+  },
+  "noDescription": {
+    "message": "No description on this page; the score will use only the title."
+  },
+  "descriptionSize": {
+    "message": "Description: $value1$ characters.",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "partialNote": {
+    "message": "$value1$ In WorkMachine the score is partial: update it to complete it.",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "alreadyIn": {
+    "message": "Already in WorkMachine · score $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "alreadyInPartial": {
+    "message": "Already in WorkMachine · score $value1$ (partial)",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "openInWorkMachine": {
+    "message": "Open in WorkMachine"
+  },
+  "updateInWorkMachine": {
+    "message": "Update in WorkMachine"
+  },
+  "markApplied": {
+    "message": "Mark as applied"
+  },
+  "cantRead": {
+    "message": "I couldn't read this page."
+  },
+  "checkAndSave": {
+    "message": "Check and save:"
+  },
+  "noTitle": {
+    "message": "I didn't find the title. Fill it in before saving:"
+  },
+  "saving": {
+    "message": "Saving…"
+  },
+  "inApplied": {
+    "message": "In applied · score $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "updatedJob": {
+    "message": "Updated · score $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "savedJob": {
+    "message": "Saved · score $value1$ · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  },
+  "unknownError": {
+    "message": "Unknown error."
+  },
+  "open": {
+    "message": "Open"
+  },
+  "updateContact": {
+    "message": "Update contact"
+  },
+  "updateContactHint": {
+    "message": "Only fills in what is empty in WorkMachine."
+  },
+  "alreadyContact": {
+    "message": "Already in contacts"
+  },
+  "updatedContact": {
+    "message": "Updated in contacts"
+  },
+  "savedContact": {
+    "message": "Saved to contacts"
+  },
+  "saveToContacts": {
+    "message": "Save to Contacts:"
+  },
+  "noName": {
+    "message": "I didn't find the name. Fill it in before saving:"
+  },
+  "setupToken": {
+    "message": "First, set up the token in the Options."
+  },
+  "openJobPage": {
+    "message": "Open a job page or a LinkedIn profile and click again."
+  },
+  "optionsTitle": {
+    "message": "WorkMachine · Options"
+  },
+  "browserExtension": {
+    "message": "browser extension"
+  },
+  "optionsIntro": {
+    "message": "Connect the extension to the WorkMachine running on your computer."
+  },
+  "serverLabel": {
+    "message": "WorkMachine address"
+  },
+  "tokenLabel": {
+    "message": "API token"
+  },
+  "tokenHelp": {
+    "message": "Copy it in WorkMachine under Settings → Browser extension (or use the WORKMACHINE_API_TOKEN value from .env)."
+  },
+  "save": {
+    "message": "Save"
+  },
+  "testConnection": {
+    "message": "Test connection"
+  },
+  "privacyNote": {
+    "message": "The extension only reads the page when you click its icon, and only talks to localhost:3000 or 127.0.0.1:3000."
+  },
+  "optionsSaved": {
+    "message": "Options saved."
+  },
+  "connected": {
+    "message": "Connected to WorkMachine."
+  },
+  "failed": {
+    "message": "Failed."
+  },
+  "configureToken": {
+    "message": "Set up the token in the extension's options."
+  },
+  "httpError": {
+    "message": "Error $value1$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "cannotReach": {
+    "message": "I couldn't reach $value1$. Is WorkMachine running?",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      }
+    }
+  },
+  "notSavedYet": {
+    "message": "WorkMachine: job not saved yet. Click to save it."
+  },
+  "badgeTitle": {
+    "message": "WorkMachine: score $value1$ · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  },
+  "badgeTitlePartial": {
+    "message": "WorkMachine: score $value1$ (partial) · $value2$",
+    "placeholders": {
+      "value1": {
+        "content": "$1"
+      },
+      "value2": {
+        "content": "$2"
+      }
+    }
+  }
+}

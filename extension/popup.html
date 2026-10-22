@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>WorkMachine</title>
@@ -10,61 +10,61 @@
     <img src="icons/ruby-64.png" alt="" width="20" height="20">
     <span class="brand">WorkMachine</span>
     <span class="badge">on Rails</span>
-    <a href="#" id="open-options">Opções</a>
+    <a href="#" id="open-options" data-i18n="options">Options</a>
   </header>
 
   <div id="found" class="card" hidden></div>
-  <p id="status" class="muted" role="status">Lendo esta aba…</p>
+  <p id="status" class="muted" role="status" data-i18n="reading">Reading this tab…</p>
 
   <form id="job-form" hidden>
-    <label>Título <input name="title" required></label>
-    <label>Empresa <input name="company"></label>
-    <label>Local <input name="location_text"></label>
+    <label><span data-i18n="jobTitle">Title</span> <input name="title" required></label>
+    <label><span data-i18n="company">Company</span> <input name="company"></label>
+    <label><span data-i18n="location">Location</span> <input name="location_text"></label>
     <input type="hidden" name="url">
     <p class="muted small" id="description-info"></p>
-    <label class="check" id="saved-option"><input type="checkbox" name="create_application"> Também criar candidatura (status Salva)</label>
+    <label class="check" id="saved-option"><input type="checkbox" name="create_application"> <span data-i18n="alsoApplication">Also create an application (status Saved)</span></label>
     <div class="actions">
-      <button type="submit" class="primary" id="save-button">Salvar no WorkMachine</button>
-      <button type="submit" id="apply-button">Salvar em aplicadas</button>
+      <button type="submit" class="primary" id="save-button" data-i18n="saveToWorkMachine">Save to WorkMachine</button>
+      <button type="submit" id="apply-button" data-i18n="saveApplied">Save as applied</button>
     </div>
   </form>
 
   <div id="result" role="status" hidden></div>
 
   <section id="people" hidden>
-    <h2>Equipe de contratação</h2>
-    <p class="muted small">Salve em Contatos para mandar mensagem depois.</p>
+    <h2 data-i18n="hiringTeam">Hiring team</h2>
+    <p class="muted small" data-i18n="hiringTeamNote">Save them to Contacts to message them later.</p>
   </section>
 
   <!-- On a LinkedIn profile (/in/...). -->
   <form id="contact-form" hidden>
-    <label>Nome <input name="name" required></label>
-    <label>Cargo <input name="headline"></label>
-    <label>Empresa <input name="company"></label>
-    <label>Tipo
+    <label><span data-i18n="name">Name</span> <input name="name" required></label>
+    <label><span data-i18n="headline">Headline</span> <input name="headline"></label>
+    <label><span data-i18n="company">Company</span> <input name="company"></label>
+    <label><span data-i18n="kind">Type</span>
       <select name="kind">
-        <option value="recruiter">Recrutador(a)</option>
-        <option value="manager">Gestor(a)</option>
+        <option value="recruiter" data-i18n="recruiter">Recruiter</option>
+        <option value="manager" data-i18n="manager">Manager</option>
       </select>
     </label>
     <input type="hidden" name="linkedin_url">
-    <button type="submit" class="primary">Salvar contato</button>
+    <button type="submit" class="primary" data-i18n="saveContact">Save contact</button>
     <p class="small" data-result role="status"></p>
   </form>
 
   <!-- One per person of the job's hiring team. -->
   <template id="person-template">
     <form class="person">
-      <input name="name" required aria-label="Nome">
-      <input name="headline" aria-label="Cargo" placeholder="Cargo">
+      <input name="name" required aria-label="Name" data-i18n-aria-label="name">
+      <input name="headline" aria-label="Headline" placeholder="Headline" data-i18n-aria-label="headline" data-i18n-placeholder="headline">
       <input type="hidden" name="company">
       <input type="hidden" name="linkedin_url">
       <div class="row">
-        <select name="kind" aria-label="Tipo">
-          <option value="recruiter">Recrutador(a)</option>
-          <option value="manager">Gestor(a)</option>
+        <select name="kind" aria-label="Type" data-i18n-aria-label="kind">
+          <option value="recruiter" data-i18n="recruiter">Recruiter</option>
+          <option value="manager" data-i18n="manager">Manager</option>
         </select>
-        <button type="submit">Salvar contato</button>
+        <button type="submit" data-i18n="saveContact">Save contact</button>
       </div>
       <p class="small" data-result role="status"></p>
     </form>
