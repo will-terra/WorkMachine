@@ -1,20 +1,109 @@
+<div align="center">
+
+<img src="app/assets/images/ruby.png" alt="" width="72">
+
 # WorkMachine
 
-Um assistente de busca de emprego para quem é de tecnologia (desenvolvimento, QA, DevOps/SRE/cloud,
-dados, UX/UI e produto) que roda no seu próprio computador. Ele:
+### Sua busca de emprego em tech no piloto automático, rodando no seu computador.
 
-- junta vagas de mais de dez fontes públicas e dos seus alertas do LinkedIn;
-- dá a cada vaga uma nota de 0 a 100 pelo **seu** perfil, e explica a nota;
-- controla as candidaturas num kanban, com planilha `.xlsx`, follow-ups e métricas do funil;
-- monta o seu perfil a partir do currículo e usa IA para analisar vagas, adaptar o resumo do CV e
-  escrever mensagens para recrutadores;
-- lista o que vale fazer à mão (o Radar): buscas prontas no LinkedIn, X, Google e grupos.
+Junta vagas de mais de 10 fontes, dá nota para cada uma pelo **seu** perfil, controla as candidaturas
+num kanban, lê as respostas das empresas no seu Gmail e usa IA para analisar vagas e escrever mensagens.
+**Grátis, código aberto e 100% local**: seus dados nunca saem da sua máquina.
 
-Tudo fica no seu computador: as vagas, o currículo e as senhas. Não há conta em servidor nenhum.
+[![GitHub stars](https://img.shields.io/github/stars/will-terra/WorkMachine?style=for-the-badge&logo=github&color=c7262f)](https://github.com/will-terra/WorkMachine/stargazers)
+[![CI](https://img.shields.io/github/actions/workflow/status/will-terra/WorkMachine/ci.yml?branch=main&style=for-the-badge&label=testes)](https://github.com/will-terra/WorkMachine/actions/workflows/ci.yml)
+[![Licença AGPL-3.0](https://img.shields.io/badge/licen%C3%A7a-AGPL--3.0-2c2726?style=for-the-badge)](LICENSE)
+[![Rails 8.1](https://img.shields.io/badge/Rails-8.1-c7262f?style=for-the-badge&logo=rubyonrails&logoColor=white)](https://rubyonrails.org)
 
-> O WorkMachine não raspa o LinkedIn e não se candidata sozinho: isso viola os termos do LinkedIn e
+**[Instalar em 5 minutos](#instalar)** · **[Ver as telas](#tour-pelas-telas)** · **[Deixar uma ⭐](https://github.com/will-terra/WorkMachine/stargazers)**
+
+<br>
+
+<img src=".github/readme/painel.png" alt="Painel do WorkMachine: rotina de hoje, candidaturas por status, vagas novas por nota, follow-ups e respostas das empresas" width="100%">
+
+</div>
+
+> [!TIP]
+> **Gostou da ideia?** Dê uma ⭐ no repositório: é o que faz o projeto chegar em mais gente que está
+> procurando emprego, e leva dois segundos. Clique em **Star** no topo desta página.
+
+## Por que o WorkMachine
+
+Procurar emprego em tecnologia virou um segundo emprego: dez abas de sites de vagas, alertas do LinkedIn
+lotando a caixa, uma planilha que ninguém atualiza e a sensação de mandar currículo para o vazio. O
+WorkMachine junta tudo num lugar só e faz a parte chata por você.
+
+| | |
+| - | - |
+| 🎯 **Nota de 0 a 100 para cada vaga** | Pelas suas skills (essencial +30, importante +10, extra +5), nível, região e termos a evitar. Você abre o app e já vê as melhores primeiro, com a conta explicada. |
+| 🔎 **Mais de 10 fontes, sozinho** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Hacker News, quadros Greenhouse, Lever, Ashby e Workable e os seus alertas do LinkedIn. A cada 3 horas, sem você abrir nada. |
+| 📬 **Lê as respostas das empresas** | Pelo seu Gmail (só leitura), a IA reconhece recusa, entrevista, entrevista com IA, teste e proposta e move o cartão no kanban. Você recebe uma notificação. |
+| 🤖 **IA que não inventa** | Monta o perfil a partir do currículo, analisa o fit com cada vaga, adapta o resumo do CV e escreve mensagens para recrutadores. Usa um modelo gratuito por padrão. |
+| 🗂️ **Kanban + planilha** | Arraste candidaturas entre as etapas, exporte para `.xlsx` e acompanhe follow-ups vencidos. |
+| 📈 **Métricas do funil** | Taxa de resposta, de entrevista, tempo até a resposta e quais origens e fontes rendem de verdade. |
+| 🧭 **Radar e rotina** | Buscas prontas para LinkedIn, X, Google e grupos (montadas com o seu perfil) e uma rotina diária editável, com o passo a passo de configuração do app. |
+| 🔒 **Privacidade de verdade** | Roda no seu computador via Docker. Sem conta, sem servidor, sem rastreamento. Instale como app (PWA) e use como um programa. |
+
+> O WorkMachine **não raspa o LinkedIn e não se candidata sozinho**: isso viola os termos do LinkedIn e
 > arrisca a sua conta. Os alertas de vaga chegam pelo seu Gmail, e a extensão do navegador só lê uma
 > página quando você clica nela.
+
+## Tour pelas telas
+
+### Vagas: triagem com nota e explicação
+Lista e detalhe lado a lado. Cada vaga mostra de onde a nota veio (Ruby +30, região aberta +15…).
+Atalhos de teclado (`S` salva, `A` salva em aplicadas, `D` descarta) e **Desfazer** em tudo. Um clique em
+**Analisar com IA** compara a vaga com o seu perfil.
+
+<img src=".github/readme/vagas.png" alt="Tela de Vagas com a lista por nota e o detalhe da vaga com a composição da nota" width="100%">
+
+### Candidaturas: o kanban que se atualiza sozinho
+Da vaga salva à proposta, incluindo a coluna **Entrevista com IA** para entrevistas gravadas em vídeo ou
+áudio. Cada coluna rola sozinha; passe o mouse num cartão para ver vaga, origem, datas e atalhos. O ponto
+amarelo avisa que o follow-up venceu.
+
+<img src=".github/readme/candidaturas.png" alt="Kanban de candidaturas com o cartão de detalhes aberto" width="100%">
+
+### Métricas: saiba o que está funcionando
+Candidaturas por semana, funil de aplicadas até proposta e as taxas por origem. Pare de gastar energia
+onde não dá retorno.
+
+<img src=".github/readme/metricas.png" alt="Métricas: candidaturas aplicadas, taxa de resposta, entrevistas, gráfico semanal e funil" width="100%">
+
+### Radar: o que fazer à mão, já pronto
+As buscas certas para o LinkedIn (publicações e pessoas), X, Google e grupos do Telegram, montadas com as
+suas skills e cargos. Copie ou abra com um clique. Também mostra se alguma fonte automática falhou.
+
+<img src=".github/readme/radar.png" alt="Radar com as buscas do LinkedIn prontas para copiar ou abrir" width="100%">
+
+### Perfil: mude uma skill e veja o efeito na hora
+Skills em três níveis, termos a evitar, regiões e nível. A **prévia das notas** ao lado recalcula as
+últimas vagas enquanto você edita, antes de salvar. Envie o currículo e deixe a IA montar o rascunho.
+
+<img src=".github/readme/perfil.png" alt="Perfil com skills em chips por nível e a prévia das notas ao lado" width="100%">
+
+### Mensagens e Rotina
+Modelos de mensagem para recrutadores que se preenchem com o contato, a vaga e o seu perfil (com
+contador de caracteres para a nota de conexão do LinkedIn). E uma rotina diária e semanal que você edita
+em Ajustes, para manter a constância sem pensar.
+
+<p>
+  <img src=".github/readme/mensagens.png" alt="Mensagens: modelo preenchido com o nome e a empresa do contato" width="49%">
+  <img src=".github/readme/rotina.png" alt="Rotina: passo a passo de configuração do app e rotina de busca" width="49%">
+</p>
+
+### Ajustes
+Chaves da IA e do Gmail (criptografadas no seu computador), extensão do navegador, notificações,
+descarte automático, fontes, rotinas e backup automático do banco.
+
+<img src=".github/readme/ajustes.png" alt="Ajustes com chaves e contas, extensão, notificações e descarte automático" width="100%">
+
+<div align="center">
+
+**Isso pode ajudar alguém que você conhece?** Mande o link para quem está procurando emprego em tech e
+[⭐ dê uma estrela](https://github.com/will-terra/WorkMachine/stargazers) para o projeto ser encontrado.
+
+</div>
 
 ## O que você precisa
 
@@ -54,10 +143,12 @@ continua precisando do Docker rodando.
 
 ## Primeiros passos
 
+O app abre com a rotina **Configuração do app**: um passo a passo com link para cada tela. Em resumo:
+
 1. **Perfil.** Envie o currículo (PDF, DOCX ou TXT) e clique em **Montar perfil a partir do CV**: a IA
    preenche um rascunho que você revisa antes de salvar. Ajuste a área, os cargos alvo, o nível e as
-   skills em três níveis (essencial +30, importante +10, extra +5). Use **Ver prévia** para ver como
-   ficam as notas antes de salvar. Sem IA, preencha à mão: a tela sugere cargos e skills da sua área.
+   skills em três níveis. A prévia ao lado mostra como ficam as notas. Sem IA, preencha à mão: a tela
+   sugere cargos e skills da sua área.
 2. **Vagas.** A cada 3 horas o agregador busca pelos termos do seu perfil. Na triagem, salve as boas
    (viram candidaturas) e descarte o resto.
 3. **Candidaturas.** Mova os cartões no kanban. Se o Gmail estiver ligado, as respostas das empresas
@@ -66,11 +157,9 @@ continua precisando do Docker rodando.
 4. **Radar.** O que fazer à mão, por frequência, com as buscas já montadas para o seu perfil. Crie os
    alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn**.
 
-## O que tem em cada tela
-
 | Tela | Para que serve |
 | - | - |
-| **Painel** | Vagas novas por nota, follow-ups do dia, respostas das empresas e a rotina de hoje. |
+| **Painel** | Rotina de hoje, vagas novas por nota, follow-ups do dia e respostas das empresas. |
 | **Vagas** | Triagem com filtros e ordenação: salvar, salvar em aplicadas, descartar, analisar com IA, marcar como vaga dos sonhos. |
 | **Candidaturas** | Kanban e tabela, e-mails da empresa em cada candidatura, exportação `.xlsx` e CSV. |
 | **Métricas** | Candidaturas por semana, funil, taxas de resposta e de entrevista por origem e as fontes que mais rendem. |
@@ -223,4 +312,19 @@ Código aberto sob a [GNU AGPL-3.0](LICENSE): você pode usar, estudar, modifica
 distribuir ou oferecer pela rede uma versão modificada precisa abrir o código dela sob a mesma licença.
 
 Achou um problema ou tem uma sugestão? Abra uma issue. Quer mexer no código? Veja
-[CONTRIBUTING.md](CONTRIBUTING.md) e [DEVELOPMENT.md](DEVELOPMENT.md).
+[CONTRIBUTING.md](CONTRIBUTING.md) e [DEVELOPMENT.md](DEVELOPMENT.md). Os prints deste README usam dados
+fictícios e são refeitos com `script/readme/` (instruções no topo de cada arquivo).
+
+---
+
+<div align="center">
+
+### O WorkMachine te ajudou?
+
+Uma ⭐ é a forma mais simples de agradecer e de fazer o projeto chegar em quem está procurando emprego.
+
+**[⭐ Dar uma estrela no GitHub](https://github.com/will-terra/WorkMachine/stargazers)**
+
+Feito com Ruby on Rails, para quem está do outro lado do processo seletivo.
+
+</div>
