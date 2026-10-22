@@ -1,12 +1,11 @@
 <% can_draft = @profile.cv_text.present? && Ai::ProfileDraft.configured? && @profile.cv_draft_status != "pending" %>
-<%= page_header eyebrow: "de onde saem a nota, as buscas e a IA", title: "Perfil",
-                intro: "Quem você é e o que procura. Mudar skills, termos a evitar, regiões ou nível recalcula a nota de todas as vagas. A prévia ao lado mostra o efeito antes de salvar." do %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
   <% if can_draft %>
-    <%= button_to "Montar perfil a partir do CV", draft_profile_path, class: "btn" %>
+    <%= button_to t(".draft"), draft_profile_path, class: "btn" %>
   <% else %>
-    <%= link_to "Montar perfil a partir do CV", "#cv", class: "btn" %>
+    <%= link_to t(".draft"), "#cv", class: "btn" %>
   <% end %>
-  <button type="submit" form="profile_form" class="btn btn-primary">Salvar perfil</button>
+  <button type="submit" form="profile_form" class="btn btn-primary"><%= t(".save") %></button>
 <% end %>
 
 <% areas = Area.all.to_h { [ it.key, { skills: it.suggested_skills, titles_pt: it.titles_pt, titles_en: it.titles_en } ] } %>
@@ -17,15 +16,14 @@
       <% if @from_draft %>
         <%= hidden_field_tag :from_draft, "1" %>
         <p class="card bg-accent-soft text-sm" role="status">
-          <span><strong>Rascunho da IA no formulário.</strong> Nada foi salvo ainda: revise cada campo, ajuste os níveis das skills e clique em
-          <strong>Salvar perfil</strong>. <%= link_to "Voltar ao perfil salvo", profile_path %></span>
+          <span><%= t(".draft_banner_html", link: link_to(t(".back_to_saved"), profile_path)) %></span>
         </p>
       <% end %>
       <%= render "shared/errors", record: @profile %>
 
       <section aria-labelledby="skills_title">
-        <h2 id="skills_title">Skills</h2>
-        <p class="mt-1 text-[13.5px] text-muted">Cada skill achada na vaga soma pontos à nota. Escreva e tecle Enter para adicionar; clique numa skill para mudar o nível ou pôr sinônimos.</p>
+        <h2 id="skills_title"><%= t(".skills.title") %></h2>
+        <p class="mt-1 text-[13.5px] text-muted"><%= t(".skills.note") %></p>
         <%= hidden_field_tag "profile[skills][-1][name]", "", id: nil %>
         <%= hidden_field_tag "profile[avoid_terms][]", "", id: nil %>
         <div class="mt-3 flex flex-col">
@@ -39,26 +37,26 @@
                 <% @profile.skills.each_with_index do |skill, index| %>
                   <%= render("profiles/skill_chip", skill:, index:) if skill["level"] == level %>
                 <% end %>
-                <input class="input min-h-7 w-[130px] px-2 py-[3px] text-[13px]" placeholder="adicionar…" aria-label="Adicionar em <%= Profile.human_enum(:levels, level) %>"
+                <input class="input min-h-7 w-[130px] px-2 py-[3px] text-[13px]" placeholder="<%= t(".skills.add") %>" aria-label="<%= t(".skills.add_to", level: Profile.human_enum(:levels, level)) %>"
                        data-action="keydown.enter->profile-form#addTyped" data-level="<%= level %>" data-profile-form-target="typed">
               </div>
             </div>
           <% end %>
           <div class="flex flex-wrap items-baseline gap-x-5 gap-y-2 border-t border-line py-3">
             <span class="flex-[0_0_8.5rem] text-[14.5px] font-semibold">
-              Evitar <span class="font-mono text-xs font-normal text-warn-strong"><%= points(Profile::AVOID_POINTS) %></span>
+              <%= t(".skills.avoid") %> <span class="font-mono text-xs font-normal text-warn-strong"><%= points(Profile::AVOID_POINTS) %></span>
             </span>
             <div class="flex min-w-0 flex-[1_1_300px] flex-wrap items-center gap-1.5" data-level="avoid" data-profile-form-target="level">
               <% @profile.avoid_terms.each do |term| %>
                 <%= render "profiles/avoid_chip", term: %>
               <% end %>
-              <input class="input min-h-7 w-[130px] px-2 py-[3px] text-[13px]" placeholder="adicionar…" aria-label="Adicionar em Evitar"
+              <input class="input min-h-7 w-[130px] px-2 py-[3px] text-[13px]" placeholder="<%= t(".skills.add") %>" aria-label="<%= t(".skills.add_to", level: t(".skills.avoid")) %>"
                      data-action="keydown.enter->profile-form#addTyped" data-level="avoid" data-profile-form-target="typed">
             </div>
           </div>
         </div>
         <div class="mt-2 flex flex-wrap items-center gap-1.5 text-[13px]">
-          <span class="text-muted">Sugestões da área:</span>
+          <span class="text-muted"><%= t(".skills.suggestions") %></span>
           <span class="contents" data-profile-form-target="skillSuggestions"></span>
         </div>
         <template data-profile-form-target="skillTemplate"><%= render "profiles/skill_chip", skill: {}, index: "NEW_INDEX" %></template>
@@ -66,35 +64,35 @@
       </section>
 
       <section aria-labelledby="goal_title">
-        <h2 id="goal_title">O que procura</h2>
+        <h2 id="goal_title"><%= t(".goal.title") %></h2>
         <div class="mt-3.5 grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-5 gap-y-4">
           <div>
             <%= form.label :primary_area, class: "label" %>
-            <%= form.select :primary_area, grouped_options_for_select(Area.grouped_options, @profile.primary_area), { include_blank: "Escolha" },
+            <%= form.select :primary_area, grouped_options_for_select(Area.grouped_options, @profile.primary_area), { include_blank: t(".goal.choose") },
                             class: "input", data: { action: "profile-form#areaChanged", profile_form_target: "area" } %>
           </div>
           <div>
             <%= form.label :plan_b_area, class: "label" %>
-            <%= form.select :plan_b_area, grouped_options_for_select(Area.grouped_options, @profile.plan_b_area), { include_blank: "Nenhum" }, class: "input" %>
+            <%= form.select :plan_b_area, grouped_options_for_select(Area.grouped_options, @profile.plan_b_area), { include_blank: t(".goal.none") }, class: "input" %>
           </div>
           <div>
             <%= form.label :years_experience, class: "label" %>
             <%= form.number_field :years_experience, min: 0, max: 60, class: "input" %>
           </div>
           <div class="col-span-full">
-            <%= form.label :target_titles, "Cargos alvo", class: "label" %>
+            <%= form.label :target_titles, t(".goal.target_titles"), class: "label" %>
             <%= form.text_field :target_titles, value: @profile.target_titles.join(", "), class: "input", data: { profile_form_target: "titlesPt" } %>
-            <p class="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted">Separados por vírgula. Sugestões: <span class="contents" data-profile-form-target="titlesPtSuggestions"></span></p>
+            <p class="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted"><%= t(".goal.comma_suggestions") %> <span class="contents" data-profile-form-target="titlesPtSuggestions"></span></p>
           </div>
           <div class="col-span-full">
             <%= form.label :target_titles_en, class: "label" %>
             <%= form.text_field :target_titles_en, value: @profile.target_titles_en.join(", "), class: "input", data: { profile_form_target: "titlesEn" } %>
-            <p class="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted">Separados por vírgula. Sugestões: <span class="contents" data-profile-form-target="titlesEnSuggestions"></span></p>
+            <p class="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted"><%= t(".goal.comma_suggestions") %> <span class="contents" data-profile-form-target="titlesEnSuggestions"></span></p>
           </div>
         </div>
         <div class="mt-[18px] flex flex-wrap gap-x-7 gap-y-4">
           <fieldset>
-            <legend class="label">Nível</legend>
+            <legend class="label"><%= t(".goal.level") %></legend>
             <div class="seg">
               <% Profile::SENIORITIES.each do |seniority| %>
                 <label class="seg-opt"><%= form.radio_button :seniority, seniority %><%= Profile.human_enum(:seniority, seniority) %></label>
@@ -102,7 +100,7 @@
             </div>
           </fieldset>
           <fieldset>
-            <legend class="label">Modo de trabalho</legend>
+            <legend class="label"><%= t(".goal.work_modes") %></legend>
             <%= hidden_field_tag "profile[work_modes][]", "", id: nil %>
             <div class="flex flex-wrap gap-1.5">
               <% Profile::WORK_MODES.each do |mode| %>
@@ -111,7 +109,7 @@
             </div>
           </fieldset>
           <fieldset>
-            <legend class="label">Regiões aceitas</legend>
+            <legend class="label"><%= t(".goal.regions") %></legend>
             <%= hidden_field_tag "profile[regions][]", "", id: nil %>
             <div class="flex flex-wrap gap-1.5">
               <% Profile::REGIONS.each do |region| %>
@@ -120,26 +118,26 @@
             </div>
           </fieldset>
         </div>
-        <p class="mt-2 text-xs text-muted">Títulos acima do seu nível perdem 10 pontos; vagas só para uma região que você não aceita perdem 40.</p>
+        <p class="mt-2 text-xs text-muted"><%= t(".goal.penalties") %></p>
         <div class="mt-[18px] grid grid-cols-[repeat(auto-fit,minmax(min(100%,150px),1fr))] gap-x-5 gap-y-4">
-          <div><%= form.label :salary_brl_min, "Pretensão R$ mín.", class: "label" %><%= form.number_field :salary_brl_min, min: 0, step: 100, class: "input" %></div>
-          <div><%= form.label :salary_brl_max, "R$ máx.", class: "label" %><%= form.number_field :salary_brl_max, min: 0, step: 100, class: "input" %></div>
-          <div><%= form.label :salary_usd_min, "US$ mín./mês", class: "label" %><%= form.number_field :salary_usd_min, min: 0, step: 100, class: "input" %></div>
-          <div><%= form.label :salary_usd_max, "US$ máx./mês", class: "label" %><%= form.number_field :salary_usd_max, min: 0, step: 100, class: "input" %></div>
+          <div><%= form.label :salary_brl_min, t(".goal.brl_min"), class: "label" %><%= form.number_field :salary_brl_min, min: 0, step: 100, class: "input" %></div>
+          <div><%= form.label :salary_brl_max, t(".goal.brl_max"), class: "label" %><%= form.number_field :salary_brl_max, min: 0, step: 100, class: "input" %></div>
+          <div><%= form.label :salary_usd_min, t(".goal.usd_min"), class: "label" %><%= form.number_field :salary_usd_min, min: 0, step: 100, class: "input" %></div>
+          <div><%= form.label :salary_usd_max, t(".goal.usd_max"), class: "label" %><%= form.number_field :salary_usd_max, min: 0, step: 100, class: "input" %></div>
         </div>
       </section>
 
       <section aria-labelledby="who_title">
-        <h2 id="who_title">Quem você é</h2>
+        <h2 id="who_title"><%= t(".who.title") %></h2>
         <div class="mt-3.5 grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-x-5 gap-y-4">
           <div><%= form.label :name, class: "label" %><%= form.text_field :name, class: "input", autocomplete: "name" %></div>
-          <div><%= form.label :headline, "Título", class: "label" %><%= form.text_field :headline, class: "input", placeholder: "Desenvolvedor Back-end Ruby on Rails" %></div>
+          <div><%= form.label :headline, t(".who.headline"), class: "label" %><%= form.text_field :headline, class: "input", placeholder: t(".who.headline_placeholder") %></div>
           <div>
-            <%= form.label :location, "Local", class: "label" %>
-            <%= form.text_field :location, class: "input", placeholder: "Curitiba, PR, Brasil", title: "Usada no filtro “Perto de você” do Radar" %>
+            <%= form.label :location, t(".who.location"), class: "label" %>
+            <%= form.text_field :location, class: "input", placeholder: t(".who.location_placeholder"), title: t(".who.location_title") %>
           </div>
-          <div><%= form.label :time_zone, "Fuso", class: "label" %><%= form.time_zone_select :time_zone, [ ActiveSupport::TimeZone["Brasilia"] ], {}, class: "input" %></div>
-          <div><%= form.label :languages, class: "label" %><%= form.text_field :languages, class: "input", placeholder: "Português nativo, inglês avançado" %></div>
+          <div><%= form.label :time_zone, t(".who.time_zone"), class: "label" %><%= form.time_zone_select :time_zone, [ ActiveSupport::TimeZone["Brasilia"] ], {}, class: "input" %></div>
+          <div><%= form.label :languages, class: "label" %><%= form.text_field :languages, class: "input", placeholder: t(".who.languages_placeholder") %></div>
           <div><%= form.label :linkedin_url, class: "label" %><%= form.url_field :linkedin_url, class: "input", placeholder: "https://www.linkedin.com/in/…" %></div>
           <div><%= form.label :github_url, class: "label" %><%= form.url_field :github_url, class: "input", placeholder: "https://github.com/…" %></div>
           <div><%= form.label :portfolio_url, class: "label" %><%= form.url_field :portfolio_url, class: "input", placeholder: "https://…" %></div>
@@ -147,34 +145,34 @@
       </section>
 
       <section aria-labelledby="search_title">
-        <h2 id="search_title">Termos de busca</h2>
-        <p class="mt-1 text-[13.5px] text-muted">Separe por vírgula.</p>
+        <h2 id="search_title"><%= t(".search.title") %></h2>
+        <p class="mt-1 text-[13.5px] text-muted"><%= t(".search.note") %></p>
         <div class="mt-3.5 grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-x-5 gap-y-4">
           <div>
             <%= form.label :search_terms, class: "label" %>
             <%= form.text_field :search_terms, value: @profile.search_terms.join(", "), class: "input" %>
-            <p class="mt-1 text-xs text-muted">O que as fontes automáticas buscam e o que uma vaga precisa ter para entrar. Vazio: as skills essenciais.</p>
+            <p class="mt-1 text-xs text-muted"><%= t(".search.search_terms") %></p>
           </div>
           <div>
             <%= form.label :plan_b_terms, class: "label" %>
             <%= form.text_field :plan_b_terms, value: @profile.plan_b_terms.join(", "), class: "input", placeholder: "React, TypeScript, Next.js" %>
-            <p class="mt-1 text-xs text-muted">Vagas com dois deles entram pelo frontendbr e pelas buscas de plano B do Radar.</p>
+            <p class="mt-1 text-xs text-muted"><%= t(".search.plan_b") %></p>
           </div>
           <div>
             <%= form.label :domains, class: "label" %>
-            <%= form.text_field :domains, value: @profile.domains.join(", "), class: "input", placeholder: "fintech, saúde, GovTech" %>
-            <p class="mt-1 text-xs text-muted">Para a busca “Setores de interesse” do Radar.</p>
+            <%= form.text_field :domains, value: @profile.domains.join(", "), class: "input", placeholder: t(".search.domains_placeholder") %>
+            <p class="mt-1 text-xs text-muted"><%= t(".search.domains") %></p>
           </div>
         </div>
         <details class="mt-5">
-          <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover">Buscas do Radar</summary>
-          <p class="mt-2 text-[13px] text-muted">Montadas com o seu perfil. Para trocar uma, escreva a sua consulta; deixe vazio para usar a sugestão.</p>
+          <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover"><%= t(".search.radar") %></summary>
+          <p class="mt-2 text-[13px] text-muted"><%= t(".search.radar_note") %></p>
           <div class="mt-3 grid gap-3">
             <% Radar.searches_for(@profile.dup.tap { it.search_overrides = {} }).each do |search| %>
               <div>
                 <%= label_tag "search_override_#{search["key"]}", search["title"], class: "label" %>
                 <%= text_field_tag "profile[search_overrides][#{search["key"]}]", @profile.search_overrides[search["key"]],
-                                   id: "search_override_#{search["key"]}", class: "input font-mono text-xs", placeholder: search["query"] %>
+                                   id: "search_override_#{search["key"]}", class: "input font-mono text-xs", placeholder: search["query"], translate: "no" %>
               </div>
             <% end %>
           </div>
@@ -182,31 +180,31 @@
       </section>
 
       <section aria-labelledby="dream_title">
-        <h2 id="dream_title">Vagas dos sonhos</h2>
-        <p class="mt-1 text-[13.5px] text-muted">Até <%= Profile::MAX_DREAM_POSTINGS %> vagas que você aceitaria na hora. A IA usa como referência do nível e do tipo de vaga que você busca. Marque na página da vaga, em “☆ Vaga dos sonhos”.</p>
+        <h2 id="dream_title"><%= t(".dream.title") %></h2>
+        <p class="mt-1 text-[13.5px] text-muted"><%= t(".dream.note", max: Profile::MAX_DREAM_POSTINGS) %></p>
         <% if @profile.dream_postings.any? %>
           <ul class="mt-3 flex flex-col">
             <% @profile.dream_postings.each do |posting| %>
               <li class="flex flex-wrap items-center justify-between gap-2 border-t border-line py-2 text-sm">
                 <%= link_to "#{posting.title} · #{posting.display_company}", job_posting_path(posting) %>
-                <button type="submit" form="dream_<%= posting.id %>" class="btn btn-ghost btn-sm">Tirar</button>
+                <button type="submit" form="dream_<%= posting.id %>" class="btn btn-ghost btn-sm"><%= t(".dream.remove") %></button>
               </li>
             <% end %>
           </ul>
         <% else %>
-          <p class="mt-2 text-sm text-muted">Nenhuma ainda.</p>
+          <p class="mt-2 text-sm text-muted"><%= t(".dream.none") %></p>
         <% end %>
       </section>
 
       <section aria-labelledby="ai_title">
-        <h2 id="ai_title">Texto para a IA</h2>
-        <p class="mt-1 text-[13.5px] text-muted">Experiência, projetos, formação e o que você busca. A IA usa só o que está aqui: nunca inventa experiência.</p>
+        <h2 id="ai_title"><%= t(".ai.title") %></h2>
+        <p class="mt-1 text-[13.5px] text-muted"><%= t(".ai.note") %></p>
         <%= form.text_area :ai_profile, rows: 12, class: "input mt-3 font-mono text-xs", aria: { labelledby: "ai_title" } %>
       </section>
 
       <div class="flex flex-wrap gap-2">
-        <%= form.submit "Salvar perfil", class: "btn btn-primary" %>
-        <button type="submit" hidden formaction="<%= preview_profile_path %>" formmethod="post" data-turbo-frame="profile_preview" data-profile-form-target="previewButton">Ver prévia</button>
+        <%= form.submit t(".save"), class: "btn btn-primary" %>
+        <button type="submit" hidden formaction="<%= preview_profile_path %>" formmethod="post" data-turbo-frame="profile_preview" data-profile-form-target="previewButton"><%= t(".preview") %></button>
       </div>
     <% end %>
 
@@ -214,14 +212,14 @@
   </div>
 
   <aside class="sticky top-6 min-w-0 flex-[4_1_320px]" aria-labelledby="preview_title">
-    <h2 id="preview_title">Prévia das notas</h2>
+    <h2 id="preview_title"><%= t(".preview_title") %></h2>
     <%= turbo_frame_tag "profile_preview" do %>
-      <p class="mt-1 text-[13.5px] text-muted">Calculando…</p>
+      <p class="mt-1 text-[13.5px] text-muted"><%= t(".calculating") %></p>
     <% end %>
   </aside>
 </div>
 
 <%# Forms of the "Tirar" buttons, outside the profile form. %>
 <% @profile.dream_postings.each do |posting| %>
-  <%= form_with url: dream_job_posting_path(posting), id: "dream_#{posting.id}", data: { turbo_confirm: "Tirar #{posting.title} das vagas dos sonhos?" } do %><% end %>
+  <%= form_with url: dream_job_posting_path(posting), id: "dream_#{posting.id}", data: { turbo_confirm: t(".dream.remove_confirm", title: posting.title) } do %><% end %>
 <% end %>

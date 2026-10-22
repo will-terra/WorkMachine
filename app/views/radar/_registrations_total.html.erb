@@ -1,1 +1,1 @@
-<%= all.count(&:registered?) %> de <%= all.size %> cadastros feitos
+<%= t("radar.registrations_total", done: all.count(&:registered?), total: all.size) %>

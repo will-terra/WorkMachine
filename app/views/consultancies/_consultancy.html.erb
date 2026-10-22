@@ -1,11 +1,11 @@
 <%= form_with model: consultancy, method: :patch, id: dom_id(consultancy), class: "flex items-start gap-2.5 py-[3px]", data: { controller: "auto-submit" } do |form| %>
   <%= hidden_field_tag :registered, "0", id: nil %>
   <%= check_box_tag :registered, "1", consultancy.registered?, id: dom_id(consultancy, :registered), class: "check mt-[0.3em]",
-                    aria: { label: "Cadastro feito: #{consultancy.name}" }, data: { action: "auto-submit#submit" } %>
+                    aria: { label: t(".registered_label", name: consultancy.name) }, data: { action: "auto-submit#submit" } %>
   <span class="min-w-0 text-[13.5px] leading-[1.45]">
     <%= external_link consultancy.name, consultancy.url, class: consultancy.registered? ? "text-muted line-through hover:text-muted" : "text-ink hover:text-accent-hover" %>
-    <% if consultancy.notes.present? %><span class="text-muted"> · <%= consultancy.notes %></span><% end %>
-    <% if consultancy.registered? %><span class="font-mono text-[11.5px] text-muted"> · cadastrado em <%= short_date(consultancy.registered_on) %></span><% end %>
+    <% if (notes = consultancy.display_notes).present? %><span class="text-muted"> · <%= notes %></span><% end %>
+    <% if consultancy.registered? %><span class="font-mono text-[11.5px] text-muted"> · <%= t(".registered_on", date: short_date(consultancy.registered_on)) %></span><% end %>
   </span>
-  <noscript><%= form.submit "Salvar", class: "btn btn-sm ml-auto" %></noscript>
+  <noscript><%= form.submit t(".save"), class: "btn btn-sm ml-auto" %></noscript>
 <% end %>

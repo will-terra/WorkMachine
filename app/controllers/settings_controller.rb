@@ -12,45 +12,45 @@ class SettingsController < ApplicationController
     attributes = attributes.reject { |field, value| value.blank? && field.in?(%w[openrouter_api_key gmail_app_password]) }
     Array(params[:clear]).each { attributes[it] = nil if it.in?(%w[openrouter_api_key gmail_user gmail_app_password]) }
     @setting.update!(attributes)
-    redirect_to params[:return_to].presence_in([ onboarding_path ]) || settings_path(anchor: "chaves"), notice: "Chaves salvas."
+    redirect_to params[:return_to].presence_in([ onboarding_path ]) || settings_path(anchor: "chaves"), notice: t("flash.settings.keys_saved")
   end
 
   def test_openrouter
-    return redirect_to(settings_path(anchor: "chaves"), alert: "Coloque a chave do OpenRouter primeiro.") unless Ai::Client.configured?
+    return redirect_to(settings_path(anchor: "chaves"), alert: t("flash.settings.openrouter_missing")) unless Ai::Client.configured?
 
     key = HttpClient.get_json("https://openrouter.ai/api/v1/key", headers: { "Authorization" => "Bearer #{AppKeys.openrouter_api_key}" }).fetch("data", {})
-    redirect_to settings_path(anchor: "chaves"), notice: "OpenRouter conectado#{" (#{key["label"]})" if key["label"].present?}. Modelo: #{Ai::Client.model}."
+    redirect_to settings_path(anchor: "chaves"), notice: t("flash.settings.openrouter_ok", label: (" (#{key["label"]})" if key["label"].present?), model: Ai::Client.model)
   rescue HttpClient::Error => e
-    redirect_to settings_path(anchor: "chaves"), alert: e.status == 401 ? "O OpenRouter recusou a chave. Confira se copiou inteira." : "Não consegui falar com o OpenRouter (#{e.message.truncate(120)})."
+    redirect_to settings_path(anchor: "chaves"), alert: e.status == 401 ? t("flash.settings.openrouter_refused") : t("flash.settings.openrouter_failed", error: e.message.truncate(120))
   end
 
   def test_gmail
-    return redirect_to(settings_path(anchor: "chaves"), alert: "Coloque o e-mail e a senha de app do Gmail primeiro.") unless GmailSession.configured?
+    return redirect_to(settings_path(anchor: "chaves"), alert: t("flash.settings.gmail_missing")) unless GmailSession.configured?
 
     count = GmailSession.open { |imap| imap.status(GmailSession.mailbox, [ "MESSAGES" ])["MESSAGES"] }
-    redirect_to settings_path(anchor: "chaves"), notice: "Gmail conectado: #{count.to_i.to_fs(:delimited)} e-mails em #{GmailSession.mailbox}. Nada é alterado na caixa."
+    redirect_to settings_path(anchor: "chaves"), notice: t("flash.settings.gmail_ok", count: count.to_i.to_fs(:delimited), mailbox: GmailSession.mailbox)
   rescue GmailSession::LoginError => e
     redirect_to settings_path(anchor: "chaves"), alert: e.message
   rescue Net::IMAP::Error, SocketError, SystemCallError, IOError, OpenSSL::SSL::SSLError, Timeout::Error => e
-    redirect_to settings_path(anchor: "chaves"), alert: "Não consegui falar com o Gmail (#{e.class})."
+    redirect_to settings_path(anchor: "chaves"), alert: t("flash.settings.gmail_failed", error: e.class)
   end
 
   def regenerate_token
     @setting.regenerate_api_token!
-    redirect_to settings_path(anchor: "extensao"), notice: "Token novo gerado. Cole nas Opções da extensão."
+    redirect_to settings_path(anchor: "extensao"), notice: t("flash.settings.token")
   end
 
   def backup
     path = DatabaseBackup.call
-    redirect_to settings_path, notice: "Backup feito: #{path.basename}."
+    redirect_to settings_path, notice: t("flash.settings.backup_done", file: path.basename)
   rescue StandardError => e
-    redirect_to settings_path, alert: "O backup falhou: #{e.message.truncate(200)}"
+    redirect_to settings_path, alert: t("flash.settings.backup_failed", error: e.message.truncate(200))
   end
 
   def update
     if @setting.update(params.expect(setting: [ :notifications_enabled, :notify_min_score, :auto_dismiss_restricted, :auto_dismiss_below_score,
                                                 :track_replies, :notify_replies, :notify_follow_ups, :locale, enabled_sources: [] ]))
-      redirect_to settings_path, notice: "Ajustes salvos."
+      redirect_to settings_path, notice: t("flash.settings.saved")
     else
       @push_subscriptions = PushSubscription.order(:created_at)
       @backups = DatabaseBackup.files

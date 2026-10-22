@@ -1,23 +1,22 @@
-<%= page_header eyebrow: "funil", title: "Métricas",
-                intro: "Como suas candidaturas andam e de onde vêm as melhores vagas. As respostas vêm dos e-mails lidos no Gmail e das mudanças que você faz no kanban." do %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
   <div>
-    <p class="label">Período</p>
-    <nav class="seg" aria-label="Período">
-      <% FunnelMetrics::PERIODS.each do |key, (_, label)| %>
-        <%= link_to label, metrics_path(period: key), class: "seg-opt", aria: { current: (key == @metrics.period ? "true" : nil) } %>
+    <p class="label"><%= t(".period") %></p>
+    <nav class="seg" aria-label="<%= t(".period") %>">
+      <% FunnelMetrics::PERIODS.each_key do |key| %>
+        <%= link_to t(".periods.p#{key}"), metrics_path(period: key), class: "seg-opt", aria: { current: (key == @metrics.period ? "true" : nil) } %>
       <% end %>
     </nav>
   </div>
 <% end %>
 
 <% if @metrics.applied.zero? %>
-  <p class="py-10 text-[15px] text-muted">Nenhuma candidatura aplicada neste período.</p>
+  <p class="py-10 text-[15px] text-muted"><%= t(".empty") %></p>
 <% else %>
-  <section class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-x-12 gap-y-9 pt-11 pb-20" aria-label="Resumo">
-    <%= render "metrics/tile", label: "Candidaturas aplicadas", value: @metrics.applied, detail: "no período" %>
-    <%= render "metrics/tile", label: "Taxa de resposta", value: "#{@metrics.response_rate}%", detail: "#{@metrics.answered} de #{@metrics.applied} responderam" %>
-    <%= render "metrics/tile", label: "Chegaram à entrevista", value: "#{@metrics.interview_rate}%", detail: "#{@metrics.interviewed} entrevistas ou testes" %>
-    <%= render "metrics/tile", label: "Tempo até a resposta", value: (@metrics.median_days_to_answer ? pluralize(@metrics.median_days_to_answer, "dia", plural: "dias") : "—"), detail: "mediana entre aplicar e a primeira resposta" %>
+  <section class="grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-x-12 gap-y-9 pt-11 pb-20" aria-label="<%= t(".summary") %>">
+    <%= render "metrics/tile", label: t(".tiles.applied"), value: @metrics.applied, detail: t(".tiles.applied_detail") %>
+    <%= render "metrics/tile", label: t(".tiles.response_rate"), value: "#{@metrics.response_rate}%", detail: t(".tiles.response_rate_detail", answered: @metrics.answered, applied: @metrics.applied) %>
+    <%= render "metrics/tile", label: t(".tiles.interview_rate"), value: "#{@metrics.interview_rate}%", detail: t(".tiles.interview_rate_detail", count: @metrics.interviewed) %>
+    <%= render "metrics/tile", label: t(".tiles.days"), value: (@metrics.median_days_to_answer ? t(".tiles.days_value", count: @metrics.median_days_to_answer) : "—"), detail: t(".tiles.days_detail") %>
   </section>
 
   <div class="flex flex-wrap gap-x-[clamp(40px,6vw,96px)] gap-y-16 pb-[88px]">
@@ -29,11 +28,11 @@
 <div class="flex flex-wrap gap-x-[clamp(40px,6vw,96px)] gap-y-16">
   <% unless @metrics.applied.zero? %>
     <section class="min-w-0 flex-[3_1_520px]" aria-labelledby="origin_title">
-      <h2 id="origin_title" class="text-2xl">Por origem da candidatura</h2>
-      <p class="mt-1.5 mb-5 text-sm text-ink/70">Onde você achou a vaga e quanto cada origem rende em respostas e entrevistas.</p>
+      <h2 id="origin_title" class="text-2xl"><%= t(".origin.title") %></h2>
+      <p class="mt-1.5 mb-5 text-sm text-ink/70"><%= t(".origin.note") %></p>
       <div class="overflow-x-auto">
         <table class="table min-w-[560px] tabular-nums">
-          <thead><tr><th>Origem</th><th class="text-right">Aplicadas</th><th class="text-right">Responderam</th><th class="text-right">Taxa de resposta</th><th class="text-right">Entrevistas</th><th class="text-right">Taxa de entrevista</th></tr></thead>
+          <thead><tr><th><%= t(".origin.origin") %></th><th class="text-right"><%= t(".origin.applied") %></th><th class="text-right"><%= t(".origin.answered") %></th><th class="text-right"><%= t(".origin.response_rate") %></th><th class="text-right"><%= t(".origin.interviews") %></th><th class="text-right"><%= t(".origin.interview_rate") %></th></tr></thead>
           <tbody>
             <% @metrics.by_origin.each do |group| %>
               <tr>
@@ -52,11 +51,11 @@
   <% end %>
 
   <section class="min-w-0 flex-[2_1_380px]" aria-labelledby="sources_title">
-    <h2 id="sources_title" class="text-2xl">Fontes de vagas</h2>
-    <p class="mt-1.5 mb-5 text-sm text-ink/70">Quantas vagas cada fonte trouxe no período e quantas você salvou: as do topo são as que mais valem o seu tempo.</p>
+    <h2 id="sources_title" class="text-2xl"><%= t(".sources.title") %></h2>
+    <p class="mt-1.5 mb-5 text-sm text-ink/70"><%= t(".sources.note") %></p>
     <div class="overflow-x-auto">
       <table class="table min-w-[380px] tabular-nums">
-        <thead><tr><th>Fonte</th><th class="text-right">Vagas</th><th class="text-right">Salvas</th><th class="text-right">Aproveitamento</th></tr></thead>
+        <thead><tr><th><%= t(".sources.source") %></th><th class="text-right"><%= t(".sources.postings") %></th><th class="text-right"><%= t(".sources.saved") %></th><th class="text-right"><%= t(".sources.rate") %></th></tr></thead>
         <tbody>
           <% @metrics.by_source.each do |source| %>
             <tr>

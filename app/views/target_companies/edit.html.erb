@@ -1,4 +1,4 @@
-<%= page_header eyebrow: "Empresas-alvo", title: @target_company.name do %>
-  <%= button_to "Remover", target_company_path(@target_company), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: "Remover esta empresa?" } } %>
+<%= page_header eyebrow: t(".eyebrow"), title: @target_company.name do %>
+  <%= button_to t(".delete"), target_company_path(@target_company), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: t(".delete_confirm") } } %>
 <% end %>
 <%= render "form", target_company: @target_company %>

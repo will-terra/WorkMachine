@@ -76,7 +76,7 @@ class JobPosting < ApplicationRecord
   end
 
   def display_company
-    company.presence || "Empresa não informada"
+    company.presence || I18n.t("job_posting.no_company")
   end
 
   def posted_or_found_at

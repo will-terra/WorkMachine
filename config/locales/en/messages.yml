@@ -1,0 +1,37 @@
+en:
+  message_templates:
+    index:
+      eyebrow: templates
+      title: Messages
+      intro: Pick a template and fill in name, role and company. Your summary and your stack come from the Profile. What is still missing is highlighted in yellow.
+      new: New template
+      templates: Templates
+      up_to: up to %{max}
+      fill_from: Fill in from an application
+      none: None
+      filled_from: "Filled in from %{model}: %{company} · %{role}"
+      fields:
+        nome: Name
+        cargo: Role
+        empresa: Company
+      examples:
+        nome: Marina
+        cargo: Backend Developer
+        empresa: Acme
+      characters: characters
+      body_label: Template text · use {{nome}} (name), {{cargo}} (role), {{empresa}} (company), {{meu_resumo}} and {{minha_stack}}
+      save: Save template
+      settings: Name, language and limit
+      empty_html: No templates yet. %{link}.
+      create_first: Create the first one
+    form:
+      max_placeholder: 200 for a connection note
+      help: "Use {{nome}} (name), {{cargo}} (role) and {{empresa}} (company): they are filled in on the messages screen. {{meu_resumo}} (title and years of experience) and {{minha_stack}} (essential and important skills) come from your profile."
+      save: Save
+      cancel: Cancel
+    edit:
+      eyebrow: Messages
+      delete: Delete
+      delete_confirm: Delete this template?
+    new:
+      title: New template

@@ -156,6 +156,9 @@ en:
       edit: Edit template
       close_edit: Close editing
       copy: Copy message
+      characters: characters
+    profile:
+      remove: Remove %{name}
     push:
       unsupported: This browser does not support notifications.
       failed: "Could not turn them on: %{error}"

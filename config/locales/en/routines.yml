@@ -1,0 +1,63 @@
+en:
+  search_terms:
+    fallback: the terms of your profile
+  routines:
+    done: "%{done}/%{total} done"
+    show:
+      eyebrow: checklist
+      title: Routine
+      intro: What to do each day, adjusted to what WorkMachine already automates. Weekly items stay checked until Sunday, setup items stay checked for good and the others start over every day.
+      edit: Edit routines
+      empty_html: No routines. Create one or restore the ready-made ones in %{link}.
+      empty_link: Settings → Routines
+      rules: Rules
+    item:
+      open: open →
+      check: Check
+  settings:
+    routines:
+      drag: Drag to change the order
+      index:
+        eyebrow: Settings
+        title: Routines
+        intro: The routines shown on the Routine page and on the Dashboard. Change the blocks, the tasks and how long each check lasts. The ready-made ones can be restored at any time.
+        see: See the Routine
+        new: New routine
+        blocks:
+          one: 1 block
+          other: "%{count} blocks"
+        tasks:
+          one: 1 task
+          other: "%{count} tasks"
+        edit: Edit
+        delete: Delete
+        delete_confirm: Delete the routine “%{name}”?
+        empty: No routines.
+        restore: Restore the ready-made routines
+        restore_confirm: The routines go back to the ones that come with WorkMachine, in the current language, and your changes are lost. Restore?
+        restore_note: Goes back to the routines that come with WorkMachine, in the current language. Today's checks stay.
+      form:
+        name: Name
+        position: Order on the page
+        description: Description (optional)
+        blocks: Blocks
+        blocks_help_html: 'Each block has a period: <strong>every day</strong> starts over each day, <strong>every week</strong> stays checked until Sunday and <strong>once</strong> stays checked for good (good for setup). Tasks accept the profile variables, such as <span class="font-mono text-xs">{{termos}}</span> (search terms), <span class="font-mono text-xs">{{area}}</span> and <span class="font-mono text-xs">{{cargo}}</span> (role). The link is optional: a screen of the app (<span class="font-mono text-xs">/radar</span>) or an <span class="font-mono text-xs">https://</span> address.'
+        add_block: + Block
+        save: Save routine
+        cancel: Cancel
+      slot_fields:
+        title: Block
+        title_placeholder: Morning
+        time: Duration (optional)
+        period: Period
+        remove: Remove block
+        add_task: + Task
+      item_fields:
+        label: Task
+        url: Link (optional)
+        url_label: Task link
+        remove: Remove task
+      edit:
+        eyebrow: Settings · Routines
+      new:
+        title: New routine

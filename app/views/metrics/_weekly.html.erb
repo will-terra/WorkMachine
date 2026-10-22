@@ -5,8 +5,8 @@
 <% step = weeks.size > 13 ? 2 : 1 %>
 <figure class="m-0 min-w-0 flex-[1_1_420px]" aria-labelledby="weekly_title">
   <figcaption>
-    <h2 id="weekly_title" class="text-2xl">Candidaturas por semana</h2>
-    <p class="mt-1.5 text-sm text-ink/70">Semanas de segunda a domingo; a última é a atual.</p>
+    <h2 id="weekly_title" class="text-2xl"><%= t(".title") %></h2>
+    <p class="mt-1.5 text-sm text-ink/70"><%= t(".note") %></p>
   </figcaption>
 
   <div class="mt-7 grid grid-cols-[auto_minmax(0,1fr)] gap-x-2.5 gap-y-1.5">
@@ -23,7 +23,7 @@
         <% weeks.each do |monday, count| %>
           <% height = (count * 100.0 / top).round(2) %>
           <li class="group relative flex h-full flex-1 items-end justify-center outline-none" tabindex="0"
-              aria-label="Semana de <%= l(monday, format: "%d/%m") %>: <%= pluralize(count, "candidatura", plural: "candidaturas") %>">
+              aria-label="<%= t(".bar", week: l(monday, format: :day_month), count:) %>">
             <% if count.positive? %>
               <span class="block w-full max-w-[22px] rounded-t-[2px] bg-accent transition group-hover:bg-accent-hover group-focus-visible:bg-accent-hover" style="height: <%= height %>%"></span>
               <% if highlighted.include?(monday) %>
@@ -31,7 +31,7 @@
               <% end %>
             <% end %>
             <span class="pointer-events-none absolute bottom-full z-10 mb-2 hidden rounded-lg bg-surface px-2.5 py-1.5 text-xs whitespace-nowrap shadow-[0_0_0_1px_rgb(236_230_227/0.1),0_6px_18px_#000a] group-hover:block group-focus-visible:block">
-              <strong><%= count %></strong> · semana de <%= l(monday, format: "%d/%m") %>
+              <strong><%= count %></strong> · <%= t(".week_of", week: l(monday, format: :day_month)) %>
             </span>
           </li>
         <% end %>
@@ -40,16 +40,16 @@
     <div></div>
     <ol class="flex gap-[3px] text-[11.5px] text-ink/70 tabular-nums" aria-hidden="true">
       <% weeks.each_with_index do |(monday, _), index| %>
-        <li class="flex-1 text-center whitespace-nowrap"><%= l(monday, format: "%d/%m") if (weeks.size - 1 - index) % step == 0 %></li>
+        <li class="flex-1 text-center whitespace-nowrap"><%= l(monday, format: :day_month) if (weeks.size - 1 - index) % step == 0 %></li>
       <% end %>
     </ol>
   </div>
 
   <details class="mt-4">
-    <summary class="text-xs text-muted">Ver tabela</summary>
+    <summary class="text-xs text-muted"><%= t("metrics.see_table") %></summary>
     <table class="table mt-2 tabular-nums">
-      <thead><tr><th>Semana de</th><th class="text-right">Candidaturas</th></tr></thead>
-      <tbody><% weeks.reverse_each do |monday, count| %><tr><td><%= l(monday, format: "%d/%m/%Y") %></td><td class="text-right"><%= count %></td></tr><% end %></tbody>
+      <thead><tr><th><%= t(".week") %></th><th class="text-right"><%= t(".applications") %></th></tr></thead>
+      <tbody><% weeks.reverse_each do |monday, count| %><tr><td><%= l(monday, format: :full) %></td><td class="text-right"><%= count %></td></tr><% end %></tbody>
     </table>
   </details>
 </figure>

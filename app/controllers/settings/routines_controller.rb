@@ -15,7 +15,7 @@ class Settings::RoutinesController < ApplicationController
     @routine = Routine.new(routine_params)
 
     if @routine.save
-      redirect_to settings_routines_path, notice: "Rotina criada."
+      redirect_to settings_routines_path, notice: t("flash.routines.created")
     else
       render :new, status: :unprocessable_content
     end
@@ -26,7 +26,7 @@ class Settings::RoutinesController < ApplicationController
 
   def update
     if @routine.update(routine_params)
-      redirect_to settings_routines_path, notice: "Rotina salva."
+      redirect_to settings_routines_path, notice: t("flash.routines.updated")
     else
       render :edit, status: :unprocessable_content
     end
@@ -34,12 +34,12 @@ class Settings::RoutinesController < ApplicationController
 
   def destroy
     @routine.destroy!
-    redirect_to settings_routines_path, notice: "Rotina apagada."
+    redirect_to settings_routines_path, notice: t("flash.routines.deleted")
   end
 
   def restore
     Routine.restore_defaults!
-    redirect_to settings_routines_path, notice: "Rotinas prontas restauradas."
+    redirect_to settings_routines_path, notice: t("flash.routines.restored")
   end
 
   private

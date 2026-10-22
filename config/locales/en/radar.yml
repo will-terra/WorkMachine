@@ -1,0 +1,65 @@
+en:
+  radar:
+    gmail_missing: Gmail not set up
+    registrations_total: "%{done} of %{total} registrations done"
+    show:
+      eyebrow: what to do by hand
+      title: Radar
+      intro: The searches come built from your profile. What WorkMachine fetches by itself is in the summary below; here is only what needs to be done by hand.
+      frequency: Frequency
+      empty_profile: empty profile
+      empty_profile_html: The searches come from your profile. %{link} (area, titles and skills) for the Radar to build all of them.
+      fill_profile: Fill in the profile
+    task:
+      apply: Apply
+      set_up_gmail: Set it up in Settings for the alerts to be imported
+      no_alerts_chip: no alerts yet
+      no_alerts: No alert imported from Gmail so far.
+      working: working
+      alerts_read:
+        one: 1 alert read; the last one arrived on %{date}
+        other: "%{count} alerts read; the last one arrived on %{date}"
+      copy: Copy
+      copy_label: "Copy query: %{title}"
+      open: Open ↗
+      open_label: "Open search: %{title}"
+    automated:
+      source: Source
+      last_run: Last run
+      read: Read
+      new: New
+      status: Status
+      "off": "off"
+      never: has not run yet
+      failed: failed
+    status:
+      label: Automatic sources
+      summary: "WorkMachine checks %{count} sources by itself: %{ok} ok"
+      failed:
+        one: 1 with an error (%{names})
+        other: "%{count} with errors (%{names})"
+      "off":
+        one: 1 off
+        other: "%{count} off"
+      show: See sources
+      hide: Hide sources
+    registrations:
+      terms: Terms to fill in the profiles
+      titles: Titles
+      skills: Skills
+      plan_b: Plan B
+  consultancies:
+    consultancy:
+      registered_label: "Registered: %{name}"
+      registered_on: registered on %{date}
+      save: Save
+    notes:
+      railsdevs: "For Rails developers: companies reach out to you."
+      turing: US companies; asks for 3+ years, fluent English and 4 h of time zone overlap.
+      strider: Latin American devs for US companies; has assessments.
+      revelo: International jobs for Brazilians; a good reference for salaries in dollars.
+      wellfound: Startups from all over the world.
+      welcome_to_the_jungle_otta: Startups from the UK and Europe.
+      gupy: "Keep the profile complete: big companies filter there."
+      inhire: Used by many Brazilian tech companies.
+      robert_half: Posts tech jobs.

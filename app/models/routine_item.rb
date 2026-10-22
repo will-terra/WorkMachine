@@ -10,7 +10,7 @@ class RoutineItem < ApplicationRecord
 
   validates :label, presence: true
   validates :key, presence: true, uniqueness: true
-  validates :url, format: { with: %r{\A(?:/|https?://)\S*\z}, message: "precisa começar com / (uma tela do app) ou https://" }, allow_nil: true
+  validates :url, format: { with: %r{\A(?:/|https?://)\S*\z} }, allow_nil: true
 
   def weekly?
     slot.period_weekly?

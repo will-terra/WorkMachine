@@ -15,7 +15,7 @@ class TargetCompaniesController < ApplicationController
     @target_company = TargetCompany.new(target_company_params)
 
     if @target_company.save
-      redirect_to target_companies_path, notice: "Empresa adicionada. Ela entra na próxima busca."
+      redirect_to target_companies_path, notice: t("flash.targets.created")
     else
       render :new, status: :unprocessable_content
     end
@@ -26,7 +26,7 @@ class TargetCompaniesController < ApplicationController
 
   def update
     if @target_company.update(target_company_params)
-      redirect_to target_companies_path, notice: "Empresa atualizada."
+      redirect_to target_companies_path, notice: t("flash.targets.updated")
     else
       render :edit, status: :unprocessable_content
     end
@@ -34,7 +34,7 @@ class TargetCompaniesController < ApplicationController
 
   def destroy
     @target_company.destroy!
-    redirect_to target_companies_path, notice: "Empresa removida.", status: :see_other
+    redirect_to target_companies_path, notice: t("flash.targets.deleted"), status: :see_other
   end
 
   # "Procurar": with a name, asks the ATSs for that company now (the boards found become
@@ -42,24 +42,24 @@ class TargetCompaniesController < ApplicationController
   def find
     if params[:name].present?
       found = TargetCompanyFinder.new.search(params[:name])
-      message = found.any? ? "Achei #{found.map { "#{it.human_enum(:ats)}/#{it.board_slug}" }.to_sentence}. Ative em Sugeridas." : "Não achei um quadro público de “#{params[:name].strip}” no Greenhouse, Lever, Ashby ou Workable."
+      message = found.any? ? t("flash.targets.found", boards: found.map { "#{it.human_enum(:ats)}/#{it.board_slug}" }.to_sentence) : t("flash.targets.not_found", name: params[:name].strip)
       redirect_to target_companies_path, notice: message
     else
       JobApplication.where.not(status: "saved").update_all(board_checked_at: nil)
       FindTargetCompaniesJob.perform_later
-      redirect_to target_companies_path, notice: "Buscando os quadros de vagas das empresas em que você aplicou. As que forem encontradas aparecem aqui em alguns minutos."
+      redirect_to target_companies_path, notice: t("flash.targets.searching")
     end
   end
 
   def activate
     @target_company.update!(active: true)
-    redirect_to target_companies_path, notice: "#{@target_company.name} ativada. Ela entra na próxima busca."
+    redirect_to target_companies_path, notice: t("flash.targets.activated", name: @target_company.name)
   end
 
   # Keeps the company (inactive) so it is not suggested again.
   def dismiss
     @target_company.update!(discovered_at: nil)
-    redirect_to target_companies_path, notice: "Sugestão ignorada.", status: :see_other
+    redirect_to target_companies_path, notice: t("flash.targets.dismissed"), status: :see_other
   end
 
   private

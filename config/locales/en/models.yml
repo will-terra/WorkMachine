@@ -1,0 +1,217 @@
+en:
+  activerecord:
+    models:
+      user: User
+      job_posting: Job
+      job_application: Application
+      contact: Contact
+      target_company: Target company
+      consultancy: Consultancy
+      message_template: Message template
+      routine: Routine
+      routine_slot: Block
+      routine_item: Task
+    attributes:
+      routine:
+        name: Name
+        slots: Blocks
+      routine_slot:
+        title: Block
+        period: Period
+        items: Tasks
+      routine_item:
+        label: Task
+        url: Link
+      user:
+        email_address: Email
+        password: Password
+        password_confirmation: Password confirmation
+      job_posting:
+        title: Title
+        company: Company
+        url: Link
+        source: Source
+        location_text: Location
+        remote_scope: Region
+        description: Description
+        salary_text: Salary
+        posted_at: Posted on
+        score: Score
+        seniority: Seniority
+        triage: Triage
+      job_application:
+        company: Company
+        role: Role
+        origin: Origin
+        status: Status
+        applied_on: Applied on
+        next_follow_up_on: Next follow-up
+        contact_name: Contact
+        contact_url: Link of the contact or the job
+        salary_range: Salary range
+        notes: Notes
+      profile:
+        name: Name
+        headline: Professional title
+        location: City
+        time_zone: Time zone
+        languages: Languages
+        linkedin_url: LinkedIn
+        github_url: GitHub
+        portfolio_url: Portfolio
+        primary_area: Main area
+        plan_b_area: Plan B
+        target_titles: Target titles in Portuguese
+        target_titles_en: Target titles in English
+        seniority: Level
+        years_experience: Years of experience
+        work_modes: Work mode
+        regions: Accepted regions
+        salary_brl_min: Range in BRL (from)
+        salary_brl_max: Range in BRL (to)
+        salary_usd_min: Range in USD (from)
+        salary_usd_max: Range in USD (to)
+        skills: Skills
+        avoid_terms: Terms to avoid
+        search_terms: Search terms
+        plan_b_terms: Plan B terms
+        domains: Industries of interest
+        ai_profile: Text for the AI
+        dream_posting_ids: Dream jobs
+      contact:
+        name: Name
+        headline: Title
+        company: Company
+        linkedin_url: LinkedIn
+        kind: Type
+        last_contacted_on: Last contact
+        notes: Notes
+      target_company:
+        name: Name
+        ats: System (ATS)
+        board_slug: Board slug
+        active: Active
+        example: Example
+      consultancy:
+        name: Name
+        url: Website
+        kind: Type
+        registered_on: Registered on
+      message_template:
+        name: Name
+        language: Language
+        body: Text
+        max_chars: Character limit
+
+  enums:
+    routine_slot:
+      period:
+        daily: Every day
+        weekly: Every week
+        once: Once
+    job_posting:
+      source:
+        remotive: Remotive
+        remote_ok: Remote OK
+        we_work_remotely: We Work Remotely
+        working_nomads: Working Nomads
+        himalayas: Himalayas
+        remotar: Remotar
+        backend_br: backend-br/vagas
+        frontend_br: frontendbr/vagas
+        hacker_news: Hacker News
+        gorails: GoRails Jobs
+        greenhouse: Greenhouse
+        lever: Lever
+        ashby: Ashby
+        workable: Workable
+        linkedin_alert: LinkedIn alert
+        extension: Extension
+        manual: Manual
+      remote_scope:
+        brazil: Brazil
+        latam: LATAM
+        worldwide: Worldwide
+        us_only: US/Canada only
+        europe_only: Europe only
+        unknown: Not stated
+      seniority:
+        junior: Junior
+        mid: Mid-level
+        senior: Senior
+        unknown: Not stated
+      triage:
+        new: New
+        saved: Saved
+        dismissed: Dismissed
+    source_run:
+      status:
+        running: Running
+        succeeded: OK
+        failed: Failed
+    job_application:
+      status:
+        saved: Saved
+        applied: Applied
+        recruiter_contact: Recruiter contact
+        ai_interview: AI interview
+        hr_interview: HR interview
+        tech_interview: Technical interview
+        take_home: Take-home test
+        offer: Offer
+        rejected: Rejected
+        no_response: No response
+        withdrawn: Withdrawn
+    profile:
+      seniority:
+        junior: Junior
+        mid: Mid-level
+        senior: Senior
+      regions:
+        brazil: Brazil
+        latam: Latin America
+        worldwide: Worldwide
+        us: US and Canada
+        europe: Europe
+      work_modes:
+        remote: Remote
+        hybrid: Hybrid
+        onsite: On-site
+      levels:
+        essential: Essential (+30)
+        important: Important (+10)
+        extra: Extra (+5)
+    contact:
+      kind:
+        recruiter: Recruiter
+        manager: Manager
+    target_company:
+      ats:
+        greenhouse: Greenhouse
+        lever: Lever
+        ashby: Ashby
+        workable: Workable
+    consultancy:
+      kind:
+        platform: Profile platforms
+        tech: Tech recruiting firms
+        multinational: Multinational recruiting firms
+    message_template:
+      language:
+        pt: Portuguese
+        en: English
+    application_email:
+      category:
+        rejection: Rejection
+        interview: Interview
+        assessment: Test
+        offer: Offer
+        recruiter_contact: Recruiter contact
+        confirmation: Confirmation
+        other: Other
+        unrelated: Unrelated
+    ai_artifact:
+      kind:
+        fit_analysis: Fit analysis
+        cv_summary: CV summary
+        message: Message to recruiter

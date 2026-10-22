@@ -36,6 +36,14 @@ RSpec.describe Ai::Prompt do
     expect(cv).to include("4 to 5 lines", "language the posting is written in")
   end
 
+  it "answers the fit analysis in the interface language" do
+    expect(described_class.user_text("fit_analysis", posting)).to include("Answer in Brazilian Portuguese", "Aderência:")
+
+    english = I18n.with_locale(:en) { described_class.user_text("fit_analysis", posting) }
+    expect(english).to include("Answer in English", "Fit:", "Gaps:", "Worth applying?:")
+    expect(english).not_to include("Aderência")
+  end
+
   it "uses the templates of the chosen language for messages" do
     create(:message_template, name: "Conexão (PT)", language: "pt", body: "Oi, {{nome}}!")
     create(:message_template, name: "Connection (EN)", language: "en", body: "Hi {{nome}}!")

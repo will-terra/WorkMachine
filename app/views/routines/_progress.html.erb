@@ -4,5 +4,5 @@
   <span class="block overflow-hidden rounded-sm bg-field <%= track %>" aria-hidden="true">
     <%= render "routines/progress_bar", routine:, done:, total: %>
   </span>
-  <span id="routine_progress_text_<%= routine.id %>"><%= done %>/<%= total %> feitos</span>
+  <span id="routine_progress_text_<%= routine.id %>"><%= t("routines.done", done:, total:) %></span>
 </span>

@@ -1,0 +1,76 @@
+# English version of config/routine.yml (same keys; see the comments there).
+
+routines:
+  - name: "App setup"
+    description: "First steps to get WorkMachine ready and to know every screen. These items stay checked for good."
+    slots:
+      - title: "Getting started"
+        time: "~20 min"
+        period: once
+        items:
+          - { key: s1, label: "Install it as an app: install icon in Chrome's address bar (or menu … → Apps in Edge)" }
+          - { key: s2, label: "Create the OpenRouter account, paste the key in Settings → Keys and accounts and click Test OpenRouter", url: "/ajustes#chaves" }
+          - { key: s3, label: "Pick the AI model (free or paid) in Settings → Keys and accounts", url: "/ajustes#chaves" }
+          - { key: s4, label: "Turn on Google 2-step verification, create the app password and click Test Gmail", url: "/ajustes#chaves" }
+          - { key: s5, label: "Upload the CV and build the profile with the AI (or by hand): area, titles, level and skills", url: "/perfil" }
+          - { key: s6, label: "Review the skills in three levels (essential, important, extra) and check the scores in the preview", url: "/perfil" }
+      - title: "Turn on the automations"
+        time: "~15 min"
+        period: once
+        items:
+          - { key: s7, label: "Turn on notifications in this browser (ideally in the installed app)", url: "/ajustes" }
+          - { key: s8, label: "Choose the minimum score for notifications, the automatic dismissal and the automatic sources", url: "/ajustes" }
+          - { key: s9, label: "Create the LinkedIn job alerts (by e-mail, daily) with the Radar searches", url: "/radar#linkedin_alerts" }
+          - { key: s10, label: "Install the browser extension, paste the token in Options and click Test connection", url: "/ajustes#extensao" }
+          - { key: s11, label: "Check that the automatic backup is running (Settings → Backup)", url: "/ajustes" }
+      - title: "Get to know the screens"
+        time: "~15 min"
+        period: once
+        items:
+          - { key: s12, label: "Jobs: triage the first jobs (save, dismiss, analyze with AI)", url: "/vagas" }
+          - { key: s13, label: "Applications: move a card on the kanban and open the table", url: "/candidaturas" }
+          - { key: s14, label: "Radar: get to know the ready-made searches by frequency and the registrations", url: "/radar" }
+          - { key: s15, label: "Messages: review the templates for recruiters", url: "/mensagens" }
+          - { key: s16, label: "Target companies and Contacts: add the companies you want and the recruiters", url: "/empresas-alvo" }
+          - { key: s17, label: "Metrics: understand the funnel (after the first applications)", url: "/metricas" }
+          - { key: s18, label: "Routines: adjust the search routine to your day in Settings → Routines", url: "/ajustes/rotinas" }
+
+  - name: "Search routine"
+    description: "Daily items start over every day; weekly ones stay checked until Sunday."
+    slots:
+      - title: "Morning"
+        time: "~15 min"
+        period: daily
+        items:
+          - { key: m1, label: "Triage the new jobs in WorkMachine (LinkedIn alerts and aggregator): save or dismiss" }
+          - { key: m2, label: "Apply to the ones that really fit (Analyze with AI and CV summary help)" }
+          - { key: m3, label: "Move on the kanban the applications that moved (applied, interview, rejection…)" }
+          - { key: m4, label: "Create your profile on one platform from the Radar list", url: "/radar#cadastros" }
+      - title: "After lunch"
+        time: "~20 min"
+        period: daily
+        items:
+          - { key: a1, label: "LinkedIn posts in the Radar: hiring and looking for (24 h)" }
+          - { key: a2, label: "Send a direct message to whoever posted (templates in Messages)" }
+          - { key: a3, label: "X: 2 or 3 searches in “Latest”" }
+      - title: "End of the day"
+        time: "~10 min"
+        period: daily
+        items:
+          - { key: e1, label: "Telegram groups: search {{termos}} in each one" }
+          - { key: e2, label: "Review recent posts about the stack and comment on 1 or 2" }
+          - { key: e3, label: "Follow up on the Dashboard follow-ups (the app flags who has not answered for more than 5 days)" }
+      - title: "Once a week"
+        time: "Monday"
+        period: weekly
+        items:
+          - { key: w1, label: "Google the ATSs (Week filter) and add the good companies to Target companies" }
+          - { key: w2, label: "Radar → Sites without an API (the rest is already automatic)" }
+          - { key: w3, label: "Connect with 5 recruiters in your field (Radar → Recruiters on LinkedIn)" }
+          - { key: w4, label: "Radar → Automatic: check whether a source failed and whether the LinkedIn alerts are arriving" }
+
+rules:
+  - { title: "Fit before volume.", text: "Apply where the stack really matches and put your energy there." }
+  - { title: "Take the conversation private.", text: "Talk directly to whoever posted the job." }
+  - { title: "Everything goes through the applications:", text: "save from the triage or the extension (the application starts with company, job, origin and link) and keep status and contact up to date." }
+  - { title: "Salary as a range, never a single number.", text: "Before, look at 10 to 20 similar jobs and check Glassdoor, Revelo, Levels.fyi and Indeed. For jobs in dollars, redo the math." }

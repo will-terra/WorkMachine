@@ -11,8 +11,6 @@ module ApplicationReplies
     INTERVIEW_TARGETS = { "ai" => "ai_interview", "technical" => "tech_interview", "hr" => "hr_interview" }.freeze
     # Order of the pipeline used to only move cards forward.
     PIPELINE = %w[saved applied no_response recruiter_contact ai_interview hr_interview tech_interview take_home offer].freeze
-    LABELS = { "rejection" => "recusa", "interview" => "convite para entrevista", "assessment" => "teste",
-               "offer" => "proposta", "recruiter_contact" => "mensagem do recrutador" }.freeze
 
     Result = Data.define(:matched, :moved)
 
@@ -98,7 +96,7 @@ module ApplicationReplies
         setting = Setting.current
         return unless setting.notify_replies?
 
-        PushSender.deliver_all(title: "#{application.company}: #{LABELS.fetch(result.category)}",
+        PushSender.deliver_all(title: "#{application.company}: #{I18n.t("notifications.replies.#{result.category}")}",
                                body: result.summary.presence || application.role, path: "/candidaturas/#{application.id}/edit",
                                tag: "reply-#{application.id}")
       end

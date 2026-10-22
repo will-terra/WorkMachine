@@ -1,8 +1,8 @@
 <li class="grid items-center gap-2 sm:grid-cols-[24px_minmax(0,1fr)_200px_auto]" data-nested-row>
   <%= form.hidden_field :position, data: { position: true } %>
   <% if form.object.persisted? %><%= form.hidden_field :_destroy, data: { destroy: true } %><% end %>
-  <span class="cursor-grab font-mono text-muted" data-handle="item" title="Arraste para mudar a ordem" aria-hidden="true">⋮⋮</span>
-  <%= form.text_field :label, placeholder: "Tarefa", class: "input", aria: { label: "Tarefa" } %>
-  <%= form.text_field :url, placeholder: "Link (opcional)", class: "input font-mono text-xs", aria: { label: "Link da tarefa" } %>
-  <button type="button" class="btn btn-ghost btn-sm" data-action="nested-fields#remove" aria-label="Tirar tarefa">✕</button>
+  <span class="cursor-grab font-mono text-muted" data-handle="item" title="<%= t("settings.routines.drag") %>" aria-hidden="true">⋮⋮</span>
+  <%= form.text_field :label, placeholder: t(".label"), class: "input", aria: { label: t(".label") } %>
+  <%= form.text_field :url, placeholder: t(".url"), class: "input font-mono text-xs", aria: { label: t(".url_label") } %>
+  <button type="button" class="btn btn-ghost btn-sm" data-action="nested-fields#remove" aria-label="<%= t(".remove") %>">✕</button>
 </li>

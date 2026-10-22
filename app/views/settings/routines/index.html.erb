@@ -1,7 +1,6 @@
-<%= page_header eyebrow: "Ajustes", title: "Rotinas",
-                intro: "As rotinas que aparecem na página Rotina e no Painel. Mude os blocos, as tarefas e por quanto tempo cada marcação vale. As prontas podem ser restauradas a qualquer hora." do %>
-  <%= link_to "Ver a Rotina", routine_path, class: "btn btn-sm" %>
-  <%= link_to "Nova rotina", new_settings_routine_path, class: "btn btn-primary btn-sm" %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
+  <%= link_to t(".see"), routine_path, class: "btn btn-sm" %>
+  <%= link_to t(".new"), new_settings_routine_path, class: "btn btn-primary btn-sm" %>
 <% end %>
 
 <ul class="grid gap-4">
@@ -10,26 +9,25 @@
       <div class="min-w-0">
         <h2 class="text-lg"><%= routine.name %></h2>
         <p class="text-sm text-muted">
-          <%= pluralize(routine.slots.size, "bloco", plural: "blocos") %> ·
-          <%= pluralize(routine.slots.sum { it.items.size }, "tarefa", plural: "tarefas") %> ·
+          <%= t(".blocks", count: routine.slots.size) %> ·
+          <%= t(".tasks", count: routine.slots.sum { it.items.size }) %> ·
           <%= routine.slots.map { RoutineSlot.human_enum(:period, it.period) }.uniq.to_sentence %>
         </p>
       </div>
       <div class="flex gap-2">
-        <%= link_to "Editar", edit_settings_routine_path(routine), class: "btn btn-sm" %>
-        <%= button_to "Apagar", settings_routine_path(routine), method: :delete, class: "btn btn-ghost btn-sm",
-                      form: { data: { turbo_confirm: "Apagar a rotina “#{routine.name}”?" } } %>
+        <%= link_to t(".edit"), edit_settings_routine_path(routine), class: "btn btn-sm" %>
+        <%= button_to t(".delete"), settings_routine_path(routine), method: :delete, class: "btn btn-ghost btn-sm",
+                      form: { data: { turbo_confirm: t(".delete_confirm", name: routine.name) } } %>
       </div>
     </li>
   <% end %>
 </ul>
 
 <% if @routines.empty? %>
-  <p class="text-muted">Nenhuma rotina.</p>
+  <p class="text-muted"><%= t(".empty") %></p>
 <% end %>
 
 <div class="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-5 text-sm">
-  <%= button_to "Restaurar as rotinas prontas", restore_settings_routines_path, class: "btn btn-sm",
-                form: { data: { turbo_confirm: "As rotinas voltam a ser as que vêm com o WorkMachine e as suas mudanças se perdem. Restaurar?" } } %>
-  <span class="text-muted">Volta para as rotinas de <span class="font-mono text-xs">config/routine.yml</span>. As marcações de hoje continuam.</span>
+  <%= button_to t(".restore"), restore_settings_routines_path, class: "btn btn-sm", form: { data: { turbo_confirm: t(".restore_confirm") } } %>
+  <span class="text-muted"><%= t(".restore_note") %></span>
 </div>

@@ -25,21 +25,21 @@ module CvText
       when :pdf then pdf(io)
       when :docx then docx(io)
       when :text then io.read.to_s.force_encoding("UTF-8").scrub
-      else raise Error, "Envie o currículo em PDF, DOCX ou TXT."
+      else raise Error, I18n.t("cv_text.unsupported")
       end
-    clean(text).presence or raise Error, "Não achei texto no arquivo. Se o PDF for uma imagem escaneada, exporte de novo como texto."
+    clean(text).presence or raise Error, I18n.t("cv_text.empty")
   end
 
   def pdf(io)
     PDF::Reader.new(io).pages.map(&:text).join("\n\n")
   rescue PDF::Reader::MalformedPDFError, PDF::Reader::UnsupportedFeatureError => e
-    raise Error, "Não consegui ler o PDF (#{e.message.truncate(80)})."
+    raise Error, I18n.t("cv_text.pdf", message: e.message.truncate(80))
   end
 
   # word/document.xml has one <w:p> per paragraph and the text in <w:t>; tabs and breaks too.
   def docx(io)
     entry = Zip::File.open_buffer(io.read).find_entry("word/document.xml")
-    raise Error, "O arquivo não parece um .docx do Word." unless entry
+    raise Error, I18n.t("cv_text.not_docx") unless entry
 
     document = Nokogiri::XML(entry.get_input_stream.read)
     document.remove_namespaces!
@@ -47,7 +47,7 @@ module CvText
       paragraph.xpath(".//t|.//tab|.//br").map { it.name == "t" ? it.text : (it.name == "tab" ? "\t" : "\n") }.join
     end.join("\n")
   rescue Zip::Error => e
-    raise Error, "Não consegui abrir o .docx (#{e.message.truncate(80)})."
+    raise Error, I18n.t("cv_text.docx", message: e.message.truncate(80))
   end
 
   def clean(text)

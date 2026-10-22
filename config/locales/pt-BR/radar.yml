@@ -1,0 +1,55 @@
+pt-BR:
+  radar:
+    gmail_missing: Gmail não configurado
+    registrations_total: "%{done} de %{total} cadastros feitos"
+    show:
+      eyebrow: o que fazer à mão
+      title: Radar
+      intro: As buscas já vêm montadas com o seu perfil. O que o WorkMachine busca sozinho fica no resumo abaixo; aqui fica só o que precisa ser feito à mão.
+      frequency: Frequência
+      empty_profile: perfil vazio
+      empty_profile_html: As buscas saem do seu perfil. %{link} (área, cargos e skills) para o Radar montar todas.
+      fill_profile: Preencha o perfil
+    task:
+      apply: Aplicar
+      set_up_gmail: Configure em Ajustes para os alertas serem importados
+      no_alerts_chip: nenhum alerta ainda
+      no_alerts: Nenhum alerta importado do Gmail até agora.
+      working: funcionando
+      alerts_read:
+        one: 1 alerta lido; o último chegou em %{date}
+        other: "%{count} alertas lidos; o último chegou em %{date}"
+      copy: Copiar
+      copy_label: "Copiar termo: %{title}"
+      open: Abrir ↗
+      open_label: "Abrir busca: %{title}"
+    automated:
+      source: Fonte
+      last_run: Última execução
+      read: Lidas
+      new: Novas
+      status: Situação
+      "off": desligada
+      never: ainda não rodou
+      failed: falhou
+    status:
+      label: Fontes automáticas
+      summary: "O WorkMachine consulta %{count} fontes sozinho: %{ok} ok"
+      failed:
+        one: 1 com erro (%{names})
+        other: "%{count} com erro (%{names})"
+      "off":
+        one: 1 desligada
+        other: "%{count} desligadas"
+      show: Ver fontes
+      hide: Esconder fontes
+    registrations:
+      terms: Termos para preencher os perfis
+      titles: Títulos
+      skills: Skills
+      plan_b: Plano B
+  consultancies:
+    consultancy:
+      registered_label: "Cadastro feito: %{name}"
+      registered_on: cadastrado em %{date}
+      save: Salvar

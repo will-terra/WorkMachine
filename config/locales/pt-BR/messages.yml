@@ -1,0 +1,37 @@
+pt-BR:
+  message_templates:
+    index:
+      eyebrow: modelos
+      title: Mensagens
+      intro: Escolha um modelo e preencha nome, cargo e empresa. Seu resumo e sua stack vêm do Perfil. O que falta preencher fica marcado em amarelo.
+      new: Novo modelo
+      templates: Modelos
+      up_to: até %{max}
+      fill_from: Preencher com uma candidatura
+      none: Nenhuma
+      filled_from: "Preenchido a partir de %{model}: %{company} · %{role}"
+      fields:
+        nome: Nome
+        cargo: Cargo
+        empresa: Empresa
+      examples:
+        nome: Marina
+        cargo: Desenvolvedor Back-end
+        empresa: Acme
+      characters: caracteres
+      body_label: Texto do modelo · use {{nome}}, {{cargo}}, {{empresa}}, {{meu_resumo}} e {{minha_stack}}
+      save: Salvar modelo
+      settings: Nome, idioma e limite
+      empty_html: Nenhum modelo ainda. %{link}.
+      create_first: Crie o primeiro
+    form:
+      max_placeholder: 200 para nota de conexão
+      help: "Use {{nome}}, {{cargo}} e {{empresa}}: eles são preenchidos na tela de mensagens. {{meu_resumo}} (título e anos de experiência) e {{minha_stack}} (skills essenciais e importantes) saem do seu perfil."
+      save: Salvar
+      cancel: Cancelar
+    edit:
+      eyebrow: Mensagens
+      delete: Apagar
+      delete_confirm: Apagar este modelo?
+    new:
+      title: Novo modelo

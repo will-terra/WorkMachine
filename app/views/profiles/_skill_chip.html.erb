@@ -3,19 +3,19 @@
 <span class="skill-chip <%= "skill-chip-essential" if level == "essential" %>" data-profile-form-target="skill">
   <%= hidden_field_tag "profile[skills][#{index}][name]", skill["name"], id: nil, data: { field: "name" } %>
   <button type="button" class="cursor-pointer" popovertarget="skill_popover_<%= index %>" data-field="label"
-          title="<%= Array(skill["synonyms"]).any? ? "Sinônimos: #{Array(skill["synonyms"]).join(", ")}" : "Nível e sinônimos" %>"><%= skill["name"] %></button>
+          title="<%= Array(skill["synonyms"]).any? ? t(".synonyms_title", synonyms: Array(skill["synonyms"]).join(", ")) : t(".level_and_synonyms") %>"><%= skill["name"] %></button>
   <span popover id="skill_popover_<%= index %>" class="card m-0 w-72 gap-3 border border-line text-sm text-ink shadow-lg" data-action="toggle->profile-form#placePopover">
     <span>
-      <%= label_tag "skill_level_#{index}", "Nível", class: "label" %>
+      <%= label_tag "skill_level_#{index}", t(".level"), class: "label" %>
       <%= select_tag "profile[skills][#{index}][level]", options_for_select(Profile::LEVELS.keys.map { [ Profile.human_enum(:levels, it), it ] }, level),
                      id: "skill_level_#{index}", class: "input", data: { field: "level", action: "profile-form#levelChanged" } %>
     </span>
     <span>
-      <%= label_tag "skill_synonyms_#{index}", "Sinônimos", class: "label" %>
+      <%= label_tag "skill_synonyms_#{index}", t(".synonyms"), class: "label" %>
       <%= text_field_tag "profile[skills][#{index}][synonyms]", Array(skill["synonyms"]).join(", "), id: "skill_synonyms_#{index}",
-                         class: "input", placeholder: "separados por vírgula", data: { field: "synonyms" } %>
-      <span class="mt-1 block text-xs text-muted">Contam como a mesma skill (Postgres e PostgreSQL).</span>
+                         class: "input", placeholder: t(".synonyms_placeholder"), data: { field: "synonyms" } %>
+      <span class="mt-1 block text-xs text-muted"><%= t(".synonyms_note") %></span>
     </span>
   </span>
-  <button type="button" class="skill-chip-remove" data-action="profile-form#removeChip" aria-label="Remover <%= skill["name"].presence || "skill" %>">×</button>
+  <button type="button" class="skill-chip-remove" data-action="profile-form#removeChip" aria-label="<%= t("profiles.remove", name: skill["name"].presence || "skill") %>">×</button>
 </span>

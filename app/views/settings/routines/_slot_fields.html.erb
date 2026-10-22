@@ -2,20 +2,20 @@
   <%= form.hidden_field :position, data: { position: true } %>
   <% if form.object.persisted? %><%= form.hidden_field :_destroy, data: { destroy: true } %><% end %>
   <div class="grid items-end gap-3 sm:grid-cols-[24px_minmax(0,1fr)_140px_150px_auto]">
-    <span class="cursor-grab pb-2 font-mono text-muted" data-handle="slot" title="Arraste para mudar a ordem" aria-hidden="true">⋮⋮</span>
+    <span class="cursor-grab pb-2 font-mono text-muted" data-handle="slot" title="<%= t("settings.routines.drag") %>" aria-hidden="true">⋮⋮</span>
     <div>
-      <%= form.label :title, "Bloco", class: "label" %>
-      <%= form.text_field :title, required: true, placeholder: "Manhã", class: "input" %>
+      <%= form.label :title, t(".title"), class: "label" %>
+      <%= form.text_field :title, required: true, placeholder: t(".title_placeholder"), class: "input" %>
     </div>
     <div>
-      <%= form.label :time, "Duração (opcional)", class: "label" %>
+      <%= form.label :time, t(".time"), class: "label" %>
       <%= form.text_field :time, placeholder: "~15 min", class: "input" %>
     </div>
     <div>
-      <%= form.label :period, "Período", class: "label" %>
+      <%= form.label :period, t(".period"), class: "label" %>
       <%= form.select :period, RoutineSlot::PERIODS.map { [ RoutineSlot.human_enum(:period, it), it ] }, {}, class: "input" %>
     </div>
-    <button type="button" class="btn btn-ghost btn-sm" data-action="nested-fields#remove">Tirar bloco</button>
+    <button type="button" class="btn btn-ghost btn-sm" data-action="nested-fields#remove"><%= t(".remove") %></button>
   </div>
 
   <div class="grid gap-2" data-controller="nested-fields" data-nested-fields-placeholder-value="NEW_ITEM" data-nested-fields-handle-value="item">
@@ -29,6 +29,6 @@
         <%= render "settings/routines/item_fields", form: item_form %>
       <% end %>
     </template>
-    <button type="button" class="btn btn-ghost btn-sm justify-self-start" data-action="nested-fields#add">+ Tarefa</button>
+    <button type="button" class="btn btn-ghost btn-sm justify-self-start" data-action="nested-fields#add"><%= t(".add_task") %></button>
   </div>
 </fieldset>

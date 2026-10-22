@@ -1,0 +1,93 @@
+pt-BR:
+  flash:
+    applications:
+      created: Candidatura criada.
+      updated: Candidatura atualizada.
+      deleted: Candidatura apagada.
+      checking_replies: Lendo as respostas das empresas no Gmail. Os cartões se movem sozinhos em alguns instantes.
+      choose_csv: Escolha um arquivo CSV.
+      imported:
+        one: 1 candidatura importada.
+        other: "%{count} candidaturas importadas."
+    templates:
+      created: Modelo criado.
+      updated: Modelo atualizado.
+      deleted: Modelo apagado.
+    setup:
+      created: Conta criada. Bem-vindo ao WorkMachine!
+    push:
+      removed: Navegador removido das notificações.
+      test: Notificações funcionando. Vagas novas com nota %{min}+ vão aparecer assim.
+    routines:
+      created: Rotina criada.
+      updated: Rotina salva.
+      deleted: Rotina apagada.
+      restored: Rotinas prontas restauradas.
+    postings:
+      dismissed_many:
+        one: 1 vaga descartada. Ela continua em Triagem → Descartadas.
+        other: "%{count} vagas descartadas. Elas continuam em Triagem → Descartadas."
+      added: Vaga adicionada com nota %{score}.
+      already_saved: Essa vaga já estava salva.
+      fetching: Busca iniciada. As fontes respeitam o intervalo mínimo de cada uma; recarregue em um minuto.
+      saved: "Salva em Candidaturas: %{name}."
+      applied: "%{name} está em Candidaturas como %{status}."
+      dream_added: Marcada como vaga dos sonhos. A IA passa a usá-la como referência.
+      dream_removed: Tirada das vagas dos sonhos.
+      dream_full: Já são %{max} vagas dos sonhos. Tire uma no Perfil antes.
+      dismissed: Vaga descartada. Ela continua em Triagem → Descartadas.
+      restored: Vaga de volta para a triagem.
+      undone: Desfeito.
+    onboarding:
+      searching: Primeira busca iniciada. As vagas chegam em Vagas em alguns minutos, já com nota.
+      done: Tudo pronto.
+    settings:
+      keys_saved: Chaves salvas.
+      openrouter_missing: Coloque a chave do OpenRouter primeiro.
+      openrouter_ok: "OpenRouter conectado%{label}. Modelo: %{model}."
+      openrouter_refused: O OpenRouter recusou a chave. Confira se copiou inteira.
+      openrouter_failed: Não consegui falar com o OpenRouter (%{error}).
+      gmail_missing: Coloque o e-mail e a senha de app do Gmail primeiro.
+      gmail_ok: "Gmail conectado: %{count} e-mails em %{mailbox}. Nada é alterado na caixa."
+      gmail_failed: Não consegui falar com o Gmail (%{error}).
+      token: Token novo gerado. Cole nas Opções da extensão.
+      backup_done: "Backup feito: %{file}."
+      backup_failed: "O backup falhou: %{error}"
+      saved: Ajustes salvos.
+    contacts:
+      created: Contato salvo.
+      updated: Contato atualizado.
+      deleted: Contato apagado.
+    ai:
+      no_key: Coloque a chave do OpenRouter em Ajustes para usar a IA.
+      started: "%{kind} em andamento. O resultado aparece aqui em alguns segundos."
+      deleted: Resultado apagado.
+    targets:
+      created: Empresa adicionada. Ela entra na próxima busca.
+      updated: Empresa atualizada.
+      deleted: Empresa removida.
+      found: Achei %{boards}. Ative em Sugeridas.
+      not_found: Não achei um quadro público de “%{name}” no Greenhouse, Lever, Ashby ou Workable.
+      searching: Buscando os quadros de vagas das empresas em que você aplicou. As que forem encontradas aparecem aqui em alguns minutos.
+      activated: "%{name} ativada. Ela entra na próxima busca."
+      dismissed: Sugestão ignorada.
+    sessions:
+      rate_limited: Muitas tentativas. Tente de novo em alguns minutos.
+      invalid: E-mail ou senha incorretos.
+    profile:
+      cv_too_big: O currículo pode ter até 5 MB.
+      cv_read: "Currículo lido: %{count} caracteres. Agora monte o rascunho com a IA ou preencha o formulário."
+      cv_missing: Envie o currículo primeiro.
+      drafting: Montando o rascunho com a IA. Leva cerca de um minuto.
+      draft_discarded: Rascunho descartado.
+      saved_rescoring: Perfil salvo. %{count} vagas estão sendo recalculadas.
+      saved: Perfil salvo.
+  api:
+    rate_limited: Muitas requisições. Tente de novo em um minuto.
+    no_token: Gere o token da extensão no WorkMachine, em Ajustes → Extensão do navegador.
+    invalid_token: Token inválido. Confira o token nas opções da extensão.
+    summary:
+      application: "Candidatura: %{status}%{applied_on}"
+      applied_on: " · aplicada em %{date}"
+      auto_dismissed: Descartada automaticamente (%{reason})
+      new: Nova na triagem

@@ -1,6 +1,6 @@
 <div class="mt-2 overflow-x-auto">
   <table class="table min-w-[680px]">
-    <thead><tr><th>Fonte</th><th>Última execução</th><th class="text-right">Lidas</th><th class="text-right">Novas</th><th>Situação</th></tr></thead>
+    <thead><tr><th><%= t(".source") %></th><th><%= t(".last_run") %></th><th class="text-right"><%= t(".read") %></th><th class="text-right"><%= t(".new") %></th><th><%= t(".status") %></th></tr></thead>
     <tbody>
       <% automated.each do |source| %>
         <tr>
@@ -17,13 +17,13 @@
           <td class="text-right font-mono text-[12.5px]"><%= source.created_count %></td>
           <td class="whitespace-nowrap">
             <% if source.needs_gmail? && !gmail_configured %>
-              <%= link_to "Gmail não configurado", settings_path(anchor: "chaves"), class: "chip chip-warn" %>
+              <%= link_to t("radar.gmail_missing"), settings_path(anchor: "chaves"), class: "chip chip-warn" %>
             <% elsif source.off %>
-              <span class="chip chip-outline">desligada</span>
+              <span class="chip chip-outline"><%= t(".off") %></span>
             <% elsif source.last_run_at.nil? %>
-              <span class="text-[12.5px] text-muted">ainda não rodou</span>
+              <span class="text-[12.5px] text-muted"><%= t(".never") %></span>
             <% elsif source.failed %>
-              <span class="chip chip-warn" title="<%= source.error_message %>">falhou</span>
+              <span class="chip chip-warn" title="<%= source.error_message %>"><%= t(".failed") %></span>
             <% else %>
               <span class="chip">ok</span>
             <% end %>

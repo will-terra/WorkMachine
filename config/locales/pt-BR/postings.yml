@@ -156,6 +156,9 @@ pt-BR:
       edit: Editar modelo
       close_edit: Fechar edição
       copy: Copiar mensagem
+      characters: caracteres
+    profile:
+      remove: Remover %{name}
     push:
       unsupported: Este navegador não suporta notificações.
       failed: "Não consegui ativar: %{error}"

@@ -60,7 +60,7 @@ RSpec.describe "Settings and push subscriptions" do
     expect(flash[:notice]).to start_with("Backup feito: workmachine-")
 
     get settings_path
-    expect(response.body).to include("1 cópia guardadas")
+    expect(response.body).to include("1 cópia guardada")
 
     allow(DatabaseBackup).to receive(:call).and_raise(Errno::EACCES, "/rails/backups")
     post backup_settings_path

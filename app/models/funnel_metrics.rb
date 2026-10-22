@@ -55,8 +55,8 @@ class FunnelMetrics
   def interview_rate = percent(interviewed, applied)
 
   def funnel
-    [ [ "Aplicadas", applied ], [ "Responderam", answered ], [ "Entrevista ou teste", interviewed ], [ "Proposta", offers ] ]
-      .map { |label, count| Stage.new(label:, count:, rate: percent(count, applied)) }
+    { applied:, answered:, interviewed:, offers: }
+      .map { |key, count| Stage.new(label: I18n.t("metrics.stages.#{key}"), count:, rate: percent(count, applied)) }
   end
 
   # Median days between applying and the first answer, for the applications that have both dates.
@@ -76,7 +76,7 @@ class FunnelMetrics
   end
 
   def by_origin
-    rows.group_by { it.application.origin.presence || "Sem origem" }
+    rows.group_by { it.application.origin.presence || I18n.t("metrics.no_origin") }
         .map { |name, list| Group.new(name:, total: list.size, answered: list.count(&:answered), interviewed: list.count(&:interviewed)) }
         .sort_by { [ -it.total, it.name ] }
   end

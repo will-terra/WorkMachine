@@ -1,50 +1,50 @@
 <%= turbo_frame_tag "profile_cv" do %>
   <section id="cv" class="scroll-mt-6" aria-labelledby="cv_title">
-    <h2 id="cv_title">Currículo</h2>
+    <h2 id="cv_title"><%= t(".title") %></h2>
     <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2.5">
       <% if profile.cv.attached? %>
         <span class="font-mono text-[13px]">
           <%= profile.cv.filename %>
-          <span class="text-muted">· enviado em <%= l(profile.cv.created_at.to_date, format: "%d/%m") %> · <%= pluralize(profile.cv_text.to_s.length, "caractere", plural: "caracteres") %> lidos</span>
+          <span class="text-muted">· <%= t(".uploaded", date: l(profile.cv.created_at.to_date, format: :day_month), count: profile.cv_text.to_s.length) %></span>
         </span>
       <% end %>
       <%= form_with url: upload_cv_profile_path, multipart: true, data: { turbo_frame: "_top", controller: "auto-submit" } do |form| %>
         <label class="btn btn-sm">
-          <%= profile.cv.attached? ? "Trocar arquivo" : "Enviar o currículo" %>
+          <%= profile.cv.attached? ? t(".replace") : t(".upload") %>
           <%= form.file_field :cv, accept: ".pdf,.docx,.txt,.md", required: true, class: "sr-only", data: { action: "auto-submit#submit" } %>
         </label>
-        <noscript><%= form.submit "Enviar", class: "btn btn-sm" %></noscript>
+        <noscript><%= form.submit t(".send"), class: "btn btn-sm" %></noscript>
       <% end %>
       <% if profile.cv_text.present? %>
         <details class="basis-full">
-          <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover">Ver texto extraído</summary>
+          <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover"><%= t(".extracted") %></summary>
           <pre class="code mt-2 max-h-64 overflow-y-auto whitespace-pre-wrap"><%= profile.cv_text %></pre>
         </details>
       <% end %>
     </div>
-    <p class="mt-2 text-[13px] text-muted">PDF, DOCX ou TXT, até 5 MB. A IA monta um rascunho do perfil que você revisa antes de salvar. O arquivo fica só neste computador; o texto vai para o OpenRouter apenas quando você clica em montar o rascunho.</p>
+    <p class="mt-2 text-[13px] text-muted"><%= t(".note") %></p>
 
     <% if profile.cv_text.present? %>
       <div class="mt-3 text-[13.5px]" role="status">
         <% if !Ai::ProfileDraft.configured? %>
-          <p class="text-warn-text">Para montar o rascunho com a IA, coloque a chave do OpenRouter em <%= link_to "Ajustes", settings_path(anchor: "chaves"), data: { turbo_frame: "_top" } %>. Sem ela, preencha o formulário.</p>
+          <p class="text-warn-text"><%= t(".no_key_html", link: link_to(t("layouts.nav.settings"), settings_path(anchor: "chaves"), data: { turbo_frame: "_top" })) %></p>
         <% elsif profile.cv_draft_status == "pending" %>
-          <p class="font-semibold" data-controller="poll" data-poll-url-value="<%= cv_profile_path %>">Montando o rascunho com a IA…</p>
+          <p class="font-semibold" data-controller="poll" data-poll-url-value="<%= cv_profile_path %>"><%= t(".drafting") %></p>
         <% elsif profile.cv_draft.present? %>
           <div class="flex flex-wrap items-center gap-2">
-            <p class="font-semibold">Rascunho pronto.</p>
-            <%= link_to "Abrir no formulário para revisar", profile_path(rascunho: 1), class: "btn btn-primary btn-sm", data: { turbo_frame: "_top" } %>
-            <%= button_to "Descartar", discard_draft_profile_path, method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } } %>
+            <p class="font-semibold"><%= t(".draft_ready") %></p>
+            <%= link_to t(".open_draft"), profile_path(rascunho: 1), class: "btn btn-primary btn-sm", data: { turbo_frame: "_top" } %>
+            <%= button_to t(".discard"), discard_draft_profile_path, method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top" } } %>
           </div>
         <% else %>
           <% if profile.cv_draft_status == "failed" %>
-            <p class="mb-2 font-semibold text-warn-strong" role="alert">O rascunho falhou: <%= profile.cv_draft_error %></p>
+            <p class="mb-2 font-semibold text-warn-strong" role="alert"><%= t(".draft_failed", error: profile.cv_draft_error) %></p>
           <% end %>
           <p class="text-muted">
             <% if Ai::Client.free? %>
-              “Montar perfil a partir do CV” é grátis com o modelo gratuito <%= Ai::Client.model %>.
+              <%= t(".free", model: Ai::Client.model) %>
             <% else %>
-              “Montar perfil a partir do CV” custa cerca de US$ <%= number_with_precision(Ai::ProfileDraft.estimate(profile.cv_text), precision: 3) %> com <%= Ai::Client.model %>.
+              <%= t(".cost", cost: number_with_precision(Ai::ProfileDraft.estimate(profile.cv_text), precision: 3), model: Ai::Client.model) %>
             <% end %>
           </p>
         <% end %>

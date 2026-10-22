@@ -1,0 +1,49 @@
+pt-BR:
+  cv_text:
+    unsupported: Envie o currículo em PDF, DOCX ou TXT.
+    empty: Não achei texto no arquivo. Se o PDF for uma imagem escaneada, exporte de novo como texto.
+    pdf: Não consegui ler o PDF (%{message}).
+    not_docx: O arquivo não parece um .docx do Word.
+    docx: Não consegui abrir o .docx (%{message}).
+  http_client:
+    invalid_json: "JSON inválido em %{url}: %{message}"
+  database_backup:
+    failed: a cópia do SQLite falhou
+    busy: o banco ficou ocupado por tempo demais
+  ai:
+    errors:
+      invalid_key: A chave do OpenRouter é inválida. Confira em Ajustes → Chaves e contas.
+      no_credits: Sem créditos no OpenRouter. Adicione créditos em openrouter.ai/settings/credits ou use o modelo gratuito (Ajustes → Chaves e contas).
+      free_limit: Os modelos gratuitos atingiram o limite de uso agora (por minuto ou por dia). Tente mais tarde ou mude para o modelo pago em Ajustes.
+      limit: Limite de uso do OpenRouter atingido. Tente de novo em alguns minutos.
+      data_policy: "O OpenRouter recusou por causa da sua política de dados: para os modelos gratuitos, libere-os em openrouter.ai/settings/privacy ou use o modelo pago."
+      other: "Erro do OpenRouter: %{message}"
+      offline: Sem conexão com o OpenRouter (%{error}).
+      refused: A IA recusou o pedido.
+      no_draft: A IA não devolveu um rascunho. Tente de novo.
+      truncated: "[resposta cortada no limite de tokens]"
+  gmail:
+    app_password_required: "O Google exige uma senha de app: use as 16 letras geradas em myaccount.google.com/apppasswords, não a senha da conta."
+    login_refused: O Gmail recusou o login (%{message}). Confira o e-mail e a senha de app em Ajustes.
+  notifications:
+    new_posting: Vaga nova com nota %{score}
+    new_postings: "%{count} vagas novas com nota %{score}+"
+    more: e mais %{count}
+    follow_up_one: "Follow-up hoje: %{company}"
+    follow_up_many: "%{count} follow-ups para hoje"
+    follow_up_body: "Sem resposta há %{days}+ dias: %{names}. A mensagem de follow-up já vem preenchida."
+    replies:
+      rejection: recusa
+      interview: convite para entrevista
+      assessment: teste
+      offer: proposta
+      recruiter_contact: mensagem do recrutador
+  job_posting:
+    no_company: Empresa não informada
+  activerecord:
+    errors:
+      models:
+        routine_item:
+          attributes:
+            url:
+              invalid: precisa começar com / (uma tela do app) ou https://

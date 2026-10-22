@@ -38,10 +38,9 @@ module GmailSession
 
   def login_hint(message)
     if message.include?("Application-specific password required")
-      "O Google exige uma senha de app: use as 16 letras geradas em " \
-        "myaccount.google.com/apppasswords, não a senha da conta."
+      I18n.t("gmail.app_password_required")
     else
-      "O Gmail recusou o login (#{message.strip}). Confira o e-mail e a senha de app em Ajustes."
+      I18n.t("gmail.login_refused", message: message.strip)
     end
   end
 

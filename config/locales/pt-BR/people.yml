@@ -1,0 +1,74 @@
+pt-BR:
+  contacts:
+    index:
+      eyebrow: recrutadores e gestores
+      title: Contatos
+      intro: Salve pessoas pelo ícone da extensão, no perfil delas no LinkedIn, ou à mão. A mensagem já abre preenchida com o nome e a empresa.
+      new: Novo contato
+      kind: Tipo
+      kinds:
+        all: Todos
+        recruiters: Recrutadores
+        managers: Gestores
+      search: Buscar
+      search_placeholder: nome, empresa…
+      name: Nome
+      company: Empresa
+      last_contact: Último contato
+      actions: Ações
+      message: Mensagem
+      edit: Editar
+      no_match: Nenhum contato com esses filtros.
+      empty: Nenhum contato ainda. Salve recrutadores pela extensão do navegador, no perfil do LinkedIn ou na equipe de contratação de uma vaga. O Radar tem as buscas para achar recrutadores da sua área.
+    form:
+      headline_placeholder: Tech Recruiter na Acme
+      save: Salvar
+      cancel: Cancelar
+    edit:
+      eyebrow: Contatos
+      delete: Apagar
+      delete_confirm: Apagar este contato?
+    new:
+      title: Novo contato
+  target_companies:
+    index:
+      eyebrow: quadros de vagas
+      title: Empresas-alvo
+      intro: Empresas com quadro público no Greenhouse, Lever, Ashby ou Workable. O agregador lê esses quadros a cada 3 horas e guarda só os cargos da sua área.
+      find_label: Procurar o quadro de uma empresa
+      find_placeholder: nome da empresa
+      find_title: "Vazio: procura de novo as empresas das suas candidaturas"
+      find: Procurar
+      finding: Procurando…
+      add: Adicionar
+      suggested: Sugeridas
+      suggested_note: Uma vaga salva apontava para o quadro destas empresas, ou você procurou por elas.
+      via_html: via “%{link}”
+      searched: procurada por você
+      activate: Ativar
+      dismiss: Dispensar
+      boards: Quadros consultados
+      boards_count: "%{active} ativos · %{paused} pausados"
+      company: Empresa
+      board: Quadro
+      postings: Vagas
+      saved: Salvas
+      auto_dismissed: Auto-descartadas
+      last_read: Última leitura
+      active: Ativa
+      active_label: "%{name} ativa"
+      actions: Ações
+      example: exemplo
+      save: Salvar
+      edit: Editar
+      slug_help_html: 'Para achar o slug, abra a página de vagas da empresa: em <span class="font-mono">job-boards.greenhouse.io/<b>gitlab</b></span>, <span class="font-mono">jobs.lever.co/<b>empresa</b></span>, <span class="font-mono">jobs.ashbyhq.com/<b>empresa</b></span> ou <span class="font-mono">apply.workable.com/<b>empresa</b></span>, o slug é a parte em negrito.'
+    form:
+      active: Consultar no agregador
+      save: Salvar
+      cancel: Cancelar
+    edit:
+      eyebrow: Empresas-alvo
+      delete: Remover
+      delete_confirm: Remover esta empresa?
+    new:
+      title: Adicionar empresa

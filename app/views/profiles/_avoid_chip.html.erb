@@ -1,5 +1,5 @@
 <span class="skill-chip skill-chip-avoid" data-profile-form-target="avoid">
   <%= hidden_field_tag "profile[avoid_terms][]", term, id: nil, data: { field: "name" } %>
   <span data-field="label"><%= term %></span>
-  <button type="button" class="skill-chip-remove" data-action="profile-form#removeChip" aria-label="Remover <%= term.presence || "termo" %>">×</button>
+  <button type="button" class="skill-chip-remove" data-action="profile-form#removeChip" aria-label="<%= t("profiles.remove", name: term.presence || t("profiles.term")) %>">×</button>
 </span>

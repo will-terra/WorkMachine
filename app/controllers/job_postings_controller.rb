@@ -21,7 +21,7 @@ class JobPostingsController < ApplicationController
     filter = JobPostingFilter.new(filter_params.merge("triage" => "new"))
     count = filter.scope.update_all(triage: "dismissed", updated_at: Time.current)
     redirect_to job_postings_path(filter.to_params),
-                notice: "#{count} #{count == 1 ? "vaga descartada" : "vagas descartadas"}. Elas continuam em Triagem → Descartada.",
+                notice: t("flash.postings.dismissed_many", count:),
                 status: :see_other
   end
 
@@ -40,26 +40,26 @@ class JobPostingsController < ApplicationController
     if result.invalid?
       render :new, status: :unprocessable_content
     else
-      redirect_to job_posting_path(@job_posting), notice: result.created? ? "Vaga adicionada com nota #{@job_posting.score}." : "Essa vaga já estava salva."
+      redirect_to job_posting_path(@job_posting), notice: result.created? ? t("flash.postings.added", score: @job_posting.score) : t("flash.postings.already_saved")
     end
   end
 
   def fetch
     FetchJobsJob.perform_later
     ImportLinkedinAlertsJob.perform_later if LinkedinAlerts::Importer.configured?
-    redirect_to job_postings_path, notice: "Busca iniciada. As fontes respeitam o intervalo mínimo de cada uma; recarregue em um minuto."
+    redirect_to job_postings_path, notice: t("flash.postings.fetching")
   end
 
   def save
     undo = undo_params(application: true)
     application = @job_posting.save_as_application!
-    respond_with_row(notice: "Salva em Candidaturas: #{application.company} · #{application.role}.", undo:)
+    respond_with_row(notice: t("flash.postings.saved", name: "#{application.company} · #{application.role}"), undo:)
   end
 
   def apply
     undo = undo_params(application: true)
     application = @job_posting.mark_applied!
-    respond_with_row(notice: "#{application.company} · #{application.role} está em Candidaturas como #{application.human_enum(:status).downcase}.", undo:)
+    respond_with_row(notice: t("flash.postings.applied", name: "#{application.company} · #{application.role}", status: application.human_enum(:status).downcase), undo:)
   end
 
   # "Vaga dos sonhos": up to five postings the AI reads as the kind of role the person aims for.
@@ -67,22 +67,22 @@ class JobPostingsController < ApplicationController
     profile = Profile.current
     profile.save! if profile.new_record?
     if profile.toggle_dream_posting!(@job_posting)
-      notice = profile.dream_posting?(@job_posting) ? "Marcada como vaga dos sonhos. A IA passa a usá-la como referência." : "Tirada das vagas dos sonhos."
+      notice = profile.dream_posting?(@job_posting) ? t("flash.postings.dream_added") : t("flash.postings.dream_removed")
       redirect_back_or_to job_posting_path(@job_posting), notice:
     else
-      redirect_back_or_to job_posting_path(@job_posting), alert: "Já são #{Profile::MAX_DREAM_POSTINGS} vagas dos sonhos. Tire uma no Perfil antes."
+      redirect_back_or_to job_posting_path(@job_posting), alert: t("flash.postings.dream_full", max: Profile::MAX_DREAM_POSTINGS)
     end
   end
 
   def dismiss
     undo = undo_params
     @job_posting.triage_dismissed!
-    respond_with_row(notice: "Vaga descartada. Ela continua em Triagem → Descartadas.", undo:)
+    respond_with_row(notice: t("flash.postings.dismissed"), undo:)
   end
 
   def restore
     @job_posting.update!(triage: "new", auto_dismissed_reason: nil)
-    respond_with_row(notice: "Vaga de volta para a triagem.")
+    respond_with_row(notice: t("flash.postings.restored"))
   end
 
   # "Desfazer" in the toast: the triage the posting had before and, when the action touched it,
@@ -99,7 +99,7 @@ class JobPostingsController < ApplicationController
       end
     end
     @job_posting.update!(triage: params[:triage].presence_in(JobPosting::TRIAGES) || "new")
-    redirect_to back_with_posting_selected, notice: "Desfeito.", status: :see_other
+    redirect_to back_with_posting_selected, notice: t("flash.postings.undone"), status: :see_other
   end
 
   private

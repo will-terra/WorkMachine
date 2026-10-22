@@ -13,11 +13,11 @@
     <%= form.text_field :board_slug, required: true, placeholder: "gitlab", class: "input font-mono" %>
   </div>
   <div class="flex items-end gap-2 pb-2">
-    <%= form.check_box :active, class: "size-4 accent-accent" %>
-    <%= form.label :active, "Consultar no agregador", class: "text-sm" %>
+    <%= form.check_box :active, class: "check" %>
+    <%= form.label :active, t(".active"), class: "text-sm" %>
   </div>
   <div class="flex gap-2 sm:col-span-2">
-    <%= form.submit "Salvar", class: "btn btn-primary" %>
-    <%= link_to "Cancelar", target_companies_path, class: "btn btn-ghost" %>
+    <%= form.submit t(".save"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), target_companies_path, class: "btn btn-ghost" %>
   </div>
 <% end %>

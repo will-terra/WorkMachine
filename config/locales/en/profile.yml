@@ -1,0 +1,118 @@
+en:
+  areas:
+    names:
+      qa: QA and testing
+      devops: DevOps, SRE and cloud
+      data: Data
+      product: Product
+    groups:
+      desenvolvimento: Development
+      qa: QA
+      devops_sre_cloud: DevOps/SRE/cloud
+      dados: Data
+      ux_ui_e_produto: UX/UI and product
+  profiles:
+    remove: Remove %{name}
+    term: term
+    show:
+      eyebrow: where the score, the searches and the AI come from
+      title: Profile
+      intro: Who you are and what you are looking for. Changing skills, terms to avoid, regions or level rescores every job. The preview on the side shows the effect before saving.
+      draft: Build profile from the CV
+      save: Save profile
+      draft_banner_html: "<strong>AI draft in the form.</strong> Nothing is saved yet: review each field, adjust the skill levels and click <strong>Save profile</strong>. %{link}"
+      back_to_saved: Back to the saved profile
+      skills:
+        title: Skills
+        note: Each skill found in the job adds points to the score. Type and press Enter to add; click a skill to change its level or add synonyms.
+        add: add…
+        add_to: Add to %{level}
+        avoid: Avoid
+        suggestions: "Suggestions for the area:"
+      goal:
+        title: What you look for
+        choose: Choose
+        none: None
+        target_titles: Target titles
+        comma_suggestions: "Comma separated. Suggestions:"
+        level: Level
+        work_modes: Work mode
+        regions: Accepted regions
+        penalties: Titles above your level lose 10 points; jobs only for a region you do not accept lose 40.
+        brl_min: Expected BRL min.
+        brl_max: BRL max.
+        usd_min: USD min./month
+        usd_max: USD max./month
+      who:
+        title: Who you are
+        headline: Title
+        headline_placeholder: Ruby on Rails Backend Developer
+        location: Location
+        location_placeholder: Curitiba, PR, Brazil
+        location_title: Used by the Radar's “Near you” filter
+        time_zone: Time zone
+        languages_placeholder: Native Portuguese, advanced English
+      search:
+        title: Search terms
+        note: Comma separated.
+        search_terms: "What the automatic sources search for and what a job needs to have to come in. Empty: the essential skills."
+        plan_b: Jobs with two of them come in through frontendbr and the Radar's plan B searches.
+        domains_placeholder: fintech, health, GovTech
+        domains: For the Radar's “Industries of interest” search.
+        radar: Radar searches
+        radar_note: Built from your profile. To replace one, write your own query; leave it empty to use the suggestion.
+      dream:
+        title: Dream jobs
+        note: Up to %{max} jobs you would take right away. The AI uses them as a reference of the level and the kind of job you look for. Mark them on the job page, in “☆ Dream job”.
+        remove: Remove
+        remove_confirm: Remove %{title} from the dream jobs?
+        none: None yet.
+      ai:
+        title: Text for the AI
+        note: "Experience, projects, education and what you look for. The AI uses only what is here: it never makes up experience."
+      preview: See preview
+      preview_title: Score preview
+      calculating: Calculating…
+    skill_chip:
+      synonyms_title: "Synonyms: %{synonyms}"
+      level_and_synonyms: Level and synonyms
+      level: Level
+      synonyms: Synonyms
+      synonyms_placeholder: comma separated
+      synonyms_note: They count as the same skill (Postgres and PostgreSQL).
+    cv:
+      title: CV
+      uploaded:
+        one: uploaded on %{date} · 1 character read
+        other: uploaded on %{date} · %{count} characters read
+      replace: Replace file
+      upload: Upload the CV
+      send: Upload
+      extracted: See the extracted text
+      note: PDF, DOCX or TXT, up to 5 MB. The AI builds a profile draft that you review before saving. The file stays on this computer; the text goes to OpenRouter only when you click to build the draft.
+      no_key_html: To build the draft with the AI, add the OpenRouter key in %{link}. Without it, fill in the form.
+      drafting: Building the draft with the AI…
+      draft_ready: Draft ready.
+      open_draft: Open it in the form to review
+      discard: Discard
+      draft_failed: "The draft failed: %{error}"
+      free: “Build profile from the CV” is free with the free model %{model}.
+      cost: “Build profile from the CV” costs about USD %{cost} with %{model}.
+    preview:
+      no_postings: There are no jobs to compare yet. Run the first search in Jobs.
+      no_change:
+        one: The latest job does not change its score.
+        other: None of the latest %{count} jobs changes its score.
+      changed:
+        one: 1 of the latest jobs changes its score with what is in the form.
+        other: "%{count} of the latest jobs change their score with what is in the form."
+      job: job
+      now: now
+      preview: preview
+      search_html:
+        one: The aggregator will search for %{terms} in 1 source.
+        other: The aggregator will search for %{terms} in %{count} sources.
+      nothing: nothing (fill in the search terms or the essential skills)
+      changed_searches:
+        one: 1 Radar search changes
+        other: "%{count} Radar searches change"

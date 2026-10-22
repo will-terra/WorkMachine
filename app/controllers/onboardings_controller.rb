@@ -15,9 +15,9 @@ class OnboardingsController < ApplicationController
   def finish
     if params[:search].present? && Profile.current.configured?
       FetchJobsJob.perform_later(force: true)
-      notice = "Primeira busca iniciada. As vagas chegam em Vagas em alguns minutos, já com nota."
+      notice = t("flash.onboarding.searching")
     end
     Setting.current.update!(onboarded_at: Time.current)
-    redirect_to(params[:search].present? ? job_postings_path : root_path, notice: notice || "Tudo pronto.")
+    redirect_to(params[:search].present? ? job_postings_path : root_path, notice: notice || t("flash.onboarding.done"))
   end
 end

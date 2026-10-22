@@ -2,8 +2,8 @@
 <% ramp = %w[bg-ramp-1 bg-ramp-2 bg-ramp-3 bg-ramp-4] %>
 <figure class="m-0 min-w-0 flex-[1_1_420px]" aria-labelledby="funnel_title">
   <figcaption>
-    <h2 id="funnel_title" class="text-2xl">Funil</h2>
-    <p class="mt-1.5 text-sm text-ink/70">Percentuais sobre as candidaturas aplicadas.</p>
+    <h2 id="funnel_title" class="text-2xl"><%= t(".title") %></h2>
+    <p class="mt-1.5 text-sm text-ink/70"><%= t(".note") %></p>
   </figcaption>
   <ol class="mt-8 flex flex-col gap-[22px]">
     <% stages.each_with_index do |stage, index| %>
@@ -18,15 +18,15 @@
         </span>
         <% if previous&.count.to_i.positive? %>
           <span></span>
-          <span class="text-[13px] text-ink/70"><%= (stage.count * 100.0 / previous.count).round %>% de “<%= previous.label %>”</span>
+          <span class="text-[13px] text-ink/70"><%= t(".of_previous", rate: (stage.count * 100.0 / previous.count).round, previous: previous.label) %></span>
         <% end %>
       </li>
     <% end %>
   </ol>
   <details class="mt-4">
-    <summary class="text-xs text-muted">Ver tabela</summary>
+    <summary class="text-xs text-muted"><%= t("metrics.see_table") %></summary>
     <table class="table mt-2 tabular-nums">
-      <thead><tr><th>Etapa</th><th class="text-right">Candidaturas</th><th class="text-right">% das aplicadas</th></tr></thead>
+      <thead><tr><th><%= t(".stage") %></th><th class="text-right"><%= t(".applications") %></th><th class="text-right"><%= t(".share") %></th></tr></thead>
       <tbody><% stages.each do |stage| %><tr><td><%= stage.label %></td><td class="text-right"><%= stage.count %></td><td class="text-right"><%= stage.rate %>%</td></tr><% end %></tbody>
     </table>
   </details>

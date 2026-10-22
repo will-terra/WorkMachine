@@ -19,7 +19,7 @@ class SearchTerms
   def render(text, url: false)
     missing = false
     rendered = text.to_s.gsub(PLACEHOLDER) do
-      value = variables.fetch(::Regexp.last_match(1)) { raise KeyError, "Variável desconhecida no Radar: #{::Regexp.last_match(1)}" }
+      value = variables.fetch(::Regexp.last_match(1)) { raise KeyError, "Unknown Radar variable: #{::Regexp.last_match(1)}" }
       missing = true if value.blank?
       url ? ERB::Util.url_encode(value) : value
     end
@@ -28,7 +28,7 @@ class SearchTerms
 
   # For prose (actions, notes): an empty placeholder becomes a neutral phrase.
   def render_text(text)
-    text.to_s.gsub(PLACEHOLDER) { variables[::Regexp.last_match(1)].presence || "os termos do seu perfil" }
+    text.to_s.gsub(PLACEHOLDER) { variables[::Regexp.last_match(1)].presence || I18n.t("search_terms.fallback") }
   end
 
   def variables
@@ -83,9 +83,8 @@ class SearchTerms
       items.size > 1 ? "(#{items.join(" OR ")})" : items.first.to_s
     end
 
-    # “rails”, “ruby” e “ruby on rails”
+    # “rails”, “ruby” e “ruby on rails” (“rails”, “ruby”, and “ruby on rails” in English)
     def quoted_list(terms)
-      items = Array(terms).first(MAX_ITEMS).map { "“#{it}”" }
-      items.size > 1 ? "#{items[0..-2].join(", ")} e #{items.last}" : items.first.to_s
+      Array(terms).first(MAX_ITEMS).map { "“#{it}”" }.to_sentence
     end
 end

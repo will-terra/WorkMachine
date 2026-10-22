@@ -12,7 +12,7 @@ class SetupsController < ApplicationController
 
     if @user.save
       start_new_session_for @user
-      redirect_to onboarding_path, notice: "Conta criada. Bem-vindo ao WorkMachine!"
+      redirect_to onboarding_path, notice: t("flash.setup.created")
     else
       render :new, status: :unprocessable_content
     end

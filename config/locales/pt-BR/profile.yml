@@ -1,0 +1,113 @@
+pt-BR:
+  areas:
+    groups:
+      desenvolvimento: Desenvolvimento
+      qa: QA
+      devops_sre_cloud: DevOps/SRE/cloud
+      dados: Dados
+      ux_ui_e_produto: UX/UI e produto
+  profiles:
+    remove: Remover %{name}
+    term: termo
+    show:
+      eyebrow: de onde saem a nota, as buscas e a IA
+      title: Perfil
+      intro: Quem você é e o que procura. Mudar skills, termos a evitar, regiões ou nível recalcula a nota de todas as vagas. A prévia ao lado mostra o efeito antes de salvar.
+      draft: Montar perfil a partir do CV
+      save: Salvar perfil
+      draft_banner_html: "<strong>Rascunho da IA no formulário.</strong> Nada foi salvo ainda: revise cada campo, ajuste os níveis das skills e clique em <strong>Salvar perfil</strong>. %{link}"
+      back_to_saved: Voltar ao perfil salvo
+      skills:
+        title: Skills
+        note: Cada skill achada na vaga soma pontos à nota. Escreva e tecle Enter para adicionar; clique numa skill para mudar o nível ou pôr sinônimos.
+        add: adicionar…
+        add_to: Adicionar em %{level}
+        avoid: Evitar
+        suggestions: "Sugestões da área:"
+      goal:
+        title: O que procura
+        choose: Escolha
+        none: Nenhum
+        target_titles: Cargos alvo
+        comma_suggestions: "Separados por vírgula. Sugestões:"
+        level: Nível
+        work_modes: Modo de trabalho
+        regions: Regiões aceitas
+        penalties: Títulos acima do seu nível perdem 10 pontos; vagas só para uma região que você não aceita perdem 40.
+        brl_min: Pretensão R$ mín.
+        brl_max: R$ máx.
+        usd_min: US$ mín./mês
+        usd_max: US$ máx./mês
+      who:
+        title: Quem você é
+        headline: Título
+        headline_placeholder: Desenvolvedor Back-end Ruby on Rails
+        location: Local
+        location_placeholder: Curitiba, PR, Brasil
+        location_title: Usada no filtro “Perto de você” do Radar
+        time_zone: Fuso
+        languages_placeholder: Português nativo, inglês avançado
+      search:
+        title: Termos de busca
+        note: Separe por vírgula.
+        search_terms: "O que as fontes automáticas buscam e o que uma vaga precisa ter para entrar. Vazio: as skills essenciais."
+        plan_b: Vagas com dois deles entram pelo frontendbr e pelas buscas de plano B do Radar.
+        domains_placeholder: fintech, saúde, GovTech
+        domains: Para a busca “Setores de interesse” do Radar.
+        radar: Buscas do Radar
+        radar_note: Montadas com o seu perfil. Para trocar uma, escreva a sua consulta; deixe vazio para usar a sugestão.
+      dream:
+        title: Vagas dos sonhos
+        note: Até %{max} vagas que você aceitaria na hora. A IA usa como referência do nível e do tipo de vaga que você busca. Marque na página da vaga, em “☆ Vaga dos sonhos”.
+        remove: Tirar
+        remove_confirm: Tirar %{title} das vagas dos sonhos?
+        none: Nenhuma ainda.
+      ai:
+        title: Texto para a IA
+        note: "Experiência, projetos, formação e o que você busca. A IA usa só o que está aqui: nunca inventa experiência."
+      preview: Ver prévia
+      preview_title: Prévia das notas
+      calculating: Calculando…
+    skill_chip:
+      synonyms_title: "Sinônimos: %{synonyms}"
+      level_and_synonyms: Nível e sinônimos
+      level: Nível
+      synonyms: Sinônimos
+      synonyms_placeholder: separados por vírgula
+      synonyms_note: Contam como a mesma skill (Postgres e PostgreSQL).
+    cv:
+      title: Currículo
+      uploaded:
+        one: enviado em %{date} · 1 caractere lido
+        other: enviado em %{date} · %{count} caracteres lidos
+      replace: Trocar arquivo
+      upload: Enviar o currículo
+      send: Enviar
+      extracted: Ver texto extraído
+      note: PDF, DOCX ou TXT, até 5 MB. A IA monta um rascunho do perfil que você revisa antes de salvar. O arquivo fica só neste computador; o texto vai para o OpenRouter apenas quando você clica em montar o rascunho.
+      no_key_html: Para montar o rascunho com a IA, coloque a chave do OpenRouter em %{link}. Sem ela, preencha o formulário.
+      drafting: Montando o rascunho com a IA…
+      draft_ready: Rascunho pronto.
+      open_draft: Abrir no formulário para revisar
+      discard: Descartar
+      draft_failed: "O rascunho falhou: %{error}"
+      free: “Montar perfil a partir do CV” é grátis com o modelo gratuito %{model}.
+      cost: “Montar perfil a partir do CV” custa cerca de US$ %{cost} com %{model}.
+    preview:
+      no_postings: Ainda não há vagas para comparar. Rode a primeira busca em Vagas.
+      no_change:
+        one: A última vaga não muda de nota.
+        other: Nenhuma das últimas %{count} vagas muda de nota.
+      changed:
+        one: 1 das últimas vagas muda de nota com o que está no formulário.
+        other: "%{count} das últimas vagas mudam de nota com o que está no formulário."
+      job: vaga
+      now: agora
+      preview: prévia
+      search_html:
+        one: O agregador vai buscar por %{terms} em 1 fonte.
+        other: O agregador vai buscar por %{terms} em %{count} fontes.
+      nothing: nada (preencha os termos de busca ou as skills essenciais)
+      changed_searches:
+        one: 1 busca do Radar muda
+        other: "%{count} buscas do Radar mudam"

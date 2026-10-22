@@ -1,4 +1,4 @@
-<%= page_header eyebrow: "Contatos", title: @contact.name do %>
-  <%= button_to "Apagar", contact_path(@contact), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: "Apagar este contato?" } } %>
+<%= page_header eyebrow: t(".eyebrow"), title: @contact.name do %>
+  <%= button_to t(".delete"), contact_path(@contact), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: t(".delete_confirm") } } %>
 <% end %>
 <%= render "form", contact: @contact %>

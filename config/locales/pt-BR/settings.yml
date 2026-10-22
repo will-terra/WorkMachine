@@ -1,6 +1,12 @@
 pt-BR:
   settings:
     show:
+      eyebrow: configuração · WorkMachine %{version}
+      title: Ajustes
+      intro: Chaves e contas, extensão, notificações, descarte automático, fontes, rotinas e backup. As senhas ficam criptografadas no banco do seu computador.
+      update_html: 'Versão nova disponível: <strong>%{latest}</strong> (você está na %{current}). Para atualizar: <span class="code inline-block">docker compose pull &amp;&amp; docker compose up -d</span>'
+      changelog: O que mudou
+      save: Salvar
       language:
         title: Idioma
         note: Automático segue o idioma do navegador (que no Chrome é o do computador). Português para qualquer português; inglês para os outros.
@@ -10,3 +16,111 @@ pt-BR:
           auto: Automático
           pt-BR: Português
           en: English
+      keys:
+        title: Chaves e contas
+        note: "A IA usa o OpenRouter com a sua chave. O Gmail entra com uma senha de app, só para leitura: nada é marcado como lido, movido ou apagado. Uma variável no .env vale mais que o que estiver aqui."
+      extension:
+        title: Extensão do navegador
+        note: Salva a vaga aberta em qualquer site e recrutadores em Contatos. Cole este token nas Opções da extensão.
+      notifications:
+        title: Notificações
+        note: Chegam no navegador, mesmo com o app fechado, de preferência com o app instalado. Ative uma vez em cada navegador.
+        new_postings: Notificação de vagas novas
+        new_postings_note: Quando o agregador ou os alertas do LinkedIn trazem vagas com nota alta. Cada vaga é avisada uma vez só.
+        replies: Respostas das empresas
+        replies_note: Quando uma empresa em que você aplicou responde no Gmail.
+        follow_ups: Follow-ups do dia
+        follow_ups_note: Às 8h, as candidaturas sem resposta há 5 dias ou mais.
+        min_score: Avisar vagas com nota a partir de
+      dismissal:
+        title: Descarte automático
+        note: Vagas descartadas sozinhas continuam em Vagas → Auto-descartadas, com o motivo. As salvas pela extensão nunca são descartadas.
+        restricted: Descartar vagas restritas a outros países
+        restricted_note: Só para EUA/Canadá, só para Europa ou para uma lista de países fora da América Latina.
+        track_replies: Ler as respostas das empresas
+        track_replies_note: "A cada hora, os e-mails das empresas em que você aplicou: recusa, entrevista, teste e proposta movem o cartão no kanban."
+        below: Descartar vagas com nota abaixo de
+        never: Não descartar
+      sources:
+        title: Fontes
+        note: O agregador busca nelas a cada 3 horas, pelos termos do seu perfil. As de nicho só valem quando combinam com a sua área ou a sua stack. Desligue as que não rendem.
+        not_applicable: Não combina com o seu perfil
+      browser:
+        title: Este navegador
+        note: As notificações chegam em cada navegador onde você ativou. No app instalado do Chrome, ative abrindo esta página nele.
+        checking: Verificando…
+        enable: Ativar notificações
+        test: Enviar notificação de teste
+        disable: Desativar neste navegador
+        since: desde %{date}
+        last: última em %{date}
+        remove: Remover
+      routines:
+        title: Rotinas
+        note: As rotinas da página Rotina e do Painel vêm prontas. Mude os blocos, as tarefas e o período de cada uma, ou crie as suas.
+        edit: Editar rotinas
+      backup:
+        title: Backup
+        note: A cada hora o banco é copiado. Ficam as cópias das últimas %{hours} horas e uma por dia dos últimos %{days} dias.
+        none: Nenhum backup ainda.
+        now: Fazer backup agora
+        failed: "O último backup falhou: %{error}"
+        last:
+          one: "último backup: %{time} · %{size} · %{count} cópia guardada"
+          other: "último backup: %{time} · %{size} · %{count} cópias guardadas"
+    keys:
+      openrouter_key: Chave do OpenRouter
+      test_openrouter: Testar OpenRouter
+      openrouter_help_html: Crie a conta e a chave em %{link}. O CV e as vagas só vão para lá quando você clica numa função de IA.
+      model_from_env: modelo definido no .env
+      model: Modelo
+      free: Gratuito
+      paid: Pago
+      plans_html: |-
+        <strong class="font-semibold text-ink">Gratuito:</strong> sem custo e sem crédito, com limite de pedidos por minuto e por dia; se o modelo cair, o OpenRouter escolhe outro gratuito.
+        Os provedores gratuitos podem guardar e usar o que você envia (currículo, vagas, e-mails das empresas) para treinar modelos; se o OpenRouter recusar, libere em %{link}.
+        <strong class="font-semibold text-ink">Pago:</strong> mais rápido e estável; centavos de dólar por mês no uso normal.
+      other_model: Outro modelo pago (vazio = %{model})
+      gmail: Gmail
+      gmail_placeholder: voce@gmail.com
+      app_password: Senha de app (16 letras)
+      test_gmail: Testar Gmail
+      gmail_help_html: Opcional. Com a verificação em duas etapas ligada, gere a senha de app em %{link}.
+      save: Salvar chaves
+    key_field:
+      from_env: definida no .env
+      saved_placeholder: salva; deixe vazio para manter
+      clear: Apagar
+    extension:
+      from_env: token definido no .env
+      show: Mostrar
+      copy: Copiar
+      regenerate: Gerar outro
+      regenerate_confirm: A extensão vai parar de funcionar até receber o token novo. Gerar outro?
+      generate: Gerar token
+      help_html: |-
+        Versão esperada da extensão: <span class="font-mono">%{version}</span>. Depois de atualizar o WorkMachine, recarregue a extensão em <span class="font-mono">chrome://extensions</span>.
+        Como instalar: pasta <span class="font-mono">extension/</span>, carregada sem compactação no Chrome ou no Edge (passo a passo no README).
+  onboardings:
+    show:
+      eyebrow: Primeiro uso
+      title: Vamos deixar o WorkMachine pronto
+      intro: "Quatro passos. Tudo fica neste computador: as vagas, o currículo e as senhas. Dá para mudar tudo depois em Perfil e Ajustes."
+      done: pronto
+      keys:
+        title: Chave da IA e Gmail
+        note: "A chave do OpenRouter liga a IA (rascunho do perfil pelo CV, análise de fit, resumo de CV, mensagens e a leitura das respostas das empresas). Sem ela o app funciona, só sem IA. O Gmail é opcional: com ele, os alertas de vagas do LinkedIn e as respostas das empresas entram sozinhos."
+      profile:
+        title: Seu perfil
+        note: "Envie o currículo e deixe a IA montar o rascunho, ou preencha à mão: área, cargos, nível e skills. A nota das vagas, as buscas das fontes e o Radar saem dele."
+        review: Revisar o perfil
+        build: Montar o perfil
+      extension:
+        title: Extensão do navegador (opcional)
+        note: Para salvar vagas de qualquer site e recrutadores do LinkedIn com um clique. O passo a passo está no README; o token fica em Ajustes.
+      search:
+        title: Primeira busca
+        note: O agregador busca nas fontes automáticas pelos termos do seu perfil e repete sozinho a cada 3 horas.
+        start: Buscar vagas e começar
+        profile_first: Preencha o perfil primeiro.
+        skip: Pular e ir para o Painel

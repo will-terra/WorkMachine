@@ -1,0 +1,107 @@
+# English texts of config/radar.yml, matched by key (tasks, searches, cadences, filters), by name
+# (automated sources and links). Queries, builders and URLs stay in config/radar.yml.
+
+automated:
+  "Alertas do LinkedIn": { name: "LinkedIn alerts", note: "Alert e-mails read in Gmail. Create the alerts with the searches of the LinkedIn · Jobs section." }
+  "Respostas das empresas": { name: "Company replies", note: "E-mails from the companies you applied to, read in Gmail: rejection, interview, test and offer move the card on their own." }
+  "Empresas-alvo": { name: "Target companies", note: "Greenhouse, Lever, Ashby and Workable boards. New companies come in on their own when a job points to their board." }
+  "Remotive": { note: "Searches for {{termos}}, at most 4 times a day, as the API terms ask." }
+  "Remote OK": { note: "Jobs with {{termos}} in the title or the tags." }
+  "We Work Remotely": { note: "Feeds of your area, filtered by {{termos}}." }
+  "Remotar": { note: "Remote jobs for people in Brazil, searches for {{termos}}." }
+  "Himalayas": { note: "Searches for {{termos}}, with the countries accepted in each job." }
+  "Working Nomads": { note: "Remote jobs feed, when the title or the tags have {{termos}}." }
+  "GoRails Jobs": { note: "GoRails community board; every job is Rails." }
+  "backend-br/vagas": { note: "Back-end issues that mention {{termos}}." }
+  "frontendbr/vagas": { note: "Front-end issues with {{termos}} or with your plan B." }
+  "Hacker News · Who is hiring": { note: "Comments of the month's thread that mention {{termos}} and remote." }
+
+filters:
+  li_region:
+    label: Location
+    options: { br_remote: "Brazil · remote", world_remote: "World · remote", local: "Near you", br_all: "Brazil · all" }
+  li_period:
+    label: Posted
+    options: { r86400: "24 h", r604800: "7 days", r2592000: "30 days" }
+  post_period:
+    label: Posted
+    options: { past-24h: "24 h", past-week: "Week", past-month: "Month" }
+  g_period:
+    label: Indexed
+    options: { w: "Week", m: "Month", "": "Any date" }
+
+cadences:
+  daily: { title: "Every day", time: "~15 min, after triaging the new jobs" }
+  weekly: { title: "Every week", time: "~30 min, ideally on Monday" }
+  once: { title: "Once", time: "and review when the CV changes" }
+
+tasks:
+  feed:
+    title: "LinkedIn posts"
+    action: "Open each search from the last 24 h and send a direct message to whoever posted: recruiters and managers post here before opening the job."
+  telegram:
+    title: "Telegram groups"
+    action: "In each group, use the built-in search with {{termos}}. Telegram has no keyword alerts."
+    more: "More groups: search Telegram for “Vagas” with the name of your stack or area, or see the Kombo directory."
+    link: { label: "Kombo directory" }
+  pessoas:
+    title: "Recruiters on LinkedIn"
+    action: "Connect with 5 a week, with the connection note from Messages, and save each one in Contacts with the extension icon, on the person's profile. Many jobs show up first in a post by someone on the team."
+    link: { label: "Recruiters spreadsheet for connecting (one column per stack)" }
+  x:
+    title: "Searches on X"
+    action: "Go through 3 to 5 searches in the “Latest” tab."
+  google:
+    title: "Google"
+    action: "Run them with the Week filter. Found a good job? Save it with the extension: if it is on Greenhouse, Lever, Ashby or Workable, the company goes into Target companies on its own."
+  sites:
+    title: "Sites without an API"
+    action: "Check the week's new jobs. The others only if there is time left."
+  linkedin_alerts:
+    title: "LinkedIn alerts"
+    action: "Open each search and turn on “Job alert”, by e-mail and daily. WorkMachine reads the alerts in Gmail every hour."
+  cadastros:
+    title: "Registrations"
+    action: "Create the profile once and check it here. Recruiting firms pull candidates from their own database when a process opens; skip the executive search ones, which are for directors."
+
+searches:
+  feed_contratando: { title: "Hiring (PT)" }
+  feed_hiring: { title: "Hiring (EN)" }
+  feed_looking_for: { title: "“Looking for”" }
+  feed_time_crescendo: { title: "Manager with a growing team" }
+  feed_indicacao: { title: "Referral" }
+  feed_area: { title: "Stack and area" }
+  feed_remoto: { title: "Remote for Brazil/LATAM" }
+  feed_grupos: { title: "Links to job groups", note: "To find WhatsApp and Telegram groups." }
+  pessoas_recrutadores: { title: "Tech recruiters of your stack (Brazil)" }
+  pessoas_talent: { title: "Talent acquisition (Brazil)" }
+  pessoas_gestores: { title: "Who hires in your area (Brazil)" }
+  pessoas_consultorias: { title: "Recruiters of the tech recruiting firms" }
+  pessoas_internacionais: { title: "International recruiters for LATAM" }
+  x_vaga_pt: { title: "Jobs in Portuguese" }
+  x_hiring: { title: "Remote hiring" }
+  x_titulo: { title: "By title" }
+  x_remoto_pt: { title: "Remote in Portuguese" }
+  x_area: { title: "Stack and area" }
+  google_gupy: { title: "Gupy" }
+  google_ats_br: { title: "InHire, Recrutei, Sólides" }
+  google_trabalhe_conosco: { title: "“Trabalhe conosco” (careers pages)" }
+  google_jobs: { title: "Google Jobs", note: "Does not use the date filter." }
+  google_greenhouse: { title: "New companies on Greenhouse" }
+  google_lever: { title: "New companies on Lever" }
+  google_ashby: { title: "New companies on Ashby" }
+  google_workable: { title: "New companies on Workable" }
+  alert_cargos: { title: "Target titles" }
+  alert_skills: { title: "Stack and important skills" }
+  alert_nivel: { title: "At your level" }
+  alert_area: { title: "Stack and area" }
+  alert_diferenciais: { title: "Your differentials" }
+  alert_setores: { title: "Industries of interest" }
+  alert_plano_b: { title: "Plan B" }
+  alert_internacional: { title: "International for LATAM", note: "Always World · remote." }
+
+links:
+  "Wellfound": { note: "startups" }
+  "Ruby on Remote": { note: "filters “Remote – South America” and “Remote – Anywhere”" }
+  "RubyEvents · Brasil": { note: "meetups and Tropical on Rails" }
+  "Fórum do Rails": { name: "Rails forum" }

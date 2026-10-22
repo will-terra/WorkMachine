@@ -1,0 +1,49 @@
+en:
+  cv_text:
+    unsupported: Upload the CV as PDF, DOCX or TXT.
+    empty: I found no text in the file. If the PDF is a scanned image, export it again as text.
+    pdf: I couldn't read the PDF (%{message}).
+    not_docx: The file doesn't look like a Word .docx.
+    docx: I couldn't open the .docx (%{message}).
+  http_client:
+    invalid_json: "Invalid JSON at %{url}: %{message}"
+  database_backup:
+    failed: the SQLite copy failed
+    busy: the database stayed busy for too long
+  ai:
+    errors:
+      invalid_key: The OpenRouter key is invalid. Check it in Settings → Keys and accounts.
+      no_credits: No credits on OpenRouter. Add credits at openrouter.ai/settings/credits or use the free model (Settings → Keys and accounts).
+      free_limit: The free models hit their usage limit for now (per minute or per day). Try again later or switch to the paid model in Settings.
+      limit: OpenRouter usage limit reached. Try again in a few minutes.
+      data_policy: "OpenRouter refused because of your data policy: for the free models, allow them at openrouter.ai/settings/privacy or use the paid model."
+      other: "OpenRouter error: %{message}"
+      offline: No connection to OpenRouter (%{error}).
+      refused: The AI refused the request.
+      no_draft: The AI didn't return a draft. Try again.
+      truncated: "[answer cut at the token limit]"
+  gmail:
+    app_password_required: "Google requires an app password: use the 16 letters created at myaccount.google.com/apppasswords, not the account password."
+    login_refused: Gmail refused the login (%{message}). Check the email and the app password in Settings.
+  notifications:
+    new_posting: New job scoring %{score}
+    new_postings: "%{count} new jobs scoring %{score}+"
+    more: and %{count} more
+    follow_up_one: "Follow-up today: %{company}"
+    follow_up_many: "%{count} follow-ups for today"
+    follow_up_body: "No reply for %{days}+ days: %{names}. The follow-up message comes filled in."
+    replies:
+      rejection: rejection
+      interview: interview invitation
+      assessment: test
+      offer: offer
+      recruiter_contact: message from the recruiter
+  job_posting:
+    no_company: Company not stated
+  activerecord:
+    errors:
+      models:
+        routine_item:
+          attributes:
+            url:
+              invalid: must start with / (a screen of the app) or https://

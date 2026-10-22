@@ -34,29 +34,29 @@ class ProfilesController < ApplicationController
 
   def upload_cv
     file = params.require(:cv)
-    return redirect_to(profile_path(anchor: "cv"), alert: "O currículo pode ter até 5 MB.") if file.size > Profile::MAX_CV_SIZE
+    return redirect_to(profile_path(anchor: "cv"), alert: t("flash.profile.cv_too_big")) if file.size > Profile::MAX_CV_SIZE
 
     text = CvText.call(file.tempfile, filename: file.original_filename, content_type: file.content_type)
     file.tempfile.rewind
     @profile.cv.attach(file)
     @profile.update!(cv_text: text, cv_draft: nil, cv_draft_status: nil, cv_draft_error: nil)
-    redirect_to profile_path(anchor: "cv"), notice: "Currículo lido: #{text.length.to_fs(:delimited)} caracteres. Agora monte o rascunho com a IA ou preencha o formulário."
+    redirect_to profile_path(anchor: "cv"), notice: t("flash.profile.cv_read", count: text.length.to_fs(:delimited))
   rescue CvText::Error => e
     redirect_to profile_path(anchor: "cv"), alert: e.message
   end
 
   def draft
-    return redirect_to(profile_path(anchor: "cv"), alert: "Configure a chave do OpenRouter em Ajustes para usar a IA.") unless Ai::ProfileDraft.configured?
-    return redirect_to(profile_path(anchor: "cv"), alert: "Envie o currículo primeiro.") if @profile.cv_text.blank?
+    return redirect_to(profile_path(anchor: "cv"), alert: t("flash.ai.no_key")) unless Ai::ProfileDraft.configured?
+    return redirect_to(profile_path(anchor: "cv"), alert: t("flash.profile.cv_missing")) if @profile.cv_text.blank?
 
     @profile.update!(cv_draft_status: "pending", cv_draft_error: nil)
     ProfileDraftJob.perform_later(@profile)
-    redirect_to profile_path(anchor: "cv"), notice: "Montando o rascunho com a IA. Leva cerca de um minuto."
+    redirect_to profile_path(anchor: "cv"), notice: t("flash.profile.drafting")
   end
 
   def discard_draft
     @profile.update!(cv_draft: nil, cv_draft_status: nil, cv_draft_error: nil)
-    redirect_to profile_path(anchor: "cv"), notice: "Rascunho descartado."
+    redirect_to profile_path(anchor: "cv"), notice: t("flash.profile.draft_discarded")
   end
 
   private
@@ -78,9 +78,9 @@ class ProfilesController < ApplicationController
 
     def rescore_notice
       if @profile.saved_changes.keys.intersect?(Profile::SCORING_ATTRIBUTES)
-        "Perfil salvo. #{JobPosting.count} vagas estão sendo recalculadas."
+        t("flash.profile.saved_rescoring", count: JobPosting.count)
       else
-        "Perfil salvo."
+        t("flash.profile.saved")
       end
     end
 end

@@ -144,7 +144,7 @@ RSpec.describe "Job applications" do
       file = fixture_file_upload("candidaturas_excel.csv", "text/csv")
 
       expect { post import_job_applications_path, params: { file: } }.to change(JobApplication, :count).by(2)
-      expect(flash[:notice]).to eq("2 candidatura(s) importada(s).")
+      expect(flash[:notice]).to eq("2 candidaturas importadas.")
       expect(flash[:alert]).to include("Linha 4")
     end
 

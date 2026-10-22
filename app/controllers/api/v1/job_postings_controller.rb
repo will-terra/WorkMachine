@@ -54,12 +54,12 @@ module Api
 
         def summary(posting, application)
           if application
-            applied_on = " · aplicada em #{I18n.l(application.applied_on, format: "%d/%m")}" if application.applied_on
-            "Candidatura: #{application.human_enum(:status)}#{applied_on}"
+            applied_on = I18n.t("api.summary.applied_on", date: I18n.l(application.applied_on, format: :day_month)) if application.applied_on
+            I18n.t("api.summary.application", status: application.human_enum(:status), applied_on:)
           elsif posting.auto_dismissed_reason && posting.triage_dismissed?
-            "Descartada automaticamente (#{posting.auto_dismissed_reason})"
+            I18n.t("api.summary.auto_dismissed", reason: JobScorer.human_term(posting.auto_dismissed_reason))
           else
-            posting.triage_new? ? "Nova na triagem" : posting.human_enum(:triage)
+            posting.triage_new? ? I18n.t("api.summary.new") : posting.human_enum(:triage)
           end
         end
     end

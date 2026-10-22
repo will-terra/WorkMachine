@@ -1,0 +1,66 @@
+pt-BR:
+  metrics:
+    stages:
+      applied: Aplicadas
+      answered: Responderam
+      interviewed: Entrevista ou teste
+      offers: Proposta
+    no_origin: Sem origem
+    see_table: Ver tabela
+    show:
+      eyebrow: funil
+      title: Métricas
+      intro: Como suas candidaturas andam e de onde vêm as melhores vagas. As respostas vêm dos e-mails lidos no Gmail e das mudanças que você faz no kanban.
+      period: Período
+      periods:
+        p30: 30 dias
+        p90: 90 dias
+        pall: Tudo
+      empty: Nenhuma candidatura aplicada neste período.
+      summary: Resumo
+      tiles:
+        applied: Candidaturas aplicadas
+        applied_detail: no período
+        response_rate: Taxa de resposta
+        response_rate_detail: "%{answered} de %{applied} responderam"
+        interview_rate: Chegaram à entrevista
+        interview_rate_detail:
+          one: 1 entrevista ou teste
+          other: "%{count} entrevistas ou testes"
+        days: Tempo até a resposta
+        days_value:
+          one: 1 dia
+          other: "%{count} dias"
+        days_detail: mediana entre aplicar e a primeira resposta
+      origin:
+        title: Por origem da candidatura
+        note: Onde você achou a vaga e quanto cada origem rende em respostas e entrevistas.
+        origin: Origem
+        applied: Aplicadas
+        answered: Responderam
+        response_rate: Taxa de resposta
+        interviews: Entrevistas
+        interview_rate: Taxa de entrevista
+      sources:
+        title: Fontes de vagas
+        note: "Quantas vagas cada fonte trouxe no período e quantas você salvou: as do topo são as que mais valem o seu tempo."
+        source: Fonte
+        postings: Vagas
+        saved: Salvas
+        rate: Aproveitamento
+    funnel:
+      title: Funil
+      note: Percentuais sobre as candidaturas aplicadas.
+      of_previous: "%{rate}% de “%{previous}”"
+      stage: Etapa
+      applications: Candidaturas
+      share: "% das aplicadas"
+    weekly:
+      title: Candidaturas por semana
+      note: Semanas de segunda a domingo; a última é a atual.
+      bar:
+        one: "Semana de %{week}: 1 candidatura"
+        other: "Semana de %{week}: %{count} candidaturas"
+      week_of: semana de %{week}
+      week: Semana de
+      applications: Candidaturas

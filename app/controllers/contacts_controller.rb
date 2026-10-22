@@ -19,7 +19,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
 
     if @contact.save
-      redirect_to contacts_path, notice: "Contato salvo."
+      redirect_to contacts_path, notice: t("flash.contacts.created")
     else
       render :new, status: :unprocessable_content
     end
@@ -30,7 +30,7 @@ class ContactsController < ApplicationController
 
   def update
     if @contact.update(contact_params)
-      redirect_to contacts_path, notice: "Contato atualizado."
+      redirect_to contacts_path, notice: t("flash.contacts.updated")
     else
       render :edit, status: :unprocessable_content
     end
@@ -38,7 +38,7 @@ class ContactsController < ApplicationController
 
   def destroy
     @contact.destroy!
-    redirect_to contacts_path, notice: "Contato apagado.", status: :see_other
+    redirect_to contacts_path, notice: t("flash.contacts.deleted"), status: :see_other
   end
 
   private

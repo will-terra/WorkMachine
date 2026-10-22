@@ -1,0 +1,74 @@
+en:
+  contacts:
+    index:
+      eyebrow: recruiters and managers
+      title: Contacts
+      intro: Save people with the extension icon, on their LinkedIn profile, or by hand. The message opens already filled in with the name and the company.
+      new: New contact
+      kind: Type
+      kinds:
+        all: All
+        recruiters: Recruiters
+        managers: Managers
+      search: Search
+      search_placeholder: name, company…
+      name: Name
+      company: Company
+      last_contact: Last contact
+      actions: Actions
+      message: Message
+      edit: Edit
+      no_match: No contacts with these filters.
+      empty: No contacts yet. Save recruiters with the browser extension, on their LinkedIn profile or in a job's hiring team. The Radar has the searches to find recruiters in your field.
+    form:
+      headline_placeholder: Tech Recruiter at Acme
+      save: Save
+      cancel: Cancel
+    edit:
+      eyebrow: Contacts
+      delete: Delete
+      delete_confirm: Delete this contact?
+    new:
+      title: New contact
+  target_companies:
+    index:
+      eyebrow: job boards
+      title: Target companies
+      intro: Companies with a public board on Greenhouse, Lever, Ashby or Workable. The aggregator reads these boards every 3 hours and keeps only the roles in your field.
+      find_label: Look for a company's board
+      find_placeholder: company name
+      find_title: "Empty: looks again for the companies of your applications"
+      find: Look up
+      finding: Looking…
+      add: Add
+      suggested: Suggested
+      suggested_note: A saved job pointed to the board of these companies, or you looked them up.
+      via_html: via “%{link}”
+      searched: looked up by you
+      activate: Activate
+      dismiss: Dismiss
+      boards: Boards being read
+      boards_count: "%{active} active · %{paused} paused"
+      company: Company
+      board: Board
+      postings: Jobs
+      saved: Saved
+      auto_dismissed: Auto-dismissed
+      last_read: Last read
+      active: Active
+      active_label: "%{name} active"
+      actions: Actions
+      example: example
+      save: Save
+      edit: Edit
+      slug_help_html: 'To find the slug, open the company''s jobs page: in <span class="font-mono">job-boards.greenhouse.io/<b>gitlab</b></span>, <span class="font-mono">jobs.lever.co/<b>company</b></span>, <span class="font-mono">jobs.ashbyhq.com/<b>company</b></span> or <span class="font-mono">apply.workable.com/<b>company</b></span>, the slug is the part in bold.'
+    form:
+      active: Read it in the aggregator
+      save: Save
+      cancel: Cancel
+    edit:
+      eyebrow: Target companies
+      delete: Remove
+      delete_confirm: Remove this company?
+    new:
+      title: Add company

@@ -83,8 +83,10 @@ class Routine < ApplicationRecord
     end
 
     private
+      # config/routine.yml, or its translation (config/routine.en.yml) when the interface is in English.
       def config
-        YAML.load_file(CONFIG)
+        localized = CONFIG.sub_ext(".#{I18n.locale}.yml")
+        YAML.load_file(localized.exist? ? localized : CONFIG)
       end
 
       def slots_from(routine)

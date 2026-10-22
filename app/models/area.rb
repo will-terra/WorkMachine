@@ -17,9 +17,16 @@ class Area
     all.map(&:key)
   end
 
-  # [["Desenvolvimento", [["Back-end", "backend"], …]], …] for grouped selects.
+  # [["Desenvolvimento", [["Back-end", "backend"], …]], …] for grouped selects, in the interface
+  # language (the names in config/areas.yml also go into the searches, so they stay Portuguese).
   def self.grouped_options
-    all.group_by(&:group).map { |group, areas| [ group, areas.map { [ it.name, it.key ] } ] }
+    all.group_by(&:group).map do |group, areas|
+      [ I18n.t("areas.groups.#{group.parameterize(separator: "_")}", default: group), areas.map { [ it.display_name, it.key ] } ]
+    end
+  end
+
+  def display_name
+    I18n.t("areas.names.#{key}", default: name)
   end
 
   def initialize(key, attributes)

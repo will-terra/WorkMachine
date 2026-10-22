@@ -1,6 +1,12 @@
 en:
   settings:
     show:
+      eyebrow: settings · WorkMachine %{version}
+      title: Settings
+      intro: Keys and accounts, extension, notifications, auto-dismiss, sources, routines and backup. Passwords are stored encrypted in your computer's database.
+      update_html: 'New version available: <strong>%{latest}</strong> (you are on %{current}). To update: <span class="code inline-block">docker compose pull &amp;&amp; docker compose up -d</span>'
+      changelog: What changed
+      save: Save
       language:
         title: Language
         note: Automatic follows the browser's language (in Chrome, the computer's). Portuguese for any Portuguese; English for everything else.
@@ -10,3 +16,111 @@ en:
           auto: Automatic
           pt-BR: Português
           en: English
+      keys:
+        title: Keys and accounts
+        note: "The AI uses OpenRouter with your key. Gmail signs in with an app password, read only: nothing is marked as read, moved or deleted. A variable in .env takes precedence over what is here."
+      extension:
+        title: Browser extension
+        note: Saves the open job from any site and recruiters to Contacts. Paste this token in the extension's Options.
+      notifications:
+        title: Notifications
+        note: They arrive in the browser, even with the app closed, preferably with the app installed. Turn them on once in each browser.
+        new_postings: New job notifications
+        new_postings_note: When the aggregator or the LinkedIn alerts bring jobs with a high score. Each job is notified only once.
+        replies: Company replies
+        replies_note: When a company you applied to replies in Gmail.
+        follow_ups: Today's follow-ups
+        follow_ups_note: At 8 a.m., the applications with no reply for 5 days or more.
+        min_score: Notify jobs scoring at least
+      dismissal:
+        title: Auto-dismiss
+        note: Jobs dismissed automatically stay under Jobs → Auto-dismissed, with the reason. Jobs saved with the extension are never dismissed.
+        restricted: Dismiss jobs restricted to other countries
+        restricted_note: US/Canada only, Europe only or a list of countries outside Latin America.
+        track_replies: Read the company replies
+        track_replies_note: "Every hour, the emails from companies you applied to: rejection, interview, test and offer move the card on the board."
+        below: Dismiss jobs scoring below
+        never: Don't dismiss
+      sources:
+        title: Sources
+        note: The aggregator searches them every 3 hours with your profile's terms. Niche ones only count when they match your area or your stack. Turn off the ones that don't pay off.
+        not_applicable: Doesn't match your profile
+      browser:
+        title: This browser
+        note: Notifications arrive in every browser where you turned them on. In Chrome's installed app, turn them on by opening this page in it.
+        checking: Checking…
+        enable: Turn on notifications
+        test: Send a test notification
+        disable: Turn off in this browser
+        since: since %{date}
+        last: last on %{date}
+        remove: Remove
+      routines:
+        title: Routines
+        note: The routines on the Routine page and the Dashboard come ready-made. Change the blocks, the tasks and the period of each one, or create your own.
+        edit: Edit routines
+      backup:
+        title: Backup
+        note: The database is copied every hour. The copies from the last %{hours} hours and one a day from the last %{days} days are kept.
+        none: No backup yet.
+        now: Back up now
+        failed: "The last backup failed: %{error}"
+        last:
+          one: "last backup: %{time} · %{size} · %{count} copy kept"
+          other: "last backup: %{time} · %{size} · %{count} copies kept"
+    keys:
+      openrouter_key: OpenRouter key
+      test_openrouter: Test OpenRouter
+      openrouter_help_html: Create the account and the key at %{link}. Your CV and the jobs only go there when you click an AI feature.
+      model_from_env: model set in .env
+      model: Model
+      free: Free
+      paid: Paid
+      plans_html: |-
+        <strong class="font-semibold text-ink">Free:</strong> no cost and no credit, with a limit of requests per minute and per day; if the model goes down, OpenRouter picks another free one.
+        Free providers may store and use what you send (CV, jobs, company emails) to train models; if OpenRouter refuses, allow it at %{link}.
+        <strong class="font-semibold text-ink">Paid:</strong> faster and more stable; cents of a dollar a month with normal use.
+      other_model: Another paid model (empty = %{model})
+      gmail: Gmail
+      gmail_placeholder: you@gmail.com
+      app_password: App password (16 letters)
+      test_gmail: Test Gmail
+      gmail_help_html: Optional. With 2-step verification on, create the app password at %{link}.
+      save: Save keys
+    key_field:
+      from_env: set in .env
+      saved_placeholder: saved; leave empty to keep it
+      clear: Delete
+    extension:
+      from_env: token set in .env
+      show: Show
+      copy: Copy
+      regenerate: Generate another
+      regenerate_confirm: The extension will stop working until it gets the new token. Generate another?
+      generate: Generate token
+      help_html: |-
+        Expected extension version: <span class="font-mono">%{version}</span>. After updating WorkMachine, reload the extension at <span class="font-mono">chrome://extensions</span>.
+        How to install: the <span class="font-mono">extension/</span> folder, loaded unpacked in Chrome or Edge (step by step in the README).
+  onboardings:
+    show:
+      eyebrow: First run
+      title: Let's get WorkMachine ready
+      intro: "Four steps. Everything stays on this computer: the jobs, the CV and the passwords. You can change it all later in Profile and Settings."
+      done: done
+      keys:
+        title: AI key and Gmail
+        note: "The OpenRouter key turns on the AI (profile draft from the CV, fit analysis, CV summary, messages and reading the company replies). The app works without it, just without AI. Gmail is optional: with it, the LinkedIn job alerts and the company replies come in on their own."
+      profile:
+        title: Your profile
+        note: "Upload your CV and let the AI build the draft, or fill it in by hand: area, titles, level and skills. The job score, the source searches and the Radar come from it."
+        review: Review the profile
+        build: Build the profile
+      extension:
+        title: Browser extension (optional)
+        note: To save jobs from any site and LinkedIn recruiters with one click. The step by step is in the README; the token is in Settings.
+      search:
+        title: First search
+        note: The aggregator searches the automatic sources with your profile's terms and repeats on its own every 3 hours.
+        start: Search jobs and start
+        profile_first: Fill in the profile first.
+        skip: Skip and go to the Dashboard

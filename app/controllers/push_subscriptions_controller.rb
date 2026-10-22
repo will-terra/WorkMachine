@@ -17,11 +17,11 @@ class PushSubscriptionsController < ApplicationController
   # Removes another browser from the settings page.
   def destroy
     PushSubscription.find(params[:id]).destroy!
-    redirect_to settings_path, notice: "Navegador removido das notificações.", status: :see_other
+    redirect_to settings_path, notice: t("flash.push.removed"), status: :see_other
   end
 
   def test
-    delivered = PushSender.deliver_all(title: "WorkMachine", body: "Notificações funcionando. Vagas novas com nota #{Setting.current.notify_min_score}+ vão aparecer assim.", path: "/vagas", tag: "test")
+    delivered = PushSender.deliver_all(title: "WorkMachine", body: t("flash.push.test", min: Setting.current.notify_min_score), path: "/vagas", tag: "test")
     render json: { ok: delivered.positive?, delivered: }
   end
 end

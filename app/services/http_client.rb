@@ -58,7 +58,7 @@ module HttpClient
   def parse_json(body, url)
     JSON.parse(body)
   rescue JSON::ParserError => e
-    raise Error, "JSON inválido em #{url}: #{e.message.truncate(120)}"
+    raise Error, I18n.t("http_client.invalid_json", url:, message: e.message.truncate(120))
   end
 
   def utf8(body)

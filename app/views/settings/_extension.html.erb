@@ -1,18 +1,17 @@
 <% if AppKeys.from_env?(:api_token) %>
-  <p class="text-sm"><span class="chip chip-ok">token definido no .env</span> (WORKMACHINE_API_TOKEN)</p>
+  <p class="text-sm"><span class="chip chip-ok"><%= t(".from_env") %></span> (WORKMACHINE_API_TOKEN)</p>
 <% elsif (token = AppKeys.saved(:api_token)) %>
   <div class="flex flex-wrap items-center gap-x-3 gap-y-2.5" data-controller="secret clipboard">
     <code class="min-w-0 flex-[1_1_280px] rounded-md bg-surface px-3 py-2 font-mono text-[13px] [overflow-wrap:anywhere]"
           data-secret-target="text" data-secret-value-value="<%= token %>"><%= token.first(6) %><%= "•" * 20 %></code>
     <input type="hidden" value="<%= token %>" data-clipboard-target="source">
-    <button type="button" class="btn btn-ghost" data-action="secret#toggle" data-secret-target="toggle">Mostrar</button>
-    <button type="button" class="btn" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
-    <%= button_to "Gerar outro", regenerate_token_settings_path, class: "btn btn-ghost", form: { data: { turbo_confirm: "A extensão vai parar de funcionar até receber o token novo. Gerar outro?" } } %>
+    <button type="button" class="btn btn-ghost" data-action="secret#toggle" data-secret-target="toggle"><%= t(".show") %></button>
+    <button type="button" class="btn" data-clipboard-target="button" data-action="clipboard#copy"><%= t(".copy") %></button>
+    <%= button_to t(".regenerate"), regenerate_token_settings_path, class: "btn btn-ghost", form: { data: { turbo_confirm: t(".regenerate_confirm") } } %>
   </div>
 <% else %>
-  <div><%= button_to "Gerar token", regenerate_token_settings_path, class: "btn btn-primary" %></div>
+  <div><%= button_to t(".generate"), regenerate_token_settings_path, class: "btn btn-primary" %></div>
 <% end %>
 <p class="text-[13px] text-muted">
-  Versão esperada da extensão: <span class="font-mono"><%= ExtensionVersion.current %></span>. Depois de atualizar o WorkMachine, recarregue a extensão em <span class="font-mono">chrome://extensions</span>.
-  Como instalar: pasta <span class="font-mono">extension/</span>, carregada sem compactação no Chrome ou no Edge (passo a passo no README).
+  <%= t(".help_html", version: ExtensionVersion.current) %>
 </p>

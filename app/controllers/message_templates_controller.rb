@@ -19,7 +19,7 @@ class MessageTemplatesController < ApplicationController
     @message_template = MessageTemplate.new(message_template_params)
 
     if @message_template.save
-      redirect_to message_templates_path, notice: "Modelo criado."
+      redirect_to message_templates_path, notice: t("flash.templates.created")
     else
       render :new, status: :unprocessable_content
     end
@@ -30,7 +30,7 @@ class MessageTemplatesController < ApplicationController
 
   def update
     if @message_template.update(message_template_params)
-      redirect_to message_templates_path(anchor: helpers.dom_id(@message_template)), notice: "Modelo atualizado."
+      redirect_to message_templates_path(anchor: helpers.dom_id(@message_template)), notice: t("flash.templates.updated")
     else
       render :edit, status: :unprocessable_content
     end
@@ -38,7 +38,7 @@ class MessageTemplatesController < ApplicationController
 
   def destroy
     @message_template.destroy!
-    redirect_to message_templates_path, notice: "Modelo apagado.", status: :see_other
+    redirect_to message_templates_path, notice: t("flash.templates.deleted"), status: :see_other
   end
 
   private

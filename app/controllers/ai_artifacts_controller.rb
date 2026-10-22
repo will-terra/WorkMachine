@@ -4,14 +4,14 @@ class AiArtifactsController < ApplicationController
   before_action :set_job_posting, only: %i[ create estimate ]
 
   def create
-    return redirect_to(job_posting_path(@job_posting, anchor: "ia"), alert: "Coloque a chave do OpenRouter em Ajustes para usar a IA.") unless Ai::Client.configured?
+    return redirect_to(job_posting_path(@job_posting, anchor: "ia"), alert: t("flash.ai.no_key")) unless Ai::Client.configured?
 
     kind = params.require(:kind).presence_in(AiArtifact.kinds.keys) or return head(:unprocessable_content)
     language = params[:language].presence_in(%w[pt en]) || "pt"
     artifact = @job_posting.ai_artifacts.create!(kind:, language:, model: Ai::Client.model)
     GenerateAiArtifactJob.perform_later(artifact)
 
-    redirect_to job_posting_path(@job_posting, anchor: "ia"), notice: "#{artifact.human_enum(:kind)} em andamento. O resultado aparece aqui em alguns segundos."
+    redirect_to job_posting_path(@job_posting, anchor: "ia"), notice: t("flash.ai.started", kind: artifact.human_enum(:kind))
   end
 
   # Polled by the pending artifact's Turbo Frame.
@@ -23,7 +23,7 @@ class AiArtifactsController < ApplicationController
   def destroy
     artifact = AiArtifact.find(params[:id])
     artifact.destroy!
-    redirect_to job_posting_path(artifact.job_posting, anchor: "ia"), notice: "Resultado apagado.", status: :see_other
+    redirect_to job_posting_path(artifact.job_posting, anchor: "ia"), notice: t("flash.ai.deleted"), status: :see_other
   end
 
   # Lazy Turbo Frame with the cost per click: tokens estimated from the prompt size and

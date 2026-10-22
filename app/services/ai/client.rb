@@ -47,19 +47,19 @@ module Ai
     # A message people can act on, for the errors OpenRouter answers with.
     def self.explain(error)
       case error.status
-      when 401 then "A chave do OpenRouter é inválida. Confira em Ajustes → Chaves e contas."
-      when 402 then "Sem créditos no OpenRouter. Adicione créditos em openrouter.ai/settings/credits ou use o modelo gratuito (Ajustes → Chaves e contas)."
+      when 401 then I18n.t("ai.errors.invalid_key")
+      when 402 then I18n.t("ai.errors.no_credits")
       when 429
         if free?
-          "Os modelos gratuitos atingiram o limite de uso agora (por minuto ou por dia). Tente mais tarde ou mude para o modelo pago em Ajustes."
+          I18n.t("ai.errors.free_limit")
         else
-          "Limite de uso do OpenRouter atingido. Tente de novo em alguns minutos."
+          I18n.t("ai.errors.limit")
         end
       else
         if error.message.match?(/data policy|privacy/i)
-          "O OpenRouter recusou por causa da sua política de dados: para os modelos gratuitos, libere-os em openrouter.ai/settings/privacy ou use o modelo pago."
+          I18n.t("ai.errors.data_policy")
         else
-          "Erro do OpenRouter: #{error.message.truncate(300)}"
+          I18n.t("ai.errors.other", message: error.message.truncate(300))
         end
       end
     end

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { t } from "i18n"
 
 // Profile form: skill chips by level (Enter adds, × removes, the popover changes the level and
 // the synonyms), terms to avoid, the chosen area's suggestions (skills and titles) and the
@@ -38,7 +39,7 @@ export default class extends Controller {
     const chip = typed.previousElementSibling
     chip.querySelector("[data-field='name']").value = name
     chip.querySelector("[data-field='label']").textContent = name
-    chip.querySelector(".skill-chip-remove").setAttribute("aria-label", `Remover ${name}`)
+    chip.querySelector(".skill-chip-remove").setAttribute("aria-label", t("profile.remove", { name }))
     if (!avoid) {
       chip.querySelector("[data-field='level']").value = level
       chip.querySelector("[data-field='synonyms']").value = synonyms.join(", ")

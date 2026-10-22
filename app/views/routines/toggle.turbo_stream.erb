@@ -1,4 +1,4 @@
 <%= turbo_stream.replace "routine_item_#{@item.key}", partial: "routines/item", locals: { item: @item, checked: @checked.include?(@item.key) } %>
 <% done, total = @routine.progress(@checked) %>
 <%= turbo_stream.replace "routine_progress_bar_#{@routine.id}", partial: "routines/progress_bar", locals: { routine: @routine, done:, total: } %>
-<%= turbo_stream.update "routine_progress_text_#{@routine.id}", "#{done}/#{total} feitos" %>
+<%= turbo_stream.update "routine_progress_text_#{@routine.id}", t("routines.done", done:, total:) %>

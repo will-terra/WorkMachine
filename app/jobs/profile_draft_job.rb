@@ -8,13 +8,13 @@ class ProfileDraftJob < ApplicationJob
 
     attributes, result = draft.call(profile.cv_text)
     if attributes.empty?
-      profile.update!(cv_draft_status: "failed", cv_draft_error: result&.refused? ? "A IA recusou o pedido." : "A IA não devolveu um rascunho. Tente de novo.")
+      profile.update!(cv_draft_status: "failed", cv_draft_error: I18n.t(result&.refused? ? "ai.errors.refused" : "ai.errors.no_draft"))
     else
       profile.update!(cv_draft: attributes, cv_draft_status: "done", cv_draft_error: nil)
     end
   rescue Ai::Client::Error => e
     profile.update!(cv_draft_status: "failed", cv_draft_error: Ai::Client.explain(e))
   rescue SocketError, SystemCallError, Timeout::Error => e
-    profile.update!(cv_draft_status: "failed", cv_draft_error: "Sem conexão com o OpenRouter (#{e.class}).")
+    profile.update!(cv_draft_status: "failed", cv_draft_error: I18n.t("ai.errors.offline", error: e.class))
   end
 end

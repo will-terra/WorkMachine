@@ -3,43 +3,41 @@
 <%= form_with model: setting, url: keys_settings_path, method: :patch, class: "flex flex-col gap-3.5" do |form| %>
   <%= hidden_field_tag :return_to, return_to if return_to %>
   <div class="flex flex-wrap items-end gap-x-3 gap-y-2.5">
-    <div class="flex-[1_1_260px]"><%= render "settings/key_field", form:, field: :openrouter_api_key, label: "Chave do OpenRouter", type: :password, placeholder: "sk-or-v1-…" %></div>
-    <button type="submit" form="test_openrouter_form" class="btn" <%= "disabled" unless Ai::Client.configured? %>>Testar OpenRouter</button>
+    <div class="flex-[1_1_260px]"><%= render "settings/key_field", form:, field: :openrouter_api_key, label: t(".openrouter_key"), type: :password, placeholder: "sk-or-v1-…" %></div>
+    <button type="submit" form="test_openrouter_form" class="btn" <%= "disabled" unless Ai::Client.configured? %>><%= t(".test_openrouter") %></button>
   </div>
-  <p class="-mt-1 text-[13px] text-muted">Crie a conta e a chave em <%= external_link "openrouter.ai/settings/keys", "https://openrouter.ai/settings/keys" %>. O CV e as vagas só vão para lá quando você clica numa função de IA.</p>
+  <p class="-mt-1 text-[13px] text-muted"><%= t(".openrouter_help_html", link: external_link("openrouter.ai/settings/keys", "https://openrouter.ai/settings/keys")) %></p>
 
   <% if AppKeys.from_env?(:openrouter_model) %>
-    <p class="text-sm"><span class="chip chip-ok">modelo definido no .env</span> <code class="font-mono text-[12.5px] text-ink-soft"><%= AppKeys.openrouter_model %></code></p>
+    <p class="text-sm"><span class="chip chip-ok"><%= t(".model_from_env") %></span> <code class="font-mono text-[12.5px] text-ink-soft"><%= AppKeys.openrouter_model %></code></p>
   <% else %>
     <div class="flex flex-wrap items-end gap-x-4 gap-y-2.5">
       <fieldset>
-        <legend class="label">Modelo</legend>
+        <legend class="label"><%= t(".model") %></legend>
         <div class="seg">
-          <label class="seg-opt"><%= form.radio_button :ai_plan, "free" %>Gratuito</label>
-          <label class="seg-opt"><%= form.radio_button :ai_plan, "paid" %>Pago</label>
+          <label class="seg-opt"><%= form.radio_button :ai_plan, "free" %><%= t(".free") %></label>
+          <label class="seg-opt"><%= form.radio_button :ai_plan, "paid" %><%= t(".paid") %></label>
         </div>
       </fieldset>
       <code class="pb-2 font-mono text-[12.5px] text-ink-soft"><%= setting.ai_plan_paid? ? (setting.openrouter_model.presence || Ai::Client::PAID_MODEL) : Ai::Client::FREE_MODELS.first %></code>
     </div>
     <p class="-mt-1 text-[13px] leading-normal text-muted">
-      <strong class="font-semibold text-ink">Gratuito:</strong> sem custo e sem crédito, com limite de pedidos por minuto e por dia; se o modelo cair, o OpenRouter escolhe outro gratuito.
-      Os provedores gratuitos podem guardar e usar o que você envia (currículo, vagas, e-mails das empresas) para treinar modelos; se o OpenRouter recusar, libere em <%= external_link "openrouter.ai/settings/privacy", "https://openrouter.ai/settings/privacy" %>.
-      <strong class="font-semibold text-ink">Pago:</strong> mais rápido e estável; centavos de dólar por mês no uso normal.
+      <%= t(".plans_html", link: external_link("openrouter.ai/settings/privacy", "https://openrouter.ai/settings/privacy")) %>
     </p>
     <div class="max-w-[420px]">
-      <%= form.label :openrouter_model, "Outro modelo pago (vazio = #{Ai::Client::PAID_MODEL})", class: "label" %>
+      <%= form.label :openrouter_model, t(".other_model", model: Ai::Client::PAID_MODEL), class: "label" %>
       <%= form.text_field :openrouter_model, class: "input font-mono text-xs", placeholder: Ai::Client::PAID_MODEL %>
     </div>
   <% end %>
 
   <div class="mt-2 flex flex-wrap items-end gap-x-3 gap-y-2.5">
-    <div class="flex-[1_1_220px]"><%= render "settings/key_field", form:, field: :gmail_user, label: "Gmail", type: :email, placeholder: "voce@gmail.com" %></div>
-    <div class="flex-[1_1_200px]"><%= render "settings/key_field", form:, field: :gmail_app_password, label: "Senha de app (16 letras)", type: :password, placeholder: "abcd efgh ijkl mnop" %></div>
-    <button type="submit" form="test_gmail_form" class="btn" <%= "disabled" unless GmailSession.configured? %>>Testar Gmail</button>
+    <div class="flex-[1_1_220px]"><%= render "settings/key_field", form:, field: :gmail_user, label: t(".gmail"), type: :email, placeholder: t(".gmail_placeholder") %></div>
+    <div class="flex-[1_1_200px]"><%= render "settings/key_field", form:, field: :gmail_app_password, label: t(".app_password"), type: :password, placeholder: "abcd efgh ijkl mnop" %></div>
+    <button type="submit" form="test_gmail_form" class="btn" <%= "disabled" unless GmailSession.configured? %>><%= t(".test_gmail") %></button>
   </div>
-  <p class="-mt-1 text-[13px] text-muted">Opcional. Com a verificação em duas etapas ligada, gere a senha de app em <%= external_link "myaccount.google.com/apppasswords", "https://myaccount.google.com/apppasswords" %>.</p>
+  <p class="-mt-1 text-[13px] text-muted"><%= t(".gmail_help_html", link: external_link("myaccount.google.com/apppasswords", "https://myaccount.google.com/apppasswords")) %></p>
 
-  <div><%= form.submit "Salvar chaves", class: "btn btn-primary" %></div>
+  <div><%= form.submit t(".save"), class: "btn btn-primary" %></div>
 <% end %>
 <%= form_with url: test_openrouter_settings_path, id: "test_openrouter_form", class: "hidden" do %><% end %>
 <%= form_with url: test_gmail_settings_path, id: "test_gmail_form", class: "hidden" do %><% end %>

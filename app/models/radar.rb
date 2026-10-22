@@ -20,8 +20,11 @@ class Radar
   end
 
   class << self
+    # config/radar.yml with the texts of config/radar.<locale>.yml on top, when there is one.
     def config
-      YAML.load_file(Rails.root.join("config/radar.yml"))
+      base = YAML.load_file(Rails.root.join("config/radar.yml"))
+      localized = Rails.root.join("config/radar.#{I18n.locale}.yml")
+      localized.exist? ? translate(base, YAML.load_file(localized)) : base
     end
 
     def tasks
@@ -97,6 +100,23 @@ class Radar
       return 1.hour if source_key.in?(%w[linkedin_alert application_replies])
 
       [ Sources.find(source_key)&.min_interval || 3.hours, 3.hours ].max
+    end
+
+    # Only texts are taken from the translation: queries, builders and URLs come from radar.yml.
+    def translate(base, texts)
+      base.fetch("automated").each { it.merge!(texts.dig("automated", it["name"]).to_h.slice("name", "note")) }
+      base.fetch("cadences").each { it.merge!(texts.dig("cadences", it["key"]).to_h.slice("title", "time")) }
+      base.fetch("filters").each do |name, filter|
+        filter["label"] = texts.dig("filters", name, "label") || filter["label"]
+        filter.fetch("options").each { |option| option["label"] = texts.dig("filters", name, "options", option["value"].to_s) || option["label"] }
+      end
+      base.fetch("tasks").each do |task|
+        task.merge!(texts.dig("tasks", task["key"]).to_h.slice("title", "action", "more"))
+        task["link"] = task["link"].merge(texts.dig("tasks", task["key"], "link").to_h.slice("label")) if task["link"]
+        task.fetch("searches", []).each { it.merge!(texts.dig("searches", it["key"]).to_h.slice("title", "note")) }
+        task.fetch("links", []).each { it.merge!(texts.dig("links", it["name"]).to_h.slice("name", "note")) }
+      end
+      base
     end
 
     def default_filters

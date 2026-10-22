@@ -22,7 +22,7 @@ class JobApplicationsController < ApplicationController
     @job_application = JobApplication.new(job_application_params)
 
     if @job_application.save
-      redirect_to job_applications_path, notice: "Candidatura criada."
+      redirect_to job_applications_path, notice: t("flash.applications.created")
     else
       render :new, status: :unprocessable_content
     end
@@ -33,7 +33,7 @@ class JobApplicationsController < ApplicationController
 
   def update
     if @job_application.update(job_application_params)
-      redirect_to return_path, notice: "Candidatura atualizada."
+      redirect_to return_path, notice: t("flash.applications.updated")
     else
       render :edit, status: :unprocessable_content
     end
@@ -41,7 +41,7 @@ class JobApplicationsController < ApplicationController
 
   def destroy
     @job_application.destroy!
-    redirect_to job_applications_path, notice: "Candidatura apagada.", status: :see_other
+    redirect_to job_applications_path, notice: t("flash.applications.deleted"), status: :see_other
   end
 
   # Kanban drag and drop: PATCH status + position, answers with Turbo Streams for the touched columns.
@@ -56,15 +56,15 @@ class JobApplicationsController < ApplicationController
 
   def check_replies
     ImportApplicationRepliesJob.perform_later
-    redirect_to job_applications_path(view: params[:view].presence_in(VIEWS)), notice: "Lendo as respostas das empresas no Gmail. Os cartões se movem sozinhos em alguns instantes."
+    redirect_to job_applications_path(view: params[:view].presence_in(VIEWS)), notice: t("flash.applications.checking_replies")
   end
 
   def import
     file = params[:file]
-    return redirect_to(job_applications_path(view: "table"), alert: "Escolha um arquivo CSV.") if file.blank?
+    return redirect_to(job_applications_path(view: "table"), alert: t("flash.applications.choose_csv")) if file.blank?
 
     result = JobApplicationCsv.import(file.read)
-    flash[:notice] = "#{result.created} candidatura(s) importada(s)." if result.created.positive?
+    flash[:notice] = t("flash.applications.imported", count: result.created) if result.created.positive?
     flash[:alert] = result.errors.first(5).join(" · ") if result.errors.any?
     redirect_to job_applications_path(view: "table")
   end

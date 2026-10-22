@@ -22,7 +22,7 @@
               </div>
             </fieldset>
           <% end %>
-          <noscript><%= submit_tag "Aplicar", class: "btn btn-sm" %></noscript>
+          <noscript><%= submit_tag t(".apply"), class: "btn btn-sm" %></noscript>
         <% end %>
       <% end %>
     </div>
@@ -30,14 +30,14 @@
     <% if task["status"] == "linkedin_alert" %>
       <p class="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13.5px]">
         <% if !@gmail_configured %>
-          <span class="chip chip-warn">Gmail não configurado</span>
-          <%= link_to "Configure em Ajustes para os alertas serem importados", settings_path(anchor: "chaves"), data: { turbo_frame: "_top" } %>
+          <span class="chip chip-warn"><%= t("radar.gmail_missing") %></span>
+          <%= link_to t(".set_up_gmail"), settings_path(anchor: "chaves"), data: { turbo_frame: "_top" } %>
         <% elsif @alerts[:emails].zero? %>
-          <span class="chip chip-warn">nenhum alerta ainda</span>
-          <span class="text-muted">Nenhum alerta importado do Gmail até agora.</span>
+          <span class="chip chip-warn"><%= t(".no_alerts_chip") %></span>
+          <span class="text-muted"><%= t(".no_alerts") %></span>
         <% else %>
-          <span class="chip chip-hot">funcionando</span>
-          <span class="text-muted"><%= pluralize(@alerts[:emails], "alerta lido", plural: "alertas lidos") %>; o último chegou em <%= l(@alerts[:last_received_at], format: "%d/%m %H:%M") %></span>
+          <span class="chip chip-hot"><%= t(".working") %></span>
+          <span class="text-muted"><%= t(".alerts_read", count: @alerts[:emails], date: l(@alerts[:last_received_at], format: :day_month_hour)) %></span>
         <% end %>
       </p>
     <% end %>
@@ -50,10 +50,10 @@
               <%= search["title"] %>
               <% if search["note"] %><span class="block text-[12.5px] font-normal text-muted"><%= search["note"] %></span><% end %>
             </span>
-            <code class="min-w-0 flex-[1_1_300px] font-mono text-[12.5px] leading-[1.55] wrap-anywhere text-ink-soft" data-clipboard-target="source"><%= search["query"] %></code>
+            <code class="min-w-0 flex-[1_1_300px] font-mono text-[12.5px] leading-[1.55] wrap-anywhere text-ink-soft" translate="no" data-clipboard-target="source"><%= search["query"] %></code>
             <span class="flex flex-none gap-1">
-              <button type="button" class="btn btn-ghost btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="Copiar termo: <%= search["title"] %>">Copiar</button>
-              <%= link_to "Abrir ↗", Radar.url_for(search["builder"], search["query"], @filters, location: @profile.location), class: "btn btn-sm", target: "_blank", rel: "noopener", aria: { label: "Abrir busca: #{search["title"]}" } %>
+              <button type="button" class="btn btn-ghost btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="<%= t(".copy_label", title: search["title"]) %>"><%= t(".copy") %></button>
+              <%= link_to t(".open"), Radar.url_for(search["builder"], search["query"], @filters, location: @profile.location), class: "btn btn-sm", target: "_blank", rel: "noopener", aria: { label: t(".open_label", title: search["title"]) } %>
             </span>
           </div>
         <% end %>
@@ -63,7 +63,7 @@
     <% if task["links"].present? %>
       <div class="mt-3 flex flex-wrap gap-2">
         <% task["links"].each do |site| %>
-          <%= external_link "#{site["name"]} ↗", site["url"], class: "btn btn-sm", title: site["note"] %>
+          <%= external_link "#{site["name"]} ↗", site["url"], class: "btn btn-sm", title: site["note"], translate: "no" %>
         <% end %>
       </div>
     <% end %>

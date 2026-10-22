@@ -30,12 +30,8 @@ module Ai
 
     TASKS = {
       "fit_analysis" => <<~TASK,
-        Analyze how well %<name>s fits the job posting below. Answer in Brazilian Portuguese, with exactly these sections:
-        Aderência: <nota de 0 a 10> - one sentence with the verdict.
-        Pontos fortes: 3 to 5 bullets, each tying a requirement of the job to a fact from the profile.
-        Lacunas: bullets with requirements they do not meet or that are unclear (seniority, years of experience, location or time zone, language, technologies). Write "Nenhuma relevante" if there are none.
-        Palavras-chave para destacar: a comma-separated list of terms from the posting that %<name>s can truthfully use in their CV and LinkedIn.
-        Vale aplicar?: one or two sentences, considering that %<goal>s.
+        Analyze how well %<name>s fits the job posting below. Answer in %<interface_language>s, with exactly these sections:
+        %<fit_sections>s
       TASK
       "cv_summary" => <<~TASK,
         Write %<name>s's CV summary tailored to the job posting below: 4 to 5 lines (60 to 90 words), in the language the posting is written in (Portuguese or English). Start with their title, without pronouns (for example "Full Stack Engineer with..."). Lead with what this job needs most and reuse the posting's keywords only where they are true for %<name>s. Output only the summary.
@@ -56,6 +52,24 @@ module Ai
 
     LANGUAGES = { "pt" => "Brazilian Portuguese", "en" => "English" }.freeze
 
+    # The fit analysis is read in the app, so its sections follow the interface language.
+    FIT_SECTIONS = {
+      "pt" => <<~SECTIONS.chomp,
+        Aderência: <nota de 0 a 10> - one sentence with the verdict.
+        Pontos fortes: 3 to 5 bullets, each tying a requirement of the job to a fact from the profile.
+        Lacunas: bullets with requirements they do not meet or that are unclear (seniority, years of experience, location or time zone, language, technologies). Write "Nenhuma relevante" if there are none.
+        Palavras-chave para destacar: a comma-separated list of terms from the posting that %<name>s can truthfully use in their CV and LinkedIn.
+        Vale aplicar?: one or two sentences, considering that %<goal>s.
+      SECTIONS
+      "en" => <<~SECTIONS.chomp
+        Fit: <score from 0 to 10> - one sentence with the verdict.
+        Strengths: 3 to 5 bullets, each tying a requirement of the job to a fact from the profile.
+        Gaps: bullets with requirements they do not meet or that are unclear (seniority, years of experience, location or time zone, language, technologies). Write "None relevant" if there are none.
+        Keywords to highlight: a comma-separated list of terms from the posting that %<name>s can truthfully use in their CV and LinkedIn.
+        Worth applying?: one or two sentences, considering that %<goal>s.
+      SECTIONS
+    }.freeze
+
     module_function
 
     def system_text(profile = Profile.current)
@@ -66,10 +80,19 @@ module Ai
       "#{task(kind, language, profile)}\n#{posting_block(posting)}"
     end
 
+    # The language of the texts read in the app (fit analysis, reply summaries).
+    def interface_language
+      LANGUAGES.fetch(interface_key)
+    end
+
+    def interface_key
+      I18n.locale.to_s.start_with?("pt") ? "pt" : "en"
+    end
+
     def task(kind, language, profile = Profile.current)
-      template = TASKS.fetch(kind.to_s)
+      template = TASKS.fetch(kind.to_s).sub("%<fit_sections>s") { FIT_SECTIONS.fetch(interface_key) }
       templates = MessageTemplate.where(language: language).ordered.map { "#{it.name}:\n#{it.body_for(profile)}" }.join("\n\n")
-      format(template, name: name(profile), goal: goal(profile), language: LANGUAGES.fetch(language.to_s, LANGUAGES["pt"]),
+      format(template, name: name(profile), goal: goal(profile), language: LANGUAGES.fetch(language.to_s, LANGUAGES["pt"]), interface_language:,
                        templates: templates.presence || "(none)")
     end
 

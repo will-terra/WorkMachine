@@ -23,6 +23,14 @@ RSpec.describe ApplicationReplies::Classifier do
     expect(client).to have_received(:complete).with(hash_including(json: true, user: include("Rails Dev at Acme")))
   end
 
+  it "asks for the summary in the interface language" do
+    allow(client).to receive(:complete).and_return(ai_answer('{"category":"offer","summary":"An offer."}'))
+
+    I18n.with_locale(:en) { classify(subject: "Offer", configured: true) }
+
+    expect(client).to have_received(:complete).with(hash_including(system: include("one short sentence in English")))
+  end
+
   it "falls back to the rules when the AI answer is invalid or fails" do
     allow(client).to receive(:complete).and_return(ai_answer("nada de json"))
     expect(classify(subject: "Infelizmente não seguiremos com sua candidatura", configured: true)).to have_attributes(category: "rejection", classified_by: "rules")

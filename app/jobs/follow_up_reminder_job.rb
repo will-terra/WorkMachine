@@ -19,11 +19,11 @@ class FollowUpReminderJob < ApplicationJob
     def notify(due)
       return if due.empty? || !Setting.current.notify_follow_ups?
 
-      names = due.first(3).map(&:company).to_sentence(last_word_connector: " e ")
-      names += " e mais #{due.size - 3}" if due.size > 3
+      names = due.first(3).map(&:company).to_sentence
+      names += " #{I18n.t("notifications.more", count: due.size - 3)}" if due.size > 3
       PushSender.deliver_all(
-        title: due.one? ? "Follow-up hoje: #{due.first.company}" : "#{due.size} follow-ups para hoje",
-        body: "Sem resposta há #{JobApplication::FOLLOW_UP_AFTER.in_days.to_i}+ dias: #{names}. A mensagem de follow-up já vem preenchida.",
+        title: due.one? ? I18n.t("notifications.follow_up_one", company: due.first.company) : I18n.t("notifications.follow_up_many", count: due.size),
+        body: I18n.t("notifications.follow_up_body", days: JobApplication::FOLLOW_UP_AFTER.in_days.to_i, names:),
         path: due.one? ? MessageTemplate.follow_up_path(due.first) : "/",
         tag: "follow-ups"
       )

@@ -6,10 +6,10 @@
       <span class="peer-checked:text-muted peer-checked:line-through">
         <%= routine_label(item) %>
         <% if item.url %>
-          <%= item.url.start_with?("/") ? link_to("abrir →", item.url, class: "ml-1 text-[0.9em]") : external_link("abrir →", item.url, class: "ml-1 text-[0.9em]") %>
+          <%= item.url.start_with?("/") ? link_to(t(".open"), item.url, class: "ml-1 text-[0.9em]") : external_link(t(".open"), item.url, class: "ml-1 text-[0.9em]") %>
         <% end %>
       </span>
     </label>
-    <noscript><%= submit_tag "Marcar", class: "btn btn-sm mt-1" %></noscript>
+    <noscript><%= submit_tag t(".check"), class: "btn btn-sm mt-1" %></noscript>
   <% end %>
 </li>

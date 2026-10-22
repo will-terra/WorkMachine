@@ -18,12 +18,12 @@ class GenerateAiArtifactJob < ApplicationJob
     if result.refused?
       artifact.update!(attributes.merge(status: "failed", error_message: "A IA recusou o pedido."))
     else
-      note = "\n\n[resposta cortada no limite de tokens]" if result.truncated?
+      note = "\n\n#{I18n.t("ai.errors.truncated")}" if result.truncated?
       artifact.update!(attributes.merge(status: "completed", content: "#{result.text}#{note}"))
     end
   rescue Ai::Client::Error => e
     artifact.update!(status: "failed", error_message: Ai::Client.explain(e))
   rescue SocketError, SystemCallError, Timeout::Error => e
-    artifact.update!(status: "failed", error_message: "Sem conexão com o OpenRouter (#{e.class}).")
+    artifact.update!(status: "failed", error_message: I18n.t("ai.errors.offline", error: e.class))
   end
 end

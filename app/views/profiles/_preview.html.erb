@@ -5,17 +5,17 @@
   <% end %>
   <p class="mt-1 text-[13.5px] text-muted">
     <% if preview.scores.empty? %>
-      Ainda não há vagas para comparar. Rode a primeira busca em Vagas.
+      <%= t(".no_postings") %>
     <% elsif preview.changed_scores.zero? %>
-      Nenhuma das últimas <%= preview.scores.size %> vagas muda de nota.
+      <%= t(".no_change", count: preview.scores.size) %>
     <% else %>
-      <%= pluralize(preview.changed_scores, "das últimas vagas muda", plural: "das últimas vagas mudam") %> de nota com o que está no formulário.
+      <%= t(".changed", count: preview.changed_scores) %>
     <% end %>
   </p>
 
   <% if preview.scores.any? %>
     <div class="mt-3 grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-3.5 font-mono text-xs text-muted">
-      <span>vaga</span><span class="text-right">agora</span><span class="min-w-[52px] text-right">prévia</span>
+      <span><%= t(".job") %></span><span class="text-right"><%= t(".now") %></span><span class="min-w-[52px] text-right"><%= t(".preview") %></span>
     </div>
     <div class="flex flex-col">
       <% preview.scores.each do |score| %>
@@ -35,15 +35,14 @@
   <% end %>
 
   <p class="mt-4 text-[13px] text-muted">
-    O agregador vai buscar por <strong class="text-ink"><%= preview.profile.effective_search_terms.first(3).join(", ").presence || "nada (preencha os termos de busca ou as skills essenciais)" %></strong>
-    em <%= pluralize(preview.sources.size, "fonte", plural: "fontes") %>.
+    <%= t(".search_html", terms: tag.strong(preview.profile.effective_search_terms.first(3).join(", ").presence || t(".nothing"), class: "text-ink"), count: preview.sources.size) %>
   </p>
   <% if preview.changed_searches.any? %>
     <details class="mt-3">
-      <summary class="text-[13.5px] text-accent hover:text-accent-hover"><%= pluralize(preview.changed_searches.size, "busca do Radar muda", plural: "buscas do Radar mudam") %></summary>
+      <summary class="text-[13.5px] text-accent hover:text-accent-hover"><%= t(".changed_searches", count: preview.changed_searches.size) %></summary>
       <ul class="mt-2 grid gap-2">
         <% preview.changed_searches.each do |search| %>
-          <li class="text-[13px]"><span class="font-semibold"><%= search["title"] %></span><span class="code mt-1 block"><%= search["query"] %></span></li>
+          <li class="text-[13px]"><span class="font-semibold"><%= search["title"] %></span><span class="code mt-1 block" translate="no"><%= search["query"] %></span></li>
         <% end %>
       </ul>
     </details>

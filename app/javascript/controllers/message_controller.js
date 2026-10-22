@@ -75,7 +75,7 @@ export default class extends Controller {
 
     const max = parseInt(item.dataset.max, 10)
     const over = !!max && text.length > max
-    this.counterTarget.textContent = max ? `${text.length} / ${max} caracteres` : `${text.length} caracteres`
+    this.counterTarget.textContent = `${text.length}${max ? ` / ${max}` : ""} ${t("message.characters")}`
     this.counterTarget.classList.toggle("text-warn-strong", over)
     this.counterTarget.classList.toggle("text-muted", !over)
   }

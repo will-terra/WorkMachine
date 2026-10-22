@@ -1,0 +1,93 @@
+en:
+  flash:
+    applications:
+      created: Application created.
+      updated: Application updated.
+      deleted: Application deleted.
+      checking_replies: Reading the company replies in Gmail. The cards move on their own in a few moments.
+      choose_csv: Choose a CSV file.
+      imported:
+        one: 1 application imported.
+        other: "%{count} applications imported."
+    templates:
+      created: Template created.
+      updated: Template updated.
+      deleted: Template deleted.
+    setup:
+      created: Account created. Welcome to WorkMachine!
+    push:
+      removed: Browser removed from notifications.
+      test: Notifications are working. New jobs scoring %{min}+ will show up like this.
+    routines:
+      created: Routine created.
+      updated: Routine saved.
+      deleted: Routine deleted.
+      restored: Ready-made routines restored.
+    postings:
+      dismissed_many:
+        one: 1 job dismissed. It stays in Triage → Dismissed.
+        other: "%{count} jobs dismissed. They stay in Triage → Dismissed."
+      added: Job added with a score of %{score}.
+      already_saved: This job was already saved.
+      fetching: Search started. Each source keeps its minimum interval; reload in a minute.
+      saved: "Saved to Applications: %{name}."
+      applied: "%{name} is in Applications as %{status}."
+      dream_added: Marked as a dream job. The AI now uses it as a reference.
+      dream_removed: Removed from dream jobs.
+      dream_full: There are already %{max} dream jobs. Remove one in the Profile first.
+      dismissed: Job dismissed. It stays in Triage → Dismissed.
+      restored: Job back to the triage.
+      undone: Undone.
+    onboarding:
+      searching: First search started. Jobs arrive in Jobs within a few minutes, already scored.
+      done: All set.
+    settings:
+      keys_saved: Keys saved.
+      openrouter_missing: Add the OpenRouter key first.
+      openrouter_ok: "OpenRouter connected%{label}. Model: %{model}."
+      openrouter_refused: OpenRouter refused the key. Check that you copied all of it.
+      openrouter_failed: Could not reach OpenRouter (%{error}).
+      gmail_missing: Add the Gmail address and app password first.
+      gmail_ok: "Gmail connected: %{count} e-mails in %{mailbox}. Nothing in the mailbox is changed."
+      gmail_failed: Could not reach Gmail (%{error}).
+      token: New token generated. Paste it in the extension Options.
+      backup_done: "Backup done: %{file}."
+      backup_failed: "The backup failed: %{error}"
+      saved: Settings saved.
+    contacts:
+      created: Contact saved.
+      updated: Contact updated.
+      deleted: Contact deleted.
+    ai:
+      no_key: Add the OpenRouter key in Settings to use the AI.
+      started: "%{kind} in progress. The result shows up here in a few seconds."
+      deleted: Result deleted.
+    targets:
+      created: Company added. It goes into the next search.
+      updated: Company updated.
+      deleted: Company removed.
+      found: Found %{boards}. Activate it in Suggested.
+      not_found: Could not find a public board for “%{name}” on Greenhouse, Lever, Ashby or Workable.
+      searching: Looking for the job boards of the companies you applied to. The ones found show up here in a few minutes.
+      activated: "%{name} activated. It goes into the next search."
+      dismissed: Suggestion dismissed.
+    sessions:
+      rate_limited: Too many attempts. Try again in a few minutes.
+      invalid: Wrong email or password.
+    profile:
+      cv_too_big: The CV can be up to 5 MB.
+      cv_read: "CV read: %{count} characters. Now build the draft with the AI or fill in the form."
+      cv_missing: Upload the CV first.
+      drafting: Building the draft with the AI. It takes about a minute.
+      draft_discarded: Draft discarded.
+      saved_rescoring: Profile saved. %{count} jobs are being rescored.
+      saved: Profile saved.
+  api:
+    rate_limited: Too many requests. Try again in a minute.
+    no_token: Generate the extension token in WorkMachine, in Settings → Browser extension.
+    invalid_token: Invalid token. Check the token in the extension options.
+    summary:
+      application: "Application: %{status}%{applied_on}"
+      applied_on: " · applied on %{date}"
+      auto_dismissed: Dismissed automatically (%{reason})
+      new: New in the triage

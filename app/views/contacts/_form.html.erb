@@ -6,7 +6,7 @@
   </div>
   <div>
     <%= form.label :headline, class: "label" %>
-    <%= form.text_field :headline, placeholder: "Tech Recruiter na Acme", class: "input" %>
+    <%= form.text_field :headline, placeholder: t(".headline_placeholder"), class: "input" %>
   </div>
   <div>
     <%= form.label :company, class: "label" %>
@@ -29,7 +29,7 @@
     <%= form.text_area :notes, rows: 3, class: "input" %>
   </div>
   <div class="flex gap-2 sm:col-span-2">
-    <%= form.submit "Salvar", class: "btn btn-primary" %>
-    <%= link_to "Cancelar", contacts_path, class: "btn btn-ghost" %>
+    <%= form.submit t(".save"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), contacts_path, class: "btn btn-ghost" %>
   </div>
 <% end %>

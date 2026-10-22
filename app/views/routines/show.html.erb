@@ -1,6 +1,5 @@
-<%= page_header eyebrow: "checklist", title: "Rotina",
-                intro: "O que fazer a cada dia, ajustado ao que o WorkMachine já automatiza. Os itens da semana ficam marcados até domingo, os de configuração ficam marcados de vez e os outros recomeçam todo dia." do %>
-  <%= link_to "Editar rotinas", settings_routines_path, class: "btn btn-sm" %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
+  <%= link_to t(".edit"), settings_routines_path, class: "btn btn-sm" %>
 <% end %>
 
 <% @routines.each do |routine| %>
@@ -21,11 +20,11 @@
 <% end %>
 
 <% if @routines.empty? %>
-  <p class="text-muted">Nenhuma rotina. Crie uma ou restaure as prontas em <%= link_to "Ajustes → Rotinas", settings_routines_path %>.</p>
+  <p class="text-muted"><%= t(".empty_html", link: link_to(t(".empty_link"), settings_routines_path)) %></p>
 <% end %>
 
 <section id="regras" class="mt-14 max-w-[76ch] scroll-mt-6" aria-labelledby="rules_title">
-  <h2 id="rules_title">Regras</h2>
+  <h2 id="rules_title"><%= t(".rules") %></h2>
   <ol class="mt-3.5 flex flex-col gap-3">
     <% Routine.rules.each_with_index do |rule, index| %>
       <li class="grid grid-cols-[28px_minmax(0,1fr)] gap-2 text-[15px] leading-[1.55]">

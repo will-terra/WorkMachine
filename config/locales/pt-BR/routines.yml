@@ -1,0 +1,63 @@
+pt-BR:
+  search_terms:
+    fallback: os termos do seu perfil
+  routines:
+    done: "%{done}/%{total} feitos"
+    show:
+      eyebrow: checklist
+      title: Rotina
+      intro: O que fazer a cada dia, ajustado ao que o WorkMachine já automatiza. Os itens da semana ficam marcados até domingo, os de configuração ficam marcados de vez e os outros recomeçam todo dia.
+      edit: Editar rotinas
+      empty_html: Nenhuma rotina. Crie uma ou restaure as prontas em %{link}.
+      empty_link: Ajustes → Rotinas
+      rules: Regras
+    item:
+      open: abrir →
+      check: Marcar
+  settings:
+    routines:
+      drag: Arraste para mudar a ordem
+      index:
+        eyebrow: Ajustes
+        title: Rotinas
+        intro: As rotinas que aparecem na página Rotina e no Painel. Mude os blocos, as tarefas e por quanto tempo cada marcação vale. As prontas podem ser restauradas a qualquer hora.
+        see: Ver a Rotina
+        new: Nova rotina
+        blocks:
+          one: 1 bloco
+          other: "%{count} blocos"
+        tasks:
+          one: 1 tarefa
+          other: "%{count} tarefas"
+        edit: Editar
+        delete: Apagar
+        delete_confirm: Apagar a rotina “%{name}”?
+        empty: Nenhuma rotina.
+        restore: Restaurar as rotinas prontas
+        restore_confirm: As rotinas voltam a ser as que vêm com o WorkMachine, no idioma atual, e as suas mudanças se perdem. Restaurar?
+        restore_note: Volta para as rotinas que vêm com o WorkMachine, no idioma atual. As marcações de hoje continuam.
+      form:
+        name: Nome
+        position: Ordem na página
+        description: Descrição (opcional)
+        blocks: Blocos
+        blocks_help_html: 'Cada bloco tem um período: <strong>todo dia</strong> recomeça a cada dia, <strong>toda semana</strong> fica marcado até domingo e <strong>uma vez</strong> fica marcado de vez (bom para configurações). As tarefas aceitam as variáveis do perfil, como <span class="font-mono text-xs">{{termos}}</span>, <span class="font-mono text-xs">{{area}}</span> e <span class="font-mono text-xs">{{cargo}}</span>. O link é opcional: uma tela do app (<span class="font-mono text-xs">/radar</span>) ou um endereço <span class="font-mono text-xs">https://</span>.'
+        add_block: + Bloco
+        save: Salvar rotina
+        cancel: Cancelar
+      slot_fields:
+        title: Bloco
+        title_placeholder: Manhã
+        time: Duração (opcional)
+        period: Período
+        remove: Tirar bloco
+        add_task: + Tarefa
+      item_fields:
+        label: Tarefa
+        url: Link (opcional)
+        url_label: Link da tarefa
+        remove: Tirar tarefa
+      edit:
+        eyebrow: Ajustes · Rotinas
+      new:
+        title: Nova rotina

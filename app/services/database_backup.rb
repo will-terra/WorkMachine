@@ -59,10 +59,10 @@ class DatabaseBackup
         case backup.step(-1)
         when SQLite3::Constants::ErrorCode::DONE then return
         when SQLite3::Constants::ErrorCode::BUSY, SQLite3::Constants::ErrorCode::LOCKED then sleep 0.25
-        else raise Error, "a cópia do SQLite falhou"
+        else raise Error, I18n.t("database_backup.failed")
         end
       end
-      raise Error, "o banco ficou ocupado por tempo demais"
+      raise Error, I18n.t("database_backup.busy")
     end
 
     def database_path

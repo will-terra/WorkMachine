@@ -1,7 +1,6 @@
 <div data-controller="cadence">
-  <%= page_header eyebrow: "o que fazer à mão", title: "Radar",
-                  intro: "As buscas já vêm montadas com o seu perfil. O que o WorkMachine busca sozinho fica no resumo abaixo; aqui fica só o que precisa ser feito à mão." do %>
-    <div class="seg" role="radiogroup" aria-label="Frequência">
+  <%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
+    <div class="seg" role="radiogroup" aria-label="<%= t(".frequency") %>">
       <% @config["cadences"].each_with_index do |cadence, index| %>
         <label class="seg-opt">
           <%= radio_button_tag :cadence, cadence["key"], index.zero?, id: "cadence_#{cadence["key"]}", data: { cadence_target: "option", action: "cadence#change" } %>
@@ -13,8 +12,8 @@
 
   <% unless @profile.configured? %>
     <p class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2" role="status">
-      <span class="chip chip-warn">perfil vazio</span>
-      <span>As buscas saem do seu perfil. <%= link_to "Preencha o perfil", profile_path %> (área, cargos e skills) para o Radar montar todas.</span>
+      <span class="chip chip-warn"><%= t(".empty_profile") %></span>
+      <span><%= t(".empty_profile_html", link: link_to(t(".fill_profile"), profile_path)) %></span>
     </p>
   <% end %>
 

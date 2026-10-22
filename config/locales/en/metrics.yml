@@ -1,0 +1,66 @@
+en:
+  metrics:
+    stages:
+      applied: Applied
+      answered: Answered
+      interviewed: Interview or test
+      offers: Offer
+    no_origin: No origin
+    see_table: See table
+    show:
+      eyebrow: funnel
+      title: Metrics
+      intro: How your applications are going and where the best jobs come from. Replies come from the e-mails read in Gmail and from the changes you make on the kanban.
+      period: Period
+      periods:
+        p30: 30 days
+        p90: 90 days
+        pall: All
+      empty: No applications sent in this period.
+      summary: Summary
+      tiles:
+        applied: Applications sent
+        applied_detail: in the period
+        response_rate: Response rate
+        response_rate_detail: "%{answered} of %{applied} answered"
+        interview_rate: Reached an interview
+        interview_rate_detail:
+          one: 1 interview or test
+          other: "%{count} interviews or tests"
+        days: Time to answer
+        days_value:
+          one: 1 day
+          other: "%{count} days"
+        days_detail: median between applying and the first reply
+      origin:
+        title: By application origin
+        note: Where you found the job and how much each origin yields in replies and interviews.
+        origin: Origin
+        applied: Applied
+        answered: Answered
+        response_rate: Response rate
+        interviews: Interviews
+        interview_rate: Interview rate
+      sources:
+        title: Job sources
+        note: "How many jobs each source brought in the period and how many you saved: the top ones are the most worth your time."
+        source: Source
+        postings: Jobs
+        saved: Saved
+        rate: Save rate
+    funnel:
+      title: Funnel
+      note: Percentages of the applications sent.
+      of_previous: "%{rate}% of “%{previous}”"
+      stage: Stage
+      applications: Applications
+      share: "% of sent"
+    weekly:
+      title: Applications per week
+      note: Weeks from Monday to Sunday; the last one is the current week.
+      bar:
+        one: "Week of %{week}: 1 application"
+        other: "Week of %{week}: %{count} applications"
+      week_of: week of %{week}
+      week: Week of
+      applications: Applications

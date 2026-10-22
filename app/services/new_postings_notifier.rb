@@ -26,11 +26,11 @@ class NewPostingsNotifier
     def message(postings, min_score)
       if postings.one?
         posting = postings.first
-        { title: "Vaga nova com nota #{posting.score}", body: line(posting), path: "/vagas/#{posting.id}", tag: "new-postings" }
+        { title: I18n.t("notifications.new_posting", score: posting.score), body: line(posting), path: "/vagas/#{posting.id}", tag: "new-postings" }
       else
         lines = postings.first(TOP).map { "#{it.score} · #{line(it)}" }
-        lines << "e mais #{postings.size - TOP}" if postings.size > TOP
-        { title: "#{postings.size} vagas novas com nota #{min_score}+", body: lines.join("\n"), path: "/vagas?min_score=#{min_score}", tag: "new-postings" }
+        lines << I18n.t("notifications.more", count: postings.size - TOP) if postings.size > TOP
+        { title: I18n.t("notifications.new_postings", count: postings.size, score: min_score), body: lines.join("\n"), path: "/vagas?min_score=#{min_score}", tag: "new-postings" }
       end
     end
 
