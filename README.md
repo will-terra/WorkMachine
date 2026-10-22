@@ -110,14 +110,37 @@ perfil e nunca inventa experiência.
 
 ## Gmail (alertas do LinkedIn e respostas das empresas)
 
-1. Ligue a **verificação em duas etapas** na conta Google (myaccount.google.com → Segurança).
-2. Abra [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords), crie uma senha
-   chamada "WorkMachine" e copie as 16 letras.
-3. Em **Ajustes → Chaves e contas**, informe o e-mail e a senha de app e clique em **Testar Gmail**.
-4. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar.
+O WorkMachine entra no Gmail com uma **senha de app**: uma senha de 16 letras, separada da senha da
+conta, que o Google gera para um programa só. A senha normal da conta não funciona.
+
+1. Ligue a **verificação em duas etapas** na conta Google: em
+   [myaccount.google.com/security](https://myaccount.google.com/security), **Verificação em duas
+   etapas** → **Ativar**. Sem ela, o Google não oferece senha de app.
+2. Abra [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) (o Google pode
+   pedir a senha da conta de novo), digite o nome "WorkMachine" e clique em **Criar**.
+3. Copie as 16 letras que aparecem. Elas são mostradas uma vez só; se perder, apague essa senha e crie
+   outra. Os espaços entre os blocos não fazem diferença.
+4. Em **Ajustes → Chaves e contas**, informe o e-mail e a senha de app e clique em **Testar Gmail**.
+5. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar.
 
 O WorkMachine abre a caixa só para leitura: nada é marcado como lido, movido ou apagado. A cada hora ele
-importa os alertas do LinkedIn e procura as respostas das empresas em que você aplicou.
+importa os alertas do LinkedIn e procura as respostas das empresas em que você aplicou. Na primeira vez,
+ele olha os alertas dos últimos 14 dias e as respostas dos últimos 30.
+
+Problemas comuns:
+
+- **A página de senhas de app diz que a opção não está disponível:** a verificação em duas etapas está
+  desligada, a conta é de trabalho ou de escola (o administrador pode ter bloqueado) ou a conta usa a
+  Proteção Avançada do Google. Nos dois últimos casos, use outro Gmail para receber os alertas.
+- **"Testar Gmail" diz que o Google exige uma senha de app:** foi usada a senha normal da conta. Gere a
+  senha de app e cole as 16 letras.
+- **Os alertas do LinkedIn não chegam ao app:** se um filtro do Gmail tira os alertas da caixa de
+  entrada, o WorkMachine não os vê. Tire o filtro, ou faça o app ler todos os e-mails com a linha
+  `GMAIL_MAILBOX=[Gmail]/Todos os e-mails` no `.env` (`[Gmail]/All Mail` se o Gmail estiver em inglês);
+  depois rode `docker compose up -d`.
+- **Para cortar o acesso:** apague a senha "WorkMachine" em
+  [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords). A senha da conta não
+  muda, e o app para de ler a caixa na hora.
 
 ## Extensão do navegador
 
