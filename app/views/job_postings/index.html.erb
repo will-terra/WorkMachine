@@ -7,55 +7,60 @@
 <% end %>
 
 <% more = %w[period keyword source salary].any? { @filter[it].present? } %>
-<%= form_with url: job_postings_path, method: :get, class: "panel mb-7 flex flex-wrap items-end gap-x-5 gap-y-4", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+<%= form_with url: job_postings_path, method: :get, class: "panel mb-7 flex flex-col gap-4", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
   <% submit = { action: "auto-submit#submit" } %>
-  <fieldset>
-    <legend class="label"><%= t(".filter.triage") %></legend>
-    <div class="seg">
-      <% %w[new saved dismissed auto all].each do |value| %>
-        <label class="seg-opt">
-          <%= form.radio_button :triage, value, checked: @filter[:triage] == value, data: submit %>
-          <%= t(".filter.triages.#{value}") %> <span id="triage_count_<%= value %>"><%= @triage_counts.fetch(value, 0) %></span>
-        </label>
-      <% end %>
-    </div>
-  </fieldset>
-  <fieldset>
-    <legend class="label"><%= t(".filter.sort") %></legend>
-    <div class="seg">
-      <% %w[score recent].each do |value| %>
-        <label class="seg-opt"><%= form.radio_button :sort, value, checked: @filter[:sort] == value, data: submit %><%= t(".filter.sorts.#{value}") %></label>
-      <% end %>
-    </div>
-  </fieldset>
-  <div class="w-[130px]">
-    <%= form.label :min_score, t(".filter.min_score"), class: "label" %>
-    <%= form.select :min_score, JobPostingFilter::MIN_SCORES.map { [ "#{it}+", it ] }, { include_blank: t(".filter.any"), selected: @filter[:min_score] }, class: "input", data: submit %>
+  <%# Two rows (triage and order; then the selects and the search), each field growing to fill its row. %>
+  <div class="flex flex-wrap items-end gap-x-5 gap-y-4">
+    <fieldset class="min-w-0 flex-[3_1_auto]">
+      <legend class="label"><%= t(".filter.triage") %></legend>
+      <div class="seg flex w-full">
+        <% %w[new saved dismissed auto all].each do |value| %>
+          <label class="seg-opt flex-auto justify-center">
+            <%= form.radio_button :triage, value, checked: @filter[:triage] == value, data: submit %>
+            <%= t(".filter.triages.#{value}") %> <span id="triage_count_<%= value %>"><%= @triage_counts.fetch(value, 0) %></span>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+    <fieldset class="min-w-0 flex-[1_1_auto]">
+      <legend class="label"><%= t(".filter.sort") %></legend>
+      <div class="seg flex w-full">
+        <% %w[score recent].each do |value| %>
+          <label class="seg-opt flex-auto justify-center"><%= form.radio_button :sort, value, checked: @filter[:sort] == value, data: submit %><%= t(".filter.sorts.#{value}") %></label>
+        <% end %>
+      </div>
+    </fieldset>
   </div>
-  <div class="w-[170px]">
+  <div class="flex flex-wrap items-end gap-x-5 gap-y-4">
+    <div class="flex-[1_1_140px]">
+      <%= form.label :min_score, t(".filter.min_score"), class: "label" %>
+      <%= form.select :min_score, JobPostingFilter::MIN_SCORES.map { [ "#{it}+", it ] }, { include_blank: t(".filter.any"), selected: @filter[:min_score] }, class: "input", data: submit %>
+  </div>
+  <div class="flex-[1_1_170px]">
     <%= form.label :remote_scope, t(".filter.region"), class: "label" %>
     <%= form.select :remote_scope, [ [ t(".filter.open_to_brazil"), JobPostingFilter::OPEN_TO_BRAZIL ] ] + JobPosting.enum_options(:remote_scope), { include_blank: t(".filter.all"), selected: @filter[:remote_scope] }, class: "input", data: submit %>
   </div>
-  <div class="w-[140px]">
+  <div class="flex-[1_1_140px]">
     <%= form.label :seniority, t(".filter.seniority"), class: "label" %>
     <%= form.select :seniority, JobPosting.enum_options(:seniority), { include_blank: t(".filter.all"), selected: @filter[:seniority] }, class: "input", data: submit %>
   </div>
-  <div class="max-w-[320px] flex-[1_1_200px]">
+  <div class="flex-[2_1_220px]">
     <%= form.label :q, t(".filter.search"), class: "label" %>
     <%= form.search_field :q, value: @filter[:q], placeholder: t(".filter.search_placeholder"), class: "input" %>
   </div>
-  <details class="basis-full" <%= "open" if more %>>
+  </div>
+  <details <%= "open" if more %>>
     <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover"><%= t(".filter.more") %></summary>
     <div class="mt-3 flex flex-wrap items-end gap-x-5 gap-y-4">
-      <div class="w-[170px]">
+      <div class="flex-[1_1_170px]">
         <%= form.label :period, t(".filter.posted"), class: "label" %>
         <%= form.select :period, JobPostingFilter::PERIODS.keys.map { [ t(".filter.periods.p#{it}"), it ] }, { include_blank: t(".filter.any_date"), selected: @filter[:period] }, class: "input", data: submit %>
       </div>
-      <div class="w-[170px]">
+      <div class="flex-[1_1_170px]">
         <%= form.label :keyword, t(".filter.keyword"), class: "label" %>
         <%= form.select :keyword, JobPostingFilter.keywords, { include_blank: t(".filter.any"), selected: @filter[:keyword] }, class: "input", data: submit %>
       </div>
-      <div class="w-[190px]">
+      <div class="flex-[1_1_190px]">
         <%= form.label :source, t(".filter.source"), class: "label" %>
         <%= form.select :source, JobPosting.enum_options(:source), { include_blank: t(".filter.all"), selected: @filter[:source] }, class: "input", data: submit %>
       </div>
