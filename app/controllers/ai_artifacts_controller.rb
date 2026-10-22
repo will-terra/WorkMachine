@@ -29,7 +29,7 @@ class AiArtifactsController < ApplicationController
   # Lazy Turbo Frame with the cost per click: tokens estimated from the prompt size and
   # prices from OpenRouter's model list. No AI call is made here.
   def estimate
-    if Ai::Client.configured?
+    if Ai::Client.configured? && !Ai::Client.free?
       prices = Ai::Pricing.for(Ai::Client.model)
       @estimates = Ai::Pricing::EXPECTED_OUTPUT_TOKENS.keys.index_with do |kind|
         Ai::Pricing.estimate(kind, Ai::Pricing.estimate_tokens(Ai::Client.request_text(kind, @job_posting)), prices)

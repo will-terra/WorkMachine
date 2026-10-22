@@ -3,6 +3,9 @@
 class Setting < ApplicationRecord
   VAPID_SUBJECT = "https://github.com/will-terra/WorkMachine".freeze
 
+  AI_PLANS = %w[free paid].freeze
+
+  enum :ai_plan, AI_PLANS.index_by(&:itself), prefix: true, validate: true
   encrypts :openrouter_api_key, :gmail_user, :gmail_app_password, :api_token
   normalizes :openrouter_api_key, :gmail_user, :api_token, :openrouter_model, with: ->(value) { value.strip.presence }
   normalizes :gmail_app_password, with: ->(value) { value.delete(" ").presence }

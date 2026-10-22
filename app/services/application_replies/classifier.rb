@@ -52,7 +52,8 @@ module ApplicationReplies
           Body:
           #{body.to_s.truncate(4_000)}
         TEXT
-        data = JSON.parse(@client.complete(system: SYSTEM, user:, json: true).text)
+        # Some models wrap the JSON in ``` fences or a sentence; only the object is read.
+        data = JSON.parse(@client.complete(system: SYSTEM, user:, json: true).text.to_s[/\{.*\}/m] || "")
         category = data["category"].presence_in(ApplicationEmail::CATEGORIES) || "other"
         interview_type = data["interview_type"] == "technical" ? "technical" : "hr"
         Result.new(category:, summary: data["summary"].to_s.truncate(300), interview_type:, classified_by: "ai")

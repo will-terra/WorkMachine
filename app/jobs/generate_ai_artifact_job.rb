@@ -2,12 +2,6 @@
 class GenerateAiArtifactJob < ApplicationJob
   queue_as :default
 
-  ERRORS = {
-    401 => "A chave do OpenRouter é inválida. Confira em Ajustes → Chaves e contas.",
-    402 => "Sem créditos no OpenRouter. Adicione créditos em openrouter.ai/settings/credits.",
-    429 => "Limite de uso do OpenRouter atingido. Tente de novo em alguns minutos."
-  }.freeze
-
   def perform(artifact, client: Ai::Client.new)
     return unless artifact.status_pending?
 
@@ -28,7 +22,7 @@ class GenerateAiArtifactJob < ApplicationJob
       artifact.update!(attributes.merge(status: "completed", content: "#{result.text}#{note}"))
     end
   rescue Ai::Client::Error => e
-    artifact.update!(status: "failed", error_message: ERRORS.fetch(e.status, "Erro do OpenRouter: #{e.message.truncate(300)}"))
+    artifact.update!(status: "failed", error_message: Ai::Client.explain(e))
   rescue SocketError, SystemCallError, Timeout::Error => e
     artifact.update!(status: "failed", error_message: "Sem conexão com o OpenRouter (#{e.class}).")
   end

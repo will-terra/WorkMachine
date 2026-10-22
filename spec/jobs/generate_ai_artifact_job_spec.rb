@@ -36,7 +36,7 @@ RSpec.describe GenerateAiArtifactJob do
   end
 
   it "explains key, credit, rate-limit and other API errors" do
-    { 401 => /chave do OpenRouter é inválida/, 402 => /Sem créditos/, 429 => /Limite de uso/, 500 => /Erro do OpenRouter: boom/ }.each do |status, message|
+    { 401 => /chave do OpenRouter é inválida/, 402 => /Sem créditos/, 429 => /limite de uso/, 500 => /Erro do OpenRouter: boom/ }.each do |status, message|
       artifact.update!(status: "pending")
       allow(client).to receive(:generate).and_raise(Ai::Client::Error.new("boom", status:))
 

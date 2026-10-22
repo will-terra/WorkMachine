@@ -6,7 +6,10 @@ RSpec.describe "Ajustes → keys, accounts and the extension token" do
   let(:setting) { Setting.current }
 
   it "saves the keys encrypted and keeps a blank password as it was" do
-    patch keys_settings_path, params: { setting: { openrouter_api_key: " sk-or-v1-abc ", openrouter_model: "z-ai/glm-5.3", gmail_user: "ana@gmail.com", gmail_app_password: "abcd efgh ijkl mnop" } }
+    get settings_path
+    expect(response.body).to include("Gratuito", "minimax/minimax-m3.1-flash:free", 'value="free" checked')
+
+    patch keys_settings_path, params: { setting: { openrouter_api_key: " sk-or-v1-abc ", openrouter_model: "z-ai/glm-5.3", ai_plan: "paid", gmail_user: "ana@gmail.com", gmail_app_password: "abcd efgh ijkl mnop" } }
 
     expect(response).to redirect_to(settings_path(anchor: "chaves"))
     expect(AppKeys.openrouter_api_key).to eq("sk-or-v1-abc")
@@ -17,7 +20,10 @@ RSpec.describe "Ajustes → keys, accounts and the extension token" do
     patch keys_settings_path, params: { setting: { openrouter_api_key: "", gmail_app_password: "", gmail_user: "ana@gmail.com", openrouter_model: "" }, clear: [ "gmail_user" ] }
     expect(AppKeys.openrouter_api_key).to eq("sk-or-v1-abc")
     expect(AppKeys.gmail_user).to be_nil
-    expect(Ai::Client.model).to eq(Ai::Client::DEFAULT_MODEL)
+    expect(Ai::Client.model).to eq(Ai::Client::PAID_MODEL)
+
+    patch keys_settings_path, params: { setting: { ai_plan: "free" } }
+    expect(Ai::Client.model).to eq("minimax/minimax-m3.1-flash:free")
 
     get settings_path
     expect(response.body).to include("Chaves e contas", "salva; deixe vazio para manter", "Apagar")

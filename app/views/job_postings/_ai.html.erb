@@ -1,6 +1,6 @@
 <section id="ia" class="mt-8 scroll-mt-20" aria-labelledby="ai_title">
   <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-    <h2 id="ai_title" class="text-base">IA · <%= Ai::Client.model %> via OpenRouter</h2>
+    <h2 id="ai_title" class="text-base">IA · <%= Ai::Client.model %><%= " (gratuito)" if Ai::Client.free? %> via OpenRouter</h2>
     <span class="muted text-xs">Só roda quando você clica. Usa o seu perfil e não inventa experiência.</span>
   </div>
 

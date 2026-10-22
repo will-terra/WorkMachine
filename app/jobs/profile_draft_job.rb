@@ -13,7 +13,7 @@ class ProfileDraftJob < ApplicationJob
       profile.update!(cv_draft: attributes, cv_draft_status: "done", cv_draft_error: nil)
     end
   rescue Ai::Client::Error => e
-    profile.update!(cv_draft_status: "failed", cv_draft_error: GenerateAiArtifactJob::ERRORS.fetch(e.status, "Erro do OpenRouter: #{e.message.truncate(300)}"))
+    profile.update!(cv_draft_status: "failed", cv_draft_error: Ai::Client.explain(e))
   rescue SocketError, SystemCallError, Timeout::Error => e
     profile.update!(cv_draft_status: "failed", cv_draft_error: "Sem conexão com o OpenRouter (#{e.class}).")
   end

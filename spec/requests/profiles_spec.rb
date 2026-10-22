@@ -74,7 +74,7 @@ RSpec.describe "Profile" do
       expect(profile.cv_text).to start_with("Ana Souza")
 
       get profile_path
-      expect(response.body).to include("cv.pdf", "Montar perfil a partir do CV", "Custa cerca de US$")
+      expect(response.body).to include("cv.pdf", "Montar perfil a partir do CV", "Grátis com o modelo gratuito")
 
       expect { post draft_profile_path }.to have_enqueued_job(ProfileDraftJob)
       get cv_profile_path

@@ -20,9 +20,9 @@ Tudo fica no seu computador: as vagas, o currículo e as senhas. Não há conta 
 
 - Um computador com **Windows 10/11, macOS ou Linux** e uns 2 GB livres.
 - O **Docker Desktop** (no Linux, o Docker Engine com o plugin Compose).
-- Opcional, para a IA: uma conta no [OpenRouter](https://openrouter.ai) com alguns dólares de crédito.
-  O padrão é o DeepSeek V4 Pro: montar o perfil pelo currículo custa menos de 1 centavo de dólar, e
-  uma análise de vaga, uma fração disso.
+- Opcional, para a IA: uma conta gratuita no [OpenRouter](https://openrouter.ai). O padrão é um modelo
+  gratuito, que não precisa de crédito. Se preferir o modelo pago (DeepSeek V4 Pro), alguns dólares de
+  crédito duram meses: montar o perfil pelo currículo custa menos de 1 centavo de dólar.
 - Opcional, para os alertas do LinkedIn e as respostas das empresas: um Gmail com a verificação em
   duas etapas ligada.
 
@@ -87,16 +87,26 @@ cada uma pode ser desligada em Ajustes. Cada fonte respeita os limites e os cré
 
 ## IA (OpenRouter)
 
-1. Crie a conta em [openrouter.ai](https://openrouter.ai) e adicione créditos em
-   [Settings → Credits](https://openrouter.ai/settings/credits).
+1. Crie a conta em [openrouter.ai](https://openrouter.ai).
 2. Gere a chave em [Settings → Keys](https://openrouter.ai/settings/keys) e cole em **Ajustes → Chaves
    e contas** (ou no Primeiro uso). Use **Testar OpenRouter** para conferir.
-3. Para trocar de modelo, informe o id do OpenRouter no campo **Modelo** (por exemplo `z-ai/glm-5.3`).
+3. Escolha o modelo em **Ajustes → Chaves e contas → Modelo**:
+
+| | Gratuito (padrão) | Pago |
+| - | - | - |
+| Modelo | MiniMax M3.1 Flash (`minimax/minimax-m3.1-flash:free`); se ele estiver fora do ar ou no limite, o OpenRouter escolhe outro modelo gratuito (`openrouter/free`) | DeepSeek V4 Pro (`deepseek/deepseek-v4-pro-0813`), ou outro modelo do OpenRouter que você digitar |
+| Custo | Nenhum; não precisa de crédito | Centavos de dólar por mês no uso normal; precisa de créditos em [Settings → Credits](https://openrouter.ai/settings/credits) |
+| Limites | O OpenRouter limita os pedidos gratuitos por minuto e por dia (o limite diário sobe para quem já comprou créditos). Quando passar, a IA avisa e volta a funcionar mais tarde | Sem limite apertado |
+| Seus dados | Os provedores dos modelos gratuitos podem guardar e usar o que você envia (currículo, vagas, e-mails das empresas) para treinar modelos | Seguem a política de cada provedor, que você vê e controla em [Settings → Privacy](https://openrouter.ai/settings/privacy) |
+
+Se o OpenRouter recusar os modelos gratuitos por causa da sua política de dados, libere-os em
+[Settings → Privacy](https://openrouter.ai/settings/privacy) ou mude para o pago. Os ids dos modelos
+gratuitos mudam com o tempo; por isso o app tem a reserva `openrouter/free`.
 
 A IA só roda quando você clica: montar o perfil, analisar o fit, adaptar o resumo do CV ou escrever uma
-mensagem. A exceção é a leitura das respostas das empresas no Gmail, que roda sozinha. O botão mostra o
-custo estimado antes, e cada resultado guarda o custo real. A IA usa só os fatos do seu perfil e nunca
-inventa experiência.
+mensagem. A exceção é a leitura das respostas das empresas no Gmail, que roda sozinha. No modelo pago, o
+botão mostra o custo estimado antes, e cada resultado guarda o custo real. A IA usa só os fatos do seu
+perfil e nunca inventa experiência.
 
 ## Gmail (alertas do LinkedIn e respostas das empresas)
 

@@ -46,7 +46,11 @@
           <% end %>
           <div class="flex flex-wrap items-center gap-2">
             <%= button_to "Montar perfil a partir do CV", draft_profile_path, class: "btn btn-primary btn-sm", form: { data: { turbo_frame: "_top" } } %>
-            <span class="muted text-xs">Custa cerca de US$ <%= number_with_precision(Ai::ProfileDraft.estimate(profile.cv_text), precision: 3) %> com <%= Ai::Client.model %>.</span>
+            <% if Ai::Client.free? %>
+              <span class="muted text-xs">Grátis com o modelo gratuito <%= Ai::Client.model %>.</span>
+            <% else %>
+              <span class="muted text-xs">Custa cerca de US$ <%= number_with_precision(Ai::ProfileDraft.estimate(profile.cv_text), precision: 3) %> com <%= Ai::Client.model %>.</span>
+            <% end %>
           </div>
         <% end %>
       </div>

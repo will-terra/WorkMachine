@@ -8,7 +8,7 @@ class SettingsController < ApplicationController
 
   # Ajustes → Chaves e contas. A blank password field keeps what was saved; "apagar" clears it.
   def keys
-    attributes = params.expect(setting: %i[ openrouter_api_key openrouter_model gmail_user gmail_app_password ])
+    attributes = params.expect(setting: %i[ openrouter_api_key openrouter_model ai_plan gmail_user gmail_app_password ])
     attributes = attributes.reject { |field, value| value.blank? && field.in?(%w[openrouter_api_key gmail_app_password]) }
     Array(params[:clear]).each { attributes[it] = nil if it.in?(%w[openrouter_api_key gmail_user gmail_app_password]) }
     @setting.update!(attributes)

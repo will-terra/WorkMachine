@@ -33,6 +33,10 @@ RSpec.describe "AI artifacts" do
     end
 
     it "estimates the cost per click from the prompt size and OpenRouter prices" do
+      get estimate_job_posting_ai_artifacts_path(posting)
+      expect(response.body).to include("Grátis com o modelo gratuito")
+
+      Setting.current.update!(ai_plan: "paid")
       allow(Ai::Pricing).to receive(:for).and_return(Ai::Pricing::FALLBACK)
 
       get estimate_job_posting_ai_artifacts_path(posting)

@@ -10,12 +10,37 @@
     <%= hidden_field_tag :return_to, return_to if return_to %>
     <fieldset class="grid gap-3">
       <legend class="text-sm font-semibold">IA (OpenRouter)</legend>
-      <p class="muted text-xs">Crie a chave em <%= external_link "openrouter.ai/settings/keys", "https://openrouter.ai/settings/keys" %> e coloque alguns dólares de crédito. O CV e as vagas só vão para lá quando você clica numa função de IA.</p>
+      <p class="muted text-xs">Crie a conta e a chave em <%= external_link "openrouter.ai/settings/keys", "https://openrouter.ai/settings/keys" %>. O modelo gratuito não precisa de crédito. O CV e as vagas só vão para lá quando você clica numa função de IA.</p>
       <%= render "settings/key_field", form:, field: :openrouter_api_key, label: "Chave", type: :password, placeholder: "sk-or-v1-…" %>
-      <div>
-        <%= form.label :openrouter_model, "Modelo (vazio = #{Ai::Client::DEFAULT_MODEL})", class: "label" %>
-        <%= form.text_field :openrouter_model, class: "input font-mono text-xs", placeholder: Ai::Client::DEFAULT_MODEL, disabled: AppKeys.from_env?(:openrouter_model) %>
-      </div>
+      <% if AppKeys.from_env?(:openrouter_model) %>
+        <p class="text-sm"><span class="chip chip-ok">modelo definido no .env</span> <span class="font-mono text-xs"><%= AppKeys.openrouter_model %></span></p>
+      <% else %>
+        <div class="grid gap-2" role="radiogroup" aria-labelledby="ai_plan_label">
+          <p id="ai_plan_label" class="label">Modelo</p>
+          <label class="flex items-start gap-2 text-sm">
+            <%= form.radio_button :ai_plan, "free", class: "mt-1 size-4 accent-accent" %>
+            <span>
+              <strong>Gratuito</strong> <span class="font-mono text-xs"><%= Ai::Client::FREE_MODELS.first %></span>
+              <span class="muted block text-xs">
+                Sem custo e sem crédito. Tem limite de pedidos por minuto e por dia, e quando ele cai ou some o OpenRouter escolhe outro modelo gratuito.
+                Os provedores dos modelos gratuitos podem guardar e usar o que você envia (currículo, vagas, e-mails das empresas) para treinar modelos;
+                se o OpenRouter recusar, libere-os em <%= external_link "openrouter.ai/settings/privacy", "https://openrouter.ai/settings/privacy" %>.
+              </span>
+            </span>
+          </label>
+          <label class="flex items-start gap-2 text-sm">
+            <%= form.radio_button :ai_plan, "paid", class: "mt-1 size-4 accent-accent" %>
+            <span>
+              <strong>Pago</strong> <span class="font-mono text-xs"><%= setting.openrouter_model.presence || Ai::Client::PAID_MODEL %></span>
+              <span class="muted block text-xs">Mais rápido e estável, sem limite apertado. Usa os créditos do OpenRouter: centavos de dólar por mês no uso normal.</span>
+            </span>
+          </label>
+          <div class="ml-6">
+            <%= form.label :openrouter_model, "Outro modelo pago (vazio = #{Ai::Client::PAID_MODEL})", class: "label" %>
+            <%= form.text_field :openrouter_model, class: "input font-mono text-xs", placeholder: Ai::Client::PAID_MODEL %>
+          </div>
+        </div>
+      <% end %>
     </fieldset>
 
     <fieldset class="grid gap-3 border-t border-line pt-4">

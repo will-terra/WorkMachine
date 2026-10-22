@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_21_230552) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_22_125315) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -256,6 +256,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_21_230552) do
     t.text "gmail_app_password"
     t.text "api_token"
     t.datetime "onboarded_at"
+    t.string "ai_plan", default: "free", null: false
   end
 
   create_table "source_runs", force: :cascade do |t|
