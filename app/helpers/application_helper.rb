@@ -58,6 +58,18 @@ module ApplicationHelper
     "#{prefix} #{l(time, format: "%H:%M")}"
   end
 
+  # Contatos: "nunca", "hoje", "ontem" or "há 12 dias".
+  def days_ago(date)
+    return "nunca" unless date
+
+    days = (Date.current - date).to_i
+    case days
+    when ..0 then "hoje"
+    when 1 then "ontem"
+    else "há #{days} dias"
+    end
+  end
+
   # Score bands: ≥ 60 in red, 35–59 in the text color, below that muted.
   def score_class(score)
     if score >= 60 then "score-high"

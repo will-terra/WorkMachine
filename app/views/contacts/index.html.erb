@@ -1,32 +1,53 @@
-<%= page_header eyebrow: "Rede", title: "Contatos", intro: "Recrutadores e gestores com quem você falou. Anote quando foi o último contato para saber quem retomar." do %>
-  <%= link_to "Novo contato", new_contact_path, class: "btn btn-primary btn-sm" %>
+<%= page_header eyebrow: "recrutadores e gestores", title: "Contatos",
+                intro: "Salve pessoas pelo ícone da extensão, no perfil delas no LinkedIn, ou à mão. A mensagem já abre preenchida com o nome e a empresa." do %>
+  <%= link_to "Novo contato", new_contact_path, class: "btn btn-primary" %>
 <% end %>
 
-<div class="card overflow-x-auto">
-  <table class="table">
-    <thead>
-      <tr><th>Nome</th><th>Empresa</th><th>Tipo</th><th>Último contato</th><th>Notas</th><th><span class="sr-only">Ações</span></th></tr>
-    </thead>
-    <tbody>
-      <% @contacts.each do |contact| %>
-        <tr id="<%= dom_id(contact) %>" class="scroll-mt-20 target:bg-accent-soft">
-          <td>
-            <span class="font-semibold"><%= external_link contact.name, contact.linkedin_url %></span>
-            <% if contact.headline.present? %><span class="muted block text-xs"><%= contact.headline %></span><% end %>
-          </td>
-          <td><%= contact.company %></td>
-          <td><%= contact.human_enum(:kind) %></td>
-          <td class="whitespace-nowrap"><%= short_date(contact.last_contacted_on) %></td>
-          <td class="max-w-sm truncate"><%= contact.notes %></td>
-          <td class="whitespace-nowrap text-right">
-            <%= link_to "Mensagem", message_templates_path(contact_id: contact.id), class: "mr-2" %>
-            <%= link_to "Editar", edit_contact_path(contact) %>
-          </td>
-        </tr>
+<%= form_with url: contacts_path, method: :get, class: "flex flex-wrap items-end gap-x-5 gap-y-4 pb-5", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
+  <fieldset>
+    <legend class="label">Tipo</legend>
+    <div class="seg">
+      <% { "" => "Todos", "recruiter" => "Recrutadores", "manager" => "Gestores" }.each do |value, label| %>
+        <label class="seg-opt"><%= form.radio_button :kind, value, checked: @kind.to_s == value, data: { action: "auto-submit#submit" } %><%= label %></label>
       <% end %>
-    </tbody>
-  </table>
-  <% if @contacts.none? %>
-    <p class="muted p-6 text-center text-sm">Nenhum contato ainda. Salve recrutadores pela extensão do navegador, no perfil do LinkedIn ou na equipe de contratação de uma vaga. O Radar tem as buscas para achar recrutadores de Rails.</p>
-  <% end %>
-</div>
+    </div>
+  </fieldset>
+  <div class="max-w-[320px] flex-[1_1_220px]">
+    <%= form.label :q, "Buscar", class: "label" %>
+    <%= form.search_field :q, value: params[:q], placeholder: "nome, empresa…", class: "input" %>
+  </div>
+<% end %>
+
+<% if @contacts.any? %>
+  <div class="overflow-x-auto">
+    <table class="table min-w-[760px]">
+      <thead>
+        <tr><th>Nome</th><th>Empresa</th><th>Tipo</th><th>Último contato</th><th><span class="sr-only">Ações</span></th></tr>
+      </thead>
+      <tbody>
+        <% @contacts.each do |contact| %>
+          <tr id="<%= dom_id(contact) %>" class="scroll-mt-20 target:bg-accent-soft">
+            <td title="<%= contact.notes %>">
+              <span class="font-semibold"><%= contact.name %></span>
+              <% if contact.headline.present? %><span class="block text-[12.5px] text-muted"><%= contact.headline %></span><% end %>
+            </td>
+            <td><%= contact.company %></td>
+            <td><span class="chip <%= "chip-hot" if contact.manager? %>"><%= contact.human_enum(:kind) %></span></td>
+            <td class="font-mono text-[12.5px] whitespace-nowrap <%= "text-muted" if contact.last_contacted_on.nil? || contact.last_contacted_on < 30.days.ago.to_date %>" title="<%= short_date(contact.last_contacted_on) %>">
+              <%= days_ago(contact.last_contacted_on) %>
+            </td>
+            <td class="text-right whitespace-nowrap">
+              <%= external_link "LinkedIn ↗", contact.linkedin_url, class: "btn btn-ghost btn-sm" if contact.linkedin_url.present? %>
+              <%= link_to "Mensagem", message_templates_path(contact_id: contact.id), class: "btn btn-ghost btn-sm" %>
+              <%= link_to "Editar", edit_contact_path(contact), class: "btn btn-ghost btn-sm" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% elsif params[:q].present? || @kind %>
+  <p class="py-8 text-[15px] text-muted">Nenhum contato com esses filtros.</p>
+<% else %>
+  <p class="max-w-[72ch] py-8 text-[15px] text-muted">Nenhum contato ainda. Salve recrutadores pela extensão do navegador, no perfil do LinkedIn ou na equipe de contratação de uma vaga. O Radar tem as buscas para achar recrutadores da sua área.</p>
+<% end %>

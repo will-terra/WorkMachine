@@ -2,7 +2,13 @@ class ContactsController < ApplicationController
   before_action :set_contact, only: %i[ edit update destroy ]
 
   def index
+    @kind = params[:kind].presence_in(Contact.kinds.keys)
     @contacts = Contact.alphabetical
+    @contacts = @contacts.where(kind: @kind) if @kind
+    if params[:q].present?
+      term = "%#{Contact.sanitize_sql_like(params[:q].strip)}%"
+      @contacts = @contacts.where("name LIKE :term OR company LIKE :term OR headline LIKE :term", term:)
+    end
   end
 
   def new
