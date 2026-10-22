@@ -4,7 +4,6 @@
 
 # Secrets
 /.env*
-!/.env.example
 /config/master.key
 /config/credentials/*.key
 
