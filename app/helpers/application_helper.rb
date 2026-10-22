@@ -5,12 +5,12 @@ module ApplicationHelper
       [ t("layouts.nav.dashboard"), root_path ],
       [ t("layouts.nav.postings"), job_postings_path, JobPosting.triage_new.count ],
       [ t("layouts.nav.applications"), job_applications_path ],
-      [ t("layouts.nav.metrics"), metrics_path ],
-      [ t("layouts.nav.radar"), radar_path ],
-      [ t("layouts.nav.messages"), message_templates_path ],
       [ t("layouts.nav.routine"), routine_path ],
+      [ t("layouts.nav.radar"), radar_path ],
       [ t("layouts.nav.contacts"), contacts_path ],
-      [ t("layouts.nav.target_companies"), target_companies_path ]
+      [ t("layouts.nav.messages"), message_templates_path ],
+      [ t("layouts.nav.target_companies"), target_companies_path ],
+      [ t("layouts.nav.metrics"), metrics_path ]
     ]
   end
 

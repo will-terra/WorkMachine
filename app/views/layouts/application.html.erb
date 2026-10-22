@@ -39,7 +39,7 @@
         <% end %>
       </div>
       <% if authenticated? %>
-        <nav class="flex flex-wrap gap-x-[22px] gap-y-1.5 pt-4" aria-label="<%= t("layouts.sections") %>">
+        <nav class="mt-4 flex flex-wrap gap-x-[22px] gap-y-1.5 rounded-xl border border-line bg-surface px-[18px] py-2.5" aria-label="<%= t("layouts.sections") %>">
           <% nav_items.each do |label, path, count| %>
             <%= nav_link label, path, count: %>
           <% end %>
