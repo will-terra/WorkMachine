@@ -222,6 +222,9 @@
   }
   .toast:not(:has(button)) { @apply pr-[18px]; }
 
+  /* A closed popover stays hidden even when a component class (.card) sets display. */
+  [popover]:not(:popover-open) { display: none; }
+
   /* The card being dragged; its column turns accent-soft (has-[.kanban-ghost]). */
   .kanban-ghost { @apply opacity-40; }
 

@@ -1,13 +1,13 @@
-<div class="-mx-[clamp(20px,4vw,56px)] flex gap-4 overflow-x-auto px-[clamp(20px,4vw,56px)] pb-6" data-controller="kanban">
+<div class="-mx-[clamp(20px,4vw,56px)] flex items-start gap-4 overflow-x-auto px-[clamp(20px,4vw,56px)] pb-6" data-controller="kanban">
   <% JobApplication::STATUSES.each do |status| %>
     <% cards = @columns.fetch(status, []) %>
     <% closed = JobApplication::CLOSED_STATUSES.include?(status) %>
-    <section class="flex w-[252px] flex-none flex-col gap-2.5 rounded-lg p-2.5 transition-colors has-[.kanban-ghost]:bg-accent-soft" aria-labelledby="column_title_<%= status %>">
+    <section class="flex max-h-[calc(100dvh-24rem)] min-h-48 w-[236px] flex-none flex-col gap-2.5 rounded-lg p-2.5 transition-colors has-[.kanban-ghost]:bg-accent-soft" aria-labelledby="column_title_<%= status %>">
       <header class="flex items-baseline justify-between gap-2 px-0.5 pb-1.5 <%= closed ? "text-muted" : "text-ink" %>">
         <h2 id="column_title_<%= status %>" class="text-[17px]"><%= JobApplication.human_enum(:status, status) %></h2>
         <span id="column_count_<%= status %>" class="font-display text-[17px] font-semibold tabular-nums"><%= cards.size %></span>
       </header>
-      <ol class="flex min-h-16 flex-col gap-2.5" data-kanban-target="column" data-status="<%= status %>">
+      <ol class="-mx-1 flex min-h-16 flex-1 flex-col gap-1.5 overflow-y-auto overscroll-y-contain px-1" data-kanban-target="column" data-status="<%= status %>">
         <%= render partial: "card", collection: cards, as: :job_application %>
       </ol>
       <%= link_to "+ Adicionar", new_job_application_path(status:), class: "btn btn-ghost btn-sm justify-start" %>

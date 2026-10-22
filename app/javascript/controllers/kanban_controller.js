@@ -12,9 +12,13 @@ export default class extends Controller {
         group: "kanban",
         animation: 150,
         ghostClass: "kanban-ghost",
-        filter: "a, button",
+        filter: "a, button, [popover]",
         preventOnFilter: false,
-        onEnd: (event) => this.move(event)
+        onStart: () => { this.element.dataset.dragging = "true" },
+        onEnd: (event) => {
+          delete this.element.dataset.dragging
+          this.move(event)
+        }
       })
     )
   }
