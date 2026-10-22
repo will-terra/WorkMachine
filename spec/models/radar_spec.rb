@@ -52,7 +52,16 @@ RSpec.describe Radar do
       expect(automated.flat_map(&:sources)).to match_array(Sources.all.map(&:key) + %w[linkedin_alert application_replies])
       expect(targets).to have_attributes(app_link: :target_companies_path, created_count: 3, failed: true, error_message: "HttpClient::Error: 404")
       expect(targets.last_run_at).to be_within(1.second).of(1.hour.ago)
-      expect(automated.find { it.name == "Remotive" }).to have_attributes(last_run_at: nil, interval: 6.hours)
+      expect(automated.find { it.name == "Remotive" }).to have_attributes(last_run_at: nil, interval: 6.hours, off: false)
+    end
+
+    it "marks the sources turned off in Ajustes" do
+      Setting.current.update!(disabled_sources: %w[remotive])
+
+      automated = described_class.automated
+
+      expect(automated.find { it.name == "Remotive" }.off).to be(true)
+      expect(automated.find { it.name == "Alertas do LinkedIn" }.off).to be(false)
     end
 
     it "knows how often each source runs and which one needs Gmail" do

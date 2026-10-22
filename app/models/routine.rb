@@ -40,6 +40,12 @@ class Routine
         .pluck(:item_key).to_set
     end
 
+    # [done, total] for the progress bar.
+    def progress(checked = checked_keys)
+      keys = items.map(&:key)
+      [ keys.count { checked.include?(it) }, keys.size ]
+    end
+
     # Returns true when the item ends up checked.
     def toggle!(key, date = Date.current)
       item = find_item(key) or raise ActiveRecord::RecordNotFound, "Item de rotina desconhecido: #{key}"

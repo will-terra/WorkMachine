@@ -1,7 +1,8 @@
+<%# The text size comes from the list (smaller on the Painel). %>
 <li id="routine_item_<%= item.key %>">
   <%= form_with url: toggle_routine_path(key: item.key), method: :post, data: { controller: "auto-submit" } do %>
-    <label class="grid cursor-pointer grid-cols-[18px_minmax(0,1fr)] items-start gap-2 text-sm">
-      <%= check_box_tag "done", "1", checked, id: "routine_check_#{item.key}", class: "peer mt-0.5 size-4 accent-accent", data: { action: "auto-submit#submit" } %>
+    <label class="flex cursor-pointer items-start gap-2.5 py-[3px]">
+      <%= check_box_tag "done", "1", checked, id: "routine_check_#{item.key}", class: "check peer mt-[0.2em]", data: { action: "auto-submit#submit" } %>
       <span class="peer-checked:text-muted peer-checked:line-through"><%= item.label %></span>
     </label>
     <noscript><%= submit_tag "Marcar", class: "btn btn-sm mt-1" %></noscript>

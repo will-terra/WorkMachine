@@ -1,20 +1,20 @@
-<%= page_header eyebrow: "Candidaturas", title: "#{@job_application.company} · #{@job_application.role}" do %>
-  <%= button_to "Apagar", job_application_path(@job_application), method: :delete, class: "btn btn-sm", form: { data: { turbo_confirm: "Apagar esta candidatura?" } } %>
+<%= page_header eyebrow: "candidaturas", title: "#{@job_application.company} · #{@job_application.role}" do %>
+  <%= button_to "Apagar", job_application_path(@job_application), method: :delete, class: "btn", form: { data: { turbo_confirm: "Apagar esta candidatura?" } } %>
 <% end %>
 <%= render "form", job_application: @job_application %>
 <% if @job_application.job_posting %>
-  <p class="muted mt-3 text-sm">Veio da vaga <%= link_to @job_application.job_posting.title, job_posting_path(@job_application.job_posting) %>.</p>
+  <p class="mt-3 text-sm text-muted">Veio da vaga <%= link_to @job_application.job_posting.title, job_postings_path(selected: @job_application.job_posting.id, triage: "all") %>.</p>
 <% end %>
 
 <% emails = @job_application.application_emails.visible.latest_first %>
-<section class="mt-8" aria-labelledby="emails_title">
-  <h2 id="emails_title" class="mb-2 text-base">E-mails da empresa</h2>
+<section class="mt-12 max-w-[72ch]" aria-labelledby="emails_title">
+  <h2 id="emails_title">E-mails da empresa</h2>
   <% if emails.any? %>
-    <ul class="card divide-y divide-line"><%= render partial: "application_emails/application_email", collection: emails %></ul>
+    <ul class="mt-4 flex flex-col gap-5"><%= render partial: "application_emails/application_email", collection: emails %></ul>
   <% else %>
-    <p class="muted text-sm">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado em Ajustes)" unless GmailSession.configured? %>.</p>
+    <p class="mt-2 text-sm text-muted">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado em Ajustes)" unless GmailSession.configured? %>.</p>
   <% end %>
   <% if @job_application.responded_on %>
-    <p class="muted mt-2 text-xs">Primeira resposta em <%= l(@job_application.responded_on, format: "%d/%m/%Y") %><% if @job_application.applied_on %>, <%= pluralize((@job_application.responded_on - @job_application.applied_on).to_i, "dia", plural: "dias") %> depois de aplicar<% end %>.</p>
+    <p class="mt-3 font-mono text-xs text-muted">Primeira resposta em <%= l(@job_application.responded_on, format: "%d/%m/%Y") %><% if @job_application.applied_on %>, <%= pluralize((@job_application.responded_on - @job_application.applied_on).to_i, "dia", plural: "dias") %> depois de aplicar<% end %>.</p>
   <% end %>
 </section>

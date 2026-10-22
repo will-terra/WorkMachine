@@ -76,6 +76,18 @@ RSpec.describe "Job applications" do
     expect(application.reload.notes).to eq("Ligar sexta")
   end
 
+  it "changes the status from the table and keeps its filters" do
+    application = create(:job_application, status: "applied")
+
+    get job_applications_path(view: "table", q: "a")
+    expect(response.body).to include(%(id="status_job_application_#{application.id}"))
+
+    patch job_application_path(application), params: { job_application: { status: "hr_interview" }, return_to: "/candidaturas?view=table&q=a&evil=1" }
+
+    expect(response).to redirect_to(job_applications_path(view: "table", q: "a"))
+    expect(application.reload.status).to eq("hr_interview")
+  end
+
   it "keeps the form on invalid update" do
     application = create(:job_application)
 

@@ -1,52 +1,8 @@
-<%= page_header eyebrow: [ @job_posting.human_enum(:source), @job_posting.human_enum(:triage), (@job_posting.auto_dismissed_reason && "automaticamente: #{@job_posting.auto_dismissed_reason}") ].compact.join(" · "), title: @job_posting.title do %>
-  <%= external_link "Abrir vaga", @job_posting.url, class: "btn btn-sm" %>
-  <%= link_to "Mensagem", message_templates_path(job_posting_id: @job_posting.id), class: "btn btn-sm" %>
-  <% dream = Profile.current.dream_posting?(@job_posting) %>
-  <%= button_to dream ? "★ Vaga dos sonhos" : "☆ Vaga dos sonhos", dream_job_posting_path(@job_posting), class: [ "btn btn-sm", ("border-accent text-accent" if dream) ],
-                title: dream ? "Tirar das vagas dos sonhos" : "Usar como referência do que você busca (até #{Profile::MAX_DREAM_POSTINGS})", aria: { pressed: dream } %>
-  <% close_tab = { controller: "close-tab", action: "turbo:submit-end->close-tab#closeOnSuccess" } %>
-  <% if @job_posting.triage_new? %>
-    <%= button_to "Descartar", dismiss_job_posting_path(@job_posting), class: "btn btn-sm", form: { data: close_tab } %>
-    <%= button_to "Salvar em Candidaturas", save_job_posting_path(@job_posting), class: "btn btn-sm", form: { data: close_tab } %>
-  <% end %>
-  <% if @job_posting.job_application.nil? || @job_posting.job_application.status_saved? %>
-    <%= button_to "Salvar em aplicadas", apply_job_posting_path(@job_posting), class: "btn btn-primary btn-sm", form: { data: close_tab } %>
-  <% end %>
+<% content_for :title, @job_posting.title %>
+<% if turbo_frame_request? %>
+  <%= render "job_postings/detail", job_posting: @job_posting, ai_artifacts: @ai_artifacts %>
+<% else %>
+  <div class="max-w-[72rem] pt-12">
+    <%= render "job_postings/detail", job_posting: @job_posting, ai_artifacts: @ai_artifacts, standalone: true %>
+  </div>
 <% end %>
-
-<div class="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-  <section class="card min-w-0 p-5" aria-label="Descrição">
-    <% if @job_posting.description.present? %>
-      <div class="max-w-prose text-[15px] leading-relaxed"><%= simple_format(@job_posting.description) %></div>
-    <% else %>
-      <p class="text-sm"><span class="chip chip-warn">nota parcial</span></p>
-      <p class="muted mt-2 text-sm">Esta vaga chegou sem descrição (os e-mails de alerta do LinkedIn não trazem o texto), então a nota usa só o título e o local. Para completar: abra a vaga e salve pela extensão, que traz a descrição e recalcula a nota. Ou use <a href="#ia">Analisar fit</a> como segunda opinião.</p>
-    <% end %>
-  </section>
-
-  <aside class="grid content-start gap-4">
-    <div class="card p-4">
-      <p class="label">Nota</p>
-      <p class="font-mono text-4xl font-semibold <%= score_class(@job_posting.score) %>"><%= @job_posting.score %><span class="text-base text-muted"> / 100</span></p>
-      <ul class="mt-3 grid gap-1 text-sm">
-        <% @job_posting.matched_keywords.each do |match| %>
-          <li class="flex justify-between gap-3"><span><%= match["term"] %></span><span class="font-mono <%= match["points"].negative? ? "text-accent" : "text-ok" %>"><%= format("%+d", match["points"]) %></span></li>
-        <% end %>
-      </ul>
-    </div>
-    <dl class="card grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 p-4 text-sm">
-      <dt class="muted">Empresa</dt><dd><%= @job_posting.display_company %></dd>
-      <dt class="muted">Local</dt><dd><%= @job_posting.location_text.presence || "—" %></dd>
-      <dt class="muted">Região</dt><dd><%= @job_posting.human_enum(:remote_scope) %></dd>
-      <dt class="muted">Senioridade</dt><dd><%= @job_posting.human_enum(:seniority) %></dd>
-      <dt class="muted">Salário</dt><dd><%= @job_posting.salary_text.presence || "—" %></dd>
-      <dt class="muted">Publicada</dt><dd><%= @job_posting.posted_at ? l(@job_posting.posted_at, format: "%d/%m/%Y") : "—" %></dd>
-      <dt class="muted">Fonte</dt><dd>via <%= external_link @job_posting.human_enum(:source), @job_posting.url %></dd>
-      <% if @job_posting.job_application %>
-        <dt class="muted">Candidatura</dt><dd><%= link_to @job_posting.job_application.human_enum(:status), edit_job_application_path(@job_posting.job_application) %></dd>
-      <% end %>
-    </dl>
-  </aside>
-</div>
-
-<%= render "job_postings/ai", job_posting: @job_posting, ai_artifacts: @ai_artifacts %>

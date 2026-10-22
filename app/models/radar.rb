@@ -12,8 +12,10 @@ class Radar
   APP_LINKS = { "target_companies" => :target_companies_path, "job_postings" => :job_postings_path,
                 "job_applications" => :job_applications_path }.freeze
 
-  # A source the app already fetches by itself, with the result of its latest run.
-  Automated = Data.define(:name, :url, :app_link, :note, :sources, :interval, :last_run_at, :failed, :created_count, :error_message) do
+  # A source the app already fetches by itself, with the result of its latest run. "off" when its
+  # sources are turned off in Ajustes or do not match the profile.
+  Automated = Data.define(:name, :url, :app_link, :note, :sources, :interval, :last_run_at, :failed, :fetched_count, :created_count,
+                          :error_message, :off) do
     def needs_gmail? = (sources & %w[linkedin_alert application_replies]).any?
   end
 
@@ -66,8 +68,9 @@ class Radar
       tasks.flat_map { |task| task.fetch("searches", []) }
     end
 
-    def automated(runs = SourceRun.latest_per_source.index_by(&:source), profile: Profile.current)
+    def automated(runs = SourceRun.latest_per_source.index_by(&:source), profile: Profile.current, setting: Setting.current)
       terms = SearchTerms.new(profile)
+      enabled = Sources.enabled(profile, setting).map(&:key)
       config.fetch("automated").map do |entry|
         keys = entry.fetch("sources")
         latest = runs.values_at(*keys).compact
@@ -80,8 +83,10 @@ class Radar
           interval: interval_for(keys.first),
           last_run_at: latest.map(&:created_at).max,
           failed: latest.any?(&:status_failed?),
+          fetched_count: latest.sum(&:fetched_count),
           created_count: latest.sum(&:created_count),
-          error_message: latest.filter_map { it.error_message.presence }.first
+          error_message: latest.filter_map { it.error_message.presence }.first,
+          off: keys.all? { Sources.find(it) && !enabled.include?(it) }
         )
       end
     end

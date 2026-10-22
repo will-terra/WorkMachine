@@ -14,7 +14,8 @@ RSpec.describe "Radar" do
 
     expect(response).to have_http_status(:ok)
     body = response.body
-    expect(body).to include("O que fazer à mão", "Vagas novas (1)", "1 com erro (Remotive)", "Gmail não configurado", "GoRails Jobs", "4 novas")
+    expect(body).to include("o que fazer à mão", "1 com erro (Remotive)", "Gmail não configurado", "GoRails Jobs")
+    expect(body).to match(%r{GoRails Jobs</a>.*?<td class="text-right font-mono text-\[12.5px\]">4</td>}m)
     expect(body).to include("Publicações no LinkedIn", "Grupos do Telegram", "Ruby on Remote", "1 de 2 cadastros feitos", "Plataformas com perfil", "Yoctoo")
     expect(body.index("Todo dia")).to be < body.index("Toda semana")
     expect(body.index("Toda semana")).to be < body.index('id="linkedin_alerts"')
@@ -46,11 +47,12 @@ RSpec.describe "Consultancies" do
     patch consultancy_path(consultancy), params: { registered: "1" }, as: :turbo_stream
 
     expect(response.media_type).to eq(Mime[:turbo_stream])
+    expect(response.body).to include("registrations_count_#{consultancy.kind}", "1/1", "1 de 1 cadastros feitos")
     expect(consultancy.reload.registered_on).to eq(Date.current)
 
     patch consultancy_path(consultancy), params: { registered: "0" }
 
-    expect(response).to redirect_to(radar_path(anchor: "consultorias"))
+    expect(response).to redirect_to(radar_path(anchor: "cadastros"))
     expect(consultancy.reload.registered_on).to be_nil
   end
 

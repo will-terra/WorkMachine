@@ -6,14 +6,14 @@ RSpec.describe "Routine" do
   it "shows the checklist and the rules" do
     get routine_path
 
-    expect(response.body).to include("Manhã", "Uma vez por semana", "Aderência antes de volume.")
+    expect(response.body).to include("Manhã", "Uma vez por semana", "Aderência antes de volume.", "0/#{Routine.items.size} feitos")
   end
 
   it "toggles an item with Turbo Stream" do
     post toggle_routine_path(key: "m1"), as: :turbo_stream
 
     expect(response.media_type).to eq(Mime[:turbo_stream])
-    expect(response.body).to include("routine_item_m1", "checked")
+    expect(response.body).to include("routine_item_m1", "checked", "routine_progress_bar", "1/#{Routine.items.size} feitos")
     expect(Routine.checked_keys).to include("m1")
   end
 
