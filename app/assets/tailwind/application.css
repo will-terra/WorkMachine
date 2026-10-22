@@ -125,6 +125,17 @@
   summary { cursor: pointer; }
   ::selection { background: var(--color-accent-line); color: #fff; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-accent; }
+
+  /* Scrollbars: thin, gray thumb that turns red under the pointer, transparent track. Chromium and
+     Safari use the pseudo-elements; Firefox (no pseudo-elements) gets the standard properties. */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+  ::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 999px; background: var(--color-switch-off) padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--color-accent); }
+  ::-webkit-scrollbar-thumb:active { background-color: var(--color-accent-hover); }
+  @supports not selector(::-webkit-scrollbar) {
+    * { scrollbar-width: thin; scrollbar-color: var(--color-switch-off) transparent; }
+  }
 }
 
 @layer components {
