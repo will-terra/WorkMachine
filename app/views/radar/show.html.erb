@@ -1,31 +1,33 @@
-<%= page_header eyebrow: "Radar", title: "O que fazer à mão",
-                intro: "Só o que o WorkMachine não consegue buscar sozinho, por frequência. As vagas das fontes automáticas já chegam em Vagas, com nota." do %>
-  <%= link_to "Vagas novas (#{@new_postings_count})", job_postings_path, class: "btn btn-primary btn-sm" %>
-<% end %>
-
-<% unless @profile.configured? %>
-  <p class="card mb-6 p-4 text-sm" role="status">
-    As buscas saem do seu perfil. <%= link_to "Preencha o perfil", profile_path, class: "font-semibold" %> (área, cargos e skills) para o Radar montar todas.
-  </p>
-<% end %>
-
-<%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
-
-<nav class="mb-2 flex flex-wrap gap-1" aria-label="Frequência">
-  <% @config["cadences"].each do |cadence| %>
-    <a href="#<%= cadence["key"] %>" class="nav-link border border-line bg-surface"><%= cadence["title"] %></a>
-  <% end %>
-</nav>
-
-<% number = 0 %>
-<% @config["cadences"].each do |cadence| %>
-  <section id="<%= cadence["key"] %>" class="mt-10 scroll-mt-20" aria-labelledby="<%= cadence["key"] %>_title">
-    <div class="flex flex-wrap items-baseline gap-x-3 border-b border-line pb-2">
-      <h2 id="<%= cadence["key"] %>_title"><%= cadence["title"] %></h2>
-      <span class="muted text-sm"><%= cadence["time"] %></span>
+<div data-controller="cadence">
+  <%= page_header eyebrow: "o que fazer à mão", title: "Radar",
+                  intro: "As buscas já vêm montadas com o seu perfil. O que o WorkMachine busca sozinho fica no resumo abaixo; aqui fica só o que precisa ser feito à mão." do %>
+    <div class="seg" role="radiogroup" aria-label="Frequência">
+      <% @config["cadences"].each_with_index do |cadence, index| %>
+        <label class="seg-opt">
+          <%= radio_button_tag :cadence, cadence["key"], index.zero?, id: "cadence_#{cadence["key"]}", data: { cadence_target: "option", action: "cadence#change" } %>
+          <%= cadence["title"] %>
+        </label>
+      <% end %>
     </div>
-    <% @tasks.fetch(cadence["key"], []).each do |task| %>
-      <%= render "radar/task", task:, number: number += 1 %>
-    <% end %>
-  </section>
-<% end %>
+  <% end %>
+
+  <% unless @profile.configured? %>
+    <p class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2" role="status">
+      <span class="chip chip-warn">perfil vazio</span>
+      <span>As buscas saem do seu perfil. <%= link_to "Preencha o perfil", profile_path %> (área, cargos e skills) para o Radar montar todas.</span>
+    </p>
+  <% end %>
+
+  <%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
+
+  <% @config["cadences"].each do |cadence| %>
+    <section id="<%= cadence["key"] %>" class="scroll-mt-6" data-cadence-target="panel" data-cadence="<%= cadence["key"] %>" aria-label="<%= cadence["title"] %>">
+      <p class="mt-6 font-mono text-xs text-muted"><%= cadence["time"] %></p>
+      <div class="flex flex-col gap-11 pt-3.5">
+        <% @tasks.fetch(cadence["key"], []).each do |task| %>
+          <%= render "radar/task", task: %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+</div>

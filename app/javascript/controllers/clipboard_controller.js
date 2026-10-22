@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Copies the source target's text. Falls back to selecting it when the Clipboard API is blocked.
+// Copies the source target's text and shows "Copiado" on the button for a moment. Falls back to
+// selecting the text when the Clipboard API is blocked.
 export default class extends Controller {
   static targets = ["source", "button"]
 
@@ -23,11 +24,7 @@ export default class extends Controller {
     if (!this.hasButtonTarget) return
     const original = this.buttonTarget.dataset.label ||= this.buttonTarget.textContent
     this.buttonTarget.textContent = label
-    this.buttonTarget.classList.add("text-ok", "border-ok")
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => {
-      this.buttonTarget.textContent = original
-      this.buttonTarget.classList.remove("text-ok", "border-ok")
-    }, 1500)
+    this.timeout = setTimeout(() => { this.buttonTarget.textContent = original }, 1600)
   }
 }

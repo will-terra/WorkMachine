@@ -1,13 +1,11 @@
-<%= form_with model: consultancy, method: :patch, id: dom_id(consultancy), class: "card flex items-start gap-3 px-3 py-2.5", data: { controller: "auto-submit" } do |form| %>
+<%= form_with model: consultancy, method: :patch, id: dom_id(consultancy), class: "flex items-start gap-2.5 py-[3px]", data: { controller: "auto-submit" } do |form| %>
   <%= hidden_field_tag :registered, "0", id: nil %>
-  <%= check_box_tag :registered, "1", consultancy.registered?, id: dom_id(consultancy, :registered), class: "mt-1 size-4 accent-accent", data: { action: "auto-submit#submit" } %>
-  <div class="min-w-0">
-    <label for="<%= dom_id(consultancy, :registered) %>" class="cursor-pointer font-semibold"><%= consultancy.name %></label>
-    <p class="text-xs muted">
-      <%= external_link "abrir site", consultancy.url %>
-      <% if consultancy.registered? %> · <span class="text-ok">cadastrado em <%= short_date(consultancy.registered_on) %></span><% end %>
-    </p>
-    <% if consultancy.notes.present? %><p class="text-xs muted"><%= consultancy.notes %></p><% end %>
-  </div>
+  <%= check_box_tag :registered, "1", consultancy.registered?, id: dom_id(consultancy, :registered), class: "check mt-[0.3em]",
+                    aria: { label: "Cadastro feito: #{consultancy.name}" }, data: { action: "auto-submit#submit" } %>
+  <span class="min-w-0 text-[13.5px] leading-[1.45]">
+    <%= external_link consultancy.name, consultancy.url, class: consultancy.registered? ? "text-muted line-through hover:text-muted" : "text-ink hover:text-accent-hover" %>
+    <% if consultancy.notes.present? %><span class="text-muted"> · <%= consultancy.notes %></span><% end %>
+    <% if consultancy.registered? %><span class="font-mono text-[11.5px] text-muted"> · cadastrado em <%= short_date(consultancy.registered_on) %></span><% end %>
+  </span>
   <noscript><%= form.submit "Salvar", class: "btn btn-sm ml-auto" %></noscript>
 <% end %>
