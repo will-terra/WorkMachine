@@ -19,4 +19,5 @@ App de busca de emprego para pessoas de tecnologia que roda no próprio computad
 - Código, nomes de tabelas e classes em inglês; mensagens de commit em português.
 - **Idiomas:** interface em pt-BR e inglês (`LocalePreference`: automático pelo navegador, `pt-*` → pt-BR, o resto → en; Ajustes → Idioma força um). Todo texto de tela vai em `config/locales/<idioma>/<área>.yml`, nas duas línguas; os testes falham com tradução faltando. Na extensão, `extension/_locales/`.
 - Assunto do commit começa com `Feat:`, `Fix:`, `Chore:` ou `Docs:`. Commits pequenos, cada um com os testes passando.
+- Commits sem as linhas Co-Authored-By e Claude-Session (sem autoria do Claude).
 - Nenhum dado pessoal no git: perfis, CVs e chaves ficam no banco local, em `docs/` ou no `.env` (todos fora do git). Contexto pessoal para o Claude vai em `CLAUDE.local.md` (fora do git).
