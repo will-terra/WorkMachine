@@ -1,140 +1,118 @@
-<%= page_header eyebrow: "WorkMachine #{AppVersion.current}", title: "Ajustes" %>
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<%= page_header eyebrow: "configuração · WorkMachine #{AppVersion.current}", title: "Ajustes",
+                intro: "Chaves e contas, extensão, notificações, descarte automático, fontes, rotinas e backup. As senhas ficam criptografadas no banco do seu computador." %>
 
 <% if AppVersion.update_available? %>
-  <p class="card mb-6 flex flex-wrap items-center justify-between gap-3 border-accent p-4 text-sm" role="status">
+  <p class="card mb-7 flex-row flex-wrap items-center justify-between gap-3 bg-accent-soft text-sm" role="status">
     <span>Versão nova disponível: <strong><%= AppVersion.latest %></strong> (você está na <%= AppVersion.current %>). Para atualizar: <span class="code inline-block">docker compose pull &amp;&amp; docker compose up -d</span></span>
     <%= external_link "O que mudou", AppVersion::RELEASES_PAGE, class: "btn btn-sm" %>
   </p>
 <% end %>
 
-<section class="mb-6 grid gap-6 lg:grid-cols-2">
+<%= render layout: "settings/row", locals: { id: "chaves", title: "Chaves e contas",
+                                             note: "A IA usa o OpenRouter com a sua chave. O Gmail entra com uma senha de app, só para leitura: nada é marcado como lido, movido ou apagado. Uma variável no .env vale mais que o que estiver aqui." } do %>
   <%= render "settings/keys", setting: @setting %>
-  <%= render "settings/extension", setting: @setting %>
-</section>
+<% end %>
 
-<section class="grid gap-6 lg:grid-cols-2" aria-label="Notificações">
-  <%= form_with model: @setting, url: settings_path, method: :patch, class: "card grid content-start gap-4 p-5" do |form| %>
-    <div>
-      <h2 class="text-base">Notificação de vagas novas</h2>
-      <p class="muted mt-1 text-sm">Quando o agregador ou os alertas do LinkedIn trazem vagas com nota igual ou maior que esta, o WorkMachine manda uma notificação na área de trabalho, mesmo com o app fechado.</p>
+<%= render layout: "settings/row", locals: { id: "extensao", title: "Extensão do navegador",
+                                             note: "Salva a vaga aberta em qualquer site e recrutadores em Contatos. Cole este token nas Opções da extensão." } do %>
+  <%= render "settings/extension", setting: @setting %>
+<% end %>
+
+<%= form_with model: @setting, url: settings_path, method: :patch, id: "preferences", data: { controller: "auto-submit", action: "change->auto-submit#submit" } do |form| %>
+  <% if @setting.errors.any? %><div class="pb-5"><%= render "shared/errors", record: @setting %></div><% end %>
+
+  <%= render layout: "settings/row", locals: { id: "notificacoes", title: "Notificações",
+                                               note: "Chegam no navegador, mesmo com o app fechado, de preferência com o app instalado. Ative uma vez em cada navegador." } do %>
+    <div class="flex flex-col">
+      <%= render "settings/switch", form:, field: :notifications_enabled, label: "Notificação de vagas novas",
+                                    note: "Quando o agregador ou os alertas do LinkedIn trazem vagas com nota alta. Cada vaga é avisada uma vez só." %>
+      <%= render "settings/switch", form:, field: :notify_replies, label: "Respostas das empresas", note: "Quando uma empresa em que você aplicou responde no Gmail." %>
+      <%= render "settings/switch", form:, field: :notify_follow_ups, label: "Follow-ups do dia", note: "Às 8h, as candidaturas sem resposta há 5 dias ou mais." %>
     </div>
-    <%= render "shared/errors", record: @setting %>
-    <div class="flex items-center gap-2">
-      <%= form.check_box :notifications_enabled, class: "size-4 accent-accent" %>
-      <%= form.label :notifications_enabled, "Notificar vagas novas", class: "text-sm" %>
+    <div class="w-[220px]">
+      <%= form.label :notify_min_score, "Avisar vagas com nota a partir de", class: "label" %>
+      <%= form.number_field :notify_min_score, min: 0, max: 100, step: 1, required: true, class: "input" %>
     </div>
-    <div>
-      <%= form.label :notify_min_score, "Nota mínima (0 a 100)", class: "label" %>
-      <%= form.number_field :notify_min_score, min: 0, max: 100, step: 1, required: true, class: "input w-32" %>
-      <p class="muted mt-1 text-xs">Vale para as próximas buscas. Cada vaga é notificada uma vez só.</p>
-    </div>
-    <div class="border-t border-line pt-4">
-      <h2 class="text-base">Descarte automático</h2>
-      <p class="muted mt-1 text-sm">Vagas do agregador e dos alertas que você não pode pegar já chegam descartadas. As salvas pela extensão nunca são descartadas. Para revisar, filtre Vagas → Triagem → Descartada automaticamente.</p>
-    </div>
-    <div class="flex items-start gap-2">
-      <%= form.check_box :auto_dismiss_restricted, class: "mt-0.5 size-4 accent-accent" %>
-      <%= form.label :auto_dismiss_restricted, "Descartar as vagas só para EUA/Canadá, só para Europa ou para uma lista de países fora da América Latina", class: "text-sm" %>
-    </div>
-    <div>
-      <%= form.label :auto_dismiss_below_score, "Descartar também com nota abaixo de (vazio = não descartar)", class: "label" %>
-      <%= form.number_field :auto_dismiss_below_score, min: 1, max: 100, step: 1, class: "input w-32" %>
-    </div>
-    <div class="border-t border-line pt-4">
-      <h2 class="text-base">Respostas das empresas</h2>
-      <p class="muted mt-1 text-sm">A cada hora o WorkMachine procura no Gmail os e-mails das empresas em que você aplicou. Os que citam a empresa vão para o modelo de IA (OpenRouter) classificar; recusa, entrevista, teste e proposta movem o cartão no kanban.</p>
-    </div>
-    <div class="flex items-center gap-2">
-      <%= form.check_box :track_replies, class: "size-4 accent-accent" %>
-      <%= form.label :track_replies, "Ler as respostas das empresas no Gmail", class: "text-sm" %>
-    </div>
-    <div class="flex items-center gap-2">
-      <%= form.check_box :notify_replies, class: "size-4 accent-accent" %>
-      <%= form.label :notify_replies, "Notificar quando uma empresa responder", class: "text-sm" %>
-    </div>
-    <div class="flex items-center gap-2">
-      <%= form.check_box :notify_follow_ups, class: "size-4 accent-accent" %>
-      <%= form.label :notify_follow_ups, "Às 8h, notificar os follow-ups do dia (candidaturas sem resposta há 5+ dias)", class: "text-sm" %>
-    </div>
-    <fieldset class="border-t border-line pt-4">
-      <legend class="text-base font-bold tracking-tight">Fontes automáticas</legend>
-      <p class="muted mt-1 mb-3 text-sm">O agregador busca nelas a cada 3 horas, pelos termos do seu perfil. As de nicho só aparecem quando combinam com a sua área ou a sua stack.</p>
-      <%= hidden_field_tag "setting[enabled_sources][]", "" %>
-      <div class="grid gap-1.5 sm:grid-cols-2">
-        <% ::Sources.all.each do |source| %>
-          <% applicable = source.applicable?(@profile) %>
-          <label class="flex items-start gap-2 text-sm <%= "muted" unless applicable %>">
-            <%= check_box_tag "setting[enabled_sources][]", source.key, @setting.source_enabled?(source.key), id: "source_#{source.key}", disabled: !applicable, class: "mt-0.5 size-4 accent-accent" %>
-            <span><%= JobPosting.human_enum(:source, source.key) %><% unless applicable %> <span class="text-xs">(não combina com o seu perfil)</span><% end %></span>
-          </label>
-        <% end %>
-      </div>
-    </fieldset>
-    <div><%= form.submit "Salvar", class: "btn btn-primary" %></div>
   <% end %>
 
-  <div class="card grid content-start gap-4 p-5"
+  <%= render layout: "settings/row", locals: { id: "descarte", title: "Descarte automático",
+                                               note: "Vagas descartadas sozinhas continuam em Vagas → Auto-descartadas, com o motivo. As salvas pela extensão nunca são descartadas." } do %>
+    <div class="flex flex-col">
+      <%= render "settings/switch", form:, field: :auto_dismiss_restricted, label: "Descartar vagas restritas a outros países",
+                                    note: "Só para EUA/Canadá, só para Europa ou para uma lista de países fora da América Latina." %>
+      <%= render "settings/switch", form:, field: :track_replies, label: "Ler as respostas das empresas",
+                                    note: "A cada hora, os e-mails das empresas em que você aplicou: recusa, entrevista, teste e proposta movem o cartão no kanban." %>
+    </div>
+    <div class="w-[240px]">
+      <%= form.label :auto_dismiss_below_score, "Descartar vagas com nota abaixo de", class: "label" %>
+      <% options = ([ 10, 15, 20, 25, 30 ] | [ @setting.auto_dismiss_below_score ].compact).sort %>
+      <%= form.select :auto_dismiss_below_score, options, { include_blank: "Não descartar" }, class: "input" %>
+    </div>
+  <% end %>
+
+  <%= render layout: "settings/row", locals: { id: "fontes", title: "Fontes",
+                                               note: "O agregador busca nelas a cada 3 horas, pelos termos do seu perfil. As de nicho só valem quando combinam com a sua área ou a sua stack. Desligue as que não rendem." } do %>
+    <%= hidden_field_tag "setting[enabled_sources][]", "", id: nil %>
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(min(100%,210px),1fr))] gap-x-6 gap-y-1">
+      <% ::Sources.all.each do |source| %>
+        <% applicable = source.applicable?(@profile) %>
+        <label class="flex cursor-pointer items-start gap-2.5 py-1 text-sm leading-[1.45] <%= "text-muted" unless applicable %>" title="<%= "Não combina com o seu perfil" unless applicable %>">
+          <%= check_box_tag "setting[enabled_sources][]", source.key, @setting.source_enabled?(source.key), id: "source_#{source.key}", disabled: !applicable, class: "check mt-[3px]" %>
+          <span><%= JobPosting.human_enum(:source, source.key) %></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+  <noscript><div class="pb-7"><%= form.submit "Salvar", class: "btn btn-primary" %></div></noscript>
+<% end %>
+
+<%= render layout: "settings/row", locals: { id: "navegadores", title: "Este navegador",
+                                             note: "As notificações chegam em cada navegador onde você ativou. No app instalado do Chrome, ative abrindo esta página nele." } do %>
+  <div class="flex flex-col gap-3"
        data-controller="push"
        data-push-public-key-value="<%= @setting.vapid_keys![:public_key] %>"
        data-push-subscribe-url-value="<%= push_subscriptions_path %>"
        data-push-unsubscribe-url-value="<%= unsubscribe_push_subscriptions_path %>"
        data-push-test-url-value="<%= test_push_subscriptions_path %>">
-    <div>
-      <h2 class="text-base">Este navegador</h2>
-      <p class="muted mt-1 text-sm">Ative uma vez em cada navegador (no app instalado do Chrome, ative abrindo esta página nele).</p>
-    </div>
-    <p class="text-sm font-semibold" data-push-target="status" role="status">Verificando…</p>
+    <p class="text-[14.5px] font-medium" data-push-target="status" role="status">Verificando…</p>
     <div class="flex flex-wrap gap-2">
-      <button type="button" class="btn btn-primary btn-sm" data-push-target="enable" data-action="push#enable" hidden>Ativar notificações</button>
-      <button type="button" class="btn btn-sm" data-push-target="test" data-action="push#test" hidden>Enviar notificação de teste</button>
-      <button type="button" class="btn btn-ghost btn-sm" data-push-target="disable" data-action="push#disable" hidden>Desativar neste navegador</button>
+      <button type="button" class="btn btn-primary" data-push-target="enable" data-action="push#enable" hidden>Ativar notificações</button>
+      <button type="button" class="btn btn-ghost" data-push-target="test" data-action="push#test" hidden>Enviar notificação de teste</button>
+      <button type="button" class="btn btn-ghost" data-push-target="disable" data-action="push#disable" hidden>Desativar neste navegador</button>
     </div>
-
     <% if @push_subscriptions.any? %>
-      <div>
-        <p class="label">Navegadores que recebem</p>
-        <ul class="grid gap-1 text-sm">
-          <% @push_subscriptions.each do |subscription| %>
-            <li class="flex items-center justify-between gap-2">
-              <span><%= subscription.browser_name %> · desde <%= l(subscription.created_at.to_date, format: "%d/%m") %><% if subscription.last_sent_at %> · última em <%= l(subscription.last_sent_at, format: "%d/%m %H:%M") %><% end %></span>
-              <%= button_to "Remover", push_subscription_path(subscription), method: :delete, class: "btn btn-ghost btn-sm" %>
-            </li>
-          <% end %>
-        </ul>
-      </div>
+      <ul class="flex flex-col">
+        <% @push_subscriptions.each do |subscription| %>
+          <li class="flex items-center justify-between gap-2 border-t border-line py-1.5 text-sm">
+            <span><%= subscription.browser_name %> · desde <%= l(subscription.created_at.to_date, format: "%d/%m") %><span class="font-mono text-xs text-muted"><% if subscription.last_sent_at %> · última em <%= l(subscription.last_sent_at, format: "%d/%m %H:%M") %><% end %></span></span>
+            <%= button_to "Remover", push_subscription_path(subscription), method: :delete, class: "btn btn-ghost btn-sm" %>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
   </div>
-</section>
+<% end %>
 
-<section class="card mt-6 flex-row flex-wrap items-center justify-between gap-3 p-5" aria-labelledby="routines_title">
-  <div>
-    <h2 id="routines_title" class="text-base">Rotinas</h2>
-    <p class="muted mt-1 text-sm">As rotinas da página Rotina e do Painel vêm prontas. Mude os blocos, as tarefas e o período de cada uma, ou crie as suas.</p>
-  </div>
-  <%= link_to "Editar rotinas", settings_routines_path, class: "btn btn-sm" %>
-</section>
+<%= render layout: "settings/row", locals: { id: "rotinas", title: "Rotinas",
+                                             note: "As rotinas da página Rotina e do Painel vêm prontas. Mude os blocos, as tarefas e o período de cada uma, ou crie as suas." } do %>
+  <div><%= link_to "Editar rotinas", settings_routines_path, class: "btn" %></div>
+<% end %>
 
-<section class="card mt-6 grid gap-3 p-5" aria-labelledby="backup_title">
-  <div class="flex flex-wrap items-start justify-between gap-3">
-    <div>
-      <h2 id="backup_title" class="text-base">Backup do banco</h2>
-      <p class="muted mt-1 text-sm">
-        A cada hora o WorkMachine copia o banco para
-        <span class="font-mono text-xs"><%= ENV["WORKMACHINE_BACKUP_DIR"].present? ? windows_path(ENV["WORKMACHINE_BACKUP_DIR"]) : "a pasta backups/ do projeto" %></span>.
-        Ficam todas as cópias das últimas <%= DatabaseBackup::KEEP_HOURS %> horas e uma por dia dos últimos <%= DatabaseBackup::KEEP_DAYS %> dias.
-      </p>
-    </div>
-    <%= button_to "Fazer backup agora", backup_settings_path, class: "btn btn-sm" %>
+<%= render layout: "settings/row", locals: { id: "backup", title: "Backup",
+                                             note: "A cada hora o banco é copiado. Ficam as cópias das últimas #{DatabaseBackup::KEEP_HOURS} horas e uma por dia dos últimos #{DatabaseBackup::KEEP_DAYS} dias." } do %>
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-2.5">
+    <span class="font-mono text-[13px]">
+      <% if @backups.any? %>
+        último backup: <%= short_time(@backups.first.mtime) %> · <%= number_to_human_size(@backups.first.size) %> · <%= pluralize(@backups.size, "cópia", plural: "cópias") %> guardadas
+      <% else %>
+        <span class="text-warn-strong">Nenhum backup ainda.</span>
+      <% end %>
+      <span class="block text-muted"><%= ENV["WORKMACHINE_BACKUP_DIR"].present? ? windows_path(ENV["WORKMACHINE_BACKUP_DIR"]) : "backups/" %></span>
+    </span>
+    <%= button_to "Fazer backup agora", backup_settings_path, class: "btn" %>
   </div>
   <% if @setting.last_backup_error.present? %>
-    <p class="text-sm font-semibold text-accent" role="alert">O último backup falhou: <%= @setting.last_backup_error %></p>
+    <p class="text-sm font-semibold text-warn-strong" role="alert">O último backup falhou: <%= @setting.last_backup_error %></p>
   <% end %>
-  <p class="text-sm">
-    <% if @backups.any? %>
-      Último: <strong><%= l(@backups.first.mtime, format: "%d/%m/%Y %H:%M") %></strong>
-      (<%= number_to_human_size(@backups.first.size) %>) · <%= pluralize(@backups.size, "cópia", plural: "cópias") %> guardadas
-    <% else %>
-      <span class="text-warn">Nenhum backup ainda.</span>
-    <% end %>
-  </p>
-</section>
+<% end %>

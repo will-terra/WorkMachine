@@ -1,0 +1,8 @@
+<%# Layout of a section of Ajustes: title and note on the left, the controls on the right. Locals: id, title, note. %>
+<section id="<%= id %>" class="flex scroll-mt-6 flex-wrap gap-x-12 gap-y-3 border-t border-line py-7" aria-labelledby="<%= id %>_title">
+  <div class="max-w-[320px] flex-[1_1_220px]">
+    <h2 id="<%= id %>_title" class="text-[19px]"><%= title %></h2>
+    <p class="mt-1.5 text-[13.5px] leading-normal text-muted"><%= note %></p>
+  </div>
+  <div class="flex min-w-0 flex-[3_1_420px] flex-col gap-3.5"><%= yield %></div>
+</section>

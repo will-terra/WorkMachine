@@ -1,17 +1,16 @@
 <%# Locals: form, field, label, type (:password, :email…), placeholder %>
 <% saved = AppKeys.saved(field).present? %>
-<div>
-  <%= form.label field, label, class: "label" %>
-  <% if AppKeys.from_env?(field) %>
-    <p class="text-sm"><span class="chip chip-ok">definida no .env</span></p>
-  <% else %>
-    <% value = type == :password ? nil : AppKeys.saved(field) %>
-    <%= form.public_send(type == :password ? :password_field : :email_field, field, value:, class: "input", autocomplete: "off",
-                         placeholder: saved && type == :password ? "salva; deixe vazio para manter" : placeholder) %>
-    <% if saved %>
-      <label class="mt-1 flex items-center gap-1.5 text-xs">
-        <%= check_box_tag "clear[]", field, false, id: "clear_#{field}", class: "size-3.5 accent-accent" %> Apagar
-      </label>
-    <% end %>
+<%= form.label field, label, class: "label" %>
+<% if AppKeys.from_env?(field) %>
+  <p class="flex min-h-9 items-center text-sm"><span class="chip chip-ok">definida no .env</span></p>
+<% else %>
+  <% value = type == :password ? nil : AppKeys.saved(field) %>
+  <%= form.public_send(type == :password ? :password_field : :email_field, field, value:, autocomplete: "off",
+                       class: [ "input", ("font-mono" if type == :password) ],
+                       placeholder: saved && type == :password ? "salva; deixe vazio para manter" : placeholder) %>
+  <% if saved %>
+    <label class="mt-1.5 flex items-center gap-1.5 text-xs text-muted">
+      <%= check_box_tag "clear[]", field, false, id: "clear_#{field}", class: "check" %> Apagar
+    </label>
   <% end %>
-</div>
+<% end %>

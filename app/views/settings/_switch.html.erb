@@ -1,0 +1,8 @@
+<%# Locals: form, field, label, note (optional). A switch row: label and note on the left, the switch on the right. %>
+<div class="flex items-start justify-between gap-4 py-[7px]">
+  <div class="min-w-0">
+    <%= form.label field, label, class: "block text-[14.5px] font-medium" %>
+    <% if local_assigns[:note] %><p class="mt-0.5 text-[13px] leading-[1.45] text-muted"><%= note %></p><% end %>
+  </div>
+  <%= form.check_box field, class: "switch mt-0.5", role: "switch" %>
+</div>

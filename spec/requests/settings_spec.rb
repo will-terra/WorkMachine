@@ -27,7 +27,7 @@ RSpec.describe "Settings and push subscriptions" do
 
   it "turns aggregator sources off and on" do
     get settings_path
-    expect(response.body).to include("Fontes automáticas", 'id="source_gorails"')
+    expect(response.body).to include("Fontes", "As de nicho só valem", 'id="source_gorails"')
 
     patch settings_path, params: { setting: { enabled_sources: [ "", *Sources.all.map(&:key) - %w[remote_ok hacker_news] ] } }
 
@@ -39,7 +39,7 @@ RSpec.describe "Settings and push subscriptions" do
     allow(DatabaseBackup).to receive(:dir).and_return(dir)
 
     get settings_path
-    expect(response.body).to include("Backup do banco", "Nenhum backup ainda")
+    expect(response.body).to include("Backup", "Fazer backup agora", "Nenhum backup ainda")
 
     post backup_settings_path
     expect(response).to redirect_to(settings_path)

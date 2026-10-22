@@ -1,20 +1,18 @@
-<div id="extensao" class="card grid scroll-mt-20 content-start gap-4 p-5" data-controller="clipboard">
-  <div>
-    <h2 class="text-base">Extensão do navegador</h2>
-    <p class="muted mt-1 text-sm">
-      Cole este token nas Opções da extensão (pasta <span class="font-mono">extension/</span>, carregada sem compactação no Chrome ou no Edge).
-      Versão esperada da extensão: <strong><%= ExtensionVersion.current %></strong>; depois de atualizar o WorkMachine, recarregue a extensão em <span class="font-mono">chrome://extensions</span>.
-    </p>
+<% if AppKeys.from_env?(:api_token) %>
+  <p class="text-sm"><span class="chip chip-ok">token definido no .env</span> (WORKMACHINE_API_TOKEN)</p>
+<% elsif (token = AppKeys.saved(:api_token)) %>
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2.5" data-controller="secret clipboard">
+    <code class="min-w-0 flex-[1_1_280px] rounded-md bg-surface px-3 py-2 font-mono text-[13px] [overflow-wrap:anywhere]"
+          data-secret-target="text" data-secret-value-value="<%= token %>"><%= token.first(6) %><%= "•" * 20 %></code>
+    <input type="hidden" value="<%= token %>" data-clipboard-target="source">
+    <button type="button" class="btn btn-ghost" data-action="secret#toggle" data-secret-target="toggle">Mostrar</button>
+    <button type="button" class="btn" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
+    <%= button_to "Gerar outro", regenerate_token_settings_path, class: "btn btn-ghost", form: { data: { turbo_confirm: "A extensão vai parar de funcionar até receber o token novo. Gerar outro?" } } %>
   </div>
-  <% if AppKeys.from_env?(:api_token) %>
-    <p class="text-sm"><span class="chip chip-ok">token definido no .env</span> (WORKMACHINE_API_TOKEN)</p>
-  <% elsif (token = AppKeys.saved(:api_token)) %>
-    <div class="flex gap-2">
-      <%= text_field_tag :api_token, token, readonly: true, class: "input font-mono text-xs", aria: { label: "Token da extensão" }, data: { clipboard_target: "source" } %>
-      <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
-    </div>
-    <%= button_to "Gerar outro token", regenerate_token_settings_path, class: "btn btn-ghost btn-sm justify-self-start", form: { data: { turbo_confirm: "A extensão vai parar de funcionar até receber o token novo. Gerar outro?" } } %>
-  <% else %>
-    <%= button_to "Gerar token", regenerate_token_settings_path, class: "btn btn-primary btn-sm justify-self-start" %>
-  <% end %>
-</div>
+<% else %>
+  <div><%= button_to "Gerar token", regenerate_token_settings_path, class: "btn btn-primary" %></div>
+<% end %>
+<p class="text-[13px] text-muted">
+  Versão esperada da extensão: <span class="font-mono"><%= ExtensionVersion.current %></span>. Depois de atualizar o WorkMachine, recarregue a extensão em <span class="font-mono">chrome://extensions</span>.
+  Como instalar: pasta <span class="font-mono">extension/</span>, carregada sem compactação no Chrome ou no Edge (passo a passo no README).
+</p>
