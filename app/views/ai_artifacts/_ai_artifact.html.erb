@@ -1,8 +1,8 @@
 <%= turbo_frame_tag dom_id(ai_artifact) do %>
-  <article class="card grid gap-2 p-4" <% if ai_artifact.status_pending? %>data-controller="poll" data-poll-url-value="<%= ai_artifact_path(ai_artifact) %>"<% end %>>
+  <article class="card" <% if ai_artifact.status_pending? %>data-controller="poll" data-poll-url-value="<%= ai_artifact_path(ai_artifact) %>"<% end %>>
     <header class="flex flex-wrap items-baseline justify-between gap-2">
       <h3><%= ai_artifact.human_enum(:kind) %><% if ai_artifact.message? %> (<%= ai_artifact.language.to_s.upcase %>)<% end %></h3>
-      <span class="muted font-mono text-xs">
+      <span class="font-mono text-[11.5px] text-muted">
         <%= l(ai_artifact.created_at, format: "%d/%m %H:%M") %>
         <% if ai_artifact.cost_usd %> · US$ <%= number_with_precision(ai_artifact.cost_usd, precision: 4) %><% end %>
         <% if ai_artifact.model.present? %> · <%= ai_artifact.model %><% end %>
@@ -11,15 +11,15 @@
 
     <% case ai_artifact.status %>
     <% when "pending" %>
-      <p class="muted text-sm" role="status">Gerando…</p>
+      <p class="text-sm text-muted" role="status">Gerando…</p>
     <% when "failed" %>
-      <p class="text-sm font-semibold text-accent" role="alert"><%= ai_artifact.error_message %></p>
+      <p class="text-sm font-semibold text-warn-strong" role="alert"><%= ai_artifact.error_message %></p>
     <% else %>
       <div data-controller="clipboard">
-        <p class="whitespace-pre-line text-[15px]" data-clipboard-target="source"><%= ai_artifact.content %></p>
+        <p class="text-[15px] leading-relaxed whitespace-pre-line" data-clipboard-target="source"><%= ai_artifact.content %></p>
         <div class="mt-3 flex gap-2">
           <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
-          <%= button_to "Apagar", ai_artifact_path(ai_artifact), method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "_top", turbo_confirm: "Apagar este resultado?" } } %>
+          <%= button_to "Apagar", ai_artifact_path(ai_artifact), method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "posting_detail", turbo_confirm: "Apagar este resultado?" } } %>
         </div>
       </div>
     <% end %>

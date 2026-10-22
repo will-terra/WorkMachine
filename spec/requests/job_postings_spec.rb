@@ -32,7 +32,7 @@ RSpec.describe "Job postings (triage)" do
       create(:job_posting, title: "Nova e fraca", score: 10, posted_at: 1.hour.ago)
 
       get job_postings_path(sort: "recent", period: "7", keyword: "rails", salary: "1")
-      expect(response.body).to include("mais novas primeiro", "Limpar filtros", 'selected="selected" value="recent"', "Com salário")
+      expect(response.body).to include("mais novas primeiro", "Limpar filtros", 'value="recent" checked="checked"', "Com salário")
 
       get job_postings_path(sort: "recent")
       expect(response.body.index("Nova e fraca")).to be < response.body.index("Antiga e boa")
@@ -51,6 +51,21 @@ RSpec.describe "Job postings (triage)" do
       expect(response.body).not_to include("Descartar todas")
     end
 
+    it "shows the selected posting beside the list, with the triage shortcuts" do
+      first = create(:job_posting, title: "Primeira", score: 90)
+      other = create(:job_posting, title: "Outra", score: 10, description: "Descrição da outra")
+
+      get job_postings_path
+      expect(response.body).to include(%(data-posting-id="#{first.id}"), 'aria-selected="true"', 'data-shortcut="s"', 'data-shortcut="d"', "triage_count_new")
+
+      get job_postings_path(selected: other.id)
+      expect(response.body).to include("Descrição da outra")
+
+      get job_posting_path(other), headers: { "Turbo-Frame" => "posting_detail" }
+      expect(response.body).to include("Descrição da outra")
+      expect(response.body).not_to include('aria-label="Seções"')
+    end
+
     it "paginates" do
       create_list(:job_posting, JobPostingsController::PER_PAGE + 1)
 
@@ -65,7 +80,7 @@ RSpec.describe "Job postings (triage)" do
 
     get job_posting_path(posting)
 
-    expect(response.body).to include("Linha 2", "7+ anos", "-15")
+    expect(response.body).to include("Linha 2", "7+ anos", "−15")
   end
 
   it "saves a posting as an application" do
@@ -73,7 +88,7 @@ RSpec.describe "Job postings (triage)" do
 
     expect { post save_job_posting_path(posting), as: :turbo_stream }.to change(JobApplication, :count).by(1)
 
-    expect(response.body).to include("Salva em Candidaturas")
+    expect(response.body).to include("Salva em Candidaturas", 'target="posting_detail"', 'target="triage_count_saved"', 'target="nav_count"')
     expect(posting.reload).to be_triage_saved
     expect(JobApplication.last).to have_attributes(company: "Acme", role: "Rails Engineer", status: "saved")
 

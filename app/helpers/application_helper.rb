@@ -17,7 +17,7 @@ module ApplicationHelper
   def nav_link(label, path, count: nil, **options)
     active = path == root_path ? current_page?(root_path) : request.path.start_with?(path)
     link_to path, class: [ "nav-link", ("nav-link-active" if active), options[:class] ], aria: { current: (active ? "page" : nil) } do
-      safe_join([ label, (tag.span(count, class: "nav-count") if count.to_i.positive?) ].compact)
+      safe_join([ label, (tag.span((count if count.positive?), id: "nav_count", class: "nav-count") if count) ].compact)
     end
   end
 

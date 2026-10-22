@@ -1,26 +1,29 @@
-<section id="ia" class="mt-8 scroll-mt-20" aria-labelledby="ai_title">
-  <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
-    <h2 id="ai_title" class="text-base">IA · <%= Ai::Client.model %><%= " (gratuito)" if Ai::Client.free? %> via OpenRouter</h2>
-    <span class="muted text-xs">Só roda quando você clica. Usa o seu perfil e não inventa experiência.</span>
+<section id="ia" class="mt-12 scroll-mt-6 border-t border-line pt-7" aria-labelledby="ai_title">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
+    <h2 id="ai_title">IA</h2>
+    <span class="font-mono text-xs text-muted"><%= Ai::Client.model %><%= " · gratuito" if Ai::Client.free? %> · via OpenRouter</span>
   </div>
+  <p class="mt-1 text-[13.5px] text-muted">Só roda quando você clica. Usa o seu perfil e não inventa experiência.</p>
 
   <% if Ai::Client.configured? %>
-    <div class="card mb-4 grid gap-3 p-4">
-      <div class="flex flex-wrap gap-2">
-        <%= button_to "Analisar fit", job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-primary btn-sm" %>
-        <%= button_to "Resumo de CV adaptado", job_posting_ai_artifacts_path(job_posting, kind: "cv_summary"), class: "btn btn-sm" %>
-        <%= button_to "Mensagem (PT)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "pt"), class: "btn btn-sm" %>
-        <%= button_to "Message (EN)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "en"), class: "btn btn-sm" %>
-      </div>
+    <div class="mt-4 flex flex-wrap gap-2">
+      <%= button_to "Analisar fit", job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-sm" %>
+      <%= button_to "Resumo de CV adaptado", job_posting_ai_artifacts_path(job_posting, kind: "cv_summary"), class: "btn btn-sm" %>
+      <%= button_to "Mensagem (PT)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "pt"), class: "btn btn-sm" %>
+      <%= button_to "Message (EN)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "en"), class: "btn btn-sm" %>
+    </div>
+    <div class="mt-2.5">
       <%= turbo_frame_tag "ai_estimate", src: estimate_job_posting_ai_artifacts_path(job_posting), loading: "lazy" do %>
-        <p class="muted text-xs">Calculando o custo estimado…</p>
+        <p class="text-xs text-muted">Calculando o custo estimado…</p>
       <% end %>
     </div>
   <% else %>
-    <p class="card mb-4 p-4 text-sm">Para usar a IA, coloque a sua chave do OpenRouter em <%= link_to "Ajustes → Chaves e contas", settings_path(anchor: "chaves") %>.</p>
+    <p class="mt-4 text-sm">Para usar a IA, coloque a sua chave do OpenRouter em <%= link_to "Ajustes → Chaves e contas", settings_path(anchor: "chaves"), data: { turbo_frame: "_top" } %>.</p>
   <% end %>
 
-  <div class="grid gap-3">
-    <%= render partial: "ai_artifacts/ai_artifact", collection: ai_artifacts %>
-  </div>
+  <% if ai_artifacts.any? %>
+    <div class="mt-5 flex flex-col gap-3">
+      <%= render partial: "ai_artifacts/ai_artifact", collection: ai_artifacts %>
+    </div>
+  <% end %>
 </section>

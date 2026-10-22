@@ -3,12 +3,16 @@ class JobPostingsController < ApplicationController
 
   before_action :set_job_posting, only: %i[ show save apply dismiss restore dream undo ]
 
-  # Triage: new postings, with filters and ordering (JobPostingFilter).
+  # Triage: the postings with filters and ordering (JobPostingFilter) beside the detail of the
+  # selected one (?selected=, or the first of the list).
   def index
     @filter = JobPostingFilter.new(filter_params)
     @page = [ params[:page].to_i, 0 ].max
     @total = @filter.scope.count
-    @job_postings = @filter.ordered.limit(PER_PAGE).offset(@page * PER_PAGE)
+    @job_postings = @filter.ordered.limit(PER_PAGE).offset(@page * PER_PAGE).to_a
+    @selected = JobPosting.find_by(id: params[:selected]) || @job_postings.first
+    @ai_artifacts = @selected&.ai_artifacts&.latest_first
+    @triage_counts = triage_counts
     @source_runs = SourceRun.latest_per_source.where(source: JobPosting::SOURCES)
   end
 
@@ -111,6 +115,13 @@ class JobPostingsController < ApplicationController
       params.permit(*JobPostingFilter::KEYS).to_h
     end
 
+    # How many postings each option of "Triagem" has.
+    def triage_counts
+      counts = JobPosting.group(:triage).count
+      JobPosting::TRIAGES.index_with { counts.fetch(it, 0) }
+        .merge("auto" => JobPosting.triage_dismissed.where.not(auto_dismissed_reason: nil).count, "all" => counts.values.sum)
+    end
+
     # What "Desfazer" needs to put back: the triage and, for save and apply, the application.
     def undo_params(application: false)
       state = { "triage" => @job_posting.triage }
@@ -131,7 +142,11 @@ class JobPostingsController < ApplicationController
           flash.now[:notice] = notice
           flash.now[:undo] = undo
           render turbo_stream: [
+            turbo_stream.replace("posting_detail", partial: "job_postings/detail",
+                                                   locals: { job_posting: @job_posting, ai_artifacts: @job_posting.ai_artifacts.latest_first, standalone: params[:standalone].present? }),
             turbo_stream.replace(@job_posting, partial: "job_postings/job_posting", locals: { job_posting: @job_posting }),
+            *triage_counts.map { |triage, count| turbo_stream.update("triage_count_#{triage}", count.to_s) },
+            turbo_stream.update("nav_count", JobPosting.triage_new.count.nonzero?.to_s),
             turbo_stream.replace("flash", partial: "layouts/flash")
           ]
         end
