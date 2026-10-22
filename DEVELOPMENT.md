@@ -13,13 +13,12 @@ FactoryBot, WebMock e SimpleCov (o build falha abaixo de 90% de cobertura de lin
 Com Docker, o código fica montado no container e recarrega a cada mudança:
 
 ```bash
-cp .env.example .env                                  # opcional; COMPOSE_FILE já aponta para o dev
 docker compose -f docker-compose.dev.yml up -d --build
 docker compose -f docker-compose.dev.yml logs -f web
 docker compose -f docker-compose.dev.yml exec web bin/rails console
 ```
 
-Com `COMPOSE_FILE=docker-compose.dev.yml` no `.env`, basta `docker compose up -d`. Reconstrua a imagem
+Com a linha `COMPOSE_FILE=docker-compose.dev.yml` num `.env` na raiz do projeto, basta `docker compose up -d`. Reconstrua a imagem
 (`--build`) depois de mudar o Gemfile. No WSL, mantenha o projeto dentro do Linux (por exemplo em
 `~/WorkMachine`), não em `/mnt/c`.
 
