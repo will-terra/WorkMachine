@@ -9,6 +9,20 @@
   </p>
 <% end %>
 
+<%= render layout: "settings/row", locals: { id: "idioma", title: t(".language.title"), note: t(".language.note") } do %>
+  <%= form_with model: @setting, url: settings_path, method: :patch, data: { controller: "auto-submit", action: "change->auto-submit#submit" } do |form| %>
+    <fieldset>
+      <legend class="label"><%= t("settings.show.language.label") %></legend>
+      <div class="seg">
+        <% LocalePreference::CHOICES.each do |choice| %>
+          <label class="seg-opt" lang="<%= choice unless choice == "auto" %>"><%= form.radio_button :locale, choice %><%= t("settings.show.language.choices.#{choice}") %></label>
+        <% end %>
+      </div>
+    </fieldset>
+    <noscript><%= form.submit t("settings.show.language.save"), class: "btn btn-sm mt-3" %></noscript>
+  <% end %>
+<% end %>
+
 <%= render layout: "settings/row", locals: { id: "chaves", title: "Chaves e contas",
                                              note: "A IA usa o OpenRouter com a sua chave. O Gmail entra com uma senha de app, só para leitura: nada é marcado como lido, movido ou apagado. Uma variável no .env vale mais que o que estiver aqui." } do %>
   <%= render "settings/keys", setting: @setting %>

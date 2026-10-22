@@ -37,6 +37,8 @@ module WorkMachine
     config.time_zone = "Brasilia"
     config.i18n.default_locale = :"pt-BR"
     config.i18n.available_locales = [ :"pt-BR", :en ]
+    # Texts of the screens live in config/locales/<area>/<locale>.yml.
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/**/*.yml")]
 
     # Don't generate system test files.
     config.generators.system_tests = nil

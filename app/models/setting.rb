@@ -10,6 +10,7 @@ class Setting < ApplicationRecord
   normalizes :openrouter_api_key, :gmail_user, :api_token, :openrouter_model, with: ->(value) { value.strip.presence }
   normalizes :gmail_app_password, with: ->(value) { value.delete(" ").presence }
 
+  validates :locale, inclusion: { in: LocalePreference::CHOICES }
   validates :notify_min_score, numericality: { only_integer: true, in: 0..100 }
   validates :auto_dismiss_below_score, numericality: { only_integer: true, in: 1..100 }, allow_nil: true
 

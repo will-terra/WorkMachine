@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_22_180000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_120000) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -289,6 +289,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_22_180000) do
     t.datetime "onboarded_at"
     t.string "ai_plan", default: "free", null: false
     t.datetime "routines_seeded_at"
+    t.string "locale", default: "auto", null: false
+    t.string "detected_locale"
   end
 
   create_table "source_runs", force: :cascade do |t|

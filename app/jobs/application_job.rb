@@ -1,6 +1,8 @@
 class ApplicationJob < ActiveJob::Base
   # "Today" and the times of the jobs follow the time zone of the profile.
   around_perform { |_job, block| Time.use_zone(Profile.current.time_zone, &block) }
+  # Notifications and messages in the language of the interface (LocalePreference).
+  around_perform { |_job, block| I18n.with_locale(LocalePreference.for_background, &block) }
 
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked

@@ -1,0 +1,12 @@
+pt-BR:
+  settings:
+    show:
+      language:
+        title: Idioma
+        note: Automático segue o idioma do navegador (que no Chrome é o do computador). Português para qualquer português; inglês para os outros.
+        label: Idioma da interface
+        save: Salvar
+        choices:
+          auto: Automático
+          pt-BR: Português
+          en: English

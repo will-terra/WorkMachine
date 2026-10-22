@@ -1,0 +1,12 @@
+en:
+  settings:
+    show:
+      language:
+        title: Language
+        note: Automatic follows the browser's language (in Chrome, the computer's). Portuguese for any Portuguese; English for everything else.
+        label: Interface language
+        save: Save
+        choices:
+          auto: Automatic
+          pt-BR: Português
+          en: English

@@ -17,6 +17,20 @@ RSpec.describe "Settings and push subscriptions" do
     expect(response).to have_http_status(:unprocessable_content)
   end
 
+  it "follows the browser's language and the choice in Ajustes" do
+    get settings_path, headers: { "Accept-Language" => "en-US,en;q=0.9" }
+    expect(response.body).to include('<html lang="en">', "Interface language")
+
+    patch settings_path, params: { setting: { locale: "pt-BR" } }
+    expect(Setting.current.locale).to eq("pt-BR")
+
+    get settings_path, headers: { "Accept-Language" => "en-US" }
+    expect(response.body).to include('<html lang="pt-BR">', "Idioma da interface")
+
+    patch settings_path, params: { setting: { locale: "klingon" } }
+    expect(response).to have_http_status(:unprocessable_content)
+  end
+
   it "shows the version and offers the update when there is one" do
     stub_request(:get, AppVersion::RELEASES_URL).to_return(body: { tag_name: "v99.0.0" }.to_json)
 
