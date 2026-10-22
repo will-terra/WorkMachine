@@ -5,7 +5,7 @@
     <span class="chip <%= chip %>"><%= application_email.human_enum(:category) %></span>
     <% if local_assigns[:show_company] %><%= link_to application_email.job_application.company, edit_job_application_path(application_email.job_application), class: "text-[14.5px] font-semibold" %><% end %>
     <span class="font-mono text-[11.5px] text-muted [&_strong]:font-semibold [&_strong]:text-ink">
-      <%= application_email.received_at ? l(application_email.received_at, format: "%d/%m %H:%M") : "—" %>
+      <%= application_email.received_at ? l(application_email.received_at, format: :day_month_hour) : "—" %>
       <% if application_email.status_changed? %>
         · <%= JobApplication.human_enum(:status, application_email.status_before) %> → <strong><%= JobApplication.human_enum(:status, application_email.status_after) %></strong>
       <% end %>

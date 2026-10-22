@@ -2,24 +2,24 @@
   <%= form_with url: job_applications_path, method: :get, class: "flex flex-wrap items-end gap-x-4 gap-y-3", data: { controller: "auto-submit", turbo_action: "replace" } do |form| %>
     <%= form.hidden_field :view, value: "table" %>
     <div class="w-64">
-      <%= form.label :q, "Buscar", class: "label" %>
-      <%= form.search_field :q, value: params[:q], placeholder: "empresa, vaga ou contato…", class: "input" %>
+      <%= form.label :q, t(".search"), class: "label" %>
+      <%= form.search_field :q, value: params[:q], placeholder: t(".search_placeholder"), class: "input" %>
     </div>
     <div class="w-52">
-      <%= form.label :status, "Status", class: "label" %>
-      <%= form.select :status, JobApplication.enum_options(:status), { include_blank: "Todos", selected: params[:status] }, class: "input", data: { action: "auto-submit#submit" } %>
+      <%= form.label :status, t(".status"), class: "label" %>
+      <%= form.select :status, JobApplication.enum_options(:status), { include_blank: t(".all"), selected: params[:status] }, class: "input", data: { action: "auto-submit#submit" } %>
     </div>
-    <noscript><%= form.submit "Filtrar", class: "btn" %></noscript>
+    <noscript><%= form.submit t(".filter"), class: "btn" %></noscript>
   <% end %>
 
   <div class="flex flex-wrap items-end gap-2.5">
-    <%= link_to "Exportar CSV", job_applications_path(format: :csv, status: params[:status], q: params[:q]), class: "btn btn-sm", data: { turbo: false } %>
+    <%= link_to t(".export_csv"), job_applications_path(format: :csv, status: params[:status], q: params[:q]), class: "btn btn-sm", data: { turbo: false } %>
     <%= form_with url: import_job_applications_path, multipart: true, class: "flex flex-wrap items-end gap-2.5" do |form| %>
       <div>
-        <%= form.label :file, "Importar CSV", class: "label" %>
+        <%= form.label :file, t(".import_csv"), class: "label" %>
         <%= form.file_field :file, accept: ".csv,text/csv", class: "input-file w-60" %>
       </div>
-      <%= form.submit "Importar", class: "btn btn-sm" %>
+      <%= form.submit t(".import"), class: "btn btn-sm" %>
     <% end %>
   </div>
 </div>
@@ -27,7 +27,7 @@
 <div class="overflow-x-auto">
   <table class="table min-w-[760px]">
     <thead>
-      <tr><th>Empresa</th><th>Vaga</th><th>Status</th><th>Origem</th><th>Aplicou em</th><th>Próximo follow-up</th><th><span class="sr-only">Ações</span></th></tr>
+      <tr><th><%= t(".company") %></th><th><%= t(".role") %></th><th><%= t(".status") %></th><th><%= t(".origin") %></th><th><%= t(".applied_on") %></th><th><%= t(".next_follow_up") %></th><th><span class="sr-only"><%= t(".actions") %></span></th></tr>
     </thead>
     <tbody>
       <% @job_applications.in_order_of(:status, JobApplication::STATUSES).latest_first.each do |application| %>
@@ -38,20 +38,20 @@
             <%= form_with model: application, data: { controller: "auto-submit" } do |form| %>
               <%= hidden_field_tag :return_to, request.fullpath, id: nil %>
               <%= form.select :status, JobApplication.enum_options(:status), {}, class: "input min-h-[30px] w-auto px-2 py-[3px] text-[13px]",
-                              id: dom_id(application, :status), aria: { label: "Status" }, data: { action: "auto-submit#submit" } %>
-              <noscript><%= form.submit "Mudar", class: "btn btn-sm mt-1" %></noscript>
+                              id: dom_id(application, :status), aria: { label: t(".status") }, data: { action: "auto-submit#submit" } %>
+              <noscript><%= form.submit t(".change"), class: "btn btn-sm mt-1" %></noscript>
             <% end %>
           </td>
           <td><%= application.origin %></td>
           <td class="whitespace-nowrap tabular-nums"><%= short_date(application.applied_on) %></td>
           <td class="whitespace-nowrap tabular-nums <%= "text-warn-strong" if application.next_follow_up_on&.<=(Date.current) %>"><%= short_date(application.next_follow_up_on) %></td>
-          <td class="text-right whitespace-nowrap"><%= link_to "Editar", edit_job_application_path(application, return_view: "table"), class: "btn btn-ghost btn-sm" %></td>
+          <td class="text-right whitespace-nowrap"><%= link_to t(".edit"), edit_job_application_path(application, return_view: "table"), class: "btn btn-ghost btn-sm" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 <% if @job_applications.none? %>
-  <p class="py-8 text-[15px] text-muted">Nenhuma candidatura por aqui ainda.</p>
+  <p class="py-8 text-[15px] text-muted"><%= t(".empty") %></p>
 <% end %>
-<p class="mt-3 text-xs text-muted">O CSV usa as colunas: <%= JobApplicationCsv::COLUMNS.keys.join(", ") %>. Status aceita o nome em português; datas em 20/10/2026 ou 2026-10-20.</p>
+<p class="mt-3 text-xs text-muted"><%= t(".csv_note", columns: JobApplicationCsv::COLUMNS.keys.join(", ")) %></p>

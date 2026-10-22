@@ -9,6 +9,7 @@
     <meta name="theme-color" content="#121010">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="i18n" content="<%= t("js").to_json %>">
 
     <%= yield :head %>
 
@@ -31,14 +32,14 @@
         <% end %>
         <% if authenticated? %>
           <div class="flex items-center gap-5 text-sm">
-            <%= nav_link "Perfil", profile_path, class: "text-sm" %>
-            <%= nav_link "Ajustes", settings_path, class: "text-sm" %>
-            <%= button_to "Sair", session_path, method: :delete, class: "btn btn-ghost px-1.5 py-1 text-sm", form: { data: { turbo_confirm: "Sair do WorkMachine?" } } %>
+            <%= nav_link t("layouts.nav.profile"), profile_path, class: "text-sm" %>
+            <%= nav_link t("layouts.nav.settings"), settings_path, class: "text-sm" %>
+            <%= button_to t("layouts.sign_out"), session_path, method: :delete, class: "btn btn-ghost px-1.5 py-1 text-sm", form: { data: { turbo_confirm: t("layouts.sign_out_confirm") } } %>
           </div>
         <% end %>
       </div>
       <% if authenticated? %>
-        <nav class="flex flex-wrap gap-x-[22px] gap-y-1.5 pt-4" aria-label="Seções">
+        <nav class="flex flex-wrap gap-x-[22px] gap-y-1.5 pt-4" aria-label="<%= t("layouts.sections") %>">
           <% nav_items.each do |label, path, count| %>
             <%= nav_link label, path, count: %>
           <% end %>
@@ -51,10 +52,10 @@
     </main>
 
     <footer class="mx-auto flex max-w-[1280px] flex-wrap items-center gap-x-4 gap-y-2 px-[clamp(20px,4vw,56px)] pb-10 font-mono text-xs text-muted">
-      <span class="flex items-center gap-2 text-ink"><%= image_tag "ruby.png", alt: "", width: 16, height: 16, class: "block" %>Feito com Ruby on Rails</span>
+      <span class="flex items-center gap-2 text-ink"><%= image_tag "ruby.png", alt: "", width: 16, height: 16, class: "block" %><%= t("layouts.footer.made_with") %></span>
       <span>WorkMachine <%= AppVersion.current %></span>
-      <span>código aberto sob a <%= link_to "AGPL-3.0", "https://github.com/will-terra/WorkMachine/blob/main/LICENSE", class: "text-inherit hover:text-ink" %></span>
-      <%= link_to "código-fonte", "https://github.com/will-terra/WorkMachine", class: "text-inherit hover:text-ink" %>
+      <span><%= t("layouts.footer.license") %> <%= link_to "AGPL-3.0", "https://github.com/will-terra/WorkMachine/blob/main/LICENSE", class: "text-inherit hover:text-ink" %></span>
+      <%= link_to t("layouts.footer.source"), "https://github.com/will-terra/WorkMachine", class: "text-inherit hover:text-ink" %>
     </footer>
 
     <%= render "layouts/flash" %>

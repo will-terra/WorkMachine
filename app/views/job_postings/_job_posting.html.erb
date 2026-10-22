@@ -1,15 +1,15 @@
 <%# An item of the Vagas list. Locals: selected (the posting shown in the detail). %>
 <% tags = [
      (tag.span(job_posting.human_enum(:triage), class: "chip chip-outline") unless job_posting.triage_new?),
-     (tag.span("descartada automaticamente: #{job_posting.auto_dismissed_reason}", class: "chip chip-warn", title: "Descartada na chegada (Ajustes → Descarte automático)") if job_posting.auto_dismissed_reason),
-     (tag.span("nota parcial", class: "chip chip-warn", title: "Sem descrição: a nota usa só o título e o local. Salve pela extensão na página da vaga para completar, ou use Analisar com IA.") if job_posting.partial_score?),
+     (tag.span(t("job_postings.posting.auto_dismissed", reason: JobScorer.human_term(job_posting.auto_dismissed_reason)), class: "chip chip-warn", title: t("job_postings.posting.auto_dismissed_title")) if job_posting.auto_dismissed_reason),
+     (tag.span(t("job_postings.posting.partial"), class: "chip chip-warn", title: t("job_postings.posting.partial_title")) if job_posting.partial_score?),
      posting_terms(job_posting, limit: 3).presence
    ].compact %>
 <%= link_to job_posting_path(job_posting), id: dom_id(job_posting), role: "option",
       aria: { selected: local_assigns[:selected] == job_posting },
       class: "-mx-3.5 grid grid-cols-[48px_minmax(0,1fr)] items-baseline gap-3.5 rounded-md px-3.5 pt-3.5 pb-[15px] text-ink no-underline hover:bg-ink/4 hover:text-ink aria-selected:bg-surface",
       data: { triage_target: "item", action: "triage#pick", id: job_posting.id, triage: job_posting.triage, auto: job_posting.auto_dismissed_reason.present?, turbo_frame: "_top" } do %>
-  <span class="font-display text-[26px] leading-none font-semibold tabular-nums <%= score_class(job_posting.score) %>" title="Nota de 0 a 100"><%= job_posting.score %></span>
+  <span class="font-display text-[26px] leading-none font-semibold tabular-nums <%= score_class(job_posting.score) %>" title="<%= t("job_postings.posting.score_title") %>"><%= job_posting.score %></span>
   <span class="block min-w-0">
     <span class="block text-base leading-[1.3] font-semibold"><%= job_posting.title %></span>
     <span class="mt-[3px] block text-[13.5px] leading-[1.45] text-ink/70"><%= posting_meta(job_posting) %></span>

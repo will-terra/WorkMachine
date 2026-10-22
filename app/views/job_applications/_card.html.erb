@@ -6,7 +6,7 @@
     data-action="mouseenter->hovercard#show mouseleave->hovercard#hide focusin->hovercard#show focusout->hovercard#hide keydown.esc->hovercard#close">
   <p class="flex items-center gap-1.5 font-display text-[15px] leading-[1.25] font-semibold">
     <span class="truncate"><%= job_application.company %></span>
-    <% if follow_up_due %><span class="size-1.5 flex-none rounded-full bg-warn" title="Follow-up para hoje"></span><% end %>
+    <% if follow_up_due %><span class="size-1.5 flex-none rounded-full bg-warn" title="<%= t(".follow_up_due") %>"></span><% end %>
   </p>
 
   <div popover="manual" class="card m-0 w-[300px] gap-1.5 border border-line text-ink shadow-lg" data-hovercard-target="panel">
@@ -15,14 +15,14 @@
 
     <div class="mt-1 flex flex-wrap gap-1 empty:hidden"><%= safe_join([
       (tag.span(job_application.origin, class: "chip") if job_application.origin.present?),
-      (tag.span("↗ #{l(job_application.applied_on, format: "%d/%m")}", class: "chip", title: "Aplicou em") if job_application.applied_on),
-      (tag.span("follow-up #{l(job_application.next_follow_up_on, format: "%d/%m")}", class: [ "chip", ("chip-warn" if follow_up_due) ], title: "Próximo follow-up") if job_application.next_follow_up_on)
+      (tag.span("↗ #{l(job_application.applied_on, format: :day_month)}", class: "chip", title: t(".applied_on")) if job_application.applied_on),
+      (tag.span(t(".follow_up", date: l(job_application.next_follow_up_on, format: :day_month)), class: [ "chip", ("chip-warn" if follow_up_due) ], title: t(".next_follow_up")) if job_application.next_follow_up_on)
     ].compact) %></div>
 
     <div class="mt-1 flex gap-3.5 text-[13px]">
-      <%= link_to "Editar", edit_job_application_path(job_application) %>
-      <%= link_to "Mensagem", message_templates_path(job_application_id: job_application.id) %>
-      <%= external_link "Abrir vaga", job_application.url if job_application.url.present? %>
+      <%= link_to t(".edit"), edit_job_application_path(job_application) %>
+      <%= link_to t(".message"), message_templates_path(job_application_id: job_application.id) %>
+      <%= external_link t(".open"), job_application.url if job_application.url.present? %>
     </div>
   </div>
 </li>

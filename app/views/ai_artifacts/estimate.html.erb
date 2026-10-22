@@ -1,11 +1,9 @@
 <%= turbo_frame_tag "ai_estimate" do %>
   <% if Ai::Client.free? %>
-    <p class="text-xs text-muted">Grátis com o modelo gratuito (tem limite de pedidos por dia). Para trocar, veja Ajustes → Chaves e contas.</p>
+    <p class="text-xs text-muted"><%= t(".free") %></p>
   <% elsif @estimates %>
     <p class="text-xs text-muted">
-      Custo estimado por clique:
-      <%= @estimates.map { |kind, cost| "#{AiArtifact.human_enum(:kind, kind).downcase} ≈ US$ #{number_with_precision(cost, precision: 3)}" }.join(" · ") %>.
-      Chamadas feitas em até 5 minutos reaproveitam o cache do perfil e saem mais baratas.
+      <%= t(".estimate", costs: @estimates.map { |kind, cost| "#{AiArtifact.human_enum(:kind, kind).downcase} ≈ US$ #{number_with_precision(cost, precision: 3)}" }.join(" · ")) %>
     </p>
   <% end %>
 <% end %>

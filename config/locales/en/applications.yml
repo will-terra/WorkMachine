@@ -1,0 +1,77 @@
+en:
+  job_applications:
+    index:
+      eyebrow: the spreadsheet
+      title: Applications
+      intro_board: Drag the cards between the columns to change the status. The order inside a column is saved too.
+      intro_table: All applications, by status and from the newest to the oldest. Change the status right on the row.
+      view: View
+      board: Kanban
+      table: Table
+      check_replies: Check replies
+      export_xlsx: Export .xlsx
+      new: New application
+      date_format: mm/dd/yyyy
+      sheet: Applications
+      summary: Summary
+      count: Count
+      total: Total
+      columns:
+        company: Company
+        role: Role
+        origin: Origin
+        status: Status
+        applied_on: Applied on
+        next_follow_up: Next follow-up
+        contact: Contact
+        link: Link
+        salary: Salary range
+        notes: Notes
+    board:
+      add: + Add
+    card:
+      follow_up_due: Follow-up due today
+      applied_on: Applied on
+      follow_up: follow-up %{date}
+      next_follow_up: Next follow-up
+      edit: Edit
+      message: Message
+      open: Open job
+    table:
+      search: Search
+      search_placeholder: company, role or contact…
+      status: Status
+      all: All
+      filter: Filter
+      export_csv: Export CSV
+      import_csv: Import CSV
+      import: Import
+      company: Company
+      role: Role
+      origin: Origin
+      applied_on: Applied on
+      next_follow_up: Next follow-up
+      actions: Actions
+      change: Change
+      edit: Edit
+      empty: No applications here yet.
+      csv_note: "The CSV uses the columns: %{columns}. Status takes the name in either language; dates as 10/20/2026 or 2026-10-20."
+    form:
+      origin_placeholder: LinkedIn, referral, Greenhouse…
+      salary_placeholder: USD 3–4k or BRL 9–12k
+      save: Save
+      cancel: Cancel
+    edit:
+      eyebrow: applications
+      delete: Delete
+      delete_confirm: Delete this application?
+      from_posting_html: Came from the job %{link}.
+      emails: Company e-mails
+      no_emails: No e-mails from this company yet. WorkMachine reads Gmail every hour.
+      no_emails_no_gmail: No e-mails from this company yet. WorkMachine reads Gmail every hour (Gmail not set up in Settings).
+      first_reply: First reply on %{date}.
+      first_reply_after:
+        one: First reply on %{date}, 1 day after applying.
+        other: First reply on %{date}, %{count} days after applying.
+    new:
+      title: New application

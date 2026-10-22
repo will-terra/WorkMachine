@@ -52,14 +52,14 @@ class JobApplicationCsv
       next if row.fields.all?(&:blank?)
 
       application = JobApplication.new(attributes_for(row))
-      application.save ? created += 1 : errors << "Linha #{line}: #{application.errors.full_messages.to_sentence}"
+      application.save ? created += 1 : errors << I18n.t("job_application_csv.line", line:, message: application.errors.full_messages.to_sentence)
     rescue ArgumentError => e
-      errors << "Linha #{line}: #{e.message}"
+      errors << I18n.t("job_application_csv.line", line:, message: e.message)
     end
 
     Result.new(created:, errors:)
   rescue CSV::MalformedCSVError => e
-    Result.new(created: 0, errors: [ "Arquivo CSV inválido: #{e.message}" ])
+    Result.new(created: 0, errors: [ I18n.t("job_application_csv.invalid", message: e.message) ])
   end
 
   private
@@ -94,8 +94,9 @@ class JobApplicationCsv
 
       wanted = I18n.transliterate(value).downcase
       JobApplication::STATUSES.find do |status|
-        status == wanted || I18n.transliterate(JobApplication.human_enum(:status, status)).downcase == wanted
-      end or raise ArgumentError, "status desconhecido “#{value}”"
+        names = I18n.available_locales.map { |locale| I18n.with_locale(locale) { JobApplication.human_enum(:status, status) } }
+        status == wanted || names.any? { I18n.transliterate(it).downcase == wanted }
+      end or raise ArgumentError, I18n.t("job_application_csv.unknown_status", value:)
     end
 
     def parse_date(value)
@@ -103,6 +104,6 @@ class JobApplicationCsv
 
       value.include?("/") ? Date.strptime(value, "%d/%m/%Y") : Date.iso8601(value)
     rescue Date::Error
-      raise ArgumentError, "data inválida “#{value}”"
+      raise ArgumentError, I18n.t("job_application_csv.invalid_date", value:)
     end
 end

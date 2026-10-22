@@ -1,24 +1,24 @@
 <section id="ia" class="mt-12 scroll-mt-6 border-t border-line pt-7" aria-labelledby="ai_title">
   <div class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-1">
-    <h2 id="ai_title">IA</h2>
-    <span class="font-mono text-xs text-muted"><%= Ai::Client.model %><%= " · gratuito" if Ai::Client.free? %> · via OpenRouter</span>
+    <h2 id="ai_title"><%= t(".title") %></h2>
+    <span class="font-mono text-xs text-muted"><%= Ai::Client.model %><%= " · #{t(".free")}" if Ai::Client.free? %> · via OpenRouter</span>
   </div>
-  <p class="mt-1 text-[13.5px] text-muted">Só roda quando você clica. Usa o seu perfil e não inventa experiência.</p>
+  <p class="mt-1 text-[13.5px] text-muted"><%= t(".note") %></p>
 
   <% if Ai::Client.configured? %>
     <div class="mt-4 flex flex-wrap gap-2">
-      <%= button_to "Analisar fit", job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-sm" %>
-      <%= button_to "Resumo de CV adaptado", job_posting_ai_artifacts_path(job_posting, kind: "cv_summary"), class: "btn btn-sm" %>
-      <%= button_to "Mensagem (PT)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "pt"), class: "btn btn-sm" %>
-      <%= button_to "Message (EN)", job_posting_ai_artifacts_path(job_posting, kind: "message", language: "en"), class: "btn btn-sm" %>
+      <%= button_to t(".fit"), job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-sm" %>
+      <%= button_to t(".cv_summary"), job_posting_ai_artifacts_path(job_posting, kind: "cv_summary"), class: "btn btn-sm" %>
+      <%= button_to t(".message_pt"), job_posting_ai_artifacts_path(job_posting, kind: "message", language: "pt"), class: "btn btn-sm" %>
+      <%= button_to t(".message_en"), job_posting_ai_artifacts_path(job_posting, kind: "message", language: "en"), class: "btn btn-sm" %>
     </div>
     <div class="mt-2.5">
       <%= turbo_frame_tag "ai_estimate", src: estimate_job_posting_ai_artifacts_path(job_posting), loading: "lazy" do %>
-        <p class="text-xs text-muted">Calculando o custo estimado…</p>
+        <p class="text-xs text-muted"><%= t(".estimating") %></p>
       <% end %>
     </div>
   <% else %>
-    <p class="mt-4 text-sm">Para usar a IA, coloque a sua chave do OpenRouter em <%= link_to "Ajustes → Chaves e contas", settings_path(anchor: "chaves"), data: { turbo_frame: "_top" } %>.</p>
+    <p class="mt-4 text-sm"><%= t(".no_key_html", link: link_to(t(".no_key_link"), settings_path(anchor: "chaves"), data: { turbo_frame: "_top" })) %></p>
   <% end %>
 
   <% if ai_artifacts.any? %>

@@ -1,15 +1,14 @@
 <% turbo_refreshes_with method: :morph, scroll: :preserve %>
-<%= page_header eyebrow: "a planilha", title: "Candidaturas",
-                intro: @view == "board" ? "Arraste os cartões entre as colunas para mudar o status. A ordem dentro da coluna também fica salva." : "Todas as candidaturas, por status e da mais recente à mais antiga. Mude o status direto na linha." do %>
-  <nav class="seg" aria-label="Visualização">
-    <%= link_to "Kanban", job_applications_path(view: "board"), class: "seg-opt", aria: { current: (@view == "board") } %>
-    <%= link_to "Tabela", job_applications_path(view: "table"), class: "seg-opt", aria: { current: (@view == "table") } %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(@view == "board" ? ".intro_board" : ".intro_table") do %>
+  <nav class="seg" aria-label="<%= t(".view") %>">
+    <%= link_to t(".board"), job_applications_path(view: "board"), class: "seg-opt", aria: { current: (@view == "board") } %>
+    <%= link_to t(".table"), job_applications_path(view: "table"), class: "seg-opt", aria: { current: (@view == "table") } %>
   </nav>
   <% if GmailSession.configured? %>
-    <%= button_to "Verificar respostas", check_replies_job_applications_path(view: @view), class: "btn" %>
+    <%= button_to t(".check_replies"), check_replies_job_applications_path(view: @view), class: "btn" %>
   <% end %>
-  <%= link_to "Exportar .xlsx", job_applications_path(format: :xlsx, status: params[:status], q: params[:q]), class: "btn", data: { turbo: false } %>
-  <%= link_to "Nova candidatura", new_job_application_path, class: "btn btn-primary" %>
+  <%= link_to t(".export_xlsx"), job_applications_path(format: :xlsx, status: params[:status], q: params[:q]), class: "btn", data: { turbo: false } %>
+  <%= link_to t(".new"), new_job_application_path, class: "btn btn-primary" %>
 <% end %>
 
 <%= render @view == "board" ? "board" : "table" %>

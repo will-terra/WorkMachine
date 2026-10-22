@@ -1,0 +1,64 @@
+pt-BR:
+  date:
+    formats:
+      compact: "%d/%m/%y"
+      day_month: "%d/%m"
+      full: "%d/%m/%Y"
+      weekday: "%A, %-d de %B"
+  time:
+    formats:
+      hour: "%H:%M"
+      day_month_hour: "%d/%m %H:%M"
+      full: "%d/%m/%Y %H:%M"
+  layouts:
+    sections: Seções
+    sign_out: Sair
+    sign_out_confirm: Sair do WorkMachine?
+    nav:
+      dashboard: Painel
+      postings: Vagas
+      applications: Candidaturas
+      metrics: Métricas
+      radar: Radar
+      messages: Mensagens
+      routine: Rotina
+      contacts: Contatos
+      target_companies: Empresas-alvo
+      profile: Perfil
+      settings: Ajustes
+    footer:
+      made_with: Feito com Ruby on Rails
+      license: código aberto sob a
+      source: código-fonte
+    flash:
+      close: Fechar
+      undo: Desfazer
+  shared:
+    errors:
+      title: "Não deu para salvar:"
+  helpers:
+    time:
+      today: hoje
+      yesterday: ontem
+      never: nunca
+      days_ago:
+        one: há 1 dia
+        other: há %{count} dias
+  pwa:
+    description: "Busca de emprego: vagas com nota, candidaturas, mensagens e IA, no seu computador."
+  sessions:
+    new:
+      title: Entrar
+      heading: Entrar no WorkMachine
+      email: E-mail
+      password: Senha
+      submit: Entrar
+  setups:
+    new:
+      title: Primeiro acesso
+      heading: Crie sua conta
+      intro: O WorkMachine tem um único usuário. Depois de criada, esta tela fecha.
+      email: E-mail
+      password: Senha (mínimo 8 caracteres)
+      password_confirmation: Confirme a senha
+      submit: Criar conta

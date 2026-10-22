@@ -1,6 +1,6 @@
 <% if record.errors.any? %>
   <div class="rounded-lg bg-accent-soft px-3 py-2 text-sm text-accent" role="alert">
-    <p class="font-semibold">Não deu para salvar:</p>
+    <p class="font-semibold"><%= t("shared.errors.title") %></p>
     <ul class="mt-1 list-disc pl-5">
       <% record.errors.full_messages.each do |message| %>
         <li><%= message %></li>

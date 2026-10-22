@@ -1,0 +1,6 @@
+pt-BR:
+  job_application_csv:
+    line: "Linha %{line}: %{message}"
+    invalid: "Arquivo CSV inválido: %{message}"
+    invalid_date: data inválida “%{value}”
+    unknown_status: status desconhecido “%{value}”

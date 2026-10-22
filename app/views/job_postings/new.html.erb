@@ -1,4 +1,4 @@
-<%= page_header eyebrow: "Vagas", title: "Adicionar vaga", intro: "Para vagas vistas em grupos, e-mails ou sites sem fonte automática. A nota é calculada na hora." %>
+<%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") %>
 
 <%= form_with model: @job_posting, url: job_postings_path, class: "card grid gap-4 p-5 sm:grid-cols-2" do |form| %>
   <div class="sm:col-span-2"><%= render "shared/errors", record: @job_posting %></div>
@@ -16,7 +16,7 @@
   </div>
   <div>
     <%= form.label :location_text, class: "label" %>
-    <%= form.text_field :location_text, placeholder: "Remoto · Brasil", class: "input" %>
+    <%= form.text_field :location_text, placeholder: t(".location_placeholder"), class: "input" %>
   </div>
   <div>
     <%= form.label :salary_text, class: "label" %>
@@ -27,7 +27,7 @@
     <%= form.text_area :description, rows: 8, class: "input" %>
   </div>
   <div class="flex gap-2 sm:col-span-2">
-    <%= form.submit "Adicionar", class: "btn btn-primary" %>
-    <%= link_to "Cancelar", job_postings_path, class: "btn btn-ghost" %>
+    <%= form.submit t(".submit"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), job_postings_path, class: "btn btn-ghost" %>
   </div>
 <% end %>

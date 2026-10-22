@@ -1,0 +1,77 @@
+pt-BR:
+  job_applications:
+    index:
+      eyebrow: a planilha
+      title: Candidaturas
+      intro_board: Arraste os cartões entre as colunas para mudar o status. A ordem dentro da coluna também fica salva.
+      intro_table: Todas as candidaturas, por status e da mais recente à mais antiga. Mude o status direto na linha.
+      view: Visualização
+      board: Kanban
+      table: Tabela
+      check_replies: Verificar respostas
+      export_xlsx: Exportar .xlsx
+      new: Nova candidatura
+      date_format: dd/mm/yyyy
+      sheet: Candidaturas
+      summary: Resumo
+      count: Quantidade
+      total: Total
+      columns:
+        company: Empresa
+        role: Vaga
+        origin: Origem
+        status: Status
+        applied_on: Aplicou em
+        next_follow_up: Próximo follow-up
+        contact: Contato
+        link: Link
+        salary: Faixa salarial
+        notes: Notas
+    board:
+      add: + Adicionar
+    card:
+      follow_up_due: Follow-up para hoje
+      applied_on: Aplicou em
+      follow_up: follow-up %{date}
+      next_follow_up: Próximo follow-up
+      edit: Editar
+      message: Mensagem
+      open: Abrir vaga
+    table:
+      search: Buscar
+      search_placeholder: empresa, vaga ou contato…
+      status: Status
+      all: Todos
+      filter: Filtrar
+      export_csv: Exportar CSV
+      import_csv: Importar CSV
+      import: Importar
+      company: Empresa
+      role: Vaga
+      origin: Origem
+      applied_on: Aplicou em
+      next_follow_up: Próximo follow-up
+      actions: Ações
+      change: Mudar
+      edit: Editar
+      empty: Nenhuma candidatura por aqui ainda.
+      csv_note: "O CSV usa as colunas: %{columns}. Status aceita o nome em português; datas em 20/10/2026 ou 2026-10-20."
+    form:
+      origin_placeholder: LinkedIn, indicação, Gupy…
+      salary_placeholder: R$ 9–12 mil ou US$ 3–4k
+      save: Salvar
+      cancel: Cancelar
+    edit:
+      eyebrow: candidaturas
+      delete: Apagar
+      delete_confirm: Apagar esta candidatura?
+      from_posting_html: Veio da vaga %{link}.
+      emails: E-mails da empresa
+      no_emails: Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora.
+      no_emails_no_gmail: Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora (Gmail não configurado em Ajustes).
+      first_reply: Primeira resposta em %{date}.
+      first_reply_after:
+        one: Primeira resposta em %{date}, 1 dia depois de aplicar.
+        other: Primeira resposta em %{date}, %{count} dias depois de aplicar.
+    new:
+      title: Nova candidatura

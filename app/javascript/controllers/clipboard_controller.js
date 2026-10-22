@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { t } from "i18n"
 
 // Copies the source target's text and shows "Copiado" on the button for a moment. Falls back to
 // selecting the text when the Clipboard API is blocked.
@@ -9,14 +10,14 @@ export default class extends Controller {
     const text = this.sourceTarget.value ?? this.sourceTarget.textContent
     try {
       await navigator.clipboard.writeText(text.trim())
-      this.flash("Copiado")
+      this.flash(t("copy.copied"))
     } catch {
       const range = document.createRange()
       range.selectNodeContents(this.sourceTarget)
       const selection = window.getSelection()
       selection.removeAllRanges()
       selection.addRange(range)
-      this.flash("Selecionado: Ctrl+C")
+      this.flash(t("copy.selected"))
     }
   }
 

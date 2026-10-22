@@ -1,0 +1,39 @@
+pt-BR:
+  dashboard:
+    follow_up:
+      late: follow-up atrasado desde %{date}
+      today: follow-up hoje
+      waiting:
+        one: aplicou em %{date}, sem resposta há 1 dia
+        other: aplicou em %{date}, sem resposta há %{count} dias
+    fetch:
+      none: nenhuma busca ainda
+      next: busca %{last} → %{next}
+      last: busca %{last}
+    show:
+      title: Painel
+      onboarding:
+        chip: Primeiro uso
+        text: "Falta pouco para o WorkMachine buscar vagas para você: chave da IA, perfil e primeira busca."
+        continue: Continuar a configuração
+      routine_today: Rotina de hoje
+      see_rules: Ver regras
+      continue: Continuar
+      by_status: Candidaturas por status
+      in_progress:
+        one: 1 candidatura em andamento
+        other: "%{count} candidaturas em andamento"
+      new_postings: Vagas novas por nota
+      to_triage: "%{count} para triar →"
+      score_title: Nota de 0 a 100
+      best_score: melhor nota · via %{source} · %{ago}
+      save: Salvar
+      save_title: Salvar em Candidaturas
+      dismiss: Descartar
+      read: Ler a vaga
+      no_postings: Nenhuma vaga nova. O agregador roda a cada 3 horas.
+      follow_ups: Follow-ups do dia
+      follow_up: Follow-up
+      edit: Editar
+      no_follow_ups: Nada para cobrar hoje.
+      replies: Respostas das empresas

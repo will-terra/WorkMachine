@@ -1,0 +1,166 @@
+en:
+  job_scorer:
+    terms:
+      open_region: open region
+      us_only: US/Canada only
+      europe_only: Europe only
+      restricted: restricted location
+      management: management
+      mid: mid-level
+      senior: senior
+      staff: staff/principal
+      years: "%{count}+ years"
+      below: score below %{min}
+  job_postings:
+    meta:
+      via: via %{source}
+    ago:
+      just_now: just now
+      hours: "%{count} h ago"
+    posting:
+      score_title: Score from 0 to 100
+      auto_dismissed: "dismissed automatically: %{reason}"
+      auto_dismissed_title: Dismissed on arrival (Settings → Automatic dismissal)
+      partial: partial score
+      partial_title: "No description: the score uses only the title and the location. Save it with the extension on the job page to complete it, or use Analyze with AI."
+    index:
+      eyebrow: triage
+      title: Jobs
+      intro: Jobs from the aggregator, the LinkedIn alerts and the extension. Save the ones worth it and dismiss the rest.
+      fetch: Search now
+      add: Add job
+      filter:
+        triage: Triage
+        triages:
+          new: New
+          saved: Saved
+          dismissed: Dismissed
+          auto: Auto-dismissed
+          all: All
+        sort: Sort by
+        sorts:
+          score: Score
+          recent: Newest
+        order:
+          score: best scored first
+          recent: newest first
+        min_score: Minimum score
+        any: Any
+        all: All
+        region: Region
+        open_to_brazil: Open to Brazil
+        seniority: Seniority
+        search: Search
+        search_placeholder: title, company…
+        more: More filters
+        posted: Posted
+        any_date: Any date
+        periods:
+          p1: Last 24 h
+          p3: Last 3 days
+          p7: Last 7 days
+          p30: Last 30 days
+        keyword: Technology
+        source: Source
+        with_salary: With salary
+        submit: Filter
+      summary:
+        one: 1 job · %{sort}
+        other: "%{count} jobs · %{sort}"
+      clear: Clear filters
+      dismiss_list:
+        one: Dismiss the only one in this list
+        other: Dismiss the %{count} in this list
+      dismiss_all:
+        one: Dismiss all (1)
+        other: Dismiss all (%{count})
+      dismiss_list_confirm:
+        one: Dismiss 1 job in this list? It leaves the triage but stays in Triage → Dismissed.
+        other: Dismiss %{count} jobs in this list? They leave the triage but stay in Triage → Dismissed.
+      dismiss_all_confirm:
+        one: Dismiss 1 job? It leaves the triage but stays in Triage → Dismissed.
+        other: Dismiss %{count} jobs? They leave the triage but stay in Triage → Dismissed.
+      shortcuts: ↑ ↓ move · S save · A save as applied · D dismiss
+      empty: No jobs with these filters.
+      pages: Pages
+      previous: ← Previous
+      next: Next →
+      page: Page %{page} of %{total}
+      sources:
+        title: Aggregator sources
+        note: Runs on its own every 3 hours. Remotive is queried at most 4 times a day, as its API terms ask; jobs keep the link and the credit of each source.
+        source: Source
+        last_run: Last search
+        status: Status
+        found: Found
+        new: New
+        warning: Warning
+        none: No search has run yet.
+    detail:
+      selected: Selected job
+      automatically: "automatically: %{reason}"
+      save: Save
+      save_title: Save to Applications
+      apply: Save as applied
+      dismiss: Dismiss
+      restore: Back to triage
+      analyze: Analyze with AI
+      dream: Dream job
+      dream_remove: Remove from dream jobs
+      dream_add: Use as a reference of what you look for (up to %{max})
+      message: Message
+      open: Open job ↗
+      breakdown: Score breakdown
+      facts:
+        company: Company
+        location: Location
+        region: Region
+        seniority: Seniority
+        salary: Salary
+        posted: Posted
+        source: Source
+        application: Application
+      no_description: "This job arrived without a description (LinkedIn alert e-mails do not bring the text), so the score uses only the title and the location. To complete it: open the job and save it with the extension, which brings the description and recalculates the score. Or use Analyze with AI as a second opinion."
+    ai:
+      title: AI
+      free: free
+      note: Runs only when you click. It uses your profile and never makes up experience.
+      fit: Analyze fit
+      cv_summary: Tailored CV summary
+      message_pt: Mensagem (PT)
+      message_en: Message (EN)
+      estimating: Estimating the cost…
+      no_key_html: To use the AI, add your OpenRouter key in %{link}.
+      no_key_link: Settings → Keys and accounts
+    new:
+      eyebrow: Jobs
+      title: Add job
+      intro: For jobs seen in groups, e-mails or sites without an automatic source. The score is calculated right away.
+      location_placeholder: Remote · Brazil
+      submit: Add
+      cancel: Cancel
+  ai_artifacts:
+    ai_artifact:
+      pending: Generating…
+      copy: Copy
+      delete: Delete
+      delete_confirm: Delete this result?
+    estimate:
+      free: Free with the free model (it has a daily request limit). To change it, see Settings → Keys and accounts.
+      estimate: "Estimated cost per click: %{costs}. Calls within 5 minutes reuse the profile cache and cost less."
+  js:
+    copy:
+      copied: Copied
+      selected: "Selected: Ctrl+C"
+    message:
+      edit: Edit template
+      close_edit: Close editing
+      copy: Copy message
+    push:
+      unsupported: This browser does not support notifications.
+      failed: "Could not turn them on: %{error}"
+      test_sent: Test notification sent. It should show up in a few seconds.
+      test_failed: No browser received the test. Turn notifications off and on again.
+      enabled: Notifications are on in this browser.
+      disabled: Notifications are off in this browser.
+      blocked: "Notifications are blocked. Allow them in: lock icon in the address bar → Notifications → Allow, and reload the page."

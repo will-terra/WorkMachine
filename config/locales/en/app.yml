@@ -1,0 +1,64 @@
+en:
+  date:
+    formats:
+      compact: "%m/%d/%y"
+      day_month: "%b %-d"
+      full: "%m/%d/%Y"
+      weekday: "%A, %B %-d"
+  time:
+    formats:
+      hour: "%H:%M"
+      day_month_hour: "%b %-d %H:%M"
+      full: "%m/%d/%Y %H:%M"
+  layouts:
+    sections: Sections
+    sign_out: Sign out
+    sign_out_confirm: Sign out of WorkMachine?
+    nav:
+      dashboard: Dashboard
+      postings: Jobs
+      applications: Applications
+      metrics: Metrics
+      radar: Radar
+      messages: Messages
+      routine: Routine
+      contacts: Contacts
+      target_companies: Target companies
+      profile: Profile
+      settings: Settings
+    footer:
+      made_with: Made with Ruby on Rails
+      license: open source under the
+      source: source code
+    flash:
+      close: Close
+      undo: Undo
+  shared:
+    errors:
+      title: "Could not save:"
+  helpers:
+    time:
+      today: today
+      yesterday: yesterday
+      never: never
+      days_ago:
+        one: 1 day ago
+        other: "%{count} days ago"
+  pwa:
+    description: "Job search: scored postings, applications, messages and AI, on your own computer."
+  sessions:
+    new:
+      title: Sign in
+      heading: Sign in to WorkMachine
+      email: Email
+      password: Password
+      submit: Sign in
+  setups:
+    new:
+      title: First access
+      heading: Create your account
+      intro: WorkMachine has a single user. Once it is created, this screen closes.
+      email: Email
+      password: Password (at least 8 characters)
+      password_confirmation: Confirm the password
+      submit: Create account

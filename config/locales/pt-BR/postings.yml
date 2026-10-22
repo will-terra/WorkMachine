@@ -1,0 +1,166 @@
+pt-BR:
+  job_scorer:
+    terms:
+      open_region: região aberta
+      us_only: só EUA/Canadá
+      europe_only: só Europa
+      restricted: local restrito
+      management: gestão
+      mid: pleno
+      senior: sênior
+      staff: staff/principal
+      years: "%{count}+ anos"
+      below: nota abaixo de %{min}
+  job_postings:
+    meta:
+      via: via %{source}
+    ago:
+      just_now: agora há pouco
+      hours: há %{count} h
+    posting:
+      score_title: Nota de 0 a 100
+      auto_dismissed: "descartada automaticamente: %{reason}"
+      auto_dismissed_title: Descartada na chegada (Ajustes → Descarte automático)
+      partial: nota parcial
+      partial_title: "Sem descrição: a nota usa só o título e o local. Salve pela extensão na página da vaga para completar, ou use Analisar com IA."
+    index:
+      eyebrow: triagem
+      title: Vagas
+      intro: Vagas do agregador, dos alertas do LinkedIn e da extensão. Salve as que valem a pena e descarte o resto.
+      fetch: Buscar agora
+      add: Adicionar vaga
+      filter:
+        triage: Triagem
+        triages:
+          new: Novas
+          saved: Salvas
+          dismissed: Descartadas
+          auto: Auto-descartadas
+          all: Todas
+        sort: Ordenar por
+        sorts:
+          score: Nota
+          recent: Mais novas
+        order:
+          score: mais bem classificadas primeiro
+          recent: mais novas primeiro
+        min_score: Nota mínima
+        any: Qualquer
+        all: Todas
+        region: Região
+        open_to_brazil: Abertas ao Brasil
+        seniority: Senioridade
+        search: Buscar
+        search_placeholder: título, empresa…
+        more: Mais filtros
+        posted: Publicadas
+        any_date: Qualquer data
+        periods:
+          p1: Últimas 24 h
+          p3: Últimos 3 dias
+          p7: Últimos 7 dias
+          p30: Últimos 30 dias
+        keyword: Tecnologia
+        source: Fonte
+        with_salary: Com salário
+        submit: Filtrar
+      summary:
+        one: 1 vaga · %{sort}
+        other: "%{count} vagas · %{sort}"
+      clear: Limpar filtros
+      dismiss_list:
+        one: Descartar a única desta lista
+        other: Descartar as %{count} desta lista
+      dismiss_all:
+        one: Descartar todas (1)
+        other: Descartar todas (%{count})
+      dismiss_list_confirm:
+        one: Descartar 1 vaga desta lista? Ela sai da triagem, mas continua em Triagem → Descartadas.
+        other: Descartar %{count} vagas desta lista? Elas saem da triagem, mas continuam em Triagem → Descartadas.
+      dismiss_all_confirm:
+        one: Descartar 1 vaga? Ela sai da triagem, mas continua em Triagem → Descartadas.
+        other: Descartar %{count} vagas? Elas saem da triagem, mas continuam em Triagem → Descartadas.
+      shortcuts: ↑ ↓ navegar · S salvar · A salvar em aplicadas · D descartar
+      empty: Nenhuma vaga com esses filtros.
+      pages: Páginas
+      previous: ← Anteriores
+      next: Próximas →
+      page: Página %{page} de %{total}
+      sources:
+        title: Fontes do agregador
+        note: Roda sozinho a cada 3 horas. Remotive é consultado no máximo 4 vezes por dia, como pedem os termos da API; as vagas levam o link e o crédito de cada fonte.
+        source: Fonte
+        last_run: Última busca
+        status: Situação
+        found: Encontradas
+        new: Novas
+        warning: Aviso
+        none: Nenhuma busca rodou ainda.
+    detail:
+      selected: Vaga selecionada
+      automatically: "automaticamente: %{reason}"
+      save: Salvar
+      save_title: Salvar em Candidaturas
+      apply: Salvar em aplicadas
+      dismiss: Descartar
+      restore: Voltar para triagem
+      analyze: Analisar com IA
+      dream: Vaga dos sonhos
+      dream_remove: Tirar das vagas dos sonhos
+      dream_add: Usar como referência do que você busca (até %{max})
+      message: Mensagem
+      open: Abrir vaga ↗
+      breakdown: Composição da nota
+      facts:
+        company: Empresa
+        location: Local
+        region: Região
+        seniority: Senioridade
+        salary: Salário
+        posted: Publicada
+        source: Fonte
+        application: Candidatura
+      no_description: "Esta vaga chegou sem descrição (os e-mails de alerta do LinkedIn não trazem o texto), então a nota usa só o título e o local. Para completar: abra a vaga e salve pela extensão, que traz a descrição e recalcula a nota. Ou use Analisar com IA como segunda opinião."
+    ai:
+      title: IA
+      free: gratuito
+      note: Só roda quando você clica. Usa o seu perfil e não inventa experiência.
+      fit: Analisar fit
+      cv_summary: Resumo de CV adaptado
+      message_pt: Mensagem (PT)
+      message_en: Message (EN)
+      estimating: Calculando o custo estimado…
+      no_key_html: Para usar a IA, coloque a sua chave do OpenRouter em %{link}.
+      no_key_link: Ajustes → Chaves e contas
+    new:
+      eyebrow: Vagas
+      title: Adicionar vaga
+      intro: Para vagas vistas em grupos, e-mails ou sites sem fonte automática. A nota é calculada na hora.
+      location_placeholder: Remoto · Brasil
+      submit: Adicionar
+      cancel: Cancelar
+  ai_artifacts:
+    ai_artifact:
+      pending: Gerando…
+      copy: Copiar
+      delete: Apagar
+      delete_confirm: Apagar este resultado?
+    estimate:
+      free: Grátis com o modelo gratuito (tem limite de pedidos por dia). Para trocar, veja Ajustes → Chaves e contas.
+      estimate: "Custo estimado por clique: %{costs}. Chamadas feitas em até 5 minutos reaproveitam o cache do perfil e saem mais baratas."
+  js:
+    copy:
+      copied: Copiado
+      selected: "Selecionado: Ctrl+C"
+    message:
+      edit: Editar modelo
+      close_edit: Fechar edição
+      copy: Copiar mensagem
+    push:
+      unsupported: Este navegador não suporta notificações.
+      failed: "Não consegui ativar: %{error}"
+      test_sent: Notificação de teste enviada. Ela deve aparecer em alguns segundos.
+      test_failed: Nenhum navegador recebeu o teste. Desative e ative de novo.
+      enabled: Notificações ativadas neste navegador.
+      disabled: Notificações desativadas neste navegador.
+      blocked: "As notificações estão bloqueadas. Libere em: cadeado na barra de endereço → Notificações → Permitir, e recarregue a página."

@@ -1,0 +1,39 @@
+en:
+  dashboard:
+    follow_up:
+      late: follow-up overdue since %{date}
+      today: follow-up today
+      waiting:
+        one: applied on %{date}, no answer for 1 day
+        other: applied on %{date}, no answer for %{count} days
+    fetch:
+      none: no search yet
+      next: search %{last} → %{next}
+      last: search %{last}
+    show:
+      title: Dashboard
+      onboarding:
+        chip: First use
+        text: "Almost there for WorkMachine to find jobs for you: AI key, profile and first search."
+        continue: Continue the setup
+      routine_today: Today's routine
+      see_rules: See the rules
+      continue: Continue
+      by_status: Applications by status
+      in_progress:
+        one: 1 application in progress
+        other: "%{count} applications in progress"
+      new_postings: New jobs by score
+      to_triage: "%{count} to triage →"
+      score_title: Score from 0 to 100
+      best_score: best score · via %{source} · %{ago}
+      save: Save
+      save_title: Save to Applications
+      dismiss: Dismiss
+      read: Read the job
+      no_postings: No new jobs. The aggregator runs every 3 hours.
+      follow_ups: Today's follow-ups
+      follow_up: Follow-up
+      edit: Edit
+      no_follow_ups: Nothing to follow up today.
+      replies: Company replies

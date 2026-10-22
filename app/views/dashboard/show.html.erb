@@ -1,11 +1,11 @@
-<% content_for :title, "Painel" %>
+<% content_for :title, t(".title") %>
 <% turbo_refreshes_with method: :morph, scroll: :preserve %>
 
 <% unless Setting.current.onboarded? %>
   <div class="flex flex-wrap items-center gap-x-5 gap-y-3 pt-6" role="status">
-    <span class="chip chip-warn">Primeiro uso</span>
-    <span>Falta pouco para o WorkMachine buscar vagas para você: chave da IA, perfil e primeira busca.</span>
-    <%= link_to "Continuar a configuração", onboarding_path, class: "btn btn-primary" %>
+    <span class="chip chip-warn"><%= t(".onboarding.chip") %></span>
+    <span><%= t(".onboarding.text") %></span>
+    <%= link_to t(".onboarding.continue"), onboarding_path, class: "btn btn-primary" %>
   </div>
 <% end %>
 
@@ -13,13 +13,13 @@
   <section class="pt-8" aria-labelledby="routine_<%= routine.id %>_title">
     <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-2.5">
       <% if index.zero? %>
-        <h1 id="routine_<%= routine.id %>_title" class="text-2xl tracking-[-0.02em]">Rotina de hoje</h1>
+        <h1 id="routine_<%= routine.id %>_title" class="text-2xl tracking-[-0.02em]"><%= t(".routine_today") %></h1>
       <% else %>
         <h2 id="routine_<%= routine.id %>_title"><%= routine.name %></h2>
       <% end %>
       <div class="flex items-center gap-[18px] text-[13px]">
         <%= render "routines/progress", routine:, checked: @checked, track: "h-1 w-24" %>
-        <% if index.zero? %><%= link_to "Ver regras", routine_path(anchor: "regras") %><% end %>
+        <% if index.zero? %><%= link_to t(".see_rules"), routine_path(anchor: "regras") %><% end %>
       </div>
     </div>
     <%= render "routines/checklist", routine:, checked: @checked %>
@@ -32,11 +32,11 @@
   <p class="flex flex-wrap items-center gap-x-4 gap-y-2 pt-6 text-sm">
     <span class="font-semibold"><%= routine.name %></span>
     <%= render "routines/progress", routine:, checked: @checked, track: "h-1 w-24" %>
-    <%= link_to "Continuar", routine_path(anchor: dom_id(routine)) %>
+    <%= link_to t(".continue"), routine_path(anchor: dom_id(routine)) %>
   </p>
 <% end %>
 
-<section class="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2.5 border-y border-line py-3" aria-label="Candidaturas por status">
+<section class="mt-8 flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2.5 border-y border-line py-3" aria-label="<%= t(".by_status") %>">
   <div class="flex flex-wrap gap-x-[22px] gap-y-1 text-sm">
     <% JobApplication::OPEN_STATUSES.each do |status| %>
       <% count = @pipeline.fetch(status, 0) %>
@@ -47,7 +47,7 @@
     <% end %>
   </div>
   <p class="flex flex-wrap gap-x-[18px] gap-y-1 font-mono text-[11.5px] text-muted">
-    <span><%= pluralize(@pipeline.slice(*JobApplication::OPEN_STATUSES).values.sum, "candidatura em andamento", plural: "candidaturas em andamento") %></span>
+    <span><%= t(".in_progress", count: @pipeline.slice(*JobApplication::OPEN_STATUSES).values.sum) %></span>
     <span><%= fetch_line(@last_fetch_at) %></span>
     <% if @last_gmail_at %><span>Gmail <%= clock(@last_gmail_at) %></span><% end %>
   </p>
@@ -56,23 +56,23 @@
 <div class="flex flex-wrap gap-x-[clamp(36px,5vw,80px)] gap-y-10 pt-8">
   <section class="min-w-0 flex-[7_1_480px]" aria-labelledby="new_postings_title">
     <div class="flex flex-wrap items-baseline justify-between gap-4">
-      <h2 id="new_postings_title">Vagas novas por nota</h2>
+      <h2 id="new_postings_title"><%= t(".new_postings") %></h2>
       <% if @new_postings_count.positive? %>
-        <%= link_to "#{@new_postings_count} para triar →", job_postings_path, class: "text-[13.5px]" %>
+        <%= link_to t(".to_triage", count: @new_postings_count), job_postings_path, class: "text-[13.5px]" %>
       <% end %>
     </div>
 
     <% if (lead = @new_postings.first) %>
       <article class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-[22px] gap-y-1.5 pt-[18px] pb-3.5">
-        <span class="font-display text-6xl leading-[0.9] font-bold tracking-[-0.04em] text-accent" title="Nota de 0 a 100"><%= lead.score %></span>
+        <span class="font-display text-6xl leading-[0.9] font-bold tracking-[-0.04em] text-accent" title="<%= t(".score_title") %>"><%= lead.score %></span>
         <div class="min-w-0">
-          <p class="font-mono text-[11.5px] text-muted">melhor nota · via <%= lead.human_enum(:source) %> · <%= posted_ago(lead.posted_or_found_at) %></p>
+          <p class="font-mono text-[11.5px] text-muted"><%= t(".best_score", source: lead.human_enum(:source), ago: posted_ago(lead.posted_or_found_at)) %></p>
           <h3 class="mt-1.5 text-[21px] leading-tight"><%= link_to lead.title, job_postings_path(selected: lead.id), class: "text-ink no-underline hover:underline" %></h3>
           <p class="mt-1 text-sm text-muted"><%= [ lead.display_company, lead.human_enum(:remote_scope), (lead.human_enum(:seniority) unless lead.seniority_unknown?), lead.salary_text.presence ].compact.join(" · ") %></p>
           <div class="mt-3 flex flex-wrap items-center gap-1.5">
-            <%= button_to "Salvar", save_job_posting_path(lead, from: "painel"), class: "btn btn-primary", title: "Salvar em Candidaturas" %>
-            <%= button_to "Descartar", dismiss_job_posting_path(lead, from: "painel"), class: "btn" %>
-            <%= link_to "Ler a vaga", job_postings_path(selected: lead.id), class: "btn btn-ghost" %>
+            <%= button_to t(".save"), save_job_posting_path(lead, from: "painel"), class: "btn btn-primary", title: t(".save_title") %>
+            <%= button_to t(".dismiss"), dismiss_job_posting_path(lead, from: "painel"), class: "btn" %>
+            <%= link_to t(".read"), job_postings_path(selected: lead.id), class: "btn btn-ghost" %>
             <span class="ml-1.5 flex flex-wrap gap-1"><%= posting_terms(lead) %></span>
           </div>
         </div>
@@ -89,13 +89,13 @@
         <% end %>
       </div>
     <% else %>
-      <p class="py-5 text-muted">Nenhuma vaga nova. O agregador roda a cada 3 horas.</p>
+      <p class="py-5 text-muted"><%= t(".no_postings") %></p>
     <% end %>
   </section>
 
   <aside class="flex min-w-0 flex-[5_1_340px] flex-col gap-9">
     <section aria-labelledby="follow_ups_title">
-      <h2 id="follow_ups_title">Follow-ups do dia</h2>
+      <h2 id="follow_ups_title"><%= t(".follow_ups") %></h2>
       <div class="mt-3.5 flex flex-col gap-3.5">
         <% @follow_ups.each do |application| %>
           <div class="flex items-center justify-between gap-4">
@@ -104,20 +104,20 @@
               <p class="mt-0.5 text-[13px] leading-[1.4] text-muted"><%= application.role %> · <%= follow_up_when(application) %></p>
             </div>
             <div class="flex flex-none gap-1">
-              <%= link_to "Follow-up", MessageTemplate.follow_up_path(application), class: "btn btn-sm" %>
-              <%= link_to "Editar", edit_job_application_path(application), class: "btn btn-ghost btn-sm" %>
+              <%= link_to t(".follow_up"), MessageTemplate.follow_up_path(application), class: "btn btn-sm" %>
+              <%= link_to t(".edit"), edit_job_application_path(application), class: "btn btn-ghost btn-sm" %>
             </div>
           </div>
         <% end %>
         <% if @follow_ups.empty? %>
-          <p class="text-sm text-muted">Nada para cobrar hoje.</p>
+          <p class="text-sm text-muted"><%= t(".no_follow_ups") %></p>
         <% end %>
       </div>
     </section>
 
     <% if @replies.any? %>
       <section aria-labelledby="replies_title">
-        <h2 id="replies_title">Respostas das empresas</h2>
+        <h2 id="replies_title"><%= t(".replies") %></h2>
         <ul class="mt-3.5 flex flex-col gap-4">
           <%= render partial: "application_emails/application_email", collection: @replies, locals: { show_company: true } %>
         </ul>

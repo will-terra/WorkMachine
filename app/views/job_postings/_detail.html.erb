@@ -6,48 +6,49 @@
 <% extra = standalone ? { standalone: 1 } : {} %>
 <% dream = Profile.current.dream_posting?(job_posting) %>
 <%= turbo_frame_tag "posting_detail", class: "block transition-opacity aria-busy:opacity-60", data: { triage_target: "frame" } do %>
-  <article data-posting-id="<%= job_posting.id %>" aria-label="Vaga selecionada">
+  <article data-posting-id="<%= job_posting.id %>" aria-label="<%= t(".selected") %>">
     <p class="font-mono text-xs text-muted">
-      <%= [ "via #{job_posting.human_enum(:source)}", job_posting.human_enum(:triage), (job_posting.auto_dismissed_reason && "automaticamente: #{job_posting.auto_dismissed_reason}") ].compact.join(" · ") %>
+      <%= [ t("job_postings.meta.via", source: job_posting.human_enum(:source)), job_posting.human_enum(:triage),
+            (job_posting.auto_dismissed_reason && t(".automatically", reason: JobScorer.human_term(job_posting.auto_dismissed_reason))) ].compact.join(" · ") %>
     </p>
     <%= content_tag standalone ? :h1 : :h2, job_posting.title, class: "mt-3 text-[clamp(26px,2.6vw,34px)] leading-[1.12] tracking-[-0.02em]" %>
     <p class="mt-2 text-base"><%= job_posting.display_company %></p>
 
     <div class="mt-6 flex flex-wrap items-center gap-2">
       <% if job_posting.triage_new? %>
-        <%= button_to "Salvar", save_job_posting_path(job_posting), params: extra, class: "btn btn-primary", title: "Salvar em Candidaturas", data: { shortcut: "s" }, form: close_tab %>
+        <%= button_to t(".save"), save_job_posting_path(job_posting), params: extra, class: "btn btn-primary", title: t(".save_title"), data: { shortcut: "s" }, form: close_tab %>
       <% else %>
         <span class="chip chip-outline"><%= job_posting.human_enum(:triage) %></span>
       <% end %>
       <% if application.nil? || application.status_saved? %>
-        <%= button_to "Salvar em aplicadas", apply_job_posting_path(job_posting), params: extra, class: "btn", data: { shortcut: "a" }, form: close_tab %>
+        <%= button_to t(".apply"), apply_job_posting_path(job_posting), params: extra, class: "btn", data: { shortcut: "a" }, form: close_tab %>
       <% end %>
       <% if job_posting.triage_new? %>
-        <%= button_to "Descartar", dismiss_job_posting_path(job_posting), params: extra, class: "btn", data: { shortcut: "d" }, form: close_tab %>
+        <%= button_to t(".dismiss"), dismiss_job_posting_path(job_posting), params: extra, class: "btn", data: { shortcut: "d" }, form: close_tab %>
       <% else %>
-        <%= button_to "Voltar para triagem", restore_job_posting_path(job_posting), params: extra, class: "btn" %>
+        <%= button_to t(".restore"), restore_job_posting_path(job_posting), params: extra, class: "btn" %>
       <% end %>
       <%= button_to job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-ghost" do %>
         <svg width="16" height="16" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path opacity="0.25" d="M194.82,151.43l-55.09,20.3-20.3,55.09a7.92,7.92,0,0,1-14.86,0l-20.3-55.09-55.09-20.3a7.92,7.92,0,0,1,0-14.86l55.09-20.3,20.3-55.09a7.92,7.92,0,0,1,14.86,0l20.3,55.09,55.09,20.3A7.92,7.92,0,0,1,194.82,151.43Z"/><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
-        Analisar com IA
+        <%= t(".analyze") %>
       <% end %>
-      <%= button_to dream ? "★ Vaga dos sonhos" : "☆ Vaga dos sonhos", dream_job_posting_path(job_posting), class: "btn btn-ghost",
-                    title: dream ? "Tirar das vagas dos sonhos" : "Usar como referência do que você busca (até #{Profile::MAX_DREAM_POSTINGS})", aria: { pressed: dream } %>
-      <%= link_to "Mensagem", message_templates_path(job_posting_id: job_posting.id), class: "btn btn-ghost", data: { turbo_frame: "_top" } %>
-      <%= external_link "Abrir vaga ↗", job_posting.url, class: "btn btn-ghost" %>
+      <%= button_to "#{dream ? "★" : "☆"} #{t(".dream")}", dream_job_posting_path(job_posting), class: "btn btn-ghost",
+                    title: dream ? t(".dream_remove") : t(".dream_add", max: Profile::MAX_DREAM_POSTINGS), aria: { pressed: dream } %>
+      <%= link_to t(".message"), message_templates_path(job_posting_id: job_posting.id), class: "btn btn-ghost", data: { turbo_frame: "_top" } %>
+      <%= external_link t(".open"), job_posting.url, class: "btn btn-ghost" %>
     </div>
 
     <div class="mt-10 flex flex-wrap gap-x-14 gap-y-9">
       <div class="min-w-0 flex-[1_1_220px]">
         <div class="flex items-end gap-2.5">
-          <span class="block font-display text-[72px] leading-[0.9] font-bold tracking-[-0.04em] <%= score_class(job_posting.score) %>" title="Nota de 0 a 100"><%= job_posting.score %></span>
+          <span class="block font-display text-[72px] leading-[0.9] font-bold tracking-[-0.04em] <%= score_class(job_posting.score) %>" title="<%= t("job_postings.posting.score_title") %>"><%= job_posting.score %></span>
           <span class="text-base text-ink/70">/ 100</span>
         </div>
         <% if job_posting.matched_keywords.any? %>
-          <ul class="mt-5" aria-label="Composição da nota">
+          <ul class="mt-5" aria-label="<%= t(".breakdown") %>">
             <% job_posting.matched_keywords.each do |match| %>
               <li class="flex items-baseline gap-2 text-[15px] leading-7">
-                <span><%= match["term"] %></span>
+                <span><%= JobScorer.human_term(match["term"]) %></span>
                 <span class="mb-[0.34em] min-w-6 flex-1 self-end border-b border-dotted border-ink/45" aria-hidden="true"></span>
                 <span class="font-semibold tabular-nums <%= "text-warn-strong" if match["points"].negative? %>"><%= points(match["points"]) %></span>
               </li>
@@ -56,15 +57,15 @@
         <% end %>
       </div>
       <dl class="mt-1.5 grid min-w-0 flex-[1_1_220px] grid-cols-[auto_minmax(0,1fr)] content-start gap-x-5 gap-y-2 text-[14.5px]">
-        <dt class="text-ink/70">Empresa</dt><dd><%= job_posting.display_company %></dd>
-        <dt class="text-ink/70">Local</dt><dd><%= job_posting.location_text.presence || "—" %></dd>
-        <dt class="text-ink/70">Região</dt><dd><%= job_posting.human_enum(:remote_scope) %></dd>
-        <dt class="text-ink/70">Senioridade</dt><dd><%= job_posting.human_enum(:seniority) %></dd>
-        <dt class="text-ink/70">Salário</dt><dd><%= job_posting.salary_text.presence || "—" %></dd>
-        <dt class="text-ink/70">Publicada</dt><dd><%= job_posting.posted_at ? l(job_posting.posted_at, format: "%d/%m/%Y") : "—" %></dd>
-        <dt class="text-ink/70">Fonte</dt><dd><%= job_posting.human_enum(:source) %></dd>
+        <dt class="text-ink/70"><%= t(".facts.company") %></dt><dd><%= job_posting.display_company %></dd>
+        <dt class="text-ink/70"><%= t(".facts.location") %></dt><dd><%= job_posting.location_text.presence || "—" %></dd>
+        <dt class="text-ink/70"><%= t(".facts.region") %></dt><dd><%= job_posting.human_enum(:remote_scope) %></dd>
+        <dt class="text-ink/70"><%= t(".facts.seniority") %></dt><dd><%= job_posting.human_enum(:seniority) %></dd>
+        <dt class="text-ink/70"><%= t(".facts.salary") %></dt><dd><%= job_posting.salary_text.presence || "—" %></dd>
+        <dt class="text-ink/70"><%= t(".facts.posted") %></dt><dd><%= job_posting.posted_at ? l(job_posting.posted_at.to_date, format: :full) : "—" %></dd>
+        <dt class="text-ink/70"><%= t(".facts.source") %></dt><dd><%= job_posting.human_enum(:source) %></dd>
         <% if application %>
-          <dt class="text-ink/70">Candidatura</dt><dd><%= link_to application.human_enum(:status), edit_job_application_path(application), data: { turbo_frame: "_top" } %></dd>
+          <dt class="text-ink/70"><%= t(".facts.application") %></dt><dd><%= link_to application.human_enum(:status), edit_job_application_path(application), data: { turbo_frame: "_top" } %></dd>
         <% end %>
       </dl>
     </div>
@@ -74,8 +75,7 @@
         <div class="text-base leading-[1.7] [&_p]:mb-4"><%= simple_format(job_posting.description) %></div>
       <% else %>
         <p class="text-[15.5px] leading-[1.65]">
-          <span class="chip chip-warn mr-2">nota parcial</span>Esta vaga chegou sem descrição (os e-mails de alerta do LinkedIn não trazem o texto), então a nota usa só o título e o local.
-          Para completar: abra a vaga e salve pela extensão, que traz a descrição e recalcula a nota. Ou use Analisar com IA como segunda opinião.
+          <span class="chip chip-warn mr-2"><%= t("job_postings.posting.partial") %></span><%= t(".no_description") %>
         </p>
       <% end %>
     </div>

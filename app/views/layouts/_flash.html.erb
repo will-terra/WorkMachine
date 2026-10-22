@@ -3,14 +3,14 @@
   <% if alert.present? %>
     <div class="toast" role="alert" data-controller="toast" data-turbo-temporary>
       <span class="text-warn-text"><%= alert %></span>
-      <button type="button" class="btn btn-ghost flex-none" data-action="toast#close">Fechar</button>
+      <button type="button" class="btn btn-ghost flex-none" data-action="toast#close"><%= t("layouts.flash.close") %></button>
     </div>
   <% end %>
   <% if notice.present? %>
     <div class="toast" role="status" data-controller="toast" data-toast-delay-value="6000" data-turbo-temporary>
       <span><%= notice %></span>
       <% if (undo = flash[:undo]).present? %>
-        <%= button_to "Desfazer", undo["url"], params: undo["params"].to_h, class: "btn btn-ghost", form: { class: "flex-none" } %>
+        <%= button_to t("layouts.flash.undo"), undo["url"], params: undo["params"].to_h, class: "btn btn-ghost", form: { class: "flex-none" } %>
       <% end %>
     </div>
   <% end %>

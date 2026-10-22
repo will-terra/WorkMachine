@@ -16,7 +16,7 @@
   </div>
   <div>
     <%= form.label :origin, class: "label" %>
-    <%= form.text_field :origin, placeholder: "LinkedIn, indicação, Gupy…", class: "input" %>
+    <%= form.text_field :origin, placeholder: t(".origin_placeholder"), class: "input" %>
   </div>
   <div>
     <%= form.label :applied_on, class: "label" %>
@@ -36,7 +36,7 @@
   </div>
   <div>
     <%= form.label :salary_range, class: "label" %>
-    <%= form.text_field :salary_range, placeholder: "R$ 9–12 mil ou US$ 3–4k", class: "input" %>
+    <%= form.text_field :salary_range, placeholder: t(".salary_placeholder"), class: "input" %>
   </div>
   <div class="sm:col-span-2">
     <%= form.label :notes, class: "label" %>
@@ -44,7 +44,7 @@
   </div>
 
   <div class="mt-2 flex flex-wrap items-center gap-2.5 sm:col-span-2">
-    <%= form.submit "Salvar", class: "btn btn-primary" %>
-    <%= link_to "Cancelar", job_applications_path(view: params[:return_view]), class: "btn btn-ghost" %>
+    <%= form.submit t(".save"), class: "btn btn-primary" %>
+    <%= link_to t(".cancel"), job_applications_path(view: params[:return_view]), class: "btn btn-ghost" %>
   </div>
 <% end %>

@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { t } from "i18n"
 
 // Mensagens: picks a template from the list (also from the address, #message_template_3), fills
 // {{nome}}, {{cargo}} and {{empresa}} from the fields and {{meu_resumo}} and {{minha_stack}} from
@@ -43,7 +44,7 @@ export default class extends Controller {
 
   toggleEdit() {
     this.editorTarget.hidden = !this.editorTarget.hidden
-    this.editToggleTarget.textContent = this.editorTarget.hidden ? "Editar modelo" : "Fechar edição"
+    this.editToggleTarget.textContent = this.editorTarget.hidden ? t("message.edit") : t("message.close_edit")
     if (!this.editorTarget.hidden) this.bodyTarget.focus()
   }
 
@@ -82,14 +83,14 @@ export default class extends Controller {
   async copy() {
     try {
       await navigator.clipboard.writeText(this.sourceTarget.value)
-      this.copyButtonTarget.textContent = "Copiado"
+      this.copyButtonTarget.textContent = t("copy.copied")
     } catch {
       this.sourceTarget.classList.remove("hidden")
       this.sourceTarget.select()
-      this.copyButtonTarget.textContent = "Selecionado: Ctrl+C"
+      this.copyButtonTarget.textContent = t("copy.selected")
     }
     clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => { this.copyButtonTarget.textContent = "Copiar mensagem" }, 1600)
+    this.timeout = setTimeout(() => { this.copyButtonTarget.textContent = t("message.copy") }, 1600)
   }
 
   get selected() {

@@ -2,7 +2,7 @@
   "name": "WorkMachine",
   "short_name": "WorkMachine",
   "id": "/",
-  "lang": "pt-BR",
+  "lang": "<%= I18n.locale %>",
   "icons": [
     { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
     { "src": "/icon.png", "type": "image/png", "sizes": "512x512" },
@@ -11,7 +11,7 @@
   "start_url": "/",
   "display": "standalone",
   "scope": "/",
-  "description": "Busca de emprego: vagas com nota, candidaturas, mensagens e IA, no seu computador.",
+  "description": "<%= j t("pwa.description") %>",
   "theme_color": "#121010",
   "background_color": "#121010"
 }

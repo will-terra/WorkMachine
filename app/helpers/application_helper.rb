@@ -2,15 +2,15 @@ module ApplicationHelper
   # [label, path, count]: Vagas shows how many postings wait for triage.
   def nav_items
     [
-      [ "Painel", root_path ],
-      [ "Vagas", job_postings_path, JobPosting.triage_new.count ],
-      [ "Candidaturas", job_applications_path ],
-      [ "Métricas", metrics_path ],
-      [ "Radar", radar_path ],
-      [ "Mensagens", message_templates_path ],
-      [ "Rotina", routine_path ],
-      [ "Contatos", contacts_path ],
-      [ "Empresas-alvo", target_companies_path ]
+      [ t("layouts.nav.dashboard"), root_path ],
+      [ t("layouts.nav.postings"), job_postings_path, JobPosting.triage_new.count ],
+      [ t("layouts.nav.applications"), job_applications_path ],
+      [ t("layouts.nav.metrics"), metrics_path ],
+      [ t("layouts.nav.radar"), radar_path ],
+      [ t("layouts.nav.messages"), message_templates_path ],
+      [ t("layouts.nav.routine"), routine_path ],
+      [ t("layouts.nav.contacts"), contacts_path ],
+      [ t("layouts.nav.target_companies"), target_companies_path ]
     ]
   end
 
@@ -43,30 +43,30 @@ module ApplicationHelper
   end
 
   def short_date(date)
-    date ? l(date.to_date, format: "%d/%m/%y") : "—"
+    date ? l(date.to_date, format: :compact) : "—"
   end
 
-  # "hoje 12:40", "ontem 09:00" or "18/10 14:32".
+  # "hoje 12:40", "ontem 09:00" or "18/10 14:32" ("today 12:40", "Oct 18 14:32" in English).
   def short_time(time)
     return "—" unless time
 
     day = time.to_date
-    prefix = if day == Date.current then "hoje"
-    elsif day == Date.yesterday then "ontem"
-    else l(day, format: "%d/%m")
+    prefix = if day == Date.current then t("helpers.time.today")
+    elsif day == Date.yesterday then t("helpers.time.yesterday")
+    else l(day, format: :day_month)
     end
-    "#{prefix} #{l(time, format: "%H:%M")}"
+    "#{prefix} #{l(time, format: :hour)}"
   end
 
   # Contatos: "nunca", "hoje", "ontem" or "há 12 dias".
   def days_ago(date)
-    return "nunca" unless date
+    return t("helpers.time.never") unless date
 
     days = (Date.current - date).to_i
     case days
-    when ..0 then "hoje"
-    when 1 then "ontem"
-    else "há #{days} dias"
+    when ..0 then t("helpers.time.today")
+    when 1 then t("helpers.time.yesterday")
+    else t("helpers.time.days_ago", count: days)
     end
   end
 

@@ -1,20 +1,23 @@
-<%= page_header eyebrow: "candidaturas", title: "#{@job_application.company} · #{@job_application.role}" do %>
-  <%= button_to "Apagar", job_application_path(@job_application), method: :delete, class: "btn", form: { data: { turbo_confirm: "Apagar esta candidatura?" } } %>
+<%= page_header eyebrow: t(".eyebrow"), title: "#{@job_application.company} · #{@job_application.role}" do %>
+  <%= button_to t(".delete"), job_application_path(@job_application), method: :delete, class: "btn", form: { data: { turbo_confirm: t(".delete_confirm") } } %>
 <% end %>
 <%= render "form", job_application: @job_application %>
 <% if @job_application.job_posting %>
-  <p class="mt-3 text-sm text-muted">Veio da vaga <%= link_to @job_application.job_posting.title, job_postings_path(selected: @job_application.job_posting.id, triage: "all") %>.</p>
+  <p class="mt-3 text-sm text-muted"><%= t(".from_posting_html", link: link_to(@job_application.job_posting.title, job_postings_path(selected: @job_application.job_posting.id, triage: "all"))) %></p>
 <% end %>
 
 <% emails = @job_application.application_emails.visible.latest_first %>
 <section class="mt-12 max-w-[72ch]" aria-labelledby="emails_title">
-  <h2 id="emails_title">E-mails da empresa</h2>
+  <h2 id="emails_title"><%= t(".emails") %></h2>
   <% if emails.any? %>
     <ul class="mt-4 flex flex-col gap-5"><%= render partial: "application_emails/application_email", collection: emails %></ul>
   <% else %>
-    <p class="mt-2 text-sm text-muted">Nenhum e-mail desta empresa ainda. O WorkMachine lê o Gmail a cada hora<%= " (Gmail não configurado em Ajustes)" unless GmailSession.configured? %>.</p>
+    <p class="mt-2 text-sm text-muted"><%= GmailSession.configured? ? t(".no_emails") : t(".no_emails_no_gmail") %></p>
   <% end %>
   <% if @job_application.responded_on %>
-    <p class="mt-3 font-mono text-xs text-muted">Primeira resposta em <%= l(@job_application.responded_on, format: "%d/%m/%Y") %><% if @job_application.applied_on %>, <%= pluralize((@job_application.responded_on - @job_application.applied_on).to_i, "dia", plural: "dias") %> depois de aplicar<% end %>.</p>
+    <p class="mt-3 font-mono text-xs text-muted">
+      <% date = l(@job_application.responded_on, format: :full) %>
+      <%= @job_application.applied_on ? t(".first_reply_after", date:, count: (@job_application.responded_on - @job_application.applied_on).to_i) : t(".first_reply", date:) %>
+    </p>
   <% end %>
 </section>

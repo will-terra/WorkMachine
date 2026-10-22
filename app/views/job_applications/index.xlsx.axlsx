@@ -2,12 +2,12 @@ wb = xlsx_package.workbook
 
 wb.styles do |styles|
   header = styles.add_style(b: true, bg_color: "A8132D", fg_color: "FFFFFF", alignment: { vertical: :center })
-  date = styles.add_style(format_code: "dd/mm/yyyy")
+  date = styles.add_style(format_code: t(".date_format"))
   link = styles.add_style(fg_color: "A8132D", u: true)
   wrap = styles.add_style(alignment: { wrap_text: true, vertical: :top })
 
-  wb.add_worksheet(name: "Candidaturas") do |sheet|
-    sheet.add_row [ "Empresa", "Vaga", "Origem", "Status", "Aplicou em", "Próximo follow-up", "Contato", "Link", "Faixa salarial", "Notas" ], style: header
+  wb.add_worksheet(name: t(".sheet")) do |sheet|
+    sheet.add_row %w[company role origin status applied_on next_follow_up contact link salary notes].map { t(".columns.#{it}") }, style: header
 
     @job_applications.latest_first.each do |application|
       sheet.add_row [
@@ -31,13 +31,13 @@ wb.styles do |styles|
     sheet.column_widths 22, 32, 16, 20, 12, 16, 20, 40, 16, 50
   end
 
-  wb.add_worksheet(name: "Resumo") do |sheet|
+  wb.add_worksheet(name: t(".summary")) do |sheet|
     counts = @job_applications.group(:status).count
-    sheet.add_row [ "Status", "Quantidade" ], style: header
+    sheet.add_row [ t(".columns.status"), t(".count") ], style: header
     JobApplication::STATUSES.each do |status|
       sheet.add_row [ JobApplication.human_enum(:status, status), counts.fetch(status, 0) ]
     end
-    sheet.add_row [ "Total", counts.values.sum ], style: styles.add_style(b: true)
+    sheet.add_row [ t(".total"), counts.values.sum ], style: styles.add_style(b: true)
     sheet.column_widths 24, 12
   end
 end
