@@ -7,6 +7,8 @@ class MessageTemplatesController < ApplicationController
     @message_templates = MessageTemplate.ordered
     @context = context_record
     @values = placeholder_values
+    @selected = @message_templates.find { it.id == params[:template_id].to_i } || (MessageTemplate.for_contact(@context) if @context.is_a?(Contact)) || @message_templates.first
+    @applications = JobApplication.in_progress.latest_first
   end
 
   def new
@@ -28,7 +30,7 @@ class MessageTemplatesController < ApplicationController
 
   def update
     if @message_template.update(message_template_params)
-      redirect_to message_templates_path, notice: "Modelo atualizado."
+      redirect_to message_templates_path(anchor: helpers.dom_id(@message_template)), notice: "Modelo atualizado."
     else
       render :edit, status: :unprocessable_content
     end

@@ -25,6 +25,11 @@ class MessageTemplate < ApplicationRecord
     template ? "#{path}#message_template_#{template.id}" : path
   end
 
+  # What Contatos → Mensagem opens: the connection note for a recruiter, "found your post" for a manager.
+  def self.for_contact(contact)
+    ordered.where("name LIKE ?", contact.recruiter? ? "%recrutador%" : "%post%").first
+  end
+
   # Replaces {{nome}}, {{cargo}} and {{empresa}}. Blank values keep the placeholder visible.
   def render(values = {}, profile = Profile.current)
     values = values.to_h.stringify_keys

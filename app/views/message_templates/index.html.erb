@@ -1,47 +1,84 @@
-<%= page_header eyebrow: "Abordagem", title: "Mensagens",
-                intro: "Velocidade conta: quem responde primeiro sai na frente. Preencha os campos e copie. Evite responder só “tenho interesse”." do %>
-  <%= link_to "Novo modelo", new_message_template_path, class: "btn btn-primary btn-sm" %>
+<%= page_header eyebrow: "modelos", title: "Mensagens",
+                intro: "Escolha um modelo e preencha nome, cargo e empresa. Seu resumo e sua stack vêm do Perfil. O que falta preencher fica marcado em amarelo." do %>
+  <%= link_to "Novo modelo", new_message_template_path, class: "btn btn-primary" %>
 <% end %>
 
-<div data-controller="message">
-  <div class="card mb-6 p-4">
-    <% if @context %>
-      <p class="mb-3 text-sm">
-        Preenchido a partir de <strong><%= @context.model_name.human.downcase %></strong>:
-        <%= @context.try(:company) || @context.try(:name) %> · <%= @context.try(:role) || @context.try(:title) || @context.try(:name) %>
-      </p>
-    <% end %>
-    <div class="grid gap-3 sm:grid-cols-3">
-      <% { "nome" => "Nome da pessoa", "cargo" => "Cargo / vaga", "empresa" => "Empresa" }.each do |key, label| %>
-        <div>
-          <%= label_tag "placeholder_#{key}", label, class: "label" %>
-          <%= text_field_tag key, @values[key], id: "placeholder_#{key}", class: "input", autocomplete: "off",
-                             data: { message_target: "input", action: "input->message#render" } %>
-        </div>
+<% template = @selected %>
+<% if template %>
+  <div class="flex flex-wrap items-start gap-x-[clamp(36px,5vw,72px)] gap-y-10" data-controller="message">
+    <div role="listbox" aria-label="Modelos" class="flex min-w-0 flex-[3_1_260px] flex-col gap-0.5">
+      <% @message_templates.each do |item| %>
+        <button type="button" role="option" id="<%= dom_id(item) %>" aria-selected="<%= item == template %>"
+                class="-mx-3 flex cursor-pointer items-baseline justify-between gap-3 rounded-md px-3 py-2.5 text-left hover:bg-ink/4 aria-selected:bg-surface"
+                data-message-target="item" data-action="message#pick"
+                data-name="<%= item.name %>" data-body="<%= item.body %>" data-max="<%= item.max_chars %>"
+                data-profile="<%= MessageTemplate.profile_values(@profile, item.language).compact.to_json %>"
+                data-update-url="<%= message_template_path(item) %>" data-edit-url="<%= edit_message_template_path(item) %>">
+          <span class="text-[14.5px] font-medium"><%= item.name %></span>
+          <span class="flex flex-none gap-2 font-mono text-[11.5px] text-muted">
+            <% if item.max_chars %><span>até <%= item.max_chars %></span><% end %>
+            <span><%= item.language.upcase %></span>
+          </span>
+        </button>
       <% end %>
     </div>
-  </div>
 
-  <div class="grid gap-4 md:grid-cols-2">
-    <% @message_templates.each do |template| %>
-      <% text = template.render(@values) %>
-      <article id="<%= dom_id(template) %>" class="card grid scroll-mt-20 content-start gap-3 p-4 target:ring-2 target:ring-accent"
-               data-message-target="template" data-body="<%= template.body_for(@profile) %>" data-max="<%= template.max_chars %>" data-controller="clipboard">
-        <header class="flex items-start justify-between gap-3">
-          <div>
-            <h2 class="text-sm font-bold"><%= template.name %></h2>
-            <span class="chip mt-1"><%= template.human_enum(:language) %></span>
+    <article class="min-w-0 flex-[7_1_440px]" aria-live="polite">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2">
+        <h2 class="text-2xl" data-message-target="name"><%= template.name %></h2>
+        <% if @applications.any? %>
+          <div class="w-[280px] max-w-full">
+            <%= label_tag :message_application, "Preencher com uma candidatura", class: "label" %>
+            <%= select_tag :message_application,
+                  options_for_select(@applications.map { [ "#{it.company} · #{it.role}", it.id, { data: { nome: it.contact_name.to_s.split.first, cargo: it.role, empresa: it.company } } ] },
+                                     (@context.id if @context.is_a?(JobApplication))),
+                  include_blank: "Nenhuma", class: "input", data: { action: "message#fill" } %>
           </div>
-          <span class="whitespace-nowrap font-mono text-xs text-muted tabular-nums" data-role="counter">
-            <%= text.length %><%= " / #{template.max_chars}" if template.max_chars %> caracteres
-          </span>
-        </header>
-        <p class="whitespace-pre-line text-[15px]" data-role="preview" data-clipboard-target="source"><%= text %></p>
+        <% end %>
+      </div>
+
+      <% if @context %>
+        <p class="mt-2 text-[13.5px] text-muted">
+          Preenchido a partir de <%= @context.model_name.human.downcase %>: <%= @context.try(:company) || @context.try(:name) %> · <%= @context.try(:role) || @context.try(:title) || @context.try(:name) %>
+        </p>
+      <% end %>
+
+      <div class="mt-[18px] flex flex-wrap gap-x-4 gap-y-3">
+        <% { "nome" => [ "Nome", "Marina" ], "cargo" => [ "Cargo", "Desenvolvedor Back-end" ], "empresa" => [ "Empresa", "Acme" ] }.each do |key, (label, placeholder)| %>
+          <div class="flex-[1_1_160px]">
+            <%= label_tag "placeholder_#{key}", label, class: "label" %>
+            <%= text_field_tag key, @values[key], id: "placeholder_#{key}", class: "input", autocomplete: "off", placeholder:,
+                               data: { message_target: "input", action: "input->message#render" } %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mt-[22px] rounded-lg bg-surface px-5 py-[18px] text-[15.5px] leading-[1.65] whitespace-pre-wrap" data-message-target="preview"><%= safe_join(message_segments(template, @values, @profile).map { message_segment_tag(*it) }) %></div>
+      <% text = template.render(@values, @profile) %>
+      <textarea class="hidden" aria-hidden="true" tabindex="-1" data-message-target="source" readonly><%= text %></textarea>
+
+      <div class="mt-3 flex flex-wrap items-center justify-between gap-x-5 gap-y-2.5">
+        <span class="font-mono text-xs <%= template.max_chars && text.length > template.max_chars ? "text-warn-strong" : "text-muted" %>" data-message-target="counter">
+          <%= text.length %><%= " / #{template.max_chars}" if template.max_chars %> caracteres
+        </span>
         <div class="flex gap-2">
-          <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy">Copiar</button>
-          <%= link_to "Editar modelo", edit_message_template_path(template), class: "btn btn-ghost btn-sm" %>
+          <button type="button" class="btn btn-ghost" data-action="message#toggleEdit" data-message-target="editToggle">Editar modelo</button>
+          <button type="button" class="btn btn-primary" data-action="message#copy" data-message-target="copyButton">Copiar mensagem</button>
         </div>
-      </article>
-    <% end %>
+      </div>
+
+      <div class="mt-5" data-message-target="editor" hidden>
+      <%= form_with model: template, data: { message_target: "form" } do |form| %>
+        <%= form.label :body, "Texto do modelo · use {{nome}}, {{cargo}}, {{empresa}}, {{meu_resumo}} e {{minha_stack}}", class: "label" %>
+        <%= form.text_area :body, rows: 5, class: "input font-mono text-[13px] leading-relaxed", data: { message_target: "body", action: "input->message#edit" } %>
+        <div class="mt-3 flex flex-wrap items-center gap-2.5">
+          <%= form.submit "Salvar modelo", class: "btn btn-primary btn-sm" %>
+          <%= link_to "Nome, idioma e limite", edit_message_template_path(template), class: "btn btn-ghost btn-sm", data: { message_target: "editLink" } %>
+        </div>
+      <% end %>
+      </div>
+    </article>
   </div>
-</div>
+<% else %>
+  <p class="py-8 text-[15px] text-muted">Nenhum modelo ainda. <%= link_to "Crie o primeiro", new_message_template_path %>.</p>
+<% end %>

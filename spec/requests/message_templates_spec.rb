@@ -35,6 +35,17 @@ RSpec.describe "Message templates" do
     expect(response.body).to include("Oi, João! Vaga de {{cargo}} na Initech.")
   end
 
+  it "opens the template that fits the contact and fills from an application" do
+    note = create(:message_template, name: "Conexão com recrutador (PT)", body: "Oi, {{nome}}! Sou {{meu_resumo}}.")
+    contact = create(:contact, name: "Ana", kind: "recruiter")
+    create(:job_application, company: "Acme", role: "Rails Dev", status: "applied")
+
+    get message_templates_path(contact_id: contact.id)
+
+    expect(response.body).to include('<h2 class="text-2xl" data-message-target="name">Conexão com recrutador (PT)</h2>', "Acme · Rails Dev", 'data-cargo="Rails Dev"')
+    expect(response.body).to include('text-accent-text">Ana<', %(id="message_template_#{note.id}" aria-selected="true"))
+  end
+
   it "creates, edits and deletes templates" do
     get new_message_template_path
     expect(response).to have_http_status(:ok)
