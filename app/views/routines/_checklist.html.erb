@@ -1,8 +1,8 @@
 <%# Locals: routine, checked, full (the Rotina page: bigger titles and text; the Painel uses the compact one). %>
 <% full = local_assigns[:full] %>
-<div class="grid <%= full ? "grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-x-14 gap-y-9" : "mt-4 grid-cols-[repeat(auto-fit,minmax(min(100%,230px),1fr))] gap-x-9 gap-y-5" %>">
+<div class="grid <%= full ? "grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-5" : "mt-4 grid-cols-[repeat(auto-fit,minmax(min(100%,230px),1fr))] gap-3.5" %>">
   <% routine.slots.each do |slot| %>
-    <section>
+    <section class="rounded-xl border border-line bg-surface <%= full ? "px-5 py-4" : "px-4 py-3.5" %>">
       <div class="flex items-baseline gap-2 <%= full ? "mb-2.5" : "mb-1.5" %>">
         <%= tag.h3 slot.title, class: ("text-lg" if full) %>
         <span class="font-mono text-muted <%= full ? "text-xs" : "text-[11.5px]" %>"><%= slot.time %></span>
