@@ -11,7 +11,7 @@ export default class extends Controller {
       Sortable.create(column, {
         group: "kanban",
         animation: 150,
-        ghostClass: "opacity-40",
+        ghostClass: "kanban-ghost",
         filter: "a, button",
         preventOnFilter: false,
         onEnd: (event) => this.move(event)

@@ -33,7 +33,7 @@ class JobApplicationsController < ApplicationController
 
   def update
     if @job_application.update(job_application_params)
-      redirect_to job_applications_path(view: params[:return_view].presence_in(VIEWS)), notice: "Candidatura atualizada."
+      redirect_to return_path, notice: "Candidatura atualizada."
     else
       render :edit, status: :unprocessable_content
     end
@@ -82,6 +82,14 @@ class JobApplicationsController < ApplicationController
         scope = scope.where("company LIKE :term OR role LIKE :term OR contact_name LIKE :term", term:)
       end
       scope
+    end
+
+    # The status select of the table sends the page it is on (with its filters) to come back to.
+    def return_path
+      query = Rack::Utils.parse_query(URI.parse(params[:return_to].to_s).query.to_s).slice("view", "status", "q")
+      job_applications_path({ "view" => params[:return_view].presence_in(VIEWS) }.compact.merge(query))
+    rescue URI::InvalidURIError
+      job_applications_path(view: params[:return_view].presence_in(VIEWS))
     end
 
     def job_application_params

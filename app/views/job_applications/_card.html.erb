@@ -1,23 +1,14 @@
-<li id="<%= dom_id(job_application) %>" class="card cursor-grab p-3 text-sm shadow-xs active:cursor-grabbing"
-    data-move-url="<%= move_job_application_path(job_application) %>">
-  <p class="font-semibold leading-tight"><%= job_application.company %></p>
-  <p class="muted leading-snug"><%= job_application.role %></p>
+<li id="<%= dom_id(job_application) %>" class="card cursor-grab gap-1.5 active:cursor-grabbing" data-move-url="<%= move_job_application_path(job_application) %>">
+  <p class="font-display text-base leading-[1.25] font-semibold"><%= job_application.company %></p>
+  <p class="text-[13.5px] leading-[1.4] text-ink/70"><%= job_application.role %></p>
 
-  <div class="mt-2 flex flex-wrap gap-1">
-    <% if job_application.origin.present? %>
-      <span class="chip"><%= job_application.origin %></span>
-    <% end %>
-    <% if job_application.applied_on %>
-      <span class="chip" title="Aplicou em">↗ <%= short_date(job_application.applied_on) %></span>
-    <% end %>
-    <% if job_application.next_follow_up_on %>
-      <span class="chip <%= job_application.next_follow_up_on <= Date.current ? "chip-warn" : "" %>" title="Próximo follow-up">
-        follow-up <%= short_date(job_application.next_follow_up_on) %>
-      </span>
-    <% end %>
-  </div>
+  <div class="mt-1 flex flex-wrap gap-1 empty:hidden"><%= safe_join([
+    (tag.span(job_application.origin, class: "chip") if job_application.origin.present?),
+    (tag.span("↗ #{l(job_application.applied_on, format: "%d/%m")}", class: "chip", title: "Aplicou em") if job_application.applied_on),
+    (tag.span("follow-up #{l(job_application.next_follow_up_on, format: "%d/%m")}", class: [ "chip", ("chip-warn" if job_application.next_follow_up_on <= Date.current) ], title: "Próximo follow-up") if job_application.next_follow_up_on)
+  ].compact) %></div>
 
-  <div class="mt-2 flex gap-3 text-xs">
+  <div class="mt-1 flex gap-3.5 text-[13px]">
     <%= link_to "Editar", edit_job_application_path(job_application) %>
     <%= link_to "Mensagem", message_templates_path(job_application_id: job_application.id) %>
     <%= external_link "Abrir vaga", job_application.url if job_application.url.present? %>

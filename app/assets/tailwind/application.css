@@ -222,6 +222,9 @@
   }
   .toast:not(:has(button)) { @apply pr-[18px]; }
 
+  /* The card being dragged; its column turns accent-soft (has-[.kanban-ghost]). */
+  .kanban-ghost { @apply opacity-40; }
+
   /* Score of a posting */
   .score-high { @apply text-accent; }   /* ≥ 60 */
   .score-mid  { @apply text-ink; }      /* 35–59 */

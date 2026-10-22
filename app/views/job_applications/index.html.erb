@@ -1,13 +1,15 @@
-<%= page_header eyebrow: "A planilha", title: "Candidaturas" do %>
-  <div class="flex rounded-md border border-line bg-surface p-0.5" role="group" aria-label="Visualização">
-    <%= link_to "Kanban", job_applications_path(view: "board"), class: [ "btn btn-sm border-0", ("bg-code" if @view == "board") ], aria: { current: (@view == "board") } %>
-    <%= link_to "Tabela", job_applications_path(view: "table"), class: [ "btn btn-sm border-0", ("bg-code" if @view == "table") ], aria: { current: (@view == "table") } %>
-  </div>
+<% turbo_refreshes_with method: :morph, scroll: :preserve %>
+<%= page_header eyebrow: "a planilha", title: "Candidaturas",
+                intro: @view == "board" ? "Arraste os cartões entre as colunas para mudar o status. A ordem dentro da coluna também fica salva." : "Todas as candidaturas, por status e da mais recente à mais antiga. Mude o status direto na linha." do %>
+  <nav class="seg" aria-label="Visualização">
+    <%= link_to "Kanban", job_applications_path(view: "board"), class: "seg-opt", aria: { current: (@view == "board") } %>
+    <%= link_to "Tabela", job_applications_path(view: "table"), class: "seg-opt", aria: { current: (@view == "table") } %>
+  </nav>
   <% if GmailSession.configured? %>
-    <%= button_to "Verificar respostas", check_replies_job_applications_path(view: @view), class: "btn btn-sm" %>
+    <%= button_to "Verificar respostas", check_replies_job_applications_path(view: @view), class: "btn" %>
   <% end %>
-  <%= link_to "Exportar .xlsx", job_applications_path(format: :xlsx, status: params[:status], q: params[:q]), class: "btn btn-sm", data: { turbo: false } %>
-  <%= link_to "Nova candidatura", new_job_application_path, class: "btn btn-primary btn-sm" %>
+  <%= link_to "Exportar .xlsx", job_applications_path(format: :xlsx, status: params[:status], q: params[:q]), class: "btn", data: { turbo: false } %>
+  <%= link_to "Nova candidatura", new_job_application_path, class: "btn btn-primary" %>
 <% end %>
 
 <%= render @view == "board" ? "board" : "table" %>
