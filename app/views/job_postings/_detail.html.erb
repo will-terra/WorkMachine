@@ -7,6 +7,7 @@
 <% dream = Profile.current.dream_posting?(job_posting) %>
 <%= turbo_frame_tag "posting_detail", class: "block transition-opacity aria-busy:opacity-60", data: { triage_target: "frame" } do %>
   <article data-posting-id="<%= job_posting.id %>" aria-label="<%= t(".selected") %>">
+    <header class="panel">
     <p class="font-mono text-xs text-muted">
       <%= [ t("job_postings.meta.via", source: job_posting.human_enum(:source)), job_posting.human_enum(:triage),
             (job_posting.auto_dismissed_reason && t(".automatically", reason: JobScorer.human_term(job_posting.auto_dismissed_reason))) ].compact.join(" · ") %>
@@ -37,6 +38,7 @@
       <%= link_to t(".message"), message_templates_path(job_posting_id: job_posting.id), class: "btn btn-ghost", data: { turbo_frame: "_top" } %>
       <%= external_link t(".open"), job_posting.url, class: "btn btn-ghost" %>
     </div>
+    </header>
 
     <div class="mt-10 flex flex-wrap gap-x-14 gap-y-9">
       <div class="min-w-0 flex-[1_1_220px]">

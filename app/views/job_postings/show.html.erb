@@ -2,7 +2,7 @@
 <% if turbo_frame_request? %>
   <%= render "job_postings/detail", job_posting: @job_posting, ai_artifacts: @ai_artifacts %>
 <% else %>
-  <div class="max-w-[72rem] pt-12">
+  <div class="max-w-[72rem] pt-6">
     <%= render "job_postings/detail", job_posting: @job_posting, ai_artifacts: @ai_artifacts, standalone: true %>
   </div>
 <% end %>
