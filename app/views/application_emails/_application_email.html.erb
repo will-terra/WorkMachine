@@ -1,12 +1,18 @@
-<li class="grid gap-0.5 px-4 py-3 text-sm">
-  <div class="flex flex-wrap items-center gap-2">
-    <span class="chip <%= { "rejection" => "chip-hot", "offer" => "chip-ok", "interview" => "chip-ok", "assessment" => "chip-warn" }[application_email.category] %>"><%= application_email.human_enum(:category) %></span>
-    <% if local_assigns[:show_company] %><%= link_to application_email.job_application.company, edit_job_application_path(application_email.job_application), class: "font-semibold" %><% end %>
-    <span class="muted text-xs"><%= application_email.received_at ? l(application_email.received_at, format: "%d/%m %H:%M") : "—" %></span>
-    <% if application_email.status_changed? %>
-      <span class="muted text-xs">· <%= JobApplication.human_enum(:status, application_email.status_before) %> → <strong><%= JobApplication.human_enum(:status, application_email.status_after) %></strong></span>
-    <% end %>
+<%# Locals: show_company (the Painel links to the application; its own page does not need it). %>
+<% chip = { "rejection" => "chip-warn", "interview" => "chip-hot", "offer" => "chip-hot" }[application_email.category] %>
+<li>
+  <div class="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+    <span class="chip <%= chip %>"><%= application_email.human_enum(:category) %></span>
+    <% if local_assigns[:show_company] %><%= link_to application_email.job_application.company, edit_job_application_path(application_email.job_application), class: "text-[14.5px] font-semibold" %><% end %>
+    <span class="font-mono text-[11.5px] text-muted [&_strong]:font-semibold [&_strong]:text-ink">
+      <%= application_email.received_at ? l(application_email.received_at, format: "%d/%m %H:%M") : "—" %>
+      <% if application_email.status_changed? %>
+        · <%= JobApplication.human_enum(:status, application_email.status_before) %> → <strong><%= JobApplication.human_enum(:status, application_email.status_after) %></strong>
+      <% end %>
+    </span>
   </div>
-  <% if application_email.summary.present? %><p><%= application_email.summary %></p><% end %>
-  <p class="muted truncate text-xs"><%= application_email.from_name.presence || application_email.from_address %> · <%= application_email.subject %></p>
+  <% if application_email.summary.present? %><p class="mt-[5px] text-sm leading-[1.45]"><%= application_email.summary %></p><% end %>
+  <% unless local_assigns[:show_company] %>
+    <p class="mt-0.5 truncate text-[12.5px] text-muted"><%= application_email.from_name.presence || application_email.from_address %> · <%= application_email.subject %></p>
+  <% end %>
 </li>

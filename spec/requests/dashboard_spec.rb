@@ -12,8 +12,20 @@ RSpec.describe "Dashboard" do
     get root_path
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("Senior Rails Engineer", "Acme", "Globex", "Rotina de hoje")
+    expect(response.body).to include("Senior Rails Engineer", "Acme", "Globex", "Rotina de hoje", "melhor nota", "1 para triar")
+    expect(response.body).to include("follow-up hoje", "sem resposta há 7 dias", "2 candidaturas em andamento")
     expect(response.body).not_to include("Descartada")
+  end
+
+  it "shows the routine progress and when the sources ran" do
+    travel_to Time.zone.local(2026, 10, 22, 13, 30)
+    Routine.toggle!("m1")
+    SourceRun.create!(source: "remotive", status: "succeeded", created_at: 1.hour.ago)
+    SourceRun.create!(source: "linkedin_alert", status: "succeeded", created_at: 50.minutes.ago)
+
+    get root_path
+
+    expect(response.body).to include("1/#{Routine.items.size} feitos", "busca 12:30 → 15:30", "Gmail 12:40")
   end
 
   it "shows empty states" do

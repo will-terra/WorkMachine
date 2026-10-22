@@ -1,7 +1,7 @@
 class JobPostingsController < ApplicationController
   PER_PAGE = 50
 
-  before_action :set_job_posting, only: %i[ show save apply dismiss restore dream ]
+  before_action :set_job_posting, only: %i[ show save apply dismiss restore dream undo ]
 
   # Triage: new postings, with filters and ordering (JobPostingFilter).
   def index
@@ -47,13 +47,15 @@ class JobPostingsController < ApplicationController
   end
 
   def save
+    undo = undo_params(application: true)
     application = @job_posting.save_as_application!
-    respond_with_row(notice: "Salva em Candidaturas: #{application.company} · #{application.role}.")
+    respond_with_row(notice: "Salva em Candidaturas: #{application.company} · #{application.role}.", undo:)
   end
 
   def apply
+    undo = undo_params(application: true)
     application = @job_posting.mark_applied!
-    redirect_to job_posting_path(@job_posting), notice: "#{application.company} · #{application.role} está em Candidaturas como #{application.human_enum(:status).downcase}."
+    respond_with_row(notice: "#{application.company} · #{application.role} está em Candidaturas como #{application.human_enum(:status).downcase}.", undo:)
   end
 
   # "Vaga dos sonhos": up to five postings the AI reads as the kind of role the person aims for.
@@ -69,13 +71,31 @@ class JobPostingsController < ApplicationController
   end
 
   def dismiss
+    undo = undo_params
     @job_posting.triage_dismissed!
-    respond_with_row(notice: "Vaga descartada.")
+    respond_with_row(notice: "Vaga descartada. Ela continua em Triagem → Descartadas.", undo:)
   end
 
   def restore
     @job_posting.update!(triage: "new", auto_dismissed_reason: nil)
     respond_with_row(notice: "Vaga de volta para a triagem.")
+  end
+
+  # "Desfazer" in the toast: the triage the posting had before and, when the action touched it,
+  # the application as it was (removed if the action created it, moved back otherwise).
+  def undo
+    if params.key?(:application_id)
+      application = @job_posting.job_application
+      if params[:application_id].blank?
+        application&.destroy!
+      elsif application&.id == params[:application_id].to_i
+        status = params[:status].presence_in(JobApplication::STATUSES) || application.status
+        application.move_to!(status, JobApplication.where(status:).count) unless status == application.status
+        application.update!(applied_on: params[:applied_on].presence)
+      end
+    end
+    @job_posting.update!(triage: params[:triage].presence_in(JobPosting::TRIAGES) || "new")
+    redirect_to back_with_posting_selected, notice: "Desfeito.", status: :see_other
   end
 
   private
@@ -91,16 +111,42 @@ class JobPostingsController < ApplicationController
       params.permit(*JobPostingFilter::KEYS).to_h
     end
 
-    def respond_with_row(notice:)
+    # What "Desfazer" needs to put back: the triage and, for save and apply, the application.
+    def undo_params(application: false)
+      state = { "triage" => @job_posting.triage }
+      if application
+        current = @job_posting.job_application
+        state.merge!("application_id" => current&.id.to_s, "status" => current&.status.to_s, "applied_on" => current&.applied_on&.iso8601.to_s)
+      end
+      state
+    end
+
+    # Triage from the Painel goes back to it; from Vagas, the list and the detail change in place.
+    def respond_with_row(notice:, undo: nil)
+      undo &&= { "url" => undo_job_posting_path(@job_posting), "params" => undo }
+      return redirect_to(root_path, notice:, flash: { undo: }, status: :see_other) if params[:from] == "painel"
+
       respond_to do |format|
         format.turbo_stream do
           flash.now[:notice] = notice
+          flash.now[:undo] = undo
           render turbo_stream: [
             turbo_stream.replace(@job_posting, partial: "job_postings/job_posting", locals: { job_posting: @job_posting }),
             turbo_stream.replace("flash", partial: "layouts/flash")
           ]
         end
-        format.html { redirect_back_or_to job_posting_path(@job_posting), notice: }
+        format.html { redirect_back_or_to job_posting_path(@job_posting), notice:, flash: { undo: } }
       end
+    end
+
+    # Back to the page of the toast; on Vagas, with the posting selected again.
+    def back_with_posting_selected
+      uri = URI.parse(request.referer.to_s)
+      return root_path if uri.path == root_path
+      return job_posting_path(@job_posting) unless uri.path == job_postings_path
+
+      job_postings_path(Rack::Utils.parse_query(uri.query).slice(*JobPostingFilter::KEYS, "page").merge("selected" => @job_posting.id))
+    rescue URI::InvalidURIError
+      job_posting_path(@job_posting)
     end
 end

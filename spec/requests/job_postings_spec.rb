@@ -80,6 +80,49 @@ RSpec.describe "Job postings (triage)" do
     expect { post save_job_posting_path(posting) }.not_to change(JobApplication, :count)
   end
 
+  describe "POST /vagas/:id/undo" do
+    it "undoes a save, removing the application it created" do
+      posting = create(:job_posting)
+
+      post save_job_posting_path(posting), as: :turbo_stream
+      expect(response.body).to include("Desfazer", 'name="application_id" value=""')
+
+      post undo_job_posting_path(posting), params: { triage: "new", application_id: "", status: "", applied_on: "" }, headers: { "HTTP_REFERER" => job_postings_url(min_score: 40, selected: 1) }
+
+      expect(response).to redirect_to(job_postings_path(min_score: 40, selected: posting.id))
+      expect(posting.reload).to be_triage_new
+      expect(posting.job_application).to be_nil
+    end
+
+    it "moves an application back when undoing an apply" do
+      posting = create(:job_posting, triage: "saved")
+      application = create(:job_application, job_posting: posting, status: "saved")
+
+      post apply_job_posting_path(posting), as: :turbo_stream
+      expect(application.reload).to have_attributes(status: "applied", applied_on: Date.current)
+
+      post undo_job_posting_path(posting), params: { triage: "saved", application_id: application.id, status: "saved", applied_on: "" }
+
+      expect(application.reload).to have_attributes(status: "saved", applied_on: nil)
+      expect(response).to redirect_to(job_posting_path(posting))
+    end
+
+    it "undoes a dismissal from the Painel without touching the application" do
+      posting = create(:job_posting)
+      application = create(:job_application, job_posting: posting)
+
+      post dismiss_job_posting_path(posting, from: "painel"), as: :turbo_stream
+      expect(response).to redirect_to(root_path)
+      expect(flash[:undo]).to eq("url" => undo_job_posting_path(posting), "params" => { "triage" => "new" })
+
+      post undo_job_posting_path(posting), params: { triage: "new" }, headers: { "HTTP_REFERER" => root_url }
+
+      expect(response).to redirect_to(root_path)
+      expect(posting.reload).to be_triage_new
+      expect(application.reload).to be_persisted
+    end
+  end
+
   describe "POST /vagas/:id/dream" do
     it "marks and unmarks a dream job, up to five" do
       posting = create(:job_posting)
