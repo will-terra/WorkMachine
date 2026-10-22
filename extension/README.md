@@ -6,18 +6,13 @@ quando você clica no ícone dela; ela nunca navega, nunca abre vagas sozinha e 
 
 ## Como instalar
 
-1. No WorkMachine, gere um token e coloque no `.env` (depois reinicie o app):
-   ```bash
-   bin/rails secret   # copie o valor
-   # .env
-   WORKMACHINE_API_TOKEN=<o valor copiado>
-   ```
+1. No WorkMachine, abra **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
 2. Abra `chrome://extensions` (Chrome) ou `edge://extensions` (Edge).
 3. Ligue o **Modo do desenvolvedor**.
 4. Clique em **Carregar sem compactação** e escolha esta pasta `extension/`.
-   No Windows com WSL2, o Chrome e o Edge nem sempre carregam extensões de `\\wsl$`; copie a pasta
-   para o Windows e carregue a cópia:
-   `cp -r ~/WorkMachine/extension/. /mnt/c/Users/$USER/WorkMachine-extension/`.
+   No Windows com o projeto dentro do WSL2, o Chrome e o Edge nem sempre carregam extensões de
+   `\\wsl$`; copie a pasta para o Windows e carregue a cópia:
+   `cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/`.
 5. Fixe o ícone na barra. Clique com o botão direito no ícone → **Opções**, cole o token e use
    **Testar conexão**.
 

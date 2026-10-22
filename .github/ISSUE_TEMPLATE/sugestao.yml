@@ -1,0 +1,19 @@
+name: Sugestão
+description: Uma ideia para o WorkMachine.
+labels: [sugestão]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Que problema isso resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: ideia
+    attributes:
+      label: Como você imagina
+  - type: dropdown
+    id: area
+    attributes:
+      label: Sua área
+      options: [Desenvolvimento, QA, DevOps/SRE/cloud, Dados, UX/UI, Produto, Outra]

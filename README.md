@@ -1,278 +1,191 @@
 # WorkMachine
 
-App de busca de emprego para quem é de tecnologia. Junta vagas de várias fontes, dá uma nota de
-0 a 100 pelo seu perfil, controla as candidaturas num kanban (com exportação para planilha), monta
-mensagens para recrutadores e usa IA para analisar a vaga e adaptar o resumo do CV.
+Um assistente de busca de emprego para quem é de tecnologia (desenvolvimento, QA, DevOps/SRE/cloud,
+dados, UX/UI e produto) que roda no seu próprio computador. Ele:
 
-Roda localmente com Docker Compose dentro do WSL2, em `http://localhost:3000`, e pode ser instalado
-como aplicativo no Windows.
+- junta vagas de mais de dez fontes públicas e dos seus alertas do LinkedIn;
+- dá a cada vaga uma nota de 0 a 100 pelo **seu** perfil, e explica a nota;
+- controla as candidaturas num kanban, com planilha `.xlsx`, follow-ups e métricas do funil;
+- monta o seu perfil a partir do currículo e usa IA para analisar vagas, adaptar o resumo do CV e
+  escrever mensagens para recrutadores;
+- lista o que vale fazer à mão (o Radar): buscas prontas no LinkedIn, X, Google e grupos.
 
-## O que tem
+Tudo fica no seu computador: as vagas, o currículo e as senhas. Não há conta em servidor nenhum.
+
+> O WorkMachine não raspa o LinkedIn e não se candidata sozinho: isso viola os termos do LinkedIn e
+> arrisca a sua conta. Os alertas de vaga chegam pelo seu Gmail, e a extensão do navegador só lê uma
+> página quando você clica nela.
+
+## O que você precisa
+
+- Um computador com **Windows 10/11, macOS ou Linux** e uns 2 GB livres.
+- O **Docker Desktop** (no Linux, o Docker Engine com o plugin Compose).
+- Opcional, para a IA: uma conta no [OpenRouter](https://openrouter.ai) com alguns dólares de crédito.
+  O padrão é o DeepSeek V4 Pro: montar o perfil pelo currículo custa menos de 1 centavo de dólar, e
+  uma análise de vaga, uma fração disso.
+- Opcional, para os alertas do LinkedIn e as respostas das empresas: um Gmail com a verificação em
+  duas etapas ligada.
+
+## Instalar
+
+1. **Instale o Docker Desktop** em [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/)
+   e abra o programa uma vez. No Windows ele ativa o WSL2 sozinho (pode pedir para reiniciar).
+2. **Baixe o WorkMachine.** Quem usa git:
+   ```bash
+   git clone https://github.com/will-terra/WorkMachine.git
+   cd WorkMachine
+   ```
+   Sem git: na página do projeto no GitHub, clique em **Code → Download ZIP**, descompacte e abra um
+   terminal na pasta (no Windows, clique com o botão direito na pasta → **Abrir no Terminal**).
+3. **Suba o app:**
+   ```bash
+   docker compose up -d
+   ```
+   Na primeira vez ele baixa a imagem do WorkMachine (alguns minutos). Daí em diante o app sobe
+   sozinho junto com o Docker.
+4. Abra **http://localhost:3000**, crie a sua conta (ela só existe no seu computador) e siga o
+   **Primeiro uso**: chave da IA, Gmail, perfil e a primeira busca de vagas.
+
+### Instalar como aplicativo
+
+Com o app aberto no Chrome ou no Edge: ícone de instalar na barra de endereço (Chrome) ou menu `…` →
+**Aplicativos** → **Instalar este site como um aplicativo** (Edge). Ele ganha ícone e janela própria;
+continua precisando do Docker rodando.
+
+## Primeiros passos
+
+1. **Perfil.** Envie o currículo (PDF, DOCX ou TXT) e clique em **Montar perfil a partir do CV**: a IA
+   preenche um rascunho que você revisa antes de salvar. Ajuste a área, os cargos alvo, o nível e as
+   skills em três níveis (essencial +30, importante +10, extra +5). Use **Ver prévia** para ver como
+   ficam as notas antes de salvar. Sem IA, preencha à mão: a tela sugere cargos e skills da sua área.
+2. **Vagas.** A cada 3 horas o agregador busca pelos termos do seu perfil. Na triagem, salve as boas
+   (viram candidaturas) e descarte o resto.
+3. **Candidaturas.** Mova os cartões no kanban. Se o Gmail estiver ligado, as respostas das empresas
+   (recusa, entrevista, teste, proposta) movem os cartões sozinhas.
+4. **Radar.** O que fazer à mão, por frequência, com as buscas já montadas para o seu perfil. Crie os
+   alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn**.
+
+## O que tem em cada tela
 
 | Tela | Para que serve |
 | - | - |
-| **Painel** | Vagas novas por nota, follow-ups do dia, funil das candidaturas e a rotina de hoje. |
-| **Vagas** | Triagem: filtros por fonte, região, senioridade e nota. Salvar (vira candidatura), Descartar, Analisar com IA. |
-| **Candidaturas** | Kanban por status (arrastar e soltar), tabela, exportação `.xlsx`, importação e exportação CSV. |
-| **Métricas** | Candidaturas por semana, funil (aplicadas → responderam → entrevista → proposta), taxas de resposta e de entrevista por origem e quais fontes de vagas mais rendem. |
-| **Radar** | O que fazer à mão, por frequência (todo dia, toda semana, uma vez): buscas prontas no LinkedIn, Telegram, X e Google, sites sem API, alertas do LinkedIn a criar e o checklist de cadastros. No topo, o resumo das fontes automáticas. |
-| **Mensagens** | Modelos com `{{nome}}`, `{{cargo}}` e `{{empresa}}` preenchidos a partir da vaga ou do contato, com contador de caracteres. |
+| **Painel** | Vagas novas por nota, follow-ups do dia, respostas das empresas e a rotina de hoje. |
+| **Vagas** | Triagem com filtros e ordenação: salvar, salvar em aplicadas, descartar, analisar com IA, marcar como vaga dos sonhos. |
+| **Candidaturas** | Kanban e tabela, e-mails da empresa em cada candidatura, exportação `.xlsx` e CSV. |
+| **Métricas** | Candidaturas por semana, funil, taxas de resposta e de entrevista por origem e as fontes que mais rendem. |
+| **Radar** | O que fazer à mão: publicações e pessoas no LinkedIn, X, Google, grupos do Telegram, sites sem API e cadastros. |
+| **Mensagens** | Modelos de mensagem preenchidos com a vaga, o contato e o seu perfil. |
 | **Rotina** | Checklist diário e semanal. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
-| **Ajustes** | Notificações (vagas novas, respostas das empresas, follow-ups do dia), descarte automático, leitura das respostas no Gmail e backup. |
+| **Perfil** | Quem você é e o que procura: dele saem a nota, as buscas, o Radar e a IA. |
+| **Ajustes** | Chaves e contas, extensão, notificações, descarte automático, fontes e backup. |
 
-De onde vêm as vagas, sozinhas:
+As fontes automáticas: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
+backend-br e frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse,
+Lever, Ashby e Workable das empresas-alvo. As de nicho só rodam quando combinam com o seu perfil, e
+cada uma pode ser desligada em Ajustes. Cada fonte respeita os limites e os créditos que a API pede.
 
-- **Agregador**, a cada 3 horas: Remotive, Remote OK, We Work Remotely, Remotar, Himalayas, Working
-  Nomads, backend-br/vagas, frontendbr/vagas (plano B), Hacker News "Who is hiring", GoRails Jobs e os
-  quadros Greenhouse, Lever, Ashby e Workable das empresas-alvo. Cada fonte respeita um intervalo mínimo (o Remotive, por exemplo, pede no máximo 4
-  chamadas por dia) e toda vaga guarda o link e o crédito da fonte.
-- **Alertas do LinkedIn**, a cada hora: os e-mails de alerta que chegam no Gmail são lidos por IMAP.
-- **Extensão do navegador**: botão "Salvar no WorkMachine" na vaga aberta (LinkedIn, Greenhouse, Lever,
-  Gupy, páginas de carreira…), nota no ícone para as vagas do LinkedIn que já estão aqui e recrutadores
-  salvos em Contatos.
-
-O WorkMachine não raspa o LinkedIn e não se candidata sozinho, porque isso viola os termos do LinkedIn
-e arrisca a conta.
-
-## Instalar e rodar (WSL2 + Docker)
-
-Pré-requisitos: WSL2 com Ubuntu e o Docker Desktop com a integração do WSL ligada
-(*Settings → Resources → WSL integration*). Mantenha o projeto dentro do Linux (por exemplo em
-`~/WorkMachine`), não em `/mnt/c`, para o app ficar rápido.
-
-```bash
-git clone https://github.com/will-terra/WorkMachine.git ~/WorkMachine
-cd ~/WorkMachine
-cp .env.example .env        # depois preencha as chaves (seções abaixo)
-docker compose up -d --build
-```
-
-A primeira subida leva alguns minutos (instala as gems). Depois abra **http://localhost:3000**, crie a
-sua conta na tela de primeiro acesso (o app tem um único usuário) e pronto. Na criação do banco já
-entram as 16 consultorias, os 7 modelos de mensagem e 7 empresas-alvo de exemplo.
-
-O Solid Queue roda dentro do Puma (`SOLID_QUEUE_IN_PUMA=1`), então há um único container, e as
-tarefas automáticas (agregador, alertas do LinkedIn e follow-ups às 8h de Brasília) rodam enquanto
-ele estiver de pé. O banco SQLite fica no volume `storage` do Docker.
-
-Comandos do dia a dia:
-
-```bash
-docker compose logs -f web                     # ver o que está acontecendo
-docker compose up -d --force-recreate          # depois de editar o .env
-docker compose up -d --build                   # depois de mudar o Gemfile
-docker compose down                            # parar (os dados ficam no volume)
-docker compose exec web bin/rails console      # console do Rails
-docker compose exec web bin/rails jobs:fetch   # buscar vagas agora (FORCE=1 ignora os intervalos)
-```
-
-O botão **Buscar agora**, na tela de Vagas, faz o mesmo que `jobs:fetch` sem precisar do terminal.
-
-### Instalar como app no Windows
-
-Com o WorkMachine rodando, abra `http://localhost:3000` no Edge ou no Chrome:
-
-- **Edge:** menu `…` → **Aplicativos** → **Instalar este site como um aplicativo**.
-- **Chrome:** ícone de instalar na barra de endereço (ou menu `⋮` → **Transmitir, salvar e compartilhar** →
-  **Instalar página como app**).
-
-O WorkMachine ganha ícone no menu Iniciar e abre em janela própria. Ele continua dependendo do
-container estar rodando; se a janela não carregar, rode `docker compose up -d` no WSL.
-
-## Configurar o `.env`
-
-O `.env` fica fora do git. Depois de editar, recrie o container com `docker compose up -d --force-recreate`.
-
-| Variável | Para que serve |
-| - | - |
-| `OPENROUTER_API_KEY` | IA (análise de fit, resumo de CV, mensagem). |
-| `OPENROUTER_MODEL` | Opcional. Modelo do OpenRouter; o padrão é `deepseek/deepseek-v4-pro-0813`. |
-| `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Importação dos alertas de vagas do LinkedIn. |
-| `GMAIL_MAILBOX`, `LINKEDIN_ALERT_SENDERS` | Opcionais. Pasta do Gmail (padrão `INBOX`) e remetentes dos alertas. |
-| `WORKMACHINE_API_TOKEN` | Token que a extensão do navegador manda para salvar vagas. |
-| `GITHUB_TOKEN` | Opcional. Aumenta o limite da API do GitHub de 60 para 5000 chamadas por hora. |
-
-### Chave do OpenRouter (IA)
+## IA (OpenRouter)
 
 1. Crie a conta em [openrouter.ai](https://openrouter.ai) e adicione créditos em
-   [Settings → Credits](https://openrouter.ai/settings/credits). Alguns dólares duram muito: uma análise
-   de fit com o DeepSeek V4 Pro custa por volta de US$ 0,001.
-2. Gere a chave em [Settings → Keys](https://openrouter.ai/settings/keys) e coloque em `OPENROUTER_API_KEY`.
-3. Para trocar de modelo, use `OPENROUTER_MODEL` com o id do OpenRouter, por exemplo `z-ai/glm-5.3`.
+   [Settings → Credits](https://openrouter.ai/settings/credits).
+2. Gere a chave em [Settings → Keys](https://openrouter.ai/settings/keys) e cole em **Ajustes → Chaves
+   e contas** (ou no Primeiro uso). Use **Testar OpenRouter** para conferir.
+3. Para trocar de modelo, informe o id do OpenRouter no campo **Modelo** (por exemplo `z-ai/glm-5.3`).
 
-A IA só roda quando você clica em um dos botões da página da vaga. Antes do clique a página mostra uma
-estimativa de custo, e cada resultado guarda o custo real informado pelo OpenRouter. O perfil usado nos
-prompts é o texto para a IA da tela **Perfil**: atualize quando o CV mudar, porque a IA só usa fatos que
-estão nele.
+A IA só roda quando você clica: montar o perfil, analisar o fit, adaptar o resumo do CV ou escrever uma
+mensagem. A exceção é a leitura das respostas das empresas no Gmail, que roda sozinha. O botão mostra o
+custo estimado antes, e cada resultado guarda o custo real. A IA usa só os fatos do seu perfil e nunca
+inventa experiência.
 
-### Senha de app do Gmail (alertas do LinkedIn)
+## Gmail (alertas do LinkedIn e respostas das empresas)
 
-1. Ligue a **verificação em duas etapas** na conta Google (myaccount.google.com → Segurança). Sem ela,
-   o Google não oferece senha de app.
+1. Ligue a **verificação em duas etapas** na conta Google (myaccount.google.com → Segurança).
 2. Abra [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords), crie uma senha
-   com o nome "WorkMachine" e copie os 16 caracteres.
-3. No `.env`: `GMAIL_USER=seu.email@gmail.com` e `GMAIL_APP_PASSWORD=<os 16 caracteres>`.
-4. No LinkedIn, em cada busca boa do Radar, clique em **Criar alerta** e escolha receber por e-mail.
+   chamada "WorkMachine" e copie as 16 letras.
+3. Em **Ajustes → Chaves e contas**, informe o e-mail e a senha de app e clique em **Testar Gmail**.
+4. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar.
 
-A importação abre a caixa só para leitura: os e-mails continuam como estão (nada é marcado como lido,
-movido ou apagado). Na primeira vez ela olha os últimos 14 dias; depois, só o que chegou desde o último
-alerta importado. Se o seu Gmail arquiva os alertas fora da caixa de entrada, use
-`GMAIL_MAILBOX=[Gmail]/Todos os e-mails`.
-
-O formato desses e-mails muda de tempos em tempos. Para conferir o que o parser lê de um alerta real,
-exporte o e-mail como `.eml` (no Gmail: `⋮` → **Fazer o download da mensagem**), copie para a pasta do
-projeto e rode:
-
-```bash
-docker compose exec web bin/rails "linkedin:parse[alerta.eml]"   # só mostra, não salva nada
-docker compose exec web bin/rails linkedin:import                # importa agora
-```
-
-## Respostas das empresas
-
-A cada hora (minuto 10) o WorkMachine lê no Gmail, só para leitura, os e-mails das empresas em que você
-aplicou: ele reconhece a empresa no remetente, no assunto ou no domínio, e só esses e-mails vão para o
-modelo de IA classificar (recusa, convite para entrevista, teste, proposta, mensagem de recrutador,
-confirmação). Recusa, entrevista, teste e proposta movem o cartão no kanban, sempre para a frente, e
-geram uma notificação. Cada candidatura mostra os e-mails da empresa e o Painel mostra as respostas
-recentes. Sem a chave do OpenRouter, a classificação usa regras de palavras-chave. Para desligar, use
-**Ajustes → Respostas das empresas**; para ler agora, **Candidaturas → Verificar respostas**.
-
-## Notificações de vagas novas
-
-Em **Ajustes**, clique em **Ativar notificações** e aceite o pedido do navegador. Faça isso dentro do app
-instalado (ou em cada navegador onde quiser receber) e use **Enviar notificação de teste** para conferir.
-Sempre que o agregador ou os alertas do LinkedIn trouxerem vagas com nota igual ou maior que a nota
-mínima (padrão 40), chega uma notificação; clicar nela abre a vaga, ou a triagem filtrada quando são
-várias. Cada vaga é notificada uma vez só. As chaves do Web Push são geradas sozinhas no primeiro uso.
-
-Às 8h chega também a lista dos follow-ups do dia (candidaturas sem resposta há mais de 5 dias). Com uma
-só, a notificação abre **Mensagens** com o modelo de follow-up já preenchido. As respostas das empresas
-lidas no Gmail também notificam. Cada tipo pode ser desligado em **Ajustes**.
-
-No Windows, o Chrome precisa estar rodando em segundo plano para entregar com o app fechado (é o padrão:
-*Configurações → Sistema → Continuar executando apps em segundo plano*). Se nada aparecer, confira se as
-notificações do Chrome estão liberadas em *Configurações do Windows → Sistema → Notificações*.
+O WorkMachine abre a caixa só para leitura: nada é marcado como lido, movido ou apagado. A cada hora ele
+importa os alertas do LinkedIn e procura as respostas das empresas em que você aplicou.
 
 ## Extensão do navegador
 
-1. Gere um token e coloque em `WORKMACHINE_API_TOKEN` no `.env` (depois recrie o container):
-   ```bash
-   docker compose exec web bin/rails secret | cut -c1-48
-   ```
-2. O Chrome e o Edge nem sempre carregam extensões de dentro do WSL, então copie a pasta para o Windows:
-   ```bash
-   cp -r ~/WorkMachine/extension/. /mnt/c/Users/$USER/WorkMachine-extension/
-   ```
-   (Se o seu usuário do Windows tiver outro nome que o do WSL, ajuste o caminho.)
-3. Abra `chrome://extensions` ou `edge://extensions`, ligue o **Modo do desenvolvedor**, clique em
-   **Carregar sem compactação** e escolha `C:\Users\<você>\WorkMachine-extension`.
-4. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
+Ela salva no WorkMachine a vaga aberta em qualquer site (LinkedIn, Greenhouse, Lever, Gupy, páginas de
+carreira…), mostra no ícone a nota das vagas do LinkedIn que já estão no app e salva recrutadores em
+Contatos.
 
-Para usar: abra a vaga, clique no ícone, confira título, empresa e local e clique em
-**Salvar no WorkMachine** ou **Salvar em aplicadas**. Se a vaga já está no WorkMachine, o popup mostra
-a nota e a candidatura. Nas vagas do LinkedIn, o ícone mostra a nota sozinho (verde: já aplicou;
-cinza: descartada), usando só o endereço da aba. A equipe de contratação da vaga e os perfis do
-LinkedIn (`/in/...`) podem ser salvos em **Contatos**. Quando a extensão mudar, copie a pasta de novo
-e clique em recarregar na página de extensões. Detalhes em [extension/README.md](extension/README.md).
+1. Em **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
+2. Abra `chrome://extensions` (ou `edge://extensions`), ligue o **Modo do desenvolvedor** e clique em
+   **Carregar sem compactação**. Escolha a pasta `extension` de dentro da pasta do WorkMachine.
+   - **Windows com o projeto dentro do WSL:** o Chrome nem sempre abre pastas do WSL. Copie a pasta para
+     o Windows e carregue a cópia:
+     ```bash
+     cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/
+     ```
+3. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
 
-## Empresas-alvo
+Depois de atualizar o WorkMachine, clique em recarregar (↻) no cartão da extensão (no Windows com WSL,
+copie a pasta de novo antes). Ajustes mostra a versão esperada. Detalhes em
+[extension/README.md](extension/README.md).
 
-São as empresas que publicam vagas num quadro público do Greenhouse, Lever, Ashby ou Workable. O
-agregador consulta cada empresa ativa a cada 3 horas e guarda só as vagas de engenharia.
+## Notificações
 
-Elas também entram sozinhas: quando qualquer vaga nova (do agregador, de um alerta ou salva pela
-extensão) aponta para o quadro de uma empresa, ela é cadastrada. Se a vaga tiver nota igual ou maior
-que a nota mínima de **Ajustes**, a empresa já entra ativa; senão aparece em **Sugestões**, com os botões
-Ativar e Ignorar.
+Em **Ajustes**, clique em **Ativar notificações** (de preferência dentro do app instalado). Chegam
+avisos de vagas novas com nota alta (padrão 40), de respostas das empresas e, às 8h, dos follow-ups do
+dia. Cada tipo pode ser desligado.
 
-Quando você aplica numa vaga, o WorkMachine também procura o quadro público da empresa (pelos links da
-vaga e perguntando a cada sistema pelo nome da empresa) e, se achar, a cadastra ativa. O botão
-**Buscar nas candidaturas** refaz essa busca para todas as candidaturas.
+## Backup e dados
 
-1. Abra **Empresas-alvo** → **Adicionar empresa**.
-2. Escolha o sistema e informe o *slug*, que é o trecho do endereço da página de vagas:
-   - Greenhouse: `job-boards.greenhouse.io/`**`gitlab`**
-   - Lever: `jobs.lever.co/`**`empresa`**
-   - Ashby: `jobs.ashbyhq.com/`**`empresa`**
-   - Workable: `apply.workable.com/`**`empresa`**
-3. Salve. A empresa entra na próxima busca (ou clique em **Buscar agora** em Vagas).
+Tudo fica no volume `storage` do Docker: banco, currículo e as chaves que criptografam as senhas.
 
-As 7 empresas do seed estão marcadas como "exemplo"; edite, desative ou apague à vontade. Se o slug
-estiver errado, o aviso aparece em **Vagas → Fontes do agregador**.
+- **Backup automático:** a cada hora o banco é copiado para a pasta `backups` dentro da pasta do
+  WorkMachine. Ficam as cópias das últimas 24 horas e uma por dia dos últimos 14 dias. Para gravar em
+  outra pasta (uma que já vai para a nuvem, por exemplo), crie um arquivo `.env` a partir do
+  `.env.example` e informe `WORKMACHINE_BACKUP_DIR`; depois rode `docker compose up -d`.
+- **Planilha:** Candidaturas → Exportar .xlsx ou Exportar CSV.
+- **Restaurar um backup** (troque o nome do arquivo):
+  ```bash
+  docker compose stop web
+  docker compose run --rm --no-deps --entrypoint sh web -c \
+    'cp backups/workmachine-AAAA-MM-DD-HHMM.sqlite3 storage/production.sqlite3 && rm -f storage/production.sqlite3-wal storage/production.sqlite3-shm'
+  docker compose start web
+  ```
+  As senhas salvas em Ajustes só abrem com o arquivo `storage/workmachine-secrets.yml` do mesmo volume.
+  Num volume novo, informe as chaves de novo em Ajustes.
+- **Apagar tudo:** `docker compose down -v` remove o app e o volume com os dados. Os backups ficam.
 
-## Nota das vagas
-
-A nota vem de [app/services/job_scorer.rb](app/services/job_scorer.rb) e cada vaga mostra os pontos que
-somaram ou tiraram:
-
-- Palavras-chave: Rails +30, Ruby +10, React +10, Hotwire/Turbo/Stimulus +8, Sidekiq +5, Postgres +5,
-  GovTech +5, TypeScript +4, Docker/Kubernetes +3.
-- Região aberta (LATAM, Brasil, anywhere, worldwide) +15.
-- Penalidades: só EUA/Canadá, só Europa ou lista de países fora da América Latina −40; 7+ anos −15
-  (5 ou 6 anos −10); cargo de gestão −15; staff/principal −10 (sênior/lead −10).
-
-Vagas sem descrição (as dos alertas do LinkedIn) mostram **nota parcial**: abra a vaga com a extensão
-para completar a descrição, ou use **Analisar com IA**.
-
-Em **Ajustes → Descarte automático**, as vagas do agregador e dos alertas que só aceitam EUA/Canadá,
-Europa ou outros países já chegam descartadas (ligado por padrão), e você pode descartar também as com
-nota abaixo de um valor. As salvas pela extensão nunca são descartadas. Para conferir, use o filtro
-**Descartada automaticamente** na triagem; cada vaga mostra o motivo.
-
-Depois de mudar os pesos, recalcule as vagas já salvas com
-`docker compose exec web bin/rails jobs:rescore`.
-
-## Backup
-
-A cada hora (no minuto 30) o WorkMachine copia o banco para a pasta de `WORKMACHINE_BACKUP_DIR` no
-`.env`, por exemplo `/mnt/c/Users/<você>/Documents/WorkMachine/backups` (sem a variável, vai para
-`backups/` do projeto). Ficam todas as cópias das últimas 24 horas e uma por dia dos últimos 14 dias.
-Em **Ajustes** aparecem o último backup e o botão **Fazer backup agora**; pelo terminal,
-`docker compose exec web bin/rails backup:now`. Depois de mudar a pasta no `.env`, rode
-`docker compose up -d` para o container montar a pasta nova.
-
-Para restaurar uma cópia (troque o nome do arquivo):
+## Atualizar
 
 ```bash
-docker compose stop web
-docker compose run --rm --no-deps --entrypoint sh web -c \
-  'cp backups/workmachine-AAAA-MM-DD-HHMM.sqlite3 storage/development.sqlite3 && rm -f storage/development.sqlite3-wal storage/development.sqlite3-shm'
-docker compose start web
+docker compose pull && docker compose up -d
 ```
 
-A planilha das candidaturas também sai em **Candidaturas → Exportar .xlsx** ou **Exportar CSV**.
+O banco é atualizado sozinho ao subir. Quem baixou com git pode rodar `git pull` antes, para receber
+também a extensão nova (e recarregá-la no navegador).
 
-Esqueceu a senha? Não há envio de e-mail; troque pelo terminal:
+## Problemas comuns
 
-```bash
-docker compose exec web bin/rails runner 'User.first.update!(password: "uma-senha-nova")'
-```
+- **A porta 3000 já está em uso:** troque `127.0.0.1:3000:3000` por `127.0.0.1:3001:3000` no
+  `docker-compose.yml` e abra http://localhost:3001 (nas Opções da extensão, troque o endereço também).
+- **Esqueci a senha:**
+  ```bash
+  docker compose exec web bin/rails runner 'User.first.update!(password: "uma-senha-nova")'
+  ```
+- **Ver o que está acontecendo:** `docker compose logs -f web`.
+- **Buscar vagas agora:** botão **Buscar agora** em Vagas.
 
-## Desenvolvimento
+## Privacidade
 
-Ruby 4.0, Rails 8.1, Hotwire (Turbo e Stimulus) com importmap, Tailwind, SQLite com Solid
-Queue/Cache/Cable. Testes com RSpec, FactoryBot, WebMock e SimpleCov (o build falha abaixo de 90% de
-cobertura).
+O WorkMachine roda só no seu computador e não manda dados para o autor nem para servidor algum. Saem
+dele apenas: as buscas às fontes públicas de vagas; a conexão de leitura com o seu Gmail, se ligada; e,
+quando você usa uma função de IA, o texto necessário (currículo, perfil, vaga ou e-mail da empresa) para o
+OpenRouter, com a sua chave. As senhas ficam criptografadas no banco local.
 
-Fora do Docker, com o Ruby instalado no WSL:
+## Licença e contribuição
 
-```bash
-bin/setup                     # instala as gems, prepara o banco e sobe o bin/dev
-bundle exec rspec             # testes
-bin/ci                        # RuboCop, RSpec, auditorias de gems e importmap, Brakeman
-SOLID_QUEUE_IN_PUMA=1 bin/dev # app + Tailwind + jobs, em localhost:3000
-```
+Código aberto sob a [GNU AGPL-3.0](LICENSE): você pode usar, estudar, modificar e distribuir; quem
+distribuir ou oferecer pela rede uma versão modificada precisa abrir o código dela sob a mesma licença.
 
-O GitHub Actions roda Brakeman, bundler-audit, importmap audit, RuboCop e RSpec a cada push na `main`
-e em cada pull request.
-
-Onde fica cada coisa:
-
-- `app/services/sources/`: uma classe por fonte de vagas; `Sources.all` define a ordem.
-- `app/services/job_ingestor.rb`: deduplica (URL normalizada e empresa + título), dá a nota e salva.
-- `app/services/linkedin_alerts/`: leitura do Gmail por IMAP e parser dos alertas.
-- `app/services/ai/`: prompts, cliente do OpenRouter, preços e o rascunho do perfil pelo CV.
-- `config/radar.yml` e `config/routine.yml`: buscas do Radar e itens da rotina.
-- `extension/`: a extensão Manifest V3.
+Achou um problema ou tem uma sugestão? Abra uma issue. Quer mexer no código? Veja
+[CONTRIBUTING.md](CONTRIBUTING.md) e [DEVELOPMENT.md](DEVELOPMENT.md).

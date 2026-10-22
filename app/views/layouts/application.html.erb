@@ -44,5 +44,11 @@
       <%= render "layouts/flash" %>
       <%= yield %>
     </main>
+
+    <footer class="muted mx-auto max-w-6xl px-4 pb-8 text-xs">
+      WorkMachine <%= AppVersion.current %> · código aberto sob a
+      <%= link_to "AGPL-3.0", "https://github.com/will-terra/WorkMachine/blob/main/LICENSE", class: "text-muted underline" %> ·
+      <%= link_to "código-fonte", "https://github.com/will-terra/WorkMachine", class: "text-muted underline" %>
+    </footer>
   </body>
 </html>

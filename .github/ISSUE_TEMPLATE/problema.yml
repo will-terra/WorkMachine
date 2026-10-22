@@ -1,0 +1,37 @@
+name: Problema
+description: Algo não funciona como deveria.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Nunca cole chaves, senhas, currículos ou dados pessoais aqui.
+  - type: textarea
+    id: passos
+    attributes:
+      label: Passos para reproduzir
+      placeholder: "1. Abri Vagas\n2. Cliquei em…"
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: O que você esperava e o que aconteceu
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do WorkMachine
+      description: Aparece no topo de Ajustes.
+      placeholder: "2.0.0"
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema
+      options: [Windows (WSL2), macOS, Linux]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (opcional)
+      description: Saída de `docker compose logs web`, sem dados pessoais.
+      render: text
