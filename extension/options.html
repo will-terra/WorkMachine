@@ -6,14 +6,21 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="options">
-  <h1>WorkMachine · Opções</h1>
+  <header>
+    <img src="icons/ruby-64.png" alt="" width="26" height="26">
+    <span class="brand">WorkMachine</span>
+    <span class="badge">on Rails</span>
+  </header>
+  <p class="eyebrow">extensão do navegador</p>
+  <h1>Opções</h1>
+  <p class="muted">Conecte a extensão ao WorkMachine que roda no seu computador.</p>
   <form id="options-form">
     <label>Endereço do WorkMachine
       <input name="server" placeholder="http://localhost:3000" required>
     </label>
     <label>Token da API
       <input name="token" type="password" autocomplete="off" required>
-      <span class="muted small">O mesmo valor de WORKMACHINE_API_TOKEN no arquivo .env do WorkMachine.</span>
+      <span class="muted small">Copie em Ajustes → Extensão do navegador no WorkMachine (ou use o valor de WORKMACHINE_API_TOKEN do .env).</span>
     </label>
     <div class="row">
       <button type="submit" class="primary">Salvar</button>
@@ -21,7 +28,7 @@
     </div>
   </form>
   <p id="message" role="status"></p>
-  <p class="muted small">A extensão só lê a página quando você clica no ícone dela, e só fala com localhost:3000 ou 127.0.0.1:3000.</p>
+  <p class="muted small note">A extensão só lê a página quando você clica no ícone dela, e só fala com localhost:3000 ou 127.0.0.1:3000.</p>
   <script type="module" src="options.js"></script>
 </body>
 </html>

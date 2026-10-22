@@ -4,7 +4,7 @@
 // score. Only the tab's address is used for that; the page itself is read only when you click.
 import { loadSettings } from "./config.js"
 
-const BADGE_COLORS = { applied: "#1d7448", dismissed: "#675e62", other: "#a8132d" }
+const BADGE_COLORS = { applied: "#1d7448", dismissed: "#524b49", other: "#c7262f" }
 const DEFAULT_TITLE = "Salvar no WorkMachine"
 const badgeUrls = new Map()
 
