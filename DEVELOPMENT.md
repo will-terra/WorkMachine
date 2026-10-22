@@ -78,7 +78,8 @@ Outras partes:
 
 ## Variáveis de ambiente
 
-Todas opcionais; o que dá para configurar na tela fica em Ajustes.
+Todas opcionais. Ficam num arquivo `.env` na raiz do projeto (fora do git), que o Docker Compose lê;
+depois de mudar, rode `docker compose up -d`. O que dá para configurar na tela fica em Ajustes.
 
 | Variável | Para que serve |
 | - | - |
@@ -86,7 +87,7 @@ Todas opcionais; o que dá para configurar na tela fica em Ajustes.
 | `GMAIL_USER`, `GMAIL_APP_PASSWORD` | Gmail com senha de app. |
 | `GMAIL_MAILBOX`, `LINKEDIN_ALERT_SENDERS` | Pasta do Gmail (padrão `INBOX`) e remetentes dos alertas. |
 | `WORKMACHINE_API_TOKEN` | Token da extensão (no lugar do gerado em Ajustes). |
-| `WORKMACHINE_BACKUP_DIR` | Pasta do computador montada em `backups/`. |
+| `WORKMACHINE_BACKUP_DIR` | Pasta do computador onde vai o backup de hora em hora (padrão: `backups/` do projeto). Windows com WSL: `/mnt/c/Users/SEU_USUARIO/Documents/WorkMachine/backups`; macOS: `/Users/SEU_USUARIO/Documents/WorkMachine/backups`. |
 | `GITHUB_TOKEN` | Aumenta o limite da API do GitHub (backend-br, frontendbr) de 60 para 5000 chamadas por hora. |
 | `COMPOSE_FILE` | `docker-compose.dev.yml` para o Docker Compose usar o ambiente de desenvolvimento. |
 

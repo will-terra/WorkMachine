@@ -141,8 +141,9 @@ Tudo fica no volume `storage` do Docker: banco, currículo e as chaves que cript
 
 - **Backup automático:** a cada hora o banco é copiado para a pasta `backups` dentro da pasta do
   WorkMachine. Ficam as cópias das últimas 24 horas e uma por dia dos últimos 14 dias. Para gravar em
-  outra pasta (uma que já vai para a nuvem, por exemplo), crie um arquivo `.env` a partir do
-  `.env.example` e informe `WORKMACHINE_BACKUP_DIR`; depois rode `docker compose up -d`.
+  outra pasta (uma que já vai para a nuvem, por exemplo), crie um arquivo `.env` na pasta do
+  WorkMachine com a linha `WORKMACHINE_BACKUP_DIR=` e o caminho da pasta (exemplos no
+  [DEVELOPMENT.md](DEVELOPMENT.md#variáveis-de-ambiente)); depois rode `docker compose up -d`.
 - **Planilha:** Candidaturas → Exportar .xlsx ou Exportar CSV.
 - **Restaurar um backup** (troque o nome do arquivo):
   ```bash
