@@ -247,10 +247,7 @@ Contatos.
 2. Em **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
 3. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
 
-A loja atualiza a extensão sozinha. Ajustes mostra a versão que o WorkMachine espera; se a loja ainda
-estiver atrás dela, ou se você quiser mexer no código da extensão, carregue a pasta `extension`
-(`chrome://extensions` → **Modo do desenvolvedor** → **Carregar sem compactação**; passo a passo em
-[extension/README.md](extension/README.md)).
+Pronto: a loja mantém a extensão atualizada sozinha.
 
 ## Notificações
 
@@ -285,8 +282,7 @@ Tudo fica no volume `storage` do Docker: banco, currículo e as chaves que cript
 docker compose pull && docker compose up -d
 ```
 
-O banco é atualizado sozinho ao subir. Quem baixou com git pode rodar `git pull` antes, para receber
-também a extensão nova (e recarregá-la no navegador).
+O banco é atualizado sozinho ao subir, e a Chrome Web Store atualiza a extensão.
 
 ## Problemas comuns
 

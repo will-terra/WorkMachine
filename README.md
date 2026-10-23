@@ -248,10 +248,7 @@ shows on its icon the score of the LinkedIn jobs already in the app and saves re
 3. Pin the icon to the toolbar, open the extension's **Options**, paste the token and click
    **Test connection**.
 
-The store updates the extension by itself. Settings shows the version WorkMachine expects; if the store is
-still behind it, or if you want to change the extension's code, load the `extension` folder instead
-(`chrome://extensions` → **Developer mode** → **Load unpacked**; step by step in
-[extension/README.md](extension/README.md)).
+That's it: the store keeps the extension up to date by itself.
 
 ## Notifications
 
@@ -288,8 +285,7 @@ passwords.
 docker compose pull && docker compose up -d
 ```
 
-The database is updated by itself on start. If you downloaded with git, run `git pull` first to get the
-new extension too (and reload it in the browser).
+The database is updated by itself on start, and the Chrome Web Store updates the extension.
 
 ## Troubleshooting
 

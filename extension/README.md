@@ -14,16 +14,8 @@ quando você clica no ícone dela; ela nunca navega, nunca abre vagas sozinha e 
 
 A loja atualiza a extensão sozinha a cada versão publicada.
 
-### Sem a loja (para mexer no código ou usar uma versão mais nova que a da loja)
-
-1. Abra `chrome://extensions` (Chrome) ou `edge://extensions` (Edge) e ligue o **Modo do desenvolvedor**.
-2. Clique em **Carregar sem compactação** e escolha esta pasta `extension/`.
-   No Windows com o projeto dentro do WSL2, o Chrome e o Edge nem sempre carregam extensões de
-   `\\wsl$`; copie a pasta para o Windows e carregue a cópia:
-   `cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/`.
-3. Para atualizar, copie a pasta de novo e clique em recarregar (↻) no cartão da extensão.
-
-Se a versão da loja também estiver instalada, desative uma das duas.
+Para desenvolver a extensão: em `chrome://extensions`, ligue o **Modo do desenvolvedor** e use
+**Carregar sem compactação** nesta pasta (desative a versão da loja enquanto isso).
 
 ## Como usar
 
