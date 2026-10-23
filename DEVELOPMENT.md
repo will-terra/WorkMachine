@@ -109,3 +109,6 @@ de produção a cada push na `main` e em cada pull request.
   --tags`). O workflow `Imagem Docker` publica `ghcr.io/will-terra/workmachine` com a versão e `latest`
   (amd64 e arm64). Crie também a release no GitHub: é por ela que Ajustes avisa que há versão nova.
 - O pacote no GHCR precisa estar público para quem instala baixar sem login.
+- Os READMEs (inglês e português) explicam e mostram; o passo a passo de uso fica em `GUIDE.md` e
+  `GUIDE.pt-BR.md`. Os prints usam dados fictícios e são refeitos com `script/readme/`, nas duas
+  línguas (instruções no topo de cada arquivo).
