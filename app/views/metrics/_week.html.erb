@@ -1,0 +1,8 @@
+<%# This week (WeeklySummary): the same numbers and tip as the Sunday notification. Locals: week. %>
+<% lines = week.lines %>
+<section class="card gap-1.5" aria-labelledby="week_title">
+  <h2 id="week_title" class="text-lg"><%= t("weekly_summary.heading") %></h2>
+  <p class="text-[15px] font-semibold"><%= lines.first %></p>
+  <% lines[1...-1].each do |line| %><p class="text-sm text-ink/70"><%= line %></p><% end %>
+  <p class="mt-1 text-sm text-accent-bright"><%= lines.last %></p>
+</section>

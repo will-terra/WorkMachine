@@ -17,6 +17,6 @@ RSpec.describe "Metrics" do
   it "shows an empty state" do
     get metrics_path
 
-    expect(response.body).to include("Nenhuma candidatura aplicada neste período", "Fontes de vagas")
+    expect(response.body).to include("Nenhuma candidatura aplicada neste período", "Fontes de vagas", "Esta semana", "0 candidaturas", "Dica:")
   end
 end

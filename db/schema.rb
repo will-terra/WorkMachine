@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_170000) do
   create_table "activated_alerts", force: :cascade do |t|
     t.string "search_key", null: false
     t.string "query", null: false
@@ -306,6 +306,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.string "detected_locale"
     t.boolean "notify_interviews", default: true, null: false
     t.json "dismissed_suggestions", default: [], null: false
+    t.boolean "notify_weekly_summary", default: true, null: false
+    t.date "weekly_summary_sent_on"
   end
 
   create_table "source_runs", force: :cascade do |t|

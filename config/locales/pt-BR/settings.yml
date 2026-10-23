@@ -33,6 +33,8 @@ pt-BR:
         follow_ups_note: Às 8h, as candidaturas sem resposta há 5 dias ou mais.
         interviews: Lembrete de entrevista
         interviews_note: Na véspera, a partir das 18h, com o horário e a preparação.
+        weekly_summary: Resumo da semana
+        weekly_summary_note: Domingo, a partir das 18h, os números da semana e uma dica tirada deles.
         min_score: Avisar vagas com nota a partir de
       dismissal:
         title: Descarte automático

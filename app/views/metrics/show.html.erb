@@ -9,6 +9,8 @@
   </div>
 <% end %>
 
+<%= render "metrics/week", week: @week %>
+
 <% if @metrics.applied.zero? %>
   <p class="py-10 text-[15px] text-muted"><%= t(".empty") %></p>
 <% else %>

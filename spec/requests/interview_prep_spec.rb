@@ -78,7 +78,7 @@ RSpec.describe "Interview preparation" do
     patch job_application_path(application), params: { job_application: { interview_at: "2026-11-03T15:00" } }
     expect(application.reload.interview_at).to eq(Time.zone.local(2026, 11, 3, 15))
 
-    patch settings_path, params: { setting: { notify_interviews: "0" } }
-    expect(Setting.current.notify_interviews).to be(false)
+    patch settings_path, params: { setting: { notify_interviews: "0", notify_weekly_summary: "0" } }
+    expect(Setting.current).to have_attributes(notify_interviews: false, notify_weekly_summary: false)
   end
 end

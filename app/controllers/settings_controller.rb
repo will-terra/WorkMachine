@@ -49,7 +49,7 @@ class SettingsController < ApplicationController
 
   def update
     if @setting.update(params.expect(setting: [ :notifications_enabled, :notify_min_score, :auto_dismiss_restricted, :auto_dismiss_below_score,
-                                                :track_replies, :notify_replies, :notify_follow_ups, :notify_interviews, :locale, enabled_sources: [] ]))
+                                                :track_replies, :notify_replies, :notify_follow_ups, :notify_interviews, :notify_weekly_summary, :locale, enabled_sources: [] ]))
       redirect_to settings_path, notice: t("flash.settings.saved")
     else
       @push_subscriptions = PushSubscription.order(:created_at)
