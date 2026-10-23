@@ -28,6 +28,8 @@ en:
       title: Jobs
       intro: Jobs from the aggregator, the LinkedIn alerts and the extension. Save the ones worth it and dismiss the rest.
       fetch: Search now
+      fetch_wait: Search again at %{time}
+      fetch_wait_title: The manual search runs once every 30 minutes; the automatic one keeps running every 3 hours.
       add: Add job
       filter:
         triage: Triage

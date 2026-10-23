@@ -42,6 +42,19 @@ RSpec.describe FetchJobsJob do
     expect(WebMock).to have_requested(:get, /remotive/).twice
   end
 
+  it "runs the sources without an interval of their own at every search" do
+    SourceRun.create!(source: "remote_ok", status: "succeeded")
+
+    described_class.perform_now(%w[remote_ok])
+
+    expect(WebMock).to have_requested(:get, "https://remoteok.com/api")
+  end
+
+  it "knows when the next scheduled search runs" do
+    expect(described_class.next_run_at(Time.zone.local(2026, 10, 23, 16, 20))).to eq(Time.zone.local(2026, 10, 23, 18, 0))
+    expect(described_class.next_run_at(Time.zone.local(2026, 10, 23, 18, 0))).to eq(Time.zone.local(2026, 10, 23, 21, 0))
+  end
+
   it "records a failure without stopping the other sources" do
     stub_request(:get, "https://remoteok.com/api").to_return(status: 503)
 

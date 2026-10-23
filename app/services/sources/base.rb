@@ -5,13 +5,17 @@ module Sources
     INTERVAL_TOLERANCE = 15.minutes
 
     class_attribute :key, instance_writer: false
-    class_attribute :min_interval, instance_writer: false, default: 3.hours
+    # The time between runs that a site asks for (Remotive, Gupy…). Without it, the source runs at
+    # every search: every 3 hours and on "Buscar agora".
+    class_attribute :min_interval, instance_writer: false, default: nil
     # Term searches per run, so the APIs' limits hold with any profile.
     class_attribute :max_searches, instance_writer: false, default: 2
 
     attr_reader :warnings, :profile
 
     def self.due?(now = Time.current)
+      return true unless min_interval
+
       last = SourceRun.last_success_at(key)
       last.nil? || last <= now - min_interval + INTERVAL_TOLERANCE
     end

@@ -4,6 +4,8 @@ class Setting < ApplicationRecord
   VAPID_SUBJECT = "https://github.com/will-terra/WorkMachine".freeze
 
   AI_PLANS = %w[free paid].freeze
+  # "Buscar agora" runs at most once in this window.
+  MANUAL_FETCH_COOLDOWN = 30.minutes
 
   enum :ai_plan, AI_PLANS.index_by(&:itself), prefix: true, validate: true
   encrypts :openrouter_api_key, :gmail_user, :gmail_app_password, :api_token
@@ -25,6 +27,12 @@ class Setting < ApplicationRecord
 
   def onboarded?
     onboarded_at.present?
+  end
+
+  # When "Buscar agora" can run again, or nil when it can run now.
+  def manual_fetch_available_at(now = Time.current)
+    available_at = manual_fetch_at && manual_fetch_at + MANUAL_FETCH_COOLDOWN
+    available_at if available_at&.after?(now)
   end
 
   def source_enabled?(key)

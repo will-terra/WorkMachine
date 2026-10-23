@@ -9,7 +9,6 @@ en:
     fetch:
       none: no search yet
       next: search %{last} → %{next}
-      last: search %{last}
     show:
       title: Dashboard
       onboarding:

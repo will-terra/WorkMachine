@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_211636) do
   create_table "activated_alerts", force: :cascade do |t|
     t.string "search_key", null: false
     t.string "query", null: false
@@ -299,6 +299,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.datetime "routines_seeded_at"
     t.string "locale", default: "auto", null: false
     t.string "detected_locale"
+    t.datetime "manual_fetch_at"
   end
 
   create_table "source_runs", force: :cascade do |t|

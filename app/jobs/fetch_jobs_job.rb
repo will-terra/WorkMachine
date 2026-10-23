@@ -1,8 +1,17 @@
-# Runs every aggregator source that is due (config/recurring.yml: every 3 hours), dedups,
-# scores and saves the postings. One failing source never stops the others.
+require "fugit"
+
+# Runs every aggregator source that is due (config/recurring.yml: every 3 hours; and "Buscar
+# agora"), dedups, scores and saves the postings. One failing source never stops the others.
 class FetchJobsJob < ApplicationJob
+  SCHEDULE = YAML.load_file(Rails.root.join("config/recurring.yml"), aliases: true).dig("default", "fetch_jobs", "schedule")
+
   queue_as :default
   limits_concurrency to: 1, key: "fetch_jobs", on_conflict: :discard
+
+  # The next scheduled search, counted as Solid Queue counts it (in the app's time zone).
+  def self.next_run_at(now = Time.current)
+    Fugit.parse_cron("#{Fugit.parse(SCHEDULE).to_cron_s} #{SolidQueue.time_zone}").next_time(now).to_t.in_time_zone
+  end
 
   def perform(source_keys = nil, force: false)
     profile = Profile.current

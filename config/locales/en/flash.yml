@@ -29,7 +29,9 @@ en:
         other: "%{count} jobs dismissed. They stay in Triage → Dismissed."
       added: Job added with a score of %{score}.
       already_saved: This job was already saved.
-      fetching: Search started. Each source keeps its minimum interval; reload in a minute.
+      fetching: Searching the job sources. Reload in a minute; sources with an interval of their own (Remotive, Gupy…) wait for it.
+      fetching_gmail: Searching the job sources and Gmail. Reload in a minute; sources with an interval of their own (Remotive, Gupy…) wait for it.
+      fetch_cooldown: The manual search runs once every 30 minutes. You can search again at %{time}.
       saved: "Saved to Applications: %{name}."
       applied: "%{name} is in Applications as %{status}."
       dream_added: Marked as a dream job. The AI now uses it as a reference.

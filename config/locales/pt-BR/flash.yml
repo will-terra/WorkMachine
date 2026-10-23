@@ -29,7 +29,9 @@ pt-BR:
         other: "%{count} vagas descartadas. Elas continuam em Triagem → Descartadas."
       added: Vaga adicionada com nota %{score}.
       already_saved: Essa vaga já estava salva.
-      fetching: Busca iniciada. As fontes respeitam o intervalo mínimo de cada uma; recarregue em um minuto.
+      fetching: Busca iniciada nas fontes de vagas. Recarregue em um minuto; as fontes com intervalo próprio (Remotive, Gupy…) esperam o delas.
+      fetching_gmail: Busca iniciada nas fontes de vagas e no Gmail. Recarregue em um minuto; as fontes com intervalo próprio (Remotive, Gupy…) esperam o delas.
+      fetch_cooldown: A busca manual roda uma vez a cada 30 minutos. Dá para buscar de novo às %{time}.
       saved: "Salva em Candidaturas: %{name}."
       applied: "%{name} está em Candidaturas como %{status}."
       dream_added: Marcada como vaga dos sonhos. A IA passa a usá-la como referência.

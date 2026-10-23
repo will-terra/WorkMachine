@@ -2,7 +2,11 @@
 <div data-controller="refresh-on-return" hidden></div>
 
 <%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
-  <%= button_to t(".fetch"), fetch_job_postings_path, class: "btn" %>
+  <% if @fetch_available_at %>
+    <button type="button" class="btn" disabled title="<%= t(".fetch_wait_title") %>"><%= t(".fetch_wait", time: l(@fetch_available_at, format: :hour)) %></button>
+  <% else %>
+    <%= button_to t(".fetch"), fetch_job_postings_path, class: "btn" %>
+  <% end %>
   <%= link_to t(".add"), new_job_posting_path, class: "btn btn-primary" %>
 <% end %>
 

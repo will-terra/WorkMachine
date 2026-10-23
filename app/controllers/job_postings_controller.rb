@@ -14,6 +14,7 @@ class JobPostingsController < ApplicationController
     @ai_artifacts = @selected&.ai_artifacts&.latest_first
     @triage_counts = triage_counts
     @source_runs = SourceRun.latest_per_source.where(source: JobPosting::SOURCES)
+    @fetch_available_at = Setting.current.manual_fetch_available_at
   end
 
   # "Descartar todas": dismisses the new postings that match the current filters.
@@ -44,10 +45,20 @@ class JobPostingsController < ApplicationController
     end
   end
 
+  # "Buscar agora": the job sources (the ones with an interval of their own wait for it) and, with
+  # Gmail connected, the LinkedIn alerts and the companies' replies. Once every 30 minutes.
   def fetch
+    setting = Setting.current
+    if (available_at = setting.manual_fetch_available_at)
+      return redirect_to job_postings_path, notice: t("flash.postings.fetch_cooldown", time: l(available_at, format: :hour))
+    end
+
+    setting.update!(manual_fetch_at: Time.current)
     FetchJobsJob.perform_later
-    ImportLinkedinAlertsJob.perform_later if LinkedinAlerts::Importer.configured?
-    redirect_to job_postings_path, notice: t("flash.postings.fetching")
+    gmail = GmailSession.configured?
+    ImportLinkedinAlertsJob.perform_later if gmail
+    ImportApplicationRepliesJob.perform_later if gmail && setting.track_replies?
+    redirect_to job_postings_path, notice: t(gmail ? "flash.postings.fetching_gmail" : "flash.postings.fetching")
   end
 
   def save

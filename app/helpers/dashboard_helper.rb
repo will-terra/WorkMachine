@@ -9,12 +9,10 @@ module DashboardHelper
     end
   end
 
-  # "busca 12:00 → 15:00": the last aggregator run and the next one (it runs every 3 hours).
-  def fetch_line(last_at)
-    return t("dashboard.fetch.none") unless last_at
-
-    next_at = last_at + 3.hours
-    next_at.future? ? t("dashboard.fetch.next", last: clock(last_at), next: clock(next_at)) : t("dashboard.fetch.last", last: clock(last_at))
+  # "busca 12:30 → 15:00": the last aggregator run (scheduled or "Buscar agora") and the next
+  # scheduled one.
+  def fetch_line(last_at, next_at = FetchJobsJob.next_run_at)
+    last_at ? t("dashboard.fetch.next", last: clock(last_at), next: clock(next_at)) : t("dashboard.fetch.none")
   end
 
   # "12:40" today, "ontem 12:40" or "20/10 12:40" otherwise.

@@ -28,6 +28,8 @@ pt-BR:
       title: Vagas
       intro: Vagas do agregador, dos alertas do LinkedIn e da extensão. Salve as que valem a pena e descarte o resto.
       fetch: Buscar agora
+      fetch_wait: Buscar de novo às %{time}
+      fetch_wait_title: A busca manual roda uma vez a cada 30 minutos; a automática segue a cada 3 horas.
       add: Adicionar vaga
       filter:
         triage: Triagem

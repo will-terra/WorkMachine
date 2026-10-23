@@ -168,5 +168,7 @@ passwords.
   docker compose exec web bin/rails runner 'User.first.update!(password: "a-new-password")'
   ```
 - **See what's going on:** `docker compose logs -f web`.
-- **Search for jobs now:** **Search now** button in Jobs.
+- **Search for jobs now:** **Search now** button in Jobs. It searches the job sources and, with Gmail
+  connected, the LinkedIn alerts and the companies' replies. It runs once every 30 minutes, and the
+  sources that ask for a longer interval (Remotive, Gupy…) wait for it.
 - **Gmail problems:** see [Gmail](#gmail).

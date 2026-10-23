@@ -9,7 +9,6 @@ pt-BR:
     fetch:
       none: nenhuma busca ainda
       next: busca %{last} → %{next}
-      last: busca %{last}
     show:
       title: Painel
       onboarding:

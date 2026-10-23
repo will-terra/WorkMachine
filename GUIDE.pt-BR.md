@@ -164,5 +164,7 @@ Tudo fica no volume `storage` do Docker: banco, currículo e as chaves que cript
   docker compose exec web bin/rails runner 'User.first.update!(password: "uma-senha-nova")'
   ```
 - **Ver o que está acontecendo:** `docker compose logs -f web`.
-- **Buscar vagas agora:** botão **Buscar agora** em Vagas.
+- **Buscar vagas agora:** botão **Buscar agora** em Vagas. Ele busca nas fontes de vagas e, com o Gmail
+  ligado, nos alertas do LinkedIn e nas respostas das empresas. Roda uma vez a cada 30 minutos, e as
+  fontes que pedem um intervalo maior (Remotive, Gupy…) esperam o delas.
 - **Problemas com o Gmail:** veja [Gmail](#gmail).

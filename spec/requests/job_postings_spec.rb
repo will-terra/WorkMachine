@@ -266,13 +266,44 @@ RSpec.describe "Job postings (triage)" do
     end
   end
 
-  it "starts a fetch in the background" do
-    expect { post fetch_job_postings_path }.to have_enqueued_job(FetchJobsJob)
-  end
+  describe "Buscar agora" do
+    it "searches the job sources in the background" do
+      expect { post fetch_job_postings_path }.to have_enqueued_job(FetchJobsJob)
 
-  it "also imports the LinkedIn alerts when Gmail is configured" do
-    allow(LinkedinAlerts::Importer).to receive(:configured?).and_return(true)
+      expect(ImportLinkedinAlertsJob).not_to have_been_enqueued
+      expect(flash[:notice]).to start_with("Busca iniciada nas fontes de vagas.")
+    end
 
-    expect { post fetch_job_postings_path }.to have_enqueued_job(ImportLinkedinAlertsJob)
+    it "also reads Gmail: the LinkedIn alerts and the companies' replies" do
+      allow(GmailSession).to receive(:configured?).and_return(true)
+
+      expect { post fetch_job_postings_path }.to have_enqueued_job(FetchJobsJob)
+        .and have_enqueued_job(ImportLinkedinAlertsJob).and have_enqueued_job(ImportApplicationRepliesJob)
+      expect(flash[:notice]).to start_with("Busca iniciada nas fontes de vagas e no Gmail.")
+    end
+
+    it "leaves the replies alone when they are not tracked" do
+      allow(GmailSession).to receive(:configured?).and_return(true)
+      Setting.current.update!(track_replies: false)
+
+      expect { post fetch_job_postings_path }.to have_enqueued_job(ImportLinkedinAlertsJob)
+      expect(ImportApplicationRepliesJob).not_to have_been_enqueued
+    end
+
+    it "runs once every 30 minutes" do
+      travel_to Time.zone.local(2026, 10, 23, 16, 20)
+      post fetch_job_postings_path
+
+      travel 10.minutes
+      expect { post fetch_job_postings_path }.not_to have_enqueued_job(FetchJobsJob)
+      expect(flash[:notice]).to eq("A busca manual roda uma vez a cada 30 minutos. Dá para buscar de novo às 16:50.")
+      get job_postings_path
+      expect(response.body).to include("Buscar de novo às 16:50")
+
+      travel 20.minutes
+      get job_postings_path
+      expect(response.body).not_to include("Buscar de novo")
+      expect { post fetch_job_postings_path }.to have_enqueued_job(FetchJobsJob)
+    end
   end
 end
