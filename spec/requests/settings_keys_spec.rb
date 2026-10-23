@@ -7,7 +7,7 @@ RSpec.describe "Ajustes → keys, accounts and the extension token" do
 
   it "saves the keys encrypted and keeps a blank password as it was" do
     get settings_path
-    expect(response.body).to include("Gratuito", "minimax/minimax-m3.1-flash:free", 'value="free" checked')
+    expect(response.body).to include("Gratuito", "minimax/minimax-m3.1-flash:free", 'value="free" checked', "Instale pela", ExtensionVersion::STORE_URL)
 
     patch keys_settings_path, params: { setting: { openrouter_api_key: " sk-or-v1-abc ", openrouter_model: "z-ai/glm-5.3", ai_plan: "paid", gmail_user: "ana@gmail.com", gmail_app_password: "abcd efgh ijkl mnop" } }
 

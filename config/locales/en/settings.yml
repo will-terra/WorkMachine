@@ -98,9 +98,7 @@ en:
       regenerate: Generate another
       regenerate_confirm: The extension will stop working until it gets the new token. Generate another?
       generate: Generate token
-      help_html: |-
-        Expected extension version: <span class="font-mono">%{version}</span>. After updating WorkMachine, reload the extension at <span class="font-mono">chrome://extensions</span>.
-        How to install: the <span class="font-mono">extension/</span> folder, loaded unpacked in Chrome or Edge (step by step in the README).
+      help_html: 'Install it from the %{store} (Chrome or Edge); it updates itself. Expected extension version: <span class="font-mono">%{version}</span>.'
   onboardings:
     show:
       eyebrow: First run
@@ -117,7 +115,7 @@ en:
         build: Build the profile
       extension:
         title: Browser extension (optional)
-        note: To save jobs from any site and LinkedIn recruiters with one click. The step by step is in the README; the token is in Settings.
+        note_html: To save jobs from any site and LinkedIn recruiters with one click. Install it from the %{store} and paste in its Options the token from Settings → Browser extension.
       search:
         title: First search
         note: The aggregator searches the automatic sources with your profile's terms and repeats on its own every 3 hours.

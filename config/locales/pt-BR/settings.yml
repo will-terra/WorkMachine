@@ -98,9 +98,7 @@ pt-BR:
       regenerate: Gerar outro
       regenerate_confirm: A extensão vai parar de funcionar até receber o token novo. Gerar outro?
       generate: Gerar token
-      help_html: |-
-        Versão esperada da extensão: <span class="font-mono">%{version}</span>. Depois de atualizar o WorkMachine, recarregue a extensão em <span class="font-mono">chrome://extensions</span>.
-        Como instalar: pasta <span class="font-mono">extension/</span>, carregada sem compactação no Chrome ou no Edge (passo a passo no README).
+      help_html: 'Instale pela %{store} (Chrome ou Edge); ela se atualiza sozinha. Versão esperada da extensão: <span class="font-mono">%{version}</span>.'
   onboardings:
     show:
       eyebrow: Primeiro uso
@@ -117,7 +115,7 @@ pt-BR:
         build: Montar o perfil
       extension:
         title: Extensão do navegador (opcional)
-        note: Para salvar vagas de qualquer site e recrutadores do LinkedIn com um clique. O passo a passo está no README; o token fica em Ajustes.
+        note_html: Para salvar vagas de qualquer site e recrutadores do LinkedIn com um clique. Instale pela %{store} e cole nas Opções dela o token de Ajustes → Extensão do navegador.
       search:
         title: Primeira busca
         note: O agregador busca nas fontes automáticas pelos termos do seu perfil e repete sozinho a cada 3 horas.

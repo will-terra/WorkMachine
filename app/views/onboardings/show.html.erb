@@ -19,7 +19,7 @@
 
   <li class="grid gap-3">
     <h2 class="flex items-center gap-2 text-base"><span class="chip">3</span> <%= t(".extension.title") %></h2>
-    <p class="muted max-w-prose text-sm"><%= t(".extension.note") %></p>
+    <p class="muted max-w-prose text-sm"><%= t(".extension.note_html", store: external_link("Chrome Web Store", ExtensionVersion::STORE_URL)) %></p>
   </li>
 
   <li class="grid gap-3">

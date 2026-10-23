@@ -6,7 +6,8 @@ RSpec.describe "Onboarding" do
   it "shows the steps and what is done" do
     get onboarding_path
 
-    expect(response.body).to include("Chave da IA e Gmail", "Seu perfil", "Primeira busca", "Revisar o perfil", "Buscar vagas e começar")
+    expect(response.body).to include("Chave da IA e Gmail", "Seu perfil", "Primeira busca", "Revisar o perfil", "Buscar vagas e começar",
+                                     ExtensionVersion::STORE_URL)
     get root_path
     expect(response.body).to include("Continuar a configuração")
   end

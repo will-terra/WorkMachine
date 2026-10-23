@@ -13,5 +13,5 @@
   <div><%= button_to t(".generate"), regenerate_token_settings_path, class: "btn btn-primary" %></div>
 <% end %>
 <p class="text-[13px] text-muted">
-  <%= t(".help_html", version: ExtensionVersion.current) %>
+  <%= t(".help_html", version: ExtensionVersion.current, store: external_link("Chrome Web Store", ExtensionVersion::STORE_URL)) %>
 </p>
