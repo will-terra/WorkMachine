@@ -47,7 +47,6 @@ tasks:
   pessoas:
     title: "Recruiters on LinkedIn"
     action: "Connect with 5 a week, with the connection note from Messages, and save each one in Contacts with the extension icon, on the person's profile. Many jobs show up first in a post by someone on the team."
-    link: { label: "Recruiters spreadsheet for connecting (one column per stack)" }
   x:
     title: "Searches on X"
     action: "Go through 3 to 5 searches in the “Latest” tab."

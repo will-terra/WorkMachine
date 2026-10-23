@@ -161,7 +161,6 @@ tasks:
         title: "Recrutadores internacionais para LATAM"
         query: '("technical recruiter" OR "talent acquisition") AND (LATAM OR "Latin America") AND {{stack_or}}'
         builder: li_people
-    link: { label: "Planilha de recrutadores para conexão (uma coluna por stack)", url: "https://docs.google.com/spreadsheets/d/1Geg0ETL00kLKzdaIGPudXe2IIMjqII8T92N9YAuXFe4/edit?usp=sharing" }
 
   - key: x
     cadence: weekly
