@@ -30,6 +30,14 @@ RSpec.describe JobIngestor do
     expect(first.reload).to have_attributes(description: "Ruby on Rails and React", source: "linkedin_alert", score: 65)
   end
 
+  it "keeps only the description from a whole LinkedIn page" do
+    page = "Acme\nRails Engineer\nReative Premium\nAbout the job\nRuby on Rails and React\nSet alert for similar jobs\nLinkedIn Corporation © 2026"
+
+    posting = described_class.call(attributes.merge(source: "extension", url: "https://www.linkedin.com/jobs/view/1", description: page)).posting
+
+    expect(posting.description).to eq("Ruby on Rails and React")
+  end
+
   it "rescores when only the location arrives" do
     first = described_class.call(attributes.merge(location_text: nil, description: "Rails")).posting
 

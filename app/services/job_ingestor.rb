@@ -19,6 +19,7 @@ class JobIngestor
     @hint = @attributes.delete(:remote_scope_hint)
     # Kept in raw so that rescoring later gives the same region.
     @attributes[:raw] = (@attributes[:raw] || {}).merge("remote_scope_hint" => @hint) if @hint
+    @attributes[:description] = LinkedinJobText.call(@attributes[:description]) if LinkedinJobText.linkedin?(@attributes[:url])
   end
 
   def call

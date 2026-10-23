@@ -57,6 +57,17 @@ export function extractJob() {
     }
   }
 
+  // When LinkedIn renames its classes: the block around the "About the job" heading. The server
+  // keeps only what follows the heading (LinkedinJobText).
+  const aboutTheJob = () => {
+    const heading = [...document.querySelectorAll("h2, h3")]
+      .find((node) => /^(?:about the job|sobre a vaga|acerca del empleo)$/i.test(text(node.innerText)))
+    for (let node = heading?.parentElement, depth = 0; node && depth < 5; node = node.parentElement, depth++) {
+      if (text(node.innerText).length > text(heading.innerText).length + 100) return node
+    }
+    return null
+  }
+
   const fromLinkedIn = () => {
     if (!/(^|\.)linkedin\.com$/.test(location.hostname)) return null
     const id = location.pathname.match(/\/jobs\/view\/(?:[^/]*-)?(\d+)/)?.[1] || new URLSearchParams(location.search).get("currentJobId")
@@ -70,7 +81,7 @@ export function extractJob() {
                         ".job-details-jobs-unified-top-card__bullet", ".jobs-unified-top-card__bullet", ".topcard__flavor--bullet")
     const workplace = first(".job-details-fit-level-preferences button", ".jobs-unified-top-card__workplace-type")
     const description = first("#job-details", ".jobs-description__content", ".jobs-description-content__text",
-                              ".show-more-less-html__markup", ".description__text")
+                              ".show-more-less-html__markup", ".description__text") || aboutTheJob()
 
     return {
       title: text(title?.innerText),
@@ -153,7 +164,8 @@ export function extractJob() {
 
   const linkedIn = fromLinkedIn()
   const merged = {}
-  for (const source of [fromJsonLd(), linkedIn, fromBoards(), fromOpenGraph(), fromTitle()]) {
+  // On LinkedIn the generic blocks (main, article) are the whole page, not the description.
+  for (const source of [fromJsonLd(), linkedIn, linkedIn ? null : fromBoards(), fromOpenGraph(), fromTitle()]) {
     if (!source) continue
     for (const [key, value] of Object.entries(source)) {
       if (value && !merged[key]) merged[key] = value
