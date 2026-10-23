@@ -138,6 +138,14 @@ RSpec.describe "Activated alerts" do
     post activated_alerts_path, params: { search_key: search["key"], query: search["query"] }, as: :turbo_stream
     expect(ActivatedAlert.count).to eq(1)
 
+    expect(response.body).not_to include('class="group/done mt-3" open')
+
+    second = Radar.alert_searches.second
+    post activated_alerts_path, params: { search_key: second["key"], query: second["query"] }, as: :turbo_stream
+    delete activated_alert_path(ActivatedAlert.find_by!(query: second["query"])), params: { keep_open: "1" }, as: :turbo_stream
+
+    expect(response.body).to include('class="group/done mt-3" open')
+
     delete activated_alert_path(alert)
 
     expect(response).to redirect_to(radar_path(anchor: "linkedin_alerts"))
@@ -162,6 +170,13 @@ RSpec.describe "Consultancies" do
     expect(response.media_type).to eq(Mime[:turbo_stream])
     expect(response.body).to include('target="registrations"', "1/1", "1 de 1 cadastros feitos", "1 cadastrado")
     expect(consultancy.reload.registered_on).to eq(Date.current)
+
+    expect(response.body).not_to include('class="group/done mt-1" open')
+
+    other = create(:consultancy, kind: consultancy.kind, registered_on: Date.current)
+    patch consultancy_path(other), params: { registered: "0", keep_open: consultancy.kind }, as: :turbo_stream
+
+    expect(response.body).to include('class="group/done mt-1" open')
 
     patch consultancy_path(consultancy), params: { registered: "0" }
 

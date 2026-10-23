@@ -1,5 +1,5 @@
 <%# The ones already done fold into "N cadastrados" under each group, so the list shrinks as you go.
-    Replaced as a whole when a box changes. %>
+    Replaced as a whole when a box changes; unchecking one inside an open fold keeps it open (open_kind). %>
 <div id="registrations">
   <% all = registrations.values.flatten %>
   <p class="mt-2 font-mono text-xs text-muted"><%= t("radar.registrations_total", done: all.count(&:registered?), total: all.size) %></p>
@@ -14,7 +14,7 @@
         </h4>
         <%= render partial: "consultancies/consultancy", collection: pending %>
         <% if done.any? %>
-          <details class="group/done mt-1">
+          <details class="group/done mt-1" <%= "open" if local_assigns[:open_kind] == kind %>>
             <summary class="flex cursor-pointer list-none items-baseline gap-2 py-[3px] font-mono text-xs text-muted [&::-webkit-details-marker]:hidden">
               <span class="group-open/done:rotate-90" aria-hidden="true">▸</span>
               <%= t(".done", count: done.size) %>

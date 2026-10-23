@@ -1,5 +1,7 @@
 <%= form_with model: consultancy, method: :patch, id: dom_id(consultancy), class: "flex items-start gap-2.5 py-[3px]", data: { controller: "auto-submit" } do |form| %>
   <%= hidden_field_tag :registered, "0", id: nil %>
+  <%# A done one sits in its group's open "cadastrados" fold: the list comes back with that fold open. %>
+  <%= hidden_field_tag :keep_open, consultancy.kind, id: nil if consultancy.registered? %>
   <%= check_box_tag :registered, "1", consultancy.registered?, id: dom_id(consultancy, :registered), class: "check mt-[0.3em]",
                     aria: { label: t(".registered_label", name: consultancy.name) }, data: { action: "auto-submit#submit" } %>
   <span class="min-w-0 text-[13.5px] leading-[1.45]">

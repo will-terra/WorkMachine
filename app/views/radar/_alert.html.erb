@@ -4,9 +4,12 @@
 <div class="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-t border-line py-2" data-controller="clipboard">
   <%= form_with url: activation ? activated_alert_path(activation) : activated_alerts_path, method: activation ? :delete : :post,
                 class: "flex min-w-0 flex-[0_0_14rem] items-start gap-2.5", data: { controller: "auto-submit" } do |form| %>
-    <% unless activation %>
+    <% if !activation %>
       <%= hidden_field_tag :search_key, search["key"], id: nil %>
       <%= hidden_field_tag :query, search["query"], id: nil %>
+    <% elsif !outdated %>
+      <%# It sits in the open "alertas ativados" fold: the list comes back with the fold still open. %>
+      <%= hidden_field_tag :keep_open, "1", id: nil %>
     <% end %>
     <%= check_box_tag :activated, "1", activation.present?, id: box, class: "check mt-[0.3em]",
                       aria: { label: t(".activated_label", title: search["title"]) }, data: { action: "auto-submit#submit" } %>

@@ -1,5 +1,6 @@
 <%# The alerts to turn on, in full with the filters of their links; the ones already on fold into
-    "3 de 7 alertas ativados" (the latest at the end), so the section shrinks as they are checked;
+    "3 de 7 alertas ativados" (the latest at the end), so the section shrinks as they are checked
+    (the fold stays open when one inside it is unchecked: done_open);
     the ones turned on for a query the profile no longer makes stay open, to turn off on LinkedIn.
     Replaced as a whole when a box changes. %>
 <% searches = task["searches"] %>
@@ -18,7 +19,7 @@
     </div>
   <% end %>
   <% if activated.any? %>
-    <details class="group/done mt-3">
+    <details class="group/done mt-3" <%= "open" if local_assigns[:done_open] %>>
       <summary class="flex cursor-pointer list-none items-baseline gap-2 font-mono text-xs text-muted [&::-webkit-details-marker]:hidden">
         <span class="group-open/done:rotate-90" aria-hidden="true">▸</span>
         <%= t(".total", done: activated.size, total: rows.size) %>
