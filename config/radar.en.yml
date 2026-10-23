@@ -2,7 +2,7 @@
 # (automated sources and links). Queries, builders and URLs stay in config/radar.yml.
 
 automated:
-  "Alertas do LinkedIn": { name: "LinkedIn alerts", note: "Alert e-mails read in Gmail. Create the alerts with the searches of the LinkedIn · Jobs section." }
+  "Alertas do LinkedIn": { name: "LinkedIn alerts", note: "Alert e-mails read in Gmail. Create and check the alerts in the LinkedIn alerts section, under Once." }
   "Respostas das empresas": { name: "Company replies", note: "E-mails from the companies you applied to, read in Gmail: rejection, interview, test and offer move the card on their own." }
   "Empresas-alvo": { name: "Target companies", note: "Greenhouse, Lever, Ashby and Workable boards. New companies come in on their own when a job points to their board." }
   "Remotive": { note: "Searches for {{termos}}, at most 4 times a day, as the API terms ask." }
