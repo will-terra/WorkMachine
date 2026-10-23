@@ -20,6 +20,9 @@ default: &default
   interview_reminder:
     class: InterviewReminderJob
     schedule: every hour at minute 5
+  weekly_summary:
+    class: WeeklySummaryJob
+    schedule: every hour at minute 20
   check_closed_postings:
     class: CheckClosedPostingsJob
     schedule: every 6 hours

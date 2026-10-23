@@ -307,6 +307,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_211636) do
     t.datetime "manual_fetch_at"
     t.boolean "notify_interviews", default: true, null: false
     t.json "dismissed_suggestions", default: [], null: false
+    t.boolean "notify_weekly_summary", default: true, null: false
+    t.date "weekly_summary_sent_on"
   end
 
   create_table "source_runs", force: :cascade do |t|

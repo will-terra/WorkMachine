@@ -50,3 +50,31 @@ en:
           attributes:
             url:
               invalid: must start with / (a screen of the app) or https://
+  weekly_summary:
+    title: Weekly summary
+    heading: This week
+    applied:
+      one: 1 application
+      other: "%{count} applications"
+    last_week: "last week: %{count}"
+    answers:
+      one: 1 reply
+      other: "%{count} replies"
+    interviews:
+      one: 1 interview invitation
+      other: "%{count} interview invitations"
+    rate: "Reply rate over 30 days: %{rate}%"
+    sources: "Sources that paid off most: %{sources}"
+    tip: "Tip: %{tip}"
+    tips:
+      none_applied:
+        one: No applications this week. How about half an hour tomorrow for the saved job waiting for you?
+        other: No applications this week. How about half an hour tomorrow for the %{count} saved jobs?
+      none_applied_none_saved: No applications this week. Start with the new jobs with the highest score.
+      follow_ups:
+        one: "1 follow-up due: a short message often reopens the conversation."
+        other: "%{count} follow-ups due: a short message often reopens the conversation."
+      best_origin: Applications via %{origin} get %{rate}% replies (your average is %{average}%). Worth prioritizing.
+      low_rate: "Few replies this month: try the tailored CV and ask for referrals from people you know at the companies."
+      triage: There are %{count} new jobs waiting for triage.
+      keep_going: Good pace. Keep the routine and send the follow-ups on the right day.

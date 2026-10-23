@@ -33,6 +33,8 @@ en:
         follow_ups_note: At 8 a.m., the applications with no reply for 5 days or more.
         interviews: Interview reminder
         interviews_note: The day before, from 6 p.m., with the time and the preparation.
+        weekly_summary: Weekly summary
+        weekly_summary_note: On Sundays, from 6 p.m., the week's numbers and a tip taken from them.
         min_score: Notify jobs scoring at least
       dismissal:
         title: Auto-dismiss

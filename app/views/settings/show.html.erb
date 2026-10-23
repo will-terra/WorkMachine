@@ -40,6 +40,7 @@
       <%= render "settings/switch", form:, field: :notify_replies, label: t("settings.show.notifications.replies"), note: t("settings.show.notifications.replies_note") %>
       <%= render "settings/switch", form:, field: :notify_follow_ups, label: t("settings.show.notifications.follow_ups"), note: t("settings.show.notifications.follow_ups_note") %>
       <%= render "settings/switch", form:, field: :notify_interviews, label: t("settings.show.notifications.interviews"), note: t("settings.show.notifications.interviews_note") %>
+      <%= render "settings/switch", form:, field: :notify_weekly_summary, label: t("settings.show.notifications.weekly_summary"), note: t("settings.show.notifications.weekly_summary_note") %>
     </div>
     <div class="w-[220px]">
       <%= form.label :notify_min_score, t("settings.show.notifications.min_score"), class: "label" %>

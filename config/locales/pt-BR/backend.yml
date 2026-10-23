@@ -50,3 +50,31 @@ pt-BR:
           attributes:
             url:
               invalid: precisa começar com / (uma tela do app) ou https://
+  weekly_summary:
+    title: Resumo da semana
+    heading: Esta semana
+    applied:
+      one: 1 candidatura
+      other: "%{count} candidaturas"
+    last_week: "semana passada: %{count}"
+    answers:
+      one: 1 resposta
+      other: "%{count} respostas"
+    interviews:
+      one: 1 convite de entrevista
+      other: "%{count} convites de entrevista"
+    rate: "Taxa de resposta em 30 dias: %{rate}%"
+    sources: "Fontes que mais renderam: %{sources}"
+    tip: "Dica: %{tip}"
+    tips:
+      none_applied:
+        one: Nenhuma candidatura esta semana. Que tal meia hora amanhã para a vaga salva que espera você?
+        other: Nenhuma candidatura esta semana. Que tal meia hora amanhã para as %{count} vagas salvas?
+      none_applied_none_saved: Nenhuma candidatura esta semana. Comece pelas vagas novas de nota mais alta.
+      follow_ups:
+        one: "1 follow-up pendente: uma mensagem curta costuma reabrir a conversa."
+        other: "%{count} follow-ups pendentes: uma mensagem curta costuma reabrir a conversa."
+      best_origin: As candidaturas via %{origin} respondem %{rate}% (sua média é %{average}%). Vale priorizar.
+      low_rate: "Poucas respostas no mês: tente o CV adaptado e peça indicação a quem você conhece nas empresas."
+      triage: Há %{count} vagas novas esperando triagem.
+      keep_going: Bom ritmo. Mantenha a rotina e cobre os follow-ups no dia certo.
