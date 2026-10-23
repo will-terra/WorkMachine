@@ -1,0 +1,16 @@
+A extensão do WorkMachine, o app gratuito e de código aberto de busca de emprego para quem é de tecnologia, que roda no seu próprio computador.
+
+Com um clique no ícone:
+• Salve a vaga aberta (LinkedIn, Greenhouse, Lever, Ashby, Gupy, páginas de carreira…) direto na triagem do WorkMachine, que dá uma nota de 0 a 100 pelo seu perfil e explica a conta.
+• Salve em aplicadas: a candidatura entra no kanban com a data de hoje.
+• Salve recrutadores e gestores em Contatos, a partir do perfil deles no LinkedIn ou da equipe de contratação da vaga. A mensagem para eles já abre preenchida no app.
+• Nas vagas do LinkedIn que já estão no WorkMachine, o ícone mostra a nota, e o popup diz se você já aplicou.
+
+Privacidade:
+• A extensão só lê a página quando você clica no ícone.
+• Ela fala apenas com o WorkMachine que roda no seu computador (localhost:3000). Não há servidor, analytics ou anúncios.
+• Ela nunca navega, nunca clica e nunca se candidata sozinha.
+
+Precisa do WorkMachine instalado (Docker, Windows, macOS ou Linux). Instalação em 5 minutos: https://github.com/will-terra/WorkMachine
+
+Depois de instalar: no WorkMachine, abra Ajustes → Extensão do navegador, gere o token e cole nas Opções da extensão.

@@ -1,0 +1,16 @@
+The browser extension of WorkMachine, the free and open source job search app for tech people that runs on your own computer.
+
+With one click on the icon:
+• Save the open job (LinkedIn, Greenhouse, Lever, Ashby, Gupy, career pages…) straight to WorkMachine's triage, which scores it from 0 to 100 against your profile and explains the math.
+• Save it as applied: the application goes to the board with today's date.
+• Save recruiters and hiring managers to Contacts, from their LinkedIn profile or from the job's hiring team. The message to them opens already filled in in the app.
+• On LinkedIn jobs already in WorkMachine, the icon shows the score and the popup tells you whether you have applied.
+
+Privacy:
+• The extension only reads the page when you click its icon.
+• It only talks to the WorkMachine running on your computer (localhost:3000). No server, analytics or ads.
+• It never navigates, never clicks and never applies on its own.
+
+Requires WorkMachine installed (Docker, Windows, macOS or Linux). Install in 5 minutes: https://github.com/will-terra/WorkMachine
+
+After installing: in WorkMachine, open Settings → Browser extension, generate the token and paste it in the extension's Options.

@@ -19,7 +19,7 @@ pacote com a mesma versão do que já está publicado.
 - **Resumo:** vem do `description` do manifest (até 132 caracteres)
 - **Categoria:** Produtividade → Fluxo de trabalho e planejamento
 - **Idiomas:** inglês é o padrão (`default_locale` do manifest) e português (Brasil) entra como segundo
-  idioma em **Ficha da loja → Idioma**, com a descrição em português abaixo. A extensão mostra português
+  idioma em **Ficha da loja → Idioma**, com a descrição de `descricao-pt-BR.txt`. A extensão mostra português
   quando o Chrome está em pt-BR ou pt-PT e inglês nos outros casos (`extension/_locales/`).
 - **Ícone da loja:** `extension/icons/icon-128.png`
 - **Capturas:** `captura-1.png` a `captura-5.png`, nesta ordem
@@ -28,47 +28,11 @@ pacote com a mesma versão do que já está publicado.
 - **Site oficial:** https://github.com/will-terra/WorkMachine
 - **Suporte:** https://github.com/will-terra/WorkMachine/issues
 
-**Descrição em inglês (idioma padrão):**
+**Descrição:** cole o conteúdo de um destes arquivos, inteiro e sem mais nada (a loja mostra texto puro,
+não formata Markdown; nunca cole este `listing.md`):
 
-```text
-The browser extension of WorkMachine, the free and open source job search app for tech people that runs on your own computer.
-
-With one click on the icon:
-• Save the open job (LinkedIn, Greenhouse, Lever, Ashby, Gupy, career pages…) straight to WorkMachine's triage, which scores it from 0 to 100 against your profile and explains the math.
-• Save it as applied: the application goes to the board with today's date.
-• Save recruiters and hiring managers to Contacts, from their LinkedIn profile or from the job's hiring team. The message to them opens already filled in in the app.
-• On LinkedIn jobs already in WorkMachine, the icon shows the score and the popup tells you whether you have applied.
-
-Privacy:
-• The extension only reads the page when you click its icon.
-• It only talks to the WorkMachine running on your computer (localhost:3000). No server, analytics or ads.
-• It never navigates, never clicks and never applies on its own.
-
-Requires WorkMachine installed (Docker, Windows, macOS or Linux). Install in 5 minutes: https://github.com/will-terra/WorkMachine
-
-After installing: in WorkMachine, open Settings → Browser extension, generate the token and paste it in the extension's Options.
-```
-
-**Descrição em português:**
-
-```text
-A extensão do WorkMachine, o app gratuito e de código aberto de busca de emprego para quem é de tecnologia, que roda no seu próprio computador.
-
-Com um clique no ícone:
-• Salve a vaga aberta (LinkedIn, Greenhouse, Lever, Ashby, Gupy, páginas de carreira…) direto na triagem do WorkMachine, que dá uma nota de 0 a 100 pelo seu perfil e explica a conta.
-• Salve em aplicadas: a candidatura entra no kanban com a data de hoje.
-• Salve recrutadores e gestores em Contatos, a partir do perfil deles no LinkedIn ou da equipe de contratação da vaga. A mensagem para eles já abre preenchida no app.
-• Nas vagas do LinkedIn que já estão no WorkMachine, o ícone mostra a nota, e o popup diz se você já aplicou.
-
-Privacidade:
-• A extensão só lê a página quando você clica no ícone.
-• Ela fala apenas com o WorkMachine que roda no seu computador (localhost:3000). Não há servidor, analytics ou anúncios.
-• Ela nunca navega, nunca clica e nunca se candidata sozinha.
-
-Precisa do WorkMachine instalado (Docker, Windows, macOS ou Linux). Instalação em 5 minutos: https://github.com/will-terra/WorkMachine
-
-Depois de instalar: no WorkMachine, abra Ajustes → Extensão do navegador, gere o token e cole nas Opções da extensão.
-```
+- `description-en.txt`: inglês, o idioma padrão a partir da versão 1.3.0 (`default_locale` do manifest).
+- `descricao-pt-BR.txt`: português (Brasil), em **Idioma → Português (Brasil)**.
 
 ## Privacidade
 
