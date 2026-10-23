@@ -1,10 +1,10 @@
 name: Imagem Docker
 
-# Publishes ghcr.io/will-terra/workmachine for each version tag (v2.0.0…): "latest" and the
-# version itself, for Intel/AMD and ARM (Apple Silicon) computers.
+# Publishes ghcr.io/will-terra/workmachine for each version tag (v2.3.0, or 2.3.0 when a release is
+# made without the "v"): "latest" and the version itself, for Intel/AMD and ARM (Apple Silicon) computers.
 on:
   push:
-    tags: [ "v*" ]
+    tags: [ "v*", "[0-9]*" ]
   workflow_dispatch:
 
 permissions:
@@ -38,7 +38,7 @@ jobs:
           images: ghcr.io/${{ github.repository_owner }}/workmachine
           tags: |
             type=semver,pattern={{version}}
-            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/') }}
 
       - name: Build and push
         uses: docker/build-push-action@v7
