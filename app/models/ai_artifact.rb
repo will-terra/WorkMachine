@@ -1,7 +1,7 @@
 class AiArtifact < ApplicationRecord
-  enum :kind, { fit_analysis: "fit_analysis", cv_summary: "cv_summary", message: "message", interview_prep: "interview_prep" }, validate: true
+  enum :kind, { fit_analysis: "fit_analysis", cv_summary: "cv_summary", message: "message", interview_prep: "interview_prep", tailored_cv: "tailored_cv" }, validate: true
   # The ones made from the posting page (Vagas → IA); the interview preparation lives on the application.
-  POSTING_KINDS = %w[fit_analysis cv_summary message].freeze
+  POSTING_KINDS = %w[fit_analysis cv_summary tailored_cv message].freeze
 
   enum :status, { pending: "pending", completed: "completed", failed: "failed" }, prefix: true, validate: true
 

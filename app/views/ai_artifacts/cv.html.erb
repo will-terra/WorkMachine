@@ -1,0 +1,11 @@
+<% posting = @ai_artifact.job_posting %>
+<% content_for :title, t(".file_name", name: Profile.current.name.presence || "CV", company: posting.display_company) %>
+<div class="toolbar">
+  <button type="button" onclick="window.print()"><%= t(".print") %></button>
+  <span class="coverage">
+    <%= t(".coverage", covered: @coverage.covered.size, total: @coverage.total) %>
+    <% if @coverage.missing.any? %><span class="missing"><%= t(".missing", terms: @coverage.missing.to_sentence) %></span><% end %>
+  </span>
+  <%= link_to t(".back"), job_posting_path(posting, anchor: "ia") %>
+</div>
+<main class="paper"><%= cv_html(@ai_artifact.content) %></main>

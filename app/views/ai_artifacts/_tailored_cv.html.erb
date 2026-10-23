@@ -1,0 +1,26 @@
+<%# A finished tailored CV: how many of the job's terms it covers (and the original CV did), and the printable page. %>
+<% posting = ai_artifact.job_posting %>
+<% coverage = KeywordCoverage.call(posting, ai_artifact.content) %>
+<% original = (KeywordCoverage.call(posting, Profile.current.cv_text) if Profile.current.cv_text.present?) %>
+<div class="flex flex-col gap-2.5" data-controller="clipboard">
+  <% if coverage.total.positive? %>
+    <p class="text-[14.5px]">
+      <strong class="font-semibold"><%= t(".coverage", covered: coverage.covered.size, total: coverage.total) %></strong>
+      <% if original %><span class="text-muted"><%= t(".original", covered: original.covered.size, total: original.total) %></span><% end %>
+    </p>
+    <div class="flex flex-wrap gap-1">
+      <% coverage.covered.each do |term| %><span class="chip chip-ok"><%= term %></span><% end %>
+      <% coverage.missing.each do |term| %><span class="chip chip-warn"><%= term %></span><% end %>
+    </div>
+    <% if coverage.missing.any? %><p class="text-[13px] text-muted"><%= t(".missing_note") %></p><% end %>
+  <% end %>
+  <details>
+    <summary class="inline-block text-[13.5px] text-accent hover:text-accent-hover"><%= t(".text") %></summary>
+    <p class="mt-2 text-[14px] leading-relaxed whitespace-pre-line" data-clipboard-target="source"><%= ai_artifact.content %></p>
+  </details>
+  <div class="flex flex-wrap gap-2">
+    <%= link_to t(".open"), cv_ai_artifact_path(ai_artifact), class: "btn btn-primary btn-sm", target: "_blank", data: { turbo: false } %>
+    <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy"><%= t("ai_artifacts.ai_artifact.copy") %></button>
+    <%= button_to t("ai_artifacts.ai_artifact.delete"), ai_artifact_path(ai_artifact), method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "posting_detail", turbo_confirm: t("ai_artifacts.ai_artifact.delete_confirm") } } %>
+  </div>
+</div>

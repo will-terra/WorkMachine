@@ -128,6 +128,9 @@ pt-BR:
       note: Só roda quando você clica. Usa o seu perfil e não inventa experiência.
       fit: Analisar fit
       cv_summary: Resumo de CV adaptado
+      tailored_cv: CV adaptado (PDF)
+      no_cv_html: Para o CV adaptado sair completo, envie o seu currículo em %{link}.
+      no_cv_link: Perfil → Currículo
       message_pt: Mensagem (PT)
       message_en: Message (EN)
       estimating: Calculando o custo estimado…
@@ -146,6 +149,18 @@ pt-BR:
       copy: Copiar
       delete: Apagar
       delete_confirm: Apagar este resultado?
+    tailored_cv:
+      coverage: "%{covered} de %{total} termos da vaga estão no CV adaptado"
+      original: " · no seu CV original: %{covered} de %{total}"
+      missing_note: Os termos em amarelo não estão no CV. A IA não os inventa; se você tem essa experiência, coloque no Perfil ou no currículo.
+      text: Ver o texto
+      open: Abrir e baixar em PDF
+    cv:
+      file_name: CV %{name} - %{company}
+      print: Baixar PDF
+      coverage: "Cobertura: %{covered} de %{total} termos da vaga."
+      missing: " Faltam: %{terms}."
+      back: Voltar para a vaga
     estimate:
       free: Grátis com o modelo gratuito (tem limite de pedidos por dia). Para trocar, veja Ajustes → Chaves e contas.
       estimate: "Custo estimado por clique: %{costs}. Chamadas feitas em até 5 minutos reaproveitam o cache do perfil e saem mais baratas."

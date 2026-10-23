@@ -128,6 +128,9 @@ en:
       note: Runs only when you click. It uses your profile and never makes up experience.
       fit: Analyze fit
       cv_summary: Tailored CV summary
+      tailored_cv: Tailored CV (PDF)
+      no_cv_html: For a complete tailored CV, upload your CV in %{link}.
+      no_cv_link: Profile → CV
       message_pt: Mensagem (PT)
       message_en: Message (EN)
       estimating: Estimating the cost…
@@ -146,6 +149,18 @@ en:
       copy: Copy
       delete: Delete
       delete_confirm: Delete this result?
+    tailored_cv:
+      coverage: "%{covered} of %{total} terms of the job are in the tailored CV"
+      original: " · in your original CV: %{covered} of %{total}"
+      missing_note: The terms in yellow are not in the CV. The AI does not invent them; if you have that experience, add it to the Profile or your CV.
+      text: See the text
+      open: Open and download as PDF
+    cv:
+      file_name: CV %{name} - %{company}
+      print: Download PDF
+      coverage: "Coverage: %{covered} of %{total} terms of the job."
+      missing: " Missing: %{terms}."
+      back: Back to the job
     estimate:
       free: Free with the free model (it has a daily request limit). To change it, see Settings → Keys and accounts.
       estimate: "Estimated cost per click: %{costs}. Calls within 5 minutes reuse the profile cache and cost less."

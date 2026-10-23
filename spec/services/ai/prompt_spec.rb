@@ -30,6 +30,17 @@ RSpec.describe Ai::Prompt do
     expect(I18n.with_locale(:en) { described_class.user_text("interview_prep", nil, application:) }).to include("Likely technical questions", "[complete with your own example]")
   end
 
+  it "writes the tailored CV from the uploaded CV and the profile's links, in the posting's language" do
+    Profile.current.update!(cv_text: "Ana Souza\nRails Engineer at Acme (2022–2025)", linkedin_url: "https://www.linkedin.com/in/ana")
+
+    text = described_class.user_text("tailored_cv", posting)
+    expect(text).to include("full CV tailored", "language the posting is written in", "Never add an employer", "### Title, Company",
+                            "<cv>", "Rails Engineer at Acme (2022–2025)", "Links: https://www.linkedin.com/in/ana")
+
+    Profile.current.update!(cv_text: nil)
+    expect(described_class.user_text("tailored_cv", posting)).to include("(no CV uploaded: use the profile only)")
+  end
+
   it "prepares from the application alone when it has no posting" do
     application = create(:job_application, company: "Globex", role: "Backend Developer", status: "hr_interview")
 
