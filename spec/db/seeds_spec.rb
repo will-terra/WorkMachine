@@ -11,7 +11,8 @@ RSpec.describe "db/seeds.rb" do
 
     expect(Consultancy.count).to eq(26)
     expect(Consultancy.platform.count).to eq(10)
-    expect(MessageTemplate.count).to eq(7)
+    expect(MessageTemplate.count).to eq(9)
+    expect(MessageTemplate.referral.name).to eq("Pedido de indicação (PT)")
     expect(TargetCompany.where(example: true).count).to eq(7)
   end
 

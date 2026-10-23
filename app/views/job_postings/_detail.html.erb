@@ -43,6 +43,9 @@
         <%= external_link t(".open"), job_posting.url, class: "btn btn-ghost" %>
       </div>
     </div>
+    <% if (contacts = contacts_at(job_posting.company)).any? %>
+      <div class="mt-5 border-t border-line pt-4"><%= render "contacts/at_company", contacts:, record: application || job_posting, company: job_posting.display_company %></div>
+    <% end %>
     </header>
 
     <div class="mt-10 flex flex-wrap gap-x-14 gap-y-9">

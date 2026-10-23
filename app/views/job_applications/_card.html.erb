@@ -1,11 +1,16 @@
 <%# Only the company on the board; the details open beside the card on hover or focus (hovercard). %>
 <% follow_up_due = job_application.next_follow_up_on && job_application.next_follow_up_on <= Date.current %>
+<% contacts = contacts_at(job_application.company) %>
 <li id="<%= dom_id(job_application) %>" class="card flex-none cursor-grab px-3 py-2 active:cursor-grabbing"
     tabindex="0" data-move-url="<%= move_job_application_path(job_application) %>"
     data-controller="hovercard"
     data-action="mouseenter->hovercard#show mouseleave->hovercard#hide focusin->hovercard#show focusout->hovercard#hide keydown.esc->hovercard#close">
   <p class="flex items-center gap-1.5 font-display text-[15px] leading-[1.25] font-semibold">
     <span class="truncate"><%= job_application.company %></span>
+    <% if contacts.any? %>
+      <% known = t("contacts.at_company.title", count: contacts.size, company: job_application.company) %>
+      <span class="flex-none text-accent-bright" title="<%= known %>"><%= icon(:user, size: 13) %><span class="sr-only"><%= known %></span></span>
+    <% end %>
     <% if follow_up_due %><span class="size-1.5 flex-none rounded-full bg-warn" title="<%= t(".follow_up_due") %>"></span><% end %>
   </p>
 
@@ -18,6 +23,10 @@
       (tag.span("↗ #{l(job_application.applied_on, format: :day_month)}", class: "chip", title: t(".applied_on")) if job_application.applied_on),
       (tag.span(t(".follow_up", date: l(job_application.next_follow_up_on, format: :day_month)), class: [ "chip", ("chip-warn" if follow_up_due) ], title: t(".next_follow_up")) if job_application.next_follow_up_on)
     ].compact) %></div>
+
+    <% if contacts.any? %>
+      <div class="mt-1 border-t border-line pt-2"><%= render "contacts/at_company", contacts:, record: job_application, company: job_application.company %></div>
+    <% end %>
 
     <div class="mt-1 flex gap-3.5 text-[13px]">
       <%= link_to t(".edit"), edit_job_application_path(job_application) %>
