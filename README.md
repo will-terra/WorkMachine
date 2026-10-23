@@ -16,6 +16,7 @@ kanban board, reads the companies' replies in your Gmail and uses AI to analyze 
 [![CI](https://img.shields.io/github/actions/workflow/status/will-terra/WorkMachine/ci.yml?branch=main&style=for-the-badge&label=tests)](https://github.com/will-terra/WorkMachine/actions/workflows/ci.yml)
 [![License AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-2c2726?style=for-the-badge)](LICENSE)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-c7262f?style=for-the-badge&logo=rubyonrails&logoColor=white)](https://rubyonrails.org)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lohldenjhfbijbcolpglchnnionlbfaa?style=for-the-badge&logo=googlechrome&logoColor=white&label=extension&color=2c2726)](https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa)
 
 **[Install in 5 minutes](#install)** · **[See the screens](#screen-tour)** · **[Leave a ⭐](https://github.com/will-terra/WorkMachine/stargazers)**
 
@@ -241,19 +242,16 @@ Common problems:
 It saves the job open in any site (LinkedIn, Greenhouse, Lever, Gupy, career pages…) to WorkMachine,
 shows on its icon the score of the LinkedIn jobs already in the app and saves recruiters to Contacts.
 
-1. In **Settings → Browser extension**, click **Generate token** and copy it.
-2. Open `chrome://extensions` (or `edge://extensions`), turn on **Developer mode** and click
-   **Load unpacked**. Choose the `extension` folder inside the WorkMachine folder.
-   - **Windows with the project inside WSL:** Chrome doesn't always open WSL folders. Copy the folder to
-     Windows and load the copy:
-     ```bash
-     cp -r extension/. /mnt/c/Users/YOUR_USER/WorkMachine-extension/
-     ```
+1. Install it from the **[Chrome Web Store](https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa)**. It works in Chrome and in Edge (in Edge,
+   allow extensions from other stores when it asks).
+2. In **Settings → Browser extension**, click **Generate token** and copy it.
 3. Pin the icon to the toolbar, open the extension's **Options**, paste the token and click
    **Test connection**.
 
-After updating WorkMachine, click reload (↻) on the extension's card (on Windows with WSL, copy the folder
-again first). Settings shows the expected version. Details in [extension/README.md](extension/README.md).
+The store updates the extension by itself. Settings shows the version WorkMachine expects; if the store is
+still behind it, or if you want to change the extension's code, load the `extension` folder instead
+(`chrome://extensions` → **Developer mode** → **Load unpacked**; step by step in
+[extension/README.md](extension/README.md)).
 
 ## Notifications
 

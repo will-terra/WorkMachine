@@ -6,17 +6,24 @@ quando você clica no ícone dela; ela nunca navega, nunca abre vagas sozinha e 
 
 ## Como instalar
 
-1. No WorkMachine, abra **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
-2. Abra `chrome://extensions` (Chrome) ou `edge://extensions` (Edge).
-3. Ligue o **Modo do desenvolvedor**.
-4. Clique em **Carregar sem compactação** e escolha esta pasta `extension/`.
+1. Instale pela **[Chrome Web Store](https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa)** (Chrome ou Edge; no Edge, permita extensões de
+   outras lojas quando ele perguntar).
+2. No WorkMachine, abra **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
+3. Fixe o ícone na barra. Clique com o botão direito no ícone → **Opções**, cole o token e use
+   **Testar conexão**.
+
+A loja atualiza a extensão sozinha a cada versão publicada.
+
+### Sem a loja (para mexer no código ou usar uma versão mais nova que a da loja)
+
+1. Abra `chrome://extensions` (Chrome) ou `edge://extensions` (Edge) e ligue o **Modo do desenvolvedor**.
+2. Clique em **Carregar sem compactação** e escolha esta pasta `extension/`.
    No Windows com o projeto dentro do WSL2, o Chrome e o Edge nem sempre carregam extensões de
    `\\wsl$`; copie a pasta para o Windows e carregue a cópia:
    `cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/`.
-5. Fixe o ícone na barra. Clique com o botão direito no ícone → **Opções**, cole o token e use
-   **Testar conexão**.
+3. Para atualizar, copie a pasta de novo e clique em recarregar (↻) no cartão da extensão.
 
-Para atualizar, copie a pasta de novo e clique em recarregar (↻) no cartão da extensão.
+Se a versão da loja também estiver instalada, desative uma das duas.
 
 ## Como usar
 

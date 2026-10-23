@@ -16,6 +16,7 @@ num kanban, lê as respostas das empresas no seu Gmail e usa IA para analisar va
 [![CI](https://img.shields.io/github/actions/workflow/status/will-terra/WorkMachine/ci.yml?branch=main&style=for-the-badge&label=testes)](https://github.com/will-terra/WorkMachine/actions/workflows/ci.yml)
 [![Licença AGPL-3.0](https://img.shields.io/badge/licen%C3%A7a-AGPL--3.0-2c2726?style=for-the-badge)](LICENSE)
 [![Rails 8.1](https://img.shields.io/badge/Rails-8.1-c7262f?style=for-the-badge&logo=rubyonrails&logoColor=white)](https://rubyonrails.org)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/lohldenjhfbijbcolpglchnnionlbfaa?style=for-the-badge&logo=googlechrome&logoColor=white&label=extens%C3%A3o&color=2c2726)](https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa)
 
 **[Instalar em 5 minutos](#instalar)** · **[Ver as telas](#tour-pelas-telas)** · **[Deixar uma ⭐](https://github.com/will-terra/WorkMachine/stargazers)**
 
@@ -241,19 +242,15 @@ Ela salva no WorkMachine a vaga aberta em qualquer site (LinkedIn, Greenhouse, L
 carreira…), mostra no ícone a nota das vagas do LinkedIn que já estão no app e salva recrutadores em
 Contatos.
 
-1. Em **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
-2. Abra `chrome://extensions` (ou `edge://extensions`), ligue o **Modo do desenvolvedor** e clique em
-   **Carregar sem compactação**. Escolha a pasta `extension` de dentro da pasta do WorkMachine.
-   - **Windows com o projeto dentro do WSL:** o Chrome nem sempre abre pastas do WSL. Copie a pasta para
-     o Windows e carregue a cópia:
-     ```bash
-     cp -r extension/. /mnt/c/Users/SEU_USUARIO/WorkMachine-extension/
-     ```
+1. Instale pela **[Chrome Web Store](https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa)**. Funciona no Chrome e no Edge (no Edge, permita
+   extensões de outras lojas quando ele perguntar).
+2. Em **Ajustes → Extensão do navegador**, clique em **Gerar token** e copie.
 3. Fixe o ícone na barra, abra as **Opções** da extensão, cole o token e clique em **Testar conexão**.
 
-Depois de atualizar o WorkMachine, clique em recarregar (↻) no cartão da extensão (no Windows com WSL,
-copie a pasta de novo antes). Ajustes mostra a versão esperada. Detalhes em
-[extension/README.md](extension/README.md).
+A loja atualiza a extensão sozinha. Ajustes mostra a versão que o WorkMachine espera; se a loja ainda
+estiver atrás dela, ou se você quiser mexer no código da extensão, carregue a pasta `extension`
+(`chrome://extensions` → **Modo do desenvolvedor** → **Carregar sem compactação**; passo a passo em
+[extension/README.md](extension/README.md)).
 
 ## Notificações
 

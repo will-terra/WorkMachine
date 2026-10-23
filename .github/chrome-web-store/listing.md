@@ -116,7 +116,9 @@ avaliar crédito ou conceder empréstimos.
 - Na declaração de comerciante (exigida pela União Europeia), escolha **não comerciante**: a extensão é
   gratuita e não vende nada.
 
-## Depois da aprovação
+## Publicada
 
-Troque, no README e no `extension/README.md`, o passo de "Carregar sem compactação" pelo link da loja.
-A loja atualiza a extensão sozinha a cada versão publicada.
+Página na loja: https://chromewebstore.google.com/detail/lohldenjhfbijbcolpglchnnionlbfaa (código `lohldenjhfbijbcolpglchnnionlbfaa`). Os READMEs instalam por ela.
+
+A cada versão nova: suba a `version` do `extension/manifest.json`, rode `bin/rails extension:zip` e envie
+o zip em **Pacote → Enviar novo pacote**. A loja revisa e atualiza a extensão de quem já tem.
