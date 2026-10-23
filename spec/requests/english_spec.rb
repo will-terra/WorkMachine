@@ -36,7 +36,7 @@ RSpec.describe "English interface" do
   context "signed in" do
     before do
       sign_in
-      posting = create(:job_posting, title: "Senior Rails Engineer", company: "Acme", location_text: "Remote", salary_text: "USD 6k")
+      posting = create(:job_posting, title: "Senior Rails Engineer", company: "Acme", location_text: "Remote", salary_text: "USD 6k", closed_at: 1.day.ago)
       create(:ai_artifact, job_posting: posting, content: "Good fit.")
       create(:ai_artifact, job_posting: posting, kind: "tailored_cv", content: "# Ana Souza\n## Experience\n- Rails and PostgreSQL")
       application = create(:job_application, company: "Globex", role: "Backend Engineer", status: "applied", applied_on: 3.days.ago.to_date,

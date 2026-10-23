@@ -17,6 +17,16 @@ RSpec.describe "ATS board sources" do
       expect(company.reload.last_fetched_at).to be_present
     end
 
+    it "closes the stored jobs that left the board" do
+      create(:target_company, name: "GitLab", ats: "greenhouse", board_slug: "gitlab")
+      stub_source("https://boards-api.greenhouse.io/v1/boards/gitlab/jobs?content=true", "greenhouse.json")
+      gone = create(:job_posting, source: "greenhouse", external_id: "999", raw: { "board" => "gitlab" })
+
+      described_class.new.fetch
+
+      expect(gone.reload).to have_attributes(closed_at: be_present, triage: "dismissed")
+    end
+
     it "records a warning and goes on when a board fails" do
       create(:target_company, name: "Quebrada", ats: "greenhouse", board_slug: "broken")
       stub_request(:get, %r{boards/broken}).to_return(status: 404)
