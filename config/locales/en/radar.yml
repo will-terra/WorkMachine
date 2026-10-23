@@ -10,6 +10,22 @@ en:
       empty_profile: empty profile
       empty_profile_html: The searches come from your profile. %{link} (area, titles and skills) for the Radar to build all of them.
       fill_profile: Fill in the profile
+      pending_alerts:
+        one: 1 LinkedIn alert to turn on
+        other: "%{count} LinkedIn alerts to turn on"
+    pending_alerts:
+      chip:
+        one: 1 LinkedIn alert to turn on
+        other: "%{count} LinkedIn alerts to turn on"
+      link: See the alerts
+    alerts:
+      total: "%{done} of %{total} alerts turned on"
+      outdated: Old searches still turned on
+      outdated_help: The profile changed and these searches left the Radar. Turn their alerts off on LinkedIn and uncheck them here.
+    alert:
+      activated_label: "Alert turned on: %{title}"
+      activated_on: turned on %{date}
+      save: Save
     task:
       apply: Apply
       set_up_gmail: Set it up in Settings for the alerts to be imported

@@ -136,6 +136,7 @@ TargetCompany.create!(name: "Pomar Tech", ats: "ashby", board_slug: "kora-exempl
 end
 
 Consultancy.order(:id).limit(4).each { it.update!(registered_on: today - 10) }
+Radar.alert_searches.first(3).each { ActivatedAlert.create!(search_key: it["key"], query: it["query"], created_at: now - 10.days) }
 # The ready-made routines are copied in the language of the first visit.
 I18n.with_locale(english ? :en : :"pt-BR") { Routine.current }
 %w[m1 m2 m4 a1].each { Routine.toggle!(it) }

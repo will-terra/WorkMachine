@@ -76,7 +76,9 @@ onde não dá retorno.
 
 ### Radar: o que fazer à mão, já pronto
 As buscas certas para o LinkedIn (publicações e pessoas), X, Google e grupos do Telegram, montadas com as
-suas skills e cargos. Copie ou abra com um clique. Também mostra se alguma fonte automática falhou.
+suas skills e cargos. Copie ou abra com um clique. Também lista os alertas de vaga do LinkedIn para ativar,
+com uma caixa para marcar os que você já ligou; quando o perfil muda, os alertas novos aparecem ali. E
+mostra se alguma fonte automática falhou.
 
 <img src=".github/readme/pt-BR/radar.png" alt="Radar com as buscas do LinkedIn prontas para copiar ou abrir" width="100%">
 
@@ -159,7 +161,8 @@ O app abre com a rotina **Configuração do app**: um passo a passo com link par
    (recusa, entrevista, teste, proposta) movem os cartões sozinhas. Convites para entrevista assíncrona
    (vídeo ou áudio gravado, entrevista com IA, como HireVue e Willo) vão para a coluna **Entrevista com IA**.
 4. **Radar.** O que fazer à mão, por frequência, com as buscas já montadas para o seu perfil. Crie os
-   alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn**.
+   alertas de vaga do LinkedIn pelas buscas da seção **Alertas do LinkedIn** e marque cada um como
+   ativado: quando o perfil mudar, os alertas novos aparecem ali.
 
 | Tela | Para que serve |
 | - | - |
@@ -167,7 +170,7 @@ O app abre com a rotina **Configuração do app**: um passo a passo com link par
 | **Vagas** | Triagem com filtros e ordenação: salvar, salvar em aplicadas, descartar, analisar com IA, marcar como vaga dos sonhos. |
 | **Candidaturas** | Kanban e tabela, e-mails da empresa em cada candidatura, exportação `.xlsx` e CSV. |
 | **Rotina** | Checklist diário e semanal e o passo a passo de configuração do app. As rotinas são editadas em **Ajustes → Rotinas**. |
-| **Radar** | O que fazer à mão: publicações e pessoas no LinkedIn, X, Google, grupos do Telegram, sites sem API e cadastros. |
+| **Radar** | O que fazer à mão: alertas do LinkedIn para ativar, publicações e pessoas no LinkedIn, X, Google, grupos do Telegram, sites sem API e cadastros. |
 | **Contatos** e **Empresas-alvo** | Recrutadores e gestores; empresas cujos quadros de vagas o agregador consulta. |
 | **Mensagens** | Modelos de mensagem preenchidos com a vaga, o contato e o seu perfil. |
 | **Métricas** | Candidaturas por semana, funil, taxas de resposta e de entrevista por origem e as fontes que mais rendem. |
@@ -215,7 +218,8 @@ conta, que o Google gera para um programa só. A senha normal da conta não func
 3. Copie as 16 letras que aparecem. Elas são mostradas uma vez só; se perder, apague essa senha e crie
    outra. Os espaços entre os blocos não fazem diferença.
 4. Em **Ajustes → Chaves e contas**, informe o e-mail e a senha de app e clique em **Testar Gmail**.
-5. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar.
+5. No LinkedIn, crie os alertas de vaga (por e-mail, diários) pelas buscas do Radar (**Uma vez → Alertas
+   do LinkedIn**) e marque cada um como ativado.
 
 O WorkMachine abre a caixa só para leitura: nada é marcado como lido, movido ou apagado. A cada hora ele
 importa os alertas do LinkedIn e procura as respostas das empresas em que você aplicou. Na primeira vez,

@@ -31,6 +31,12 @@ RSpec.describe "Profile" do
     expect(profile.skills).to eq([ { "name" => "Python", "level" => "essential", "synonyms" => [ "py" ] } ])
   end
 
+  it "tells when the change brings LinkedIn alerts to turn on" do
+    patch profile_path, params: { profile: { target_titles: "Engenheira de Plataforma" } }
+
+    expect(flash[:notice]).to end_with("recalculadas. O Radar tem 1 alerta do LinkedIn novo para ativar.")
+  end
+
   it "clears the skills and the terms to avoid when every chip is removed" do
     profile.update!(avoid_terms: [ "PHP" ])
 

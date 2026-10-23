@@ -9,12 +9,13 @@ class ProfilesController < ApplicationController
   end
 
   def update
+    alerts_before = Radar.alert_searches(@profile).map { it["query"] }
     @profile.assign_attributes(profile_params)
     @profile.drop_default_overrides
     @profile.assign_attributes(cv_draft: nil, cv_draft_status: nil) if params[:from_draft].present?
 
     if @profile.save
-      redirect_to profile_path, notice: rescore_notice
+      redirect_to profile_path, notice: [ rescore_notice, new_alerts_notice(alerts_before) ].compact.join(" ")
     else
       @from_draft = params[:from_draft].present?
       render :show, status: :unprocessable_content
@@ -74,6 +75,13 @@ class ProfilesController < ApplicationController
         work_modes: [], regions: [], avoid_terms: [], skills: [ [ :name, :level, :synonyms, :_destroy ] ],
         search_overrides: Radar.searches.map { it.fetch("key") }
       ])
+    end
+
+    # The profile changed the queries of the LinkedIn alerts: the new ones wait in the Radar.
+    def new_alerts_notice(before)
+      queries = Radar.alert_searches(@profile).map { it["query"] } - before
+      count = queries.size - ActivatedAlert.where(query: queries).count
+      t("flash.profile.new_alerts", count:) if count.positive?
     end
 
     def rescore_notice

@@ -25,7 +25,7 @@ routines:
         items:
           - { key: s7, label: "Ativar as notificações neste navegador (de preferência no app instalado)", url: "/ajustes" }
           - { key: s8, label: "Escolher a nota mínima das notificações, o descarte automático e as fontes automáticas", url: "/ajustes" }
-          - { key: s9, label: "Criar os alertas de vaga do LinkedIn (por e-mail, diários) pelas buscas do Radar", url: "/radar#linkedin_alerts" }
+          - { key: s9, label: "Criar os alertas de vaga do LinkedIn (por e-mail, diários) pelas buscas do Radar e marcar cada um como ativado", url: "/radar#linkedin_alerts" }
           - { key: s10, label: "Instalar a extensão do navegador, colar o token em Opções e clicar em Testar conexão", url: "/ajustes#extensao" }
           - { key: s11, label: "Conferir se o backup automático está gravando (Ajustes → Backup do banco)", url: "/ajustes" }
       - title: "Conhecer as telas"

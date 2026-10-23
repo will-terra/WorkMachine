@@ -1,0 +1,28 @@
+<%# One LinkedIn alert: the "ativado" box (on: delete; off: create), the query and the shortcuts. %>
+<% outdated = local_assigns[:outdated] %>
+<% box = outdated ? "outdated_alert_#{activation.id}" : "alert_#{search["key"]}" %>
+<div class="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-t border-line py-2" data-controller="clipboard">
+  <%= form_with url: activation ? activated_alert_path(activation) : activated_alerts_path, method: activation ? :delete : :post,
+                class: "flex min-w-0 flex-[0_0_14rem] items-start gap-2.5", data: { controller: "auto-submit" } do |form| %>
+    <% unless activation %>
+      <%= hidden_field_tag :search_key, search["key"], id: nil %>
+      <%= hidden_field_tag :query, search["query"], id: nil %>
+    <% end %>
+    <%= check_box_tag :activated, "1", activation.present?, id: box, class: "check mt-[0.3em]",
+                      aria: { label: t(".activated_label", title: search["title"]) }, data: { action: "auto-submit#submit" } %>
+    <label for="<%= box %>" class="min-w-0 cursor-pointer text-[14.5px] font-medium<%= " text-muted" if activation %>">
+      <%= search["title"] %>
+      <% if search["note"] %><span class="block text-[12.5px] font-normal text-muted"><%= search["note"] %></span><% end %>
+      <% if activation %><span class="block font-mono text-[11.5px] font-normal"><%= t(".activated_on", date: short_date(activation.created_at)) %></span><% end %>
+    </label>
+    <noscript><%= form.submit t(".save"), class: "btn btn-sm" %></noscript>
+  <% end %>
+  <code class="min-w-0 flex-[1_1_300px] font-mono text-[12.5px] leading-[1.55] wrap-anywhere text-ink-soft" translate="no" data-clipboard-target="source"><%= search["query"] %></code>
+  <span class="flex flex-none gap-1">
+    <button type="button" class="btn btn-ghost btn-sm" data-clipboard-target="button" data-action="clipboard#copy" aria-label="<%= t("radar.task.copy_label", title: search["title"]) %>"><%= t("radar.task.copy") %></button>
+    <% unless outdated %>
+      <%= link_to t("radar.task.open"), Radar.url_for(search["builder"], search["query"], filters, location:), class: "btn btn-sm", target: "_blank", rel: "noopener",
+                  aria: { label: t("radar.task.open_label", title: search["title"]) } %>
+    <% end %>
+  </span>
+</div>

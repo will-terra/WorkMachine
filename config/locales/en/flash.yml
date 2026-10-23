@@ -82,6 +82,9 @@ en:
       draft_discarded: Draft discarded.
       saved_rescoring: Profile saved. %{count} jobs are being rescored.
       saved: Profile saved.
+      new_alerts:
+        one: The Radar has 1 new LinkedIn alert to turn on.
+        other: The Radar has %{count} new LinkedIn alerts to turn on.
   api:
     rate_limited: Too many requests. Try again in a minute.
     no_token: Generate the extension token in WorkMachine, in Settings → Browser extension.

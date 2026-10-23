@@ -50,6 +50,16 @@ class Radar
       tasks_for(profile).flat_map { it["searches"] }
     end
 
+    # The searches with the "ativado" box (Alertas do LinkedIn), filled in from the profile.
+    def alert_searches(profile = Profile.current)
+      tasks_for(profile).select { it["checkable"] }.flat_map { it["searches"] }
+    end
+
+    # How many of them are left to turn on (none while the profile is empty).
+    def pending_alerts(profile = Profile.current)
+      profile.configured? ? ActivatedAlert.pending_count(alert_searches(profile)) : 0
+    end
+
     # Terms to fill in the profiles of platforms and consultancies (Cadastros).
     def profile_keywords(profile = Profile.current)
       {

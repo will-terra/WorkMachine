@@ -76,7 +76,9 @@ where it doesn't pay off.
 
 ### Radar: what to do by hand, ready to go
 The right searches for LinkedIn (posts and people), X, Google and Telegram groups, built from your skills
-and titles. Copy or open them with one click. It also shows whether an automatic source failed.
+and titles. Copy or open them with one click. It also lists the LinkedIn job alerts to turn on, with a box for
+the ones you already did; when your profile changes, the new alerts show up there. And it shows whether an
+automatic source failed.
 
 <img src=".github/readme/en/radar.png" alt="Radar with the LinkedIn searches ready to copy or open" width="100%">
 
@@ -159,7 +161,8 @@ The app opens with the **App setup** routine: a step-by-step list with a link to
    interviews (recorded video or audio, AI interviews such as HireVue and Willo) go to the
    **AI interview** column.
 4. **Radar.** What to do by hand, by frequency, with the searches already built for your profile. Create
-   your LinkedIn job alerts from the searches in the **LinkedIn alerts** section.
+   your LinkedIn job alerts from the searches in the **LinkedIn alerts** section and check each one as
+   turned on: when the profile changes, the new alerts show up there.
 
 | Screen | What it's for |
 | - | - |
@@ -167,7 +170,7 @@ The app opens with the **App setup** routine: a step-by-step list with a link to
 | **Jobs** | Triage with filters and sorting: save, save as applied, dismiss, analyze with AI, mark as a dream job. |
 | **Applications** | Kanban and table, the company's e-mails in each application, `.xlsx` and CSV export. |
 | **Routine** | Daily and weekly checklist and the step-by-step app setup. Routines are edited in **Settings → Routines**. |
-| **Radar** | What to do by hand: LinkedIn posts and people, X, Google, Telegram groups, sites without an API and sign-ups. |
+| **Radar** | What to do by hand: LinkedIn alerts to turn on, LinkedIn posts and people, X, Google, Telegram groups, sites without an API and sign-ups. |
 | **Contacts** and **Target companies** | Recruiters and hiring managers; companies whose job boards the aggregator reads. |
 | **Messages** | Message templates filled in with the job, the contact and your profile. |
 | **Metrics** | Applications per week, funnel, reply and interview rates by origin and the sources that pay off most. |
@@ -216,7 +219,8 @@ password, that Google creates for a single program. Your regular account passwor
 3. Copy the 16 letters that show up. They are shown only once; if you lose them, delete that password
    and create another one. The spaces between the blocks don't matter.
 4. In **Settings → Keys and accounts**, enter the e-mail and the app password and click **Test Gmail**.
-5. On LinkedIn, create your job alerts (by e-mail, daily) from the Radar's searches.
+5. On LinkedIn, create your job alerts (by e-mail, daily) from the Radar's searches (**Once → LinkedIn
+   alerts**) and check each one as turned on.
 
 WorkMachine opens the mailbox read only: nothing is marked as read, moved or deleted. Every hour it
 imports the LinkedIn alerts and looks for the replies from the companies you applied to. The first time,

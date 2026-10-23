@@ -33,7 +33,7 @@ filters:
 cadences:
   daily: { title: "Every day", time: "~15 min, after triaging the new jobs" }
   weekly: { title: "Every week", time: "~30 min, ideally on Monday" }
-  once: { title: "Once", time: "and review when the CV changes" }
+  once: { title: "Once", time: "and review when the profile changes" }
 
 tasks:
   feed:
@@ -59,7 +59,7 @@ tasks:
     action: "Check the week's new jobs. The others only if there is time left."
   linkedin_alerts:
     title: "LinkedIn alerts"
-    action: "Open each search and turn on “Job alert”, by e-mail and daily. WorkMachine reads the alerts in Gmail every hour."
+    action: "Open each search, turn on “Job alert” (by e-mail, daily) and check it here as on. WorkMachine reads the alerts in Gmail every hour; when the profile changes, the new searches show up here."
   cadastros:
     title: "Registrations"
     action: "Create the profile once and check it here. Recruiting firms pull candidates from their own database when a process opens; skip the executive search ones, which are for directors."

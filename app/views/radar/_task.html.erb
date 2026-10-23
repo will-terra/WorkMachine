@@ -42,7 +42,9 @@
       </p>
     <% end %>
 
-    <% if task["searches"].present? %>
+    <% if task["checkable"] %>
+      <%= render "radar/alerts", searches: task["searches"], filters: @filters, location: @profile.location %>
+    <% elsif task["searches"].present? %>
       <div class="mt-3 flex flex-col">
         <% task["searches"].each do |search| %>
           <div class="flex flex-wrap items-baseline gap-x-5 gap-y-1 border-t border-line py-2" data-controller="clipboard">

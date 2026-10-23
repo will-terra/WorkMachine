@@ -45,9 +45,11 @@ RSpec.describe "English interface" do
       create(:message_template, name: "Recruiter note", language: "en", body: "Hi {{nome}}, about the {{cargo}} role at {{empresa}}.", max_chars: 200)
       create(:target_company, name: "GitLab", board_slug: "gitlab")
       create(:consultancy, name: "Example Talent", notes: "Tech recruiting.")
+      ActivatedAlert.create!(search_key: "alert_area", query: "Rails AND backend")
       SourceRun.create!(source: "remotive", status: "succeeded", fetched_count: 10, created_count: 2, finished_at: Time.current)
       Profile.current.update!(skills: [ { "name" => "Rails", "level" => "essential", "synonyms" => [ "Ruby on Rails" ] }, { "name" => "React", "level" => "extra" } ],
                               domains: [ "fintech" ], languages: "English")
+      ActivatedAlert.create!(search_key: "alert_cargos", query: Radar.alert_searches.find { it["key"] == "alert_cargos" }["query"])
       # The ready-made routines are copied in the language of the first visit.
       I18n.with_locale(:en) { Routine.current }
     end

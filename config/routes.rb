@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   resource :radar, only: :show, controller: "radar"
   get "metricas" => "metrics#show", as: :metrics
   resources :consultancies, only: :update
+  resources :activated_alerts, only: %i[create destroy]
   resources :message_templates, path: "mensagens", except: :show
   resource :routine, only: :show, path: "rotina" do
     post "itens/:key", action: :toggle, as: :toggle

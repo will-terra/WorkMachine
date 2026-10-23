@@ -30,11 +30,75 @@ RSpec.describe "Radar" do
     expect(response.body).to include("1 alerta lido; o último chegou em 20/10 08:42")
   end
 
+  describe "LinkedIn alerts" do
+    let(:searches) { Radar.alert_searches }
+
+    it "lists the alerts with a box, the ones already on at the end, and counts the ones left" do
+      cargos = searches.find { it["key"] == "alert_cargos" }
+      ActivatedAlert.create!(search_key: "alert_cargos", query: cargos["query"], created_at: Time.zone.local(2026, 10, 20, 9))
+
+      get radar_path
+
+      body = response.body
+      left = searches.size - 1
+      expect(body).to include("#{left} alertas do LinkedIn para ativar", 'href="#linkedin_alerts"', "1 de #{searches.size} alertas ativados", "ativado em 20/10")
+      expect(body).to match(%r{id="pending_alerts_count"[^>]*>#{left}</span>})
+      expect(body).to include('id="alert_alert_nivel"', 'id="alert_alert_cargos"')
+      expect(body.index('id="alert_alert_nivel"')).to be < body.index('id="alert_alert_cargos"')
+      expect(body).not_to include("Buscas antigas que continuam ativadas")
+    end
+
+    it "lists the alerts turned on for a query that the profile no longer makes" do
+      ActivatedAlert.create!(search_key: "alert_cargos", query: '("Desenvolvedor Python" OR "Python Developer")')
+
+      get radar_path
+
+      expect(response.body).to include("Buscas antigas que continuam ativadas", "Cargos alvo", "Desenvolvedor Python")
+    end
+
+    it "hides the notice while the profile is empty" do
+      Profile.current.update!(skills: [], search_terms: [])
+
+      get radar_path
+
+      expect(response.body).not_to include("para ativar")
+    end
+  end
+
   it "applies and remembers the filters" do
     get radar_path(li_region: "world_remote", li_period: "r2592000")
     get radar_path
 
     expect(response.body).to include("geoId=92000000&amp;f_WT=2&amp;f_TPR=r2592000")
+  end
+end
+
+RSpec.describe "Activated alerts" do
+  before { sign_in }
+
+  let(:search) { Radar.alert_searches.first }
+
+  it "turns an alert on and off, sending the list back in its new order" do
+    post activated_alerts_path, params: { search_key: search["key"], query: search["query"] }, as: :turbo_stream
+
+    expect(response.media_type).to eq(Mime[:turbo_stream])
+    alert = ActivatedAlert.sole
+    expect(alert).to have_attributes(search_key: search["key"], query: search["query"])
+    expect(response.body).to include("linkedin_alerts_list", "pending_alerts_count", "1 de #{Radar.alert_searches.size} alertas ativados")
+
+    post activated_alerts_path, params: { search_key: search["key"], query: search["query"] }, as: :turbo_stream
+    expect(ActivatedAlert.count).to eq(1)
+
+    delete activated_alert_path(alert)
+
+    expect(response).to redirect_to(radar_path(anchor: "linkedin_alerts"))
+    expect(ActivatedAlert.count).to eq(0)
+  end
+
+  it "ignores an alert that is already off" do
+    delete activated_alert_path(42), as: :turbo_stream
+
+    expect(response).to have_http_status(:ok)
   end
 end
 

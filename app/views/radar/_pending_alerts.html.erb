@@ -1,0 +1,6 @@
+<% if count.positive? %>
+  <p class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2" role="status">
+    <span class="chip chip-warn"><%= t(".chip", count:) %></span>
+    <a href="#linkedin_alerts"><%= t(".link") %></a>
+  </p>
+<% end %>

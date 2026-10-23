@@ -1,0 +1,25 @@
+<%# The alerts to turn on first, then the ones already on (the latest at the end), then the ones turned
+    on for a query the profile no longer makes. Replaced as a whole when a box changes: the order changes. %>
+<% rows = ActivatedAlert.sorted(searches) %>
+<% outdated = ActivatedAlert.outdated(searches) %>
+<div id="linkedin_alerts_list">
+  <% if rows.any? %>
+    <p class="mt-3 font-mono text-xs text-muted"><%= t(".total", done: rows.count { |_, activation| activation }, total: rows.size) %></p>
+    <div class="mt-2 flex flex-col">
+      <% rows.each do |search, activation| %>
+        <%= render "radar/alert", search:, activation:, filters:, location: %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if outdated.any? %>
+    <% titles = Radar.searches.to_h { [ it["key"], it["title"] ] } %>
+    <h3 class="mt-6"><%= t(".outdated") %></h3>
+    <p class="mt-1 text-[13.5px] leading-normal text-muted"><%= t(".outdated_help") %></p>
+    <div class="mt-2 flex flex-col">
+      <% outdated.each do |activation| %>
+        <%= render "radar/alert", search: { "key" => activation.search_key, "title" => titles.fetch(activation.search_key, activation.search_key), "query" => activation.query },
+                                  activation:, filters:, location:, outdated: true %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

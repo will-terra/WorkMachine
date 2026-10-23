@@ -10,6 +10,22 @@ pt-BR:
       empty_profile: perfil vazio
       empty_profile_html: As buscas saem do seu perfil. %{link} (área, cargos e skills) para o Radar montar todas.
       fill_profile: Preencha o perfil
+      pending_alerts:
+        one: 1 alerta do LinkedIn para ativar
+        other: "%{count} alertas do LinkedIn para ativar"
+    pending_alerts:
+      chip:
+        one: 1 alerta do LinkedIn para ativar
+        other: "%{count} alertas do LinkedIn para ativar"
+      link: Ver os alertas
+    alerts:
+      total: "%{done} de %{total} alertas ativados"
+      outdated: Buscas antigas que continuam ativadas
+      outdated_help: O perfil mudou e estas buscas saíram do Radar. Desligue os alertas delas no LinkedIn e desmarque aqui.
+    alert:
+      activated_label: "Alerta ativado: %{title}"
+      activated_on: ativado em %{date}
+      save: Salvar
     task:
       apply: Aplicar
       set_up_gmail: Configure em Ajustes para os alertas serem importados

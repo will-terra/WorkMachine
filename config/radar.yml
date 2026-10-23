@@ -74,11 +74,13 @@ filters:
 cadences:
   - { key: daily, title: "Todo dia", time: "~15 min, depois de triar as vagas novas" }
   - { key: weekly, title: "Toda semana", time: "~30 min, de preferência na segunda" }
-  - { key: once, title: "Uma vez", time: "e revisar quando o CV mudar" }
+  - { key: once, title: "Uma vez", time: "e revisar quando o perfil mudar" }
 
 # Tarefas manuais. Cada uma pode ter: searches (com filters), links (only_for: só aparece quando o
-# perfil tem o termo), link (um atalho), status (resumo de uma fonte automática) ou registrations
-# (checklist de cadastros). Textos e URLs aceitam as variáveis do perfil.
+# perfil tem o termo), link (um atalho), status (resumo de uma fonte automática), registrations
+# (checklist de cadastros) ou checkable (cada busca ganha a caixa "ativado", gravada pela consulta em
+# ActivatedAlert: as marcadas vão para o fim e, se o perfil mudar a consulta, ela volta como nova).
+# Textos e URLs aceitam as variáveis do perfil.
 tasks:
   - key: feed
     cadence: daily
@@ -246,8 +248,9 @@ tasks:
   - key: linkedin_alerts
     cadence: once
     title: "Alertas do LinkedIn"
-    action: "Abra cada busca e ligue “Alerta de vaga”, por e-mail e diário. O WorkMachine lê os alertas no Gmail a cada hora."
+    action: "Abra cada busca, ligue “Alerta de vaga” (por e-mail, diário) e marque aqui como ativado. O WorkMachine lê os alertas no Gmail a cada hora; quando o perfil mudar, as buscas novas aparecem aqui."
     status: linkedin_alert
+    checkable: true
     filters: [li_region, li_period]
     searches:
       - key: alert_cargos

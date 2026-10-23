@@ -1,10 +1,13 @@
-<div data-controller="cadence">
+<div data-controller="cadence" data-action="hashchange@window->cadence#follow">
   <%= page_header eyebrow: t(".eyebrow"), title: t(".title"), intro: t(".intro") do %>
     <div class="seg" role="radiogroup" aria-label="<%= t(".frequency") %>">
       <% @config["cadences"].each_with_index do |cadence, index| %>
         <label class="seg-opt">
           <%= radio_button_tag :cadence, cadence["key"], index.zero?, id: "cadence_#{cadence["key"]}", data: { cadence_target: "option", action: "cadence#change" } %>
           <%= cadence["title"] %>
+          <% if @tasks.fetch(cadence["key"], []).any? { it["checkable"] } %>
+            <span id="pending_alerts_count" class="font-mono text-[11.5px]"<% if @pending_alerts.positive? %> title="<%= t(".pending_alerts", count: @pending_alerts) %>"<% end %>><%= @pending_alerts if @pending_alerts.positive? %></span>
+          <% end %>
         </label>
       <% end %>
     </div>
@@ -16,6 +19,8 @@
       <span><%= t(".empty_profile_html", link: link_to(t(".fill_profile"), profile_path)) %></span>
     </p>
   <% end %>
+
+  <div id="pending_alerts"><%= render "radar/pending_alerts", count: @pending_alerts %></div>
 
   <%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
 

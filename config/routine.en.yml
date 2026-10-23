@@ -20,7 +20,7 @@ routines:
         items:
           - { key: s7, label: "Turn on notifications in this browser (ideally in the installed app)", url: "/ajustes" }
           - { key: s8, label: "Choose the minimum score for notifications, the automatic dismissal and the automatic sources", url: "/ajustes" }
-          - { key: s9, label: "Create the LinkedIn job alerts (by e-mail, daily) with the Radar searches", url: "/radar#linkedin_alerts" }
+          - { key: s9, label: "Create the LinkedIn job alerts (by e-mail, daily) with the Radar searches and check each one as turned on", url: "/radar#linkedin_alerts" }
           - { key: s10, label: "Install the browser extension, paste the token in Options and click Test connection", url: "/ajustes#extensao" }
           - { key: s11, label: "Check that the automatic backup is running (Settings → Backup)", url: "/ajustes" }
       - title: "Get to know the screens"

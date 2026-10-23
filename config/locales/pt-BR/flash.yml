@@ -82,6 +82,9 @@ pt-BR:
       draft_discarded: Rascunho descartado.
       saved_rescoring: Perfil salvo. %{count} vagas estão sendo recalculadas.
       saved: Perfil salvo.
+      new_alerts:
+        one: O Radar tem 1 alerta do LinkedIn novo para ativar.
+        other: O Radar tem %{count} alertas do LinkedIn novos para ativar.
   api:
     rate_limited: Muitas requisições. Tente de novo em um minuto.
     no_token: Gere o token da extensão no WorkMachine, em Ajustes → Extensão do navegador.
