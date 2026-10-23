@@ -20,7 +20,8 @@ class ActivatedAlertsController < ApplicationController
           pending = summary&.pending.to_i
           render turbo_stream: [
             turbo_stream.replace("linkedin_alerts_list", partial: "radar/alerts",
-                                                         locals: { searches: Radar.alert_searches(profile), filters: Radar.sanitize_filters(session[:radar_filters]), location: profile.location }),
+                                                         locals: { task: Radar.alerts_task(profile), filters: Radar.sanitize_filters(session[:radar_filters]),
+                                                                   available: Radar.filters, location: profile.location }),
             turbo_stream.update("alerts_summary", partial: "radar/alerts_summary", locals: { summary: }),
             turbo_stream.update("pending_alerts_count", pending.positive? ? pending.to_s : "")
           ]

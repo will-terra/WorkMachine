@@ -120,6 +120,8 @@
   h1, h2, h3, h4 { @apply font-display; font-weight: 600; line-height: 1.12; letter-spacing: -0.015em; }
   h1 { font-size: 44px; letter-spacing: -0.03em; }
   @media (width < 40rem) { h1 { font-size: 34px; } }
+  /* On phones the navigation sticks to the top: links to a section (#once) stop below it. */
+  @media (width < 40rem) { html { scroll-padding-top: 56px; } }
   h2 { font-size: 20px; }
   h3 { font-size: 15px; }
   a { @apply text-accent underline underline-offset-3 hover:text-accent-hover; }

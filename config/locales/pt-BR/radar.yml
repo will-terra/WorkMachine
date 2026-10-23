@@ -66,6 +66,9 @@ pt-BR:
       show: Ver fontes
       hide: Esconder fontes
     registrations:
+      done:
+        one: 1 cadastrado
+        other: "%{count} cadastrados"
       terms: Termos para preencher os perfis
       titles: Títulos
       skills: Skills

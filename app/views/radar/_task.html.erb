@@ -3,27 +3,11 @@
   <article id="<%= task["key"] %>" class="scroll-mt-6" aria-labelledby="<%= task["key"] %>_title">
     <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
       <div class="max-w-[72ch]">
-        <h2 id="<%= task["key"] %>_title" class="text-[22px]"><%= task["title"] %></h2>
+        <h3 id="<%= task["key"] %>_title" class="text-[20px]"><%= task["title"] %></h3>
         <p class="mt-1.5 text-[14.5px] leading-[1.55]"><%= task["action"] %></p>
       </div>
-      <% if task["filters"].present? && task["searches"].present? %>
-        <%= form_with url: radar_path, method: :get, class: "flex flex-wrap gap-3", data: { controller: "auto-submit" } do %>
-          <% task["filters"].each do |name| %>
-            <% filter = @config["filters"][name] %>
-            <fieldset>
-              <legend class="label"><%= filter["label"] %></legend>
-              <div class="seg">
-                <% filter["options"].each do |option| %>
-                  <label class="seg-opt">
-                    <%= radio_button_tag name, option["value"], @filters[name] == option["value"].to_s, id: "#{task["key"]}_#{name}_#{option["value"].presence || "any"}", data: { action: "auto-submit#submit" } %>
-                    <%= option["label"] %>
-                  </label>
-                <% end %>
-              </div>
-            </fieldset>
-          <% end %>
-          <noscript><%= submit_tag t(".apply"), class: "btn btn-sm" %></noscript>
-        <% end %>
+      <% if task["filters"].present? && task["searches"].present? && !task["checkable"] %>
+        <%= render "radar/filters", task_key: task["key"], names: task["filters"], filters: @filters, available: @config["filters"] %>
       <% end %>
     </div>
 
@@ -43,7 +27,7 @@
     <% end %>
 
     <% if task["checkable"] %>
-      <%= render "radar/alerts", searches: task["searches"], filters: @filters, location: @profile.location %>
+      <%= render "radar/alerts", task:, filters: @filters, available: @config["filters"], location: @profile.location %>
     <% elsif task["searches"].present? %>
       <div class="mt-3 flex flex-col">
         <% task["searches"].each do |search| %>

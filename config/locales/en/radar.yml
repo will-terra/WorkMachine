@@ -66,6 +66,9 @@ en:
       show: See sources
       hide: Hide sources
     registrations:
+      done:
+        one: 1 registered
+        other: "%{count} registered"
       terms: Terms to fill in the profiles
       titles: Titles
       skills: Skills

@@ -1,0 +1,18 @@
+<%# The filters of a task (Local, Publicadas…): the frame reloads the task with the new links. %>
+<%= form_with url: radar_path, method: :get, class: "flex flex-wrap gap-3", data: { controller: "auto-submit" } do %>
+  <% names.each do |name| %>
+    <% filter = available[name] %>
+    <fieldset>
+      <legend class="label"><%= filter["label"] %></legend>
+      <div class="seg">
+        <% filter["options"].each do |option| %>
+          <label class="seg-opt">
+            <%= radio_button_tag name, option["value"], filters[name] == option["value"].to_s, id: "#{task_key}_#{name}_#{option["value"].presence || "any"}", data: { action: "auto-submit#submit" } %>
+            <%= option["label"] %>
+          </label>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+  <noscript><%= submit_tag t("radar.task.apply"), class: "btn btn-sm" %></noscript>
+<% end %>

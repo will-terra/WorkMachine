@@ -62,8 +62,9 @@ RSpec.describe "Radar" do
 
       get radar_path
 
-      expect(response.body).to include("Os #{searches.size} alertas do LinkedIn estão ativados", 'href="#linkedin_alerts"')
-      expect(response.body).not_to include("para ativar")
+      expect(response.body).to include("Os #{searches.size} alertas do LinkedIn estão ativados", 'href="#linkedin_alerts"',
+                                       "#{searches.size} de #{searches.size} alertas ativados")
+      expect(response.body).not_to include("para ativar", "linkedin_alerts_li_region")
     end
 
     it "hides the notice while the profile is empty" do
@@ -121,7 +122,7 @@ RSpec.describe "Consultancies" do
     patch consultancy_path(consultancy), params: { registered: "1" }, as: :turbo_stream
 
     expect(response.media_type).to eq(Mime[:turbo_stream])
-    expect(response.body).to include("registrations_count_#{consultancy.kind}", "1/1", "1 de 1 cadastros feitos")
+    expect(response.body).to include('target="registrations"', "1/1", "1 de 1 cadastros feitos", "1 cadastrado")
     expect(consultancy.reload.registered_on).to eq(Date.current)
 
     patch consultancy_path(consultancy), params: { registered: "0" }

@@ -1,25 +1,39 @@
-<% all = registrations.values.flatten %>
-<p class="mt-2 font-mono text-xs text-muted" id="registrations_total"><%= render "radar/registrations_total", all: %></p>
-<div class="mt-4 flex flex-wrap gap-x-12 gap-y-6">
-  <% Consultancy.kinds.each_key do |kind| %>
-    <% next if registrations[kind].blank? %>
-    <div class="min-w-0 flex-[1_1_260px]">
-      <h3 class="mb-1.5">
-        <%= Consultancy.human_enum(:kind, kind) %>
-        <span id="registrations_count_<%= kind %>" class="font-mono text-[11.5px] font-normal text-muted"><%= registrations[kind].count(&:registered?) %>/<%= registrations[kind].size %></span>
-      </h3>
-      <%= render partial: "consultancies/consultancy", collection: registrations[kind] %>
-    </div>
-  <% end %>
-</div>
-<details class="mt-5">
-  <summary class="text-[13.5px] text-accent hover:text-accent-hover"><%= t(".terms") %></summary>
-  <div class="mt-3 grid gap-3 text-sm">
-    <% { t(".titles") => keywords["titles"], t(".skills") => keywords["skills"], t(".plan_b") => keywords["plan_b"] }.compact_blank.each do |label, terms| %>
-      <div>
-        <p class="label"><%= label %></p>
-        <div class="flex flex-wrap gap-1.5"><% terms.each do |term| %><span class="chip"><%= term %></span><% end %></div>
+<%# The ones already done fold into "N cadastrados" under each group, so the list shrinks as you go.
+    Replaced as a whole when a box changes. %>
+<div id="registrations">
+  <% all = registrations.values.flatten %>
+  <p class="mt-2 font-mono text-xs text-muted"><%= t("radar.registrations_total", done: all.count(&:registered?), total: all.size) %></p>
+  <div class="mt-4 flex flex-wrap gap-x-12 gap-y-6">
+    <% Consultancy.kinds.each_key do |kind| %>
+      <% next if registrations[kind].blank? %>
+      <% done, pending = registrations[kind].partition(&:registered?) %>
+      <div class="min-w-0 flex-[1_1_260px]">
+        <h4 class="mb-1.5 text-[15px]">
+          <%= Consultancy.human_enum(:kind, kind) %>
+          <span class="font-mono text-[11.5px] font-normal text-muted"><%= done.size %>/<%= registrations[kind].size %></span>
+        </h4>
+        <%= render partial: "consultancies/consultancy", collection: pending %>
+        <% if done.any? %>
+          <details class="group/done mt-1">
+            <summary class="flex cursor-pointer list-none items-baseline gap-2 py-[3px] font-mono text-xs text-muted [&::-webkit-details-marker]:hidden">
+              <span class="group-open/done:rotate-90" aria-hidden="true">▸</span>
+              <%= t(".done", count: done.size) %>
+            </summary>
+            <%= render partial: "consultancies/consultancy", collection: done %>
+          </details>
+        <% end %>
       </div>
     <% end %>
   </div>
-</details>
+  <details class="mt-5">
+    <summary class="text-[13.5px] text-accent hover:text-accent-hover"><%= t(".terms") %></summary>
+    <div class="mt-3 grid gap-3 text-sm">
+      <% { t(".titles") => keywords["titles"], t(".skills") => keywords["skills"], t(".plan_b") => keywords["plan_b"] }.compact_blank.each do |label, terms| %>
+        <div>
+          <p class="label"><%= label %></p>
+          <div class="flex flex-wrap gap-1.5"><% terms.each do |term| %><span class="chip"><%= term %></span><% end %></div>
+        </div>
+      <% end %>
+    </div>
+  </details>
+</div>

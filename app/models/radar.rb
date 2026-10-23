@@ -52,9 +52,13 @@ class Radar
       tasks_for(profile).flat_map { it["searches"] }
     end
 
-    # The searches with the "ativado" box (Alertas do LinkedIn), filled in from the profile.
+    # The task whose searches have the "ativado" box (Alertas do LinkedIn), filled in from the profile.
+    def alerts_task(profile = Profile.current)
+      tasks_for(profile).find { it["checkable"] }
+    end
+
     def alert_searches(profile = Profile.current)
-      tasks_for(profile).select { it["checkable"] }.flat_map { it["searches"] }
+      alerts_task(profile)&.fetch("searches").to_a
     end
 
     # How the LinkedIn alerts stand (nil while the profile is empty): how many searches, how many

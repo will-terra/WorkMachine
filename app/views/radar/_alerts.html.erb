@@ -1,19 +1,38 @@
-<%# The alerts to turn on first, then the ones already on (the latest at the end), then the ones turned
-    on for a query the profile no longer makes. Replaced as a whole when a box changes: the order changes. %>
+<%# The alerts to turn on, in full with the filters of their links; the ones already on fold into
+    "3 de 7 alertas ativados" (the latest at the end), so the section shrinks as they are checked;
+    the ones turned on for a query the profile no longer makes stay open, to turn off on LinkedIn.
+    Replaced as a whole when a box changes. %>
+<% searches = task["searches"] %>
 <% rows = ActivatedAlert.sorted(searches) %>
+<% pending, activated = rows.partition { |_, activation| activation.nil? } %>
 <% outdated = ActivatedAlert.outdated(searches) %>
 <div id="linkedin_alerts_list">
-  <% if rows.any? %>
-    <p class="mt-3 font-mono text-xs text-muted"><%= t(".total", done: rows.count { |_, activation| activation }, total: rows.size) %></p>
-    <div class="mt-2 flex flex-col">
-      <% rows.each do |search, activation| %>
-        <%= render "radar/alert", search:, activation:, filters:, location: %>
+  <% if pending.any? %>
+    <% if task["filters"].present? %>
+      <div class="mt-4"><%= render "radar/filters", task_key: task["key"], names: task["filters"], filters:, available: %></div>
+    <% end %>
+    <div class="mt-3 flex flex-col">
+      <% pending.each do |search, _| %>
+        <%= render "radar/alert", search:, activation: nil, filters:, location: %>
       <% end %>
     </div>
   <% end %>
+  <% if activated.any? %>
+    <details class="group/done mt-3">
+      <summary class="flex cursor-pointer list-none items-baseline gap-2 font-mono text-xs text-muted [&::-webkit-details-marker]:hidden">
+        <span class="group-open/done:rotate-90" aria-hidden="true">▸</span>
+        <%= t(".total", done: activated.size, total: rows.size) %>
+      </summary>
+      <div class="mt-2 flex flex-col">
+        <% activated.each do |search, activation| %>
+          <%= render "radar/alert", search:, activation:, filters:, location: %>
+        <% end %>
+      </div>
+    </details>
+  <% end %>
   <% if outdated.any? %>
     <% titles = Radar.searches.to_h { [ it["key"], it["title"] ] } %>
-    <h3 class="mt-6"><%= t(".outdated") %></h3>
+    <h4 class="mt-6 text-[15px]"><%= t(".outdated") %></h4>
     <p class="mt-1 text-[13.5px] leading-normal text-muted"><%= t(".outdated_help") %></p>
     <div class="mt-2 flex flex-col">
       <% outdated.each do |activation| %>
