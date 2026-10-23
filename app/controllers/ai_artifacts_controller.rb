@@ -20,6 +20,14 @@ class AiArtifactsController < ApplicationController
     render partial: "ai_artifacts/ai_artifact", locals: { ai_artifact: @ai_artifact }
   end
 
+  # The tailored CV as a printable page: the browser's "Save as PDF" makes a text PDF that
+  # applicant tracking systems read.
+  def cv
+    @ai_artifact = AiArtifact.tailored_cv.status_completed.find(params[:id])
+    @coverage = KeywordCoverage.call(@ai_artifact.job_posting, @ai_artifact.content)
+    render layout: "print"
+  end
+
   def destroy
     artifact = AiArtifact.find(params[:id])
     artifact.destroy!

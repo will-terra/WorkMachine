@@ -36,6 +36,24 @@ module Ai
       "cv_summary" => <<~TASK,
         Write %<name>s's CV summary tailored to the job posting below: 4 to 5 lines (60 to 90 words), in the language the posting is written in (Portuguese or English). Start with their title, without pronouns (for example "Full Stack Engineer with..."). Lead with what this job needs most and reuse the posting's keywords only where they are true for %<name>s. Output only the summary.
       TASK
+      "tailored_cv" => <<~TASK,
+        Write %<name>s's full CV tailored to the job posting below, in the language the posting is written in (Portuguese or English).
+        Start from their CV and profile and keep every fact true: the same employers, titles, dates, education and skills. You may select, reorder and rephrase bullets so that what this job needs most comes first, and use the posting's words only where they are true for %<name>s. Never add an employer, a skill, a tool, a number or a result that is not in the CV or the profile. One or two pages.
+        For this task only, use exactly this Markdown structure, with the section titles in the CV's language:
+        # Full name
+        One line with the professional title
+        One line with location, e-mail, phone and links (LinkedIn, GitHub, portfolio) that are known, separated by " | "
+        ## Summary: 3 or 4 lines
+        ## Experience: "### Title, Company (start – end)" for each job, then "- " bullets
+        ## Education
+        ## Skills: comma-separated, one line per group when useful
+        ## Languages
+        Output only the CV.
+
+        <cv>
+        %<cv>s
+        </cv>
+      TASK
       "interview_prep" => <<~TASK,
         %<name>s has %<stage>s for the job posting below. Write their preparation sheet in %<interface_language>s, with exactly these sections:
         %<prep_sections>s
@@ -130,7 +148,8 @@ module Ai
                                        .sub("%<prep_sections>s") { PREP_SECTIONS.fetch(interface_key) }
       templates = MessageTemplate.where(language: language).ordered.map { "#{it.name}:\n#{it.body_for(profile)}" }.join("\n\n")
       format(template, name: name(profile), goal: goal(profile), language: LANGUAGES.fetch(language.to_s, LANGUAGES["pt"]), interface_language:,
-                       templates: templates.presence || "(none)", stage: STAGES.fetch(application&.status.to_s, NEXT_STAGE))
+                       templates: templates.presence || "(none)", stage: STAGES.fetch(application&.status.to_s, NEXT_STAGE),
+                       cv: (cv_text(profile) if kind.to_s == "tailored_cv"))
     end
 
     def posting_block(posting)
@@ -144,6 +163,12 @@ module Ai
         #{posting.description.presence || "(no description; judge from the title and location only)"}
         </job_posting>
       POSTING
+    end
+
+    # The uploaded CV and the profile's links, for the tailored CV.
+    def cv_text(profile)
+      links = [ profile.linkedin_url, profile.github_url, profile.portfolio_url ].compact_blank
+      [ profile.cv_text.presence&.strip || "(no CV uploaded: use the profile only)", ("Links: #{links.join(" | ")}" if links.any?) ].compact.join("\n\n")
     end
 
     # An application typed by hand: only what it has.

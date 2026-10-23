@@ -38,6 +38,7 @@ RSpec.describe "English interface" do
       sign_in
       posting = create(:job_posting, title: "Senior Rails Engineer", company: "Acme", location_text: "Remote", salary_text: "USD 6k")
       create(:ai_artifact, job_posting: posting, content: "Good fit.")
+      create(:ai_artifact, job_posting: posting, kind: "tailored_cv", content: "# Ana Souza\n## Experience\n- Rails and PostgreSQL")
       application = create(:job_application, company: "Globex", role: "Backend Engineer", status: "applied", applied_on: 3.days.ago.to_date,
                                              next_follow_up_on: Date.current, job_posting: posting)
       create(:application_email, job_application: application, subject: "Your application", summary: "They want an interview.", category: "interview")
@@ -73,7 +74,7 @@ RSpec.describe "English interface" do
         contacts_path, new_contact_path, edit_contact_path(Contact.last),
         target_companies_path, new_target_company_path, edit_target_company_path(TargetCompany.last),
         settings_routines_path, new_settings_routine_path, edit_settings_routine_path(Routine.current.last), profile_path,
-        settings_path, onboarding_path
+        settings_path, onboarding_path, cv_ai_artifact_path(AiArtifact.tailored_cv.last)
       ].each { visit_in_english(it) }
     end
   end

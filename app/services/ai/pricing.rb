@@ -7,7 +7,7 @@ module Ai
     FREE = { input: 0, output: 0, cache_write: 0, cache_read: 0 }.freeze
 
     # Typical output, reasoning included, used only for the estimate shown before a click.
-    EXPECTED_OUTPUT_TOKENS = { "fit_analysis" => 3_000, "cv_summary" => 1_500, "message" => 1_500, "interview_prep" => 4_000 }.freeze
+    EXPECTED_OUTPUT_TOKENS = { "fit_analysis" => 3_000, "cv_summary" => 1_500, "message" => 1_500, "interview_prep" => 4_000, "tailored_cv" => 5_000 }.freeze
     # About 3.5 characters per token in English and Portuguese prose (a conservative average).
     CHARS_PER_TOKEN = 3.5
 

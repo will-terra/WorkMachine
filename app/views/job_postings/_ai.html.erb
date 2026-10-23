@@ -9,9 +9,13 @@
     <div class="mt-4 flex flex-wrap gap-2">
       <%= button_to t(".fit"), job_posting_ai_artifacts_path(job_posting, kind: "fit_analysis"), class: "btn btn-sm" %>
       <%= button_to t(".cv_summary"), job_posting_ai_artifacts_path(job_posting, kind: "cv_summary"), class: "btn btn-sm" %>
+      <%= button_to t(".tailored_cv"), job_posting_ai_artifacts_path(job_posting, kind: "tailored_cv"), class: "btn btn-sm" %>
       <%= button_to t(".message_pt"), job_posting_ai_artifacts_path(job_posting, kind: "message", language: "pt"), class: "btn btn-sm" %>
       <%= button_to t(".message_en"), job_posting_ai_artifacts_path(job_posting, kind: "message", language: "en"), class: "btn btn-sm" %>
     </div>
+    <% if Profile.current.cv_text.blank? %>
+      <p class="mt-2 text-xs text-muted"><%= t(".no_cv_html", link: link_to(t(".no_cv_link"), profile_path(anchor: "cv"), data: { turbo_frame: "_top" })) %></p>
+    <% end %>
     <div class="mt-2.5">
       <%= turbo_frame_tag "ai_estimate", src: estimate_job_posting_ai_artifacts_path(job_posting), loading: "lazy" do %>
         <p class="text-xs text-muted"><%= t(".estimating") %></p>

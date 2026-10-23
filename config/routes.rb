@@ -30,7 +30,9 @@ Rails.application.routes.draw do
       collection { get :estimate, path: "estimativa" }
     end
   end
-  resources :ai_artifacts, path: "ia", only: %i[ show destroy ]
+  resources :ai_artifacts, path: "ia", only: %i[ show destroy ] do
+    get :cv, on: :member
+  end
   namespace :settings, path: "ajustes" do
     resources :routines, path: "rotinas", except: :show do
       post :restore, on: :collection, path: "restaurar"
