@@ -42,6 +42,7 @@ RSpec.describe "English interface" do
                                              next_follow_up_on: Date.current, job_posting: posting)
       create(:application_email, job_application: application, subject: "Your application", summary: "They want an interview.", category: "interview")
       create(:contact, name: "Mary Smith", headline: "Tech Recruiter", company: "Initech")
+      create(:contact, name: "John Doe", headline: "Engineering Manager", company: "Acme Inc.")
       create(:message_template, name: "Recruiter note", language: "en", body: "Hi {{nome}}, about the {{cargo}} role at {{empresa}}.", max_chars: 200)
       create(:target_company, name: "GitLab", board_slug: "gitlab")
       create(:consultancy, name: "Example Talent", notes: "Tech recruiting.")

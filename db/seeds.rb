@@ -65,6 +65,14 @@ message_templates = [
     body: "Oi, {{nome}}! Tudo bem? Apliquei para a vaga de {{cargo}} na {{empresa}} há alguns dias e queria saber se há novidades no processo. Sigo bastante interessado e à disposição para conversar. Obrigado!"
   },
   {
+    name: "Pedido de indicação (PT)", language: "pt",
+    body: "Oi, {{nome}}! Tudo bem? Vi que a {{empresa}} está com a vaga de {{cargo}} aberta e quero me candidatar. Sou {{meu_resumo}} e trabalho com {{minha_stack}}. Você toparia me indicar ou me contar um pouco de como é o time? Posso te mandar meu currículo. Obrigado!"
+  },
+  {
+    name: "Referral request (EN)", language: "en",
+    body: "Hi {{nome}}! I noticed {{empresa}} is hiring for the {{cargo}} role and I'd love to apply. I'm a {{meu_resumo}}, working with {{minha_stack}}. Would you be open to referring me, or telling me a bit about the team? Happy to send my resume. Thanks!"
+  },
+  {
     name: "Application follow-up (EN)", language: "en",
     body: "Hi {{nome}}, hope you're doing well. I applied for the {{cargo}} role at {{empresa}} a few days ago and wanted to check whether there are any updates. I'm still very interested and happy to talk anytime. Thanks!"
   }

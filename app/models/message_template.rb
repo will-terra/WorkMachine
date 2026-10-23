@@ -25,6 +25,12 @@ class MessageTemplate < ApplicationRecord
     template ? "#{path}#message_template_#{template.id}" : path
   end
 
+  # The referral request of the seeds, in the interface language first.
+  def self.referral
+    languages = I18n.locale.to_s.start_with?("pt") ? %w[pt en] : %w[en pt]
+    where("name LIKE ? OR name LIKE ?", "%indicação%", "%eferral%").in_order_of(:language, languages).first
+  end
+
   # What Contatos → Mensagem opens: the connection note for a recruiter, "found your post" for a manager.
   def self.for_contact(contact)
     ordered.where("name LIKE ?", contact.recruiter? ? "%recrutador%" : "%post%").first

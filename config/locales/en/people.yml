@@ -1,5 +1,13 @@
 en:
   contacts:
+    at_company:
+      title:
+        one: You know 1 person at %{company}
+        other: You know %{count} people at %{company}
+      chip:
+        one: 1 contact
+        other: "%{count} contacts"
+      ask: Ask for a referral
     index:
       eyebrow: recruiters and managers
       title: Contacts

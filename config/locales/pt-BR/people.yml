@@ -1,5 +1,13 @@
 pt-BR:
   contacts:
+    at_company:
+      title:
+        one: Você conhece 1 pessoa na %{company}
+        other: Você conhece %{count} pessoas na %{company}
+      chip:
+        one: 1 contato
+        other: "%{count} contatos"
+      ask: Pedir indicação
     index:
       eyebrow: recrutadores e gestores
       title: Contatos

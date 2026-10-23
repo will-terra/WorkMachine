@@ -1,0 +1,15 @@
+<%# Who you know at the company of a job or an application, each with a referral request.
+    Locals: contacts, record (JobPosting or JobApplication), company. %>
+<div class="flex flex-col gap-1.5 text-[13.5px]">
+  <p class="flex items-center gap-2 font-semibold text-accent-bright">
+    <%= icon(:user, size: 16) %><%= t("contacts.at_company.title", count: contacts.size, company:) %>
+  </p>
+  <ul class="flex flex-col gap-1">
+    <% contacts.each do |contact| %>
+      <li class="flex flex-wrap items-baseline gap-x-3 gap-y-0.5">
+        <span><span class="font-semibold"><%= contact.name %></span><% if contact.headline.present? %> <span class="text-muted">· <%= contact.headline %></span><% end %></span>
+        <%= link_to t("contacts.at_company.ask"), referral_path(contact, record), data: { turbo_frame: "_top" } %>
+      </li>
+    <% end %>
+  </ul>
+</div>
