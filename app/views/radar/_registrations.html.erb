@@ -3,12 +3,12 @@
 <div id="registrations">
   <% all = registrations.values.flatten %>
   <p class="mt-2 font-mono text-xs text-muted"><%= t("radar.registrations_total", done: all.count(&:registered?), total: all.size) %></p>
-  <div class="mt-4 flex flex-wrap gap-x-12 gap-y-6">
+  <div class="mt-4 grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-5">
     <% Consultancy.kinds.each_key do |kind| %>
       <% next if registrations[kind].blank? %>
       <% done, pending = registrations[kind].partition(&:registered?) %>
-      <div class="min-w-0 flex-[1_1_260px]">
-        <h4 class="mb-1.5 text-[15px]">
+      <section class="min-w-0 rounded-xl border border-line bg-surface px-5 py-4">
+        <h4 class="mb-2 text-[15px]">
           <%= Consultancy.human_enum(:kind, kind) %>
           <span class="font-mono text-[11.5px] font-normal text-muted"><%= done.size %>/<%= registrations[kind].size %></span>
         </h4>
@@ -22,7 +22,7 @@
             <%= render partial: "consultancies/consultancy", collection: done %>
           </details>
         <% end %>
-      </div>
+      </section>
     <% end %>
   </div>
   <details class="mt-5">
