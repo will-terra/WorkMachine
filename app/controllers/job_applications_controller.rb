@@ -8,7 +8,7 @@ class JobApplicationsController < ApplicationController
     @job_applications = filtered_applications
 
     respond_to do |format|
-      format.html { @columns = @job_applications.ordered.group_by(&:status) if @view == "board" }
+      format.html { @columns = @job_applications.includes(:job_posting).ordered.group_by(&:status) if @view == "board" }
       format.xlsx { render xlsx: "index", filename: "candidaturas-#{Date.current.iso8601}.xlsx" }
       format.csv { send_data JobApplicationCsv.export(@job_applications.latest_first), filename: "candidaturas-#{Date.current.iso8601}.csv", type: "text/csv; charset=utf-8" }
     end

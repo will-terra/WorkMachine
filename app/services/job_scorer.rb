@@ -42,7 +42,7 @@ class JobScorer
   # The terms the scorer and AutoDismissal store are Portuguese keys; on screen they follow the
   # interface language. Skills and terms of the profile are shown as they are.
   TERM_KEYS = { "região aberta" => "open_region", "só EUA/Canadá" => "us_only", "só Europa" => "europe_only", RESTRICTED_TERM => "restricted",
-                "gestão" => "management", "pleno" => "mid", "sênior" => "senior", "staff/principal" => "staff" }.freeze
+                "gestão" => "management", ClosedPostings::REASON => "closed", "pleno" => "mid", "sênior" => "senior", "staff/principal" => "staff" }.freeze
 
   def self.human_term(term)
     if (key = TERM_KEYS[term]) then I18n.t("job_scorer.terms.#{key}")

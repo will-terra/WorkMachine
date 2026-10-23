@@ -1,6 +1,7 @@
 en:
   job_scorer:
     terms:
+      closed: job closed
       open_region: open region
       us_only: US/Canada only
       europe_only: Europe only
@@ -22,6 +23,8 @@ en:
       auto_dismissed: "dismissed automatically: %{reason}"
       auto_dismissed_title: Dismissed on arrival (Settings → Automatic dismissal)
       partial: partial score
+      closed: closed
+      closed_title: Left the company's board on %{date}
       partial_title: "No description: the score uses only the title and the location. Save it with the extension on the job page to complete it, or use Analyze with AI."
     index:
       eyebrow: triage
@@ -97,6 +100,7 @@ en:
         warning: Warning
         none: No search has run yet.
     detail:
+      closed: "This job left the company's board on %{date}: it was probably closed."
       selected: Selected job
       automatically: "automatically: %{reason}"
       save: Save

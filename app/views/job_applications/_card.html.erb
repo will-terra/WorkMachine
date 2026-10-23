@@ -22,7 +22,8 @@
       (tag.span(job_application.origin, class: "chip") if job_application.origin.present?),
       (tag.span("↗ #{l(job_application.applied_on, format: :day_month)}", class: "chip", title: t(".applied_on")) if job_application.applied_on),
       (tag.span(t(".follow_up", date: l(job_application.next_follow_up_on, format: :day_month)), class: [ "chip", ("chip-warn" if follow_up_due) ], title: t(".next_follow_up")) if job_application.next_follow_up_on),
-      (tag.span(t(".interview", date: l(job_application.interview_at, format: :day_month_hour)), class: "chip chip-hot") if job_application.interview_at&.future?)
+      (tag.span(t(".interview", date: l(job_application.interview_at, format: :day_month_hour)), class: "chip chip-hot") if job_application.interview_at&.future?),
+      (tag.span(t(".closed"), class: "chip chip-warn") if job_application.job_posting&.closed_at)
     ].compact) %></div>
 
     <% if contacts.any? %>

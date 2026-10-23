@@ -36,6 +36,7 @@ pt-BR:
       next_follow_up: Próximo follow-up
       interview: entrevista %{date}
       prepare: Preparar entrevista
+      closed: vaga encerrada
       edit: Editar
       message: Mensagem
       open: Abrir vaga

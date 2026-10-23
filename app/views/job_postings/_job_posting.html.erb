@@ -3,6 +3,7 @@
 <% tags = [
      (tag.span(safe_join([ icon(:user, size: 12), t("contacts.at_company.chip", count: known) ]), class: "chip chip-hot", title: t("contacts.at_company.title", count: known, company: job_posting.display_company)) if known.positive?),
      (tag.span(job_posting.human_enum(:triage), class: "chip chip-outline") unless job_posting.triage_new?),
+     (tag.span(t("job_postings.posting.closed"), class: "chip chip-warn", title: t("job_postings.posting.closed_title", date: l(job_posting.closed_at.to_date, format: :day_month))) if job_posting.closed_at),
      (tag.span(t("job_postings.posting.auto_dismissed", reason: JobScorer.human_term(job_posting.auto_dismissed_reason)), class: "chip chip-warn", title: t("job_postings.posting.auto_dismissed_title")) if job_posting.auto_dismissed_reason),
      (tag.span(t("job_postings.posting.partial"), class: "chip chip-warn", title: t("job_postings.posting.partial_title")) if job_posting.partial_score?),
      posting_terms(job_posting, limit: 3).presence

@@ -36,6 +36,7 @@ en:
       next_follow_up: Next follow-up
       interview: interview %{date}
       prepare: Prepare for the interview
+      closed: job closed
       edit: Edit
       message: Message
       open: Open job

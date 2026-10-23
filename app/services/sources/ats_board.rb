@@ -8,7 +8,9 @@ module Sources
     def fetch
       TargetCompany.active.where(ats: key).order(:name).each_with_index.flat_map do |company, index|
         sleep PAUSE if index.positive?
-        jobs = fetch_company(company).select { Profile.normalize_text(it[:title]).match?(profile.board_title_regex) }
+        all = fetch_company(company)
+        ClosedPostings.mark(key, company.board_slug, all.map { it[:external_id] })
+        jobs = all.select { Profile.normalize_text(it[:title]).match?(profile.board_title_regex) }
         company.update!(last_fetched_at: Time.current)
         jobs
       rescue HttpClient::Error => e

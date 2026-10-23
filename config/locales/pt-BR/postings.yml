@@ -11,6 +11,7 @@ pt-BR:
       staff: staff/principal
       years: "%{count}+ anos"
       below: nota abaixo de %{min}
+      closed: vaga encerrada
   job_postings:
     meta:
       via: via %{source}
@@ -22,6 +23,8 @@ pt-BR:
       auto_dismissed: "descartada automaticamente: %{reason}"
       auto_dismissed_title: Descartada na chegada (Ajustes → Descarte automático)
       partial: nota parcial
+      closed: encerrada
+      closed_title: Saiu do quadro da empresa em %{date}
       partial_title: "Sem descrição: a nota usa só o título e o local. Salve pela extensão na página da vaga para completar, ou use Analisar com IA."
     index:
       eyebrow: triagem
@@ -97,6 +100,7 @@ pt-BR:
         warning: Aviso
         none: Nenhuma busca rodou ainda.
     detail:
+      closed: "Esta vaga saiu do quadro da empresa em %{date}: provavelmente foi encerrada."
       selected: Vaga selecionada
       automatically: "automaticamente: %{reason}"
       save: Salvar

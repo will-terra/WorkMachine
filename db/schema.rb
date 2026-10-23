@@ -155,6 +155,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.datetime "updated_at", null: false
     t.datetime "notified_at"
     t.string "auto_dismissed_reason"
+    t.datetime "closed_at"
     t.index ["fingerprint"], name: "index_job_postings_on_fingerprint"
     t.index ["source", "external_id"], name: "index_job_postings_on_source_and_external_id"
     t.index ["triage", "score"], name: "index_job_postings_on_triage_and_score"
