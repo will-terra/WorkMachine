@@ -79,8 +79,21 @@ jobs:
         with:
           context: .
           push: false
+          load: true
+          tags: workmachine:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      # As people run it: the first start creates the database and the keys, then /up answers.
+      - name: Start the image and wait for /up
+        run: |
+          docker run -d --name workmachine -p 127.0.0.1:3000:3000 workmachine:ci
+          for attempt in $(seq 1 60); do
+            if curl -fs http://localhost:3000/up > /dev/null; then echo "up after ${attempt} tries"; exit 0; fi
+            sleep 2
+          done
+          docker logs workmachine
+          exit 1
 
   test:
     runs-on: ubuntu-latest
