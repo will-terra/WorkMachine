@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# A container stopped abruptly leaves the pid file behind, and Puma refuses to boot over it.
+rm -f /rails/tmp/pids/server.pid
+
 # Create or migrate the databases before starting the app.
 if [ "${1}" == "./bin/dev" ] || [ "${*: -2}" == "./bin/rails server" ]; then
   ./bin/rails db:prepare
