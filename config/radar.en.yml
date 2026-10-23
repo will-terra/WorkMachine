@@ -5,6 +5,10 @@ automated:
   "Alertas do LinkedIn": { name: "LinkedIn alerts", note: "Alert e-mails read in Gmail. Create and check the alerts in the LinkedIn alerts section, under Once." }
   "Respostas das empresas": { name: "Company replies", note: "E-mails from the companies you applied to, read in Gmail: rejection, interview, test and offer move the card on their own." }
   "Empresas-alvo": { name: "Target companies", note: "Greenhouse, Lever, Ashby and Workable boards. New companies come in on their own when a job points to their board." }
+  "Gupy": { note: "Gupy portal search for {{termos}} in the titles of jobs at Brazilian companies." }
+  "Programathor": { note: "One page per technology ({{termos}}); expired jobs are left out." }
+  "Vagas.com": { note: "Searches for {{termos}}; more jobs at large companies and for broad roles." }
+  "Canais do Telegram": { name: "Telegram channels", note: "CafeinaVagas channel, for people starting out: it only runs with a junior profile. Groups need a login and stay by hand." }
   "Remotive": { note: "Searches for {{termos}}, at most 4 times a day, as the API terms ask." }
   "Remote OK": { note: "Jobs with {{termos}} in the title or the tags." }
   "We Work Remotely": { note: "Feeds of your area, filtered by {{termos}}." }
@@ -82,7 +86,6 @@ searches:
   x_titulo: { title: "By title" }
   x_remoto_pt: { title: "Remote in Portuguese" }
   x_area: { title: "Stack and area" }
-  google_gupy: { title: "Gupy" }
   google_ats_br: { title: "InHire, Recrutei, Sólides" }
   google_trabalhe_conosco: { title: "“Trabalhe conosco” (careers pages)" }
   google_jobs: { title: "Google Jobs", note: "Does not use the date filter." }

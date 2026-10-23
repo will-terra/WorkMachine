@@ -1,6 +1,6 @@
 class JobPosting < ApplicationRecord
-  SOURCES = %w[remotive remote_ok we_work_remotely working_nomads himalayas remotar backend_br frontend_br
-               hacker_news gorails greenhouse lever ashby workable linkedin_alert extension manual].freeze
+  SOURCES = %w[remotive remote_ok we_work_remotely working_nomads himalayas remotar gupy programathor vagas_com telegram
+               backend_br frontend_br hacker_news gorails greenhouse lever ashby workable linkedin_alert extension manual].freeze
   REMOTE_SCOPES = %w[brazil latam worldwide us_only europe_only unknown].freeze
   SENIORITIES = %w[junior mid senior unknown].freeze
   TRIAGES = %w[new saved dismissed].freeze

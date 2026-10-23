@@ -3,13 +3,14 @@ require "rails_helper"
 RSpec.describe FetchJobsJob do
   before { stub_all_sources }
 
-  it "runs every due source, saves scored postings and records the runs" do
+  it "runs every due source that fits the profile, saves scored postings and records the runs" do
     create(:target_company, ats: "greenhouse", board_slug: "gitlab")
     stub_source("https://boards-api.greenhouse.io/v1/boards/gitlab/jobs?content=true", "greenhouse.json")
 
     described_class.perform_now
 
-    expect(SourceRun.status_succeeded.pluck(:source)).to match_array(Sources.all.map(&:key))
+    # The Telegram channel is for beginners, and this profile is mid-level.
+    expect(SourceRun.status_succeeded.pluck(:source)).to match_array(Sources.all.map(&:key) - %w[telegram])
     expect(JobPosting.distinct.pluck(:source)).to include("remotive", "we_work_remotely", "hacker_news", "gorails", "greenhouse")
     expect(JobPosting.find_by!(title: "Tech Lead Full-Stack Rails Engineer")).to have_attributes(remote_scope: "us_only")
     expect(SourceRun.find_by!(source: "gorails")).to have_attributes(fetched_count: 4, created_count: 4)

@@ -33,6 +33,10 @@ automated:
   - { name: "Remote OK", sources: [remote_ok], url: "https://remoteok.com/", note: "Vagas com {{termos}} no título ou nas tags." }
   - { name: "We Work Remotely", sources: [we_work_remotely], url: "https://weworkremotely.com/", note: "Feeds da sua área, filtrados por {{termos}}." }
   - { name: "Remotar", sources: [remotar], url: "https://remotar.com.br/", note: "Remotas para quem está no Brasil, buscas por {{termos}}." }
+  - { name: "Gupy", sources: [gupy], url: "https://portal.gupy.io/", note: "Busca do portal da Gupy por {{termos}} no título das vagas de empresas brasileiras." }
+  - { name: "Programathor", sources: [programathor], url: "https://programathor.com.br/jobs", note: "Páginas de cada tecnologia ({{termos}}); as vagas vencidas ficam de fora." }
+  - { name: "Vagas.com", sources: [vagas_com], url: "https://www.vagas.com.br/", note: "Buscas por {{termos}}; mais vagas de empresas grandes e de cargos amplos." }
+  - { name: "Canais do Telegram", sources: [telegram], url: "https://t.me/s/CafeinaVagas", note: "Canal Cafeína Vagas, para quem está começando: só roda com o perfil júnior. Grupos pedem login e continuam à mão." }
   - { name: "Himalayas", sources: [himalayas], url: "https://himalayas.app/", note: "Buscas por {{termos}}, com os países aceitos em cada vaga." }
   - { name: "Working Nomads", sources: [working_nomads], url: "https://www.workingnomads.com/", note: "Feed de remotas, quando o título ou as tags têm {{termos}}." }
   - { name: "GoRails Jobs", sources: [gorails], url: "https://jobs.gorails.com/", note: "Quadro da comunidade GoRails; todas as vagas são de Rails." }
@@ -128,10 +132,8 @@ tasks:
     action: "Em cada grupo, use a busca interna com {{termos}}. O Telegram não tem alerta por palavra-chave."
     links:
       - { name: "Vagas TI Brasil", url: "https://t.me/vagastibr" }
-      - { name: "Vagas Tech Remotas", url: "https://t.me/vagastechrn" }
       - { name: "Vagas Home Office Brasil", url: "https://t.me/vagashomeofficebr" }
       - { name: "Recrutei Empregos", url: "https://t.me/recrutei_empregos" }
-      - { name: "Cafeína Vagas", url: "https://t.me/CafeinaVagas" }
       - { name: "Vagas UX/UI Brasil", url: "https://t.me/vagasuxui", only_for: "UX" }
     more: "Mais grupos: procure no Telegram por “Vagas” com o nome da sua stack ou da sua área, ou veja o diretório do Kombo."
     link: { label: "Diretório Kombo", url: "https://www2.kombo.com.br/grupos/" }
@@ -197,10 +199,6 @@ tasks:
     action: "Rode com o filtro Semana. Achou vaga boa? Salve pela extensão: se ela estiver num Greenhouse, Lever, Ashby ou Workable, a empresa entra sozinha em Empresas-alvo."
     filters: [g_period]
     searches:
-      - key: google_gupy
-        title: "Gupy"
-        query: 'site:gupy.io {{stack_or}}'
-        builder: google
       - key: google_ats_br
         title: "InHire, Recrutei, Sólides"
         query: '(site:inhire.app OR site:jobs.recrutei.com.br OR site:vagas.solides.com.br) {{stack_or}}'
@@ -236,12 +234,10 @@ tasks:
     title: "Sites sem API"
     action: "Confira as vagas novas da semana. Os demais, só se sobrar tempo."
     links:
-      - { name: "Programathor", url: "https://programathor.com.br/jobs" }
       - { name: "GeekHunter", url: "https://www.geekhunter.com.br/vagas" }
       - { name: "Indeed Brasil", url: "https://br.indeed.com/jobs?q={{cargo}}" }
       - { name: "Glassdoor", url: "https://www.glassdoor.com/" }
       - { name: "Jooble", url: "https://br.jooble.org/" }
-      - { name: "Vagas.com", url: "https://www.vagas.com.br/" }
       - { name: "Wellfound", url: "https://wellfound.com/jobs", note: "startups" }
       - { name: "Ruby on Remote", url: "https://rubyonremote.com/", note: "filtros “Remote – South America” e “Remote – Anywhere”", only_for: "Ruby on Rails" }
       - { name: "RubyEvents · Brasil", url: "https://www.rubyevents.org/events/countries/brazil", note: "meetups e Tropical on Rails", only_for: "Ruby on Rails" }

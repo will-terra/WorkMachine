@@ -70,8 +70,8 @@ RSpec.describe "ATS board sources" do
   end
 
   it "registers every source" do
-    expect(Sources.all.map(&:key)).to eq(%w[remotive remote_ok we_work_remotely working_nomads himalayas remotar backend_br frontend_br
-                                            hacker_news gorails greenhouse lever ashby workable])
+    expect(Sources.all.map(&:key)).to eq(%w[remotive remote_ok we_work_remotely working_nomads himalayas remotar gupy programathor vagas_com
+                                            telegram backend_br frontend_br hacker_news gorails greenhouse lever ashby workable])
     expect(Sources.find("lever")).to eq(Sources::Lever)
     expect { Sources::Base.new.fetch }.to raise_error(NotImplementedError)
   end

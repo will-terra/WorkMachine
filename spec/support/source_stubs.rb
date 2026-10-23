@@ -20,6 +20,11 @@ module SourceStubs
     end
     stub_source("https://api.remotar.com.br/jobs?search=ruby", "remotar.json")
     stub_source("https://api.remotar.com.br/jobs?search=rails", "remotar.json")
+    %w[rails ruby].each { stub_source("https://portal.gupy.io/job-search/term=#{it}", "gupy.html", content_type: "text/html") }
+    stub_request(:get, "https://programathor.com.br/jobs-rails").to_return(status: 404, body: "")
+    stub_source("https://programathor.com.br/jobs-ruby", "programathor_ruby.html", content_type: "text/html")
+    %w[rails ruby].each { stub_source("https://www.vagas.com.br/vagas-de-#{it}", "vagas_com_vazia.html", content_type: "text/html") }
+    stub_source("https://t.me/s/CafeinaVagas", "telegram_cafeinavagas.html", content_type: "text/html")
     Sources::WeWorkRemotely.feeds(Profile.current).each { stub_source(it, "we_work_remotely.rss", content_type: "application/rss+xml") }
     stub_source("https://api.github.com/repos/backend-br/vagas/issues?state=open&per_page=100", "backend_br.json")
     stub_source("https://api.github.com/repos/frontendbr/vagas/issues?state=open&per_page=100", "frontend_br.json")

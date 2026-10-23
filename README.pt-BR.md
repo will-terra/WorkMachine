@@ -39,7 +39,7 @@ WorkMachine junta tudo num lugar só e faz a parte chata por você.
 | | |
 | - | - |
 | 🎯 **Nota de 0 a 100 para cada vaga** | Pelas suas skills (essencial +30, importante +10, extra +5), nível, região e termos a evitar. Você abre o app e já vê as melhores primeiro, com a conta explicada. |
-| 🔎 **Mais de 10 fontes, sozinho** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Hacker News, quadros Greenhouse, Lever, Ashby e Workable e os seus alertas do LinkedIn. A cada 3 horas, sem você abrir nada. |
+| 🔎 **Mais de 10 fontes, sozinho** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Gupy, Programathor, Vagas.com, Hacker News, quadros Greenhouse, Lever, Ashby e Workable e os seus alertas do LinkedIn. A cada 3 horas, sem você abrir nada. |
 | 📬 **Lê as respostas das empresas** | Pelo seu Gmail (só leitura), a IA reconhece recusa, entrevista, entrevista com IA, teste e proposta e move o cartão no kanban. Você recebe uma notificação. |
 | 🤖 **IA que não inventa** | Monta o perfil a partir do currículo, analisa o fit com cada vaga, adapta o resumo do CV e escreve mensagens para recrutadores. Usa um modelo gratuito por padrão. |
 | 🗂️ **Kanban + planilha** | Arraste candidaturas entre as etapas, exporte para `.xlsx` e acompanhe follow-ups vencidos. |
@@ -177,10 +177,12 @@ O app abre com a rotina **Configuração do app**: um passo a passo com link par
 | **Perfil** | Quem você é e o que procura: dele saem a nota, as buscas, o Radar e a IA. |
 | **Ajustes** | Idioma, chaves e contas, extensão, notificações, descarte automático, fontes, rotinas e backup. |
 
-As fontes automáticas: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
-backend-br e frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse,
-Lever, Ashby e Workable das empresas-alvo. As de nicho só rodam quando combinam com o seu perfil, e
-cada uma pode ser desligada em Ajustes. Cada fonte respeita os limites e os créditos que a API pede.
+As fontes automáticas: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar, Gupy,
+Programathor, Vagas.com, canais do Telegram (para perfil júnior), backend-br e frontendbr (GitHub),
+Hacker News "Who is hiring", GoRails Jobs e os quadros Greenhouse, Lever, Ashby e Workable das
+empresas-alvo. As de nicho só rodam quando combinam com o seu perfil, e cada uma pode ser desligada em
+Ajustes. Cada fonte respeita os limites e os créditos que a API pede e o que o robots.txt de cada site
+permite.
 
 ## IA (OpenRouter)
 

@@ -39,7 +39,7 @@ it all in one place and does the boring part for you.
 | | |
 | - | - |
 | 🎯 **A 0 to 100 score for every job** | Based on your skills (essential +30, important +10, extra +5), level, region and terms to avoid. You open the app and see the best ones first, with the math explained. |
-| 🔎 **10+ sources, on its own** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Hacker News, Greenhouse, Lever, Ashby and Workable boards and your LinkedIn alerts. Every 3 hours, without you opening anything. |
+| 🔎 **10+ sources, on its own** | Remotive, Remote OK, We Work Remotely, Himalayas, Remotar, Gupy, Programathor, Vagas.com, Hacker News, Greenhouse, Lever, Ashby and Workable boards and your LinkedIn alerts. Every 3 hours, without you opening anything. |
 | 📬 **Reads the companies' replies** | Through your Gmail (read only), the AI recognizes rejections, interviews, AI interviews, take-home tests and offers and moves the card on the board. You get a notification. |
 | 🤖 **AI that doesn't make things up** | Builds your profile from your CV, analyzes your fit with each job, tailors your CV summary and writes messages to recruiters. Uses a free model by default. |
 | 🗂️ **Kanban + spreadsheet** | Drag applications between stages, export to `.xlsx` and keep track of overdue follow-ups. |
@@ -177,11 +177,12 @@ The app opens with the **App setup** routine: a step-by-step list with a link to
 | **Profile** | Who you are and what you're looking for: the score, the searches, the Radar and the AI come from it. |
 | **Settings** | Language, keys and accounts, extension, notifications, auto-dismiss, sources, routines and backup. |
 
-The automatic sources: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar,
-backend-br and frontendbr (GitHub), Hacker News "Who is hiring", GoRails Jobs and the Greenhouse, Lever,
-Ashby and Workable boards of your target companies. The niche ones only run when they match your
-profile, and each one can be turned off in Settings. Every source respects the limits and the credits
-its API asks for.
+The automatic sources: Remotive, Remote OK, We Work Remotely, Working Nomads, Himalayas, Remotar, Gupy,
+Programathor, Vagas.com, Telegram channels (for junior profiles), backend-br and frontendbr (GitHub),
+Hacker News "Who is hiring", GoRails Jobs and the Greenhouse, Lever, Ashby and Workable boards of your
+target companies. The niche ones only run when they match your profile, and each one can be turned off
+in Settings. Every source respects the limits and the credits its API asks for, and what each site's
+robots.txt allows.
 
 ## AI (OpenRouter)
 
