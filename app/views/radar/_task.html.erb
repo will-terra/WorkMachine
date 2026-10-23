@@ -1,10 +1,14 @@
 <%# The frame reloads only this task when one of its filters changes (the searches' links follow the filters).
     Each task folds by its title and stays as the person left it (@folds); otherwise "collapsed" ones
-    in radar.yml start folded. A frame reload (a filter changed) means the task was open. %>
+    in radar.yml start folded, and so do the LinkedIn alerts once they are all on (a choice of their
+    own, "linkedin_alerts_done", apart from the one made while some were left). A frame reload (a
+    filter changed) means the task was open. %>
+<% done = task["checkable"] && @alerts_summary&.done? %>
+<% fold = done ? "#{task["key"]}_done" : task["key"] %>
 <%= turbo_frame_tag "radar_#{task["key"]}" do %>
-  <details id="<%= task["key"] %>" class="group/task scroll-mt-6" data-action="toggle->radar-folds#remember"
-           <%= "open" if @open_task == task["key"] || @folds.fetch(task["key"]) { !task["collapsed"] } %>>
-    <summary class="flex list-none flex-wrap items-baseline gap-x-2.5 gap-y-1 [&::-webkit-details-marker]:hidden">
+  <details id="<%= task["key"] %>" class="group/task scroll-mt-6" data-fold="<%= fold %>"
+           <%= "open" if @open_task == task["key"] || @folds.fetch(fold) { !(task["collapsed"] || done) } %>>
+    <summary class="flex list-none flex-wrap items-baseline gap-x-2.5 gap-y-1 [&::-webkit-details-marker]:hidden" data-action="click->radar-folds#remember">
       <span class="font-mono text-xs text-muted group-open/task:rotate-90" aria-hidden="true">▸</span>
       <h3 id="<%= task["key"] %>_title" class="text-[20px]"><%= task["title"] %></h3>
       <% if task["searches"].present? %>

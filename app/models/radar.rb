@@ -12,7 +12,10 @@ class Radar
   APP_LINKS = { "target_companies" => :target_companies_path, "job_postings" => :job_postings_path,
                 "job_applications" => :job_applications_path }.freeze
 
-  AlertsSummary = Data.define(:total, :pending, :outdated)
+  AlertsSummary = Data.define(:pending, :outdated) do
+    # Nothing left to turn on or off on LinkedIn.
+    def done? = (pending + outdated).zero?
+  end
 
   # A source the app already fetches by itself, with the result of its latest run. "off" when its
   # sources are turned off in Ajustes or do not match the profile.
@@ -61,13 +64,13 @@ class Radar
       alerts_task(profile)&.fetch("searches").to_a
     end
 
-    # How the LinkedIn alerts stand (nil while the profile is empty): how many searches, how many
-    # left to turn on and how many turned on for queries the profile no longer makes.
+    # How the LinkedIn alerts stand (nil while the profile is empty): how many are left to turn on
+    # and how many were turned on for queries the profile no longer makes.
     def alerts_summary(profile = Profile.current)
       return unless profile.configured?
 
       searches = alert_searches(profile)
-      AlertsSummary.new(total: searches.size, pending: ActivatedAlert.pending_count(searches), outdated: ActivatedAlert.outdated(searches).count)
+      AlertsSummary.new(pending: ActivatedAlert.pending_count(searches), outdated: ActivatedAlert.outdated(searches).count)
     end
 
     # Terms to fill in the profiles of platforms and consultancies (Cadastros).

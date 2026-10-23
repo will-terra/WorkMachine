@@ -62,14 +62,20 @@ RSpec.describe "Radar" do
                                        "1 alerta antigo para desligar no LinkedIn")
     end
 
-    it "keeps the link to the alerts when they are all on" do
+    it "drops the notice and folds the section once every alert is on, unless the person opened it then" do
       searches.each { ActivatedAlert.create!(search_key: it["key"], query: it["query"]) }
+      cookies[:radar_folds] = { linkedin_alerts: 1 }.to_json
 
       get radar_path
 
-      expect(response.body).to include("Os #{searches.size} alertas do LinkedIn estão ativados", 'href="#linkedin_alerts"',
-                                       "#{searches.size} de #{searches.size} alertas ativados")
-      expect(response.body).not_to include("para ativar", "linkedin_alerts_li_region")
+      expect(response.body).not_to include("Ver os alertas", "para ativar", "linkedin_alerts_li_region")
+      expect(response.body).to include("#{searches.size} de #{searches.size} alertas ativados")
+      expect(folds).to include("linkedin_alerts" => false)
+
+      cookies[:radar_folds] = { linkedin_alerts_done: 1 }.to_json
+      get radar_path
+
+      expect(folds).to include("linkedin_alerts" => true)
     end
 
     it "hides the notice while the profile is empty" do

@@ -23,7 +23,7 @@ class RadarController < ApplicationController
       data = JSON.parse(cookies[:radar_folds].to_s)
       return {} unless data.is_a?(Hash)
 
-      data.slice(*Radar.tasks.map { it["key"] }).transform_values { it == 1 }
+      data.slice(*Radar.tasks.flat_map { [ it["key"], ("#{it["key"]}_done" if it["checkable"]) ] }.compact).transform_values { it == 1 }
     rescue JSON::ParserError
       {}
     end

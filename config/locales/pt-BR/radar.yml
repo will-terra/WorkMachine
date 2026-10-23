@@ -20,9 +20,6 @@ pt-BR:
       outdated:
         one: 1 alerta antigo para desligar no LinkedIn
         other: "%{count} alertas antigos para desligar no LinkedIn"
-      all_on:
-        one: O alerta do LinkedIn está ativado
-        other: "Os %{count} alertas do LinkedIn estão ativados"
       link: Ver os alertas
     alerts:
       total: "%{done} de %{total} alertas ativados"
