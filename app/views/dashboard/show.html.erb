@@ -52,6 +52,12 @@
     <% if @last_gmail_at %><span>Gmail <%= clock(@last_gmail_at) %></span><% end %>
   </p>
 </section>
+<% if @suggestions_count.positive? %>
+  <p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+    <span class="font-semibold text-accent-bright"><%= t(".suggestions", count: @suggestions_count) %></span>
+    <%= link_to t(".see_suggestions"), profile_path(anchor: "sugestoes") %>
+  </p>
+<% end %>
 
 <div class="flex flex-wrap gap-x-[clamp(36px,5vw,80px)] gap-y-10 pt-8">
   <section class="min-w-0 flex-[7_1_480px]" aria-labelledby="new_postings_title">

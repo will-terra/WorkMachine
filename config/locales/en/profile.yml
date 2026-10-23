@@ -12,6 +12,19 @@ en:
       dados: Data
       ux_ui_e_produto: UX/UI and product
   profiles:
+    suggestions:
+      title: Suggestions from your triage
+      note: Simple counts over the jobs you saved and dismissed and over the companies' replies. Nothing changes in the profile without your click.
+      avoid_none: You dismissed %{count} jobs mentioning “%{term}” and saved none.
+      avoid_few: You dismissed %{count} jobs mentioning “%{term}” and saved only %{saved}.
+      promote_saves: You saved %{share}% of the jobs mentioning “%{term}”; your average is %{average}%.
+      promote_answers: The jobs mentioning “%{term}” you applied to answered %{ratio}× more than the others.
+      demote: You almost never save jobs mentioning “%{term}” (%{saved} of %{count}).
+      actions:
+        avoid: Add to Avoid
+        promote: Move up to %{level}
+        demote: Move down to %{level}
+      dismiss: Dismiss
     remove: Remove %{name}
     term: term
     show:

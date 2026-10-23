@@ -7,6 +7,19 @@ pt-BR:
       dados: Dados
       ux_ui_e_produto: UX/UI e produto
   profiles:
+    suggestions:
+      title: Sugestões das suas triagens
+      note: Contas simples sobre as vagas que você salvou e descartou e sobre as respostas das empresas. Nada muda no perfil sem o seu clique.
+      avoid_none: Você descartou %{count} vagas com “%{term}” e não salvou nenhuma.
+      avoid_few: Você descartou %{count} vagas com “%{term}” e salvou só %{saved}.
+      promote_saves: Você salvou %{share}% das vagas com “%{term}”; a sua média é %{average}%.
+      promote_answers: As vagas com “%{term}” em que você aplicou responderam %{ratio}× mais que as outras.
+      demote: Você quase nunca salva vagas com “%{term}” (%{saved} de %{count}).
+      actions:
+        avoid: Colocar em Evitar
+        promote: Subir para %{level}
+        demote: Baixar para %{level}
+      dismiss: Dispensar
     remove: Remover %{name}
     term: termo
     show:

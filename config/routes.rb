@@ -52,6 +52,10 @@ Rails.application.routes.draw do
     post :upload_cv, path: "curriculo"
     post :draft, path: "rascunho"
     delete :discard_draft, path: "rascunho"
+    resource :suggestions, only: [], controller: "profile_suggestions", path: "sugestoes" do
+      post :apply, path: "aplicar"
+      post :dismiss, path: "dispensar"
+    end
   end
   resources :push_subscriptions, only: %i[ create destroy ] do
     collection do

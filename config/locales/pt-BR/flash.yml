@@ -1,5 +1,9 @@
 pt-BR:
   flash:
+    suggestions:
+      applied: Perfil atualizado (%{term}). As notas das vagas vão ser recalculadas.
+      dismissed: Sugestão dispensada.
+      gone: Essa sugestão não vale mais.
     applications:
       created: Candidatura criada.
       updated: Candidatura atualizada.

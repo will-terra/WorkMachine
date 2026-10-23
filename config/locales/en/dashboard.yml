@@ -33,6 +33,10 @@ en:
       read: Read the job
       no_postings: No new jobs. The aggregator runs every 3 hours.
       interviews: Upcoming interviews
+      suggestions:
+        one: WorkMachine has 1 suggestion for your profile, learned from your triage.
+        other: WorkMachine has %{count} suggestions for your profile, learned from your triage.
+      see_suggestions: See suggestions →
       prepare: Prepare
       follow_ups: Today's follow-ups
       follow_up: Follow-up

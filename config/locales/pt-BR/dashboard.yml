@@ -33,6 +33,10 @@ pt-BR:
       read: Ler a vaga
       no_postings: Nenhuma vaga nova. O agregador roda a cada 3 horas.
       interviews: Próximas entrevistas
+      suggestions:
+        one: O WorkMachine tem 1 sugestão para o seu perfil, tirada das suas triagens.
+        other: O WorkMachine tem %{count} sugestões para o seu perfil, tiradas das suas triagens.
+      see_suggestions: Ver sugestões →
       prepare: Preparar
       follow_ups: Follow-ups do dia
       follow_up: Follow-up
