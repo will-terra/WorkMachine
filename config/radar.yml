@@ -78,7 +78,7 @@ cadences:
 
 # Tarefas manuais. Cada uma pode ter: searches (com filters), links (only_for: só aparece quando o
 # perfil tem o termo), link (um atalho), status (resumo de uma fonte automática), registrations
-# (checklist de cadastros) ou checkable (cada busca ganha a caixa "ativado", gravada pela consulta em
+# (checklist de cadastros), collapsed (começa recolhida; toda tarefa recolhe pelo título) ou checkable (cada busca ganha a caixa "ativado", gravada pela consulta em
 # ActivatedAlert: as marcadas vão para o fim e, se o perfil mudar a consulta, ela volta como nova).
 # Textos e URLs aceitam as variáveis do perfil.
 tasks:
@@ -138,6 +138,7 @@ tasks:
 
   - key: pessoas
     cadence: weekly
+    collapsed: true
     title: "Recrutadores no LinkedIn"
     action: "Conecte com 5 por semana, com a nota de conexão de Mensagens, e salve cada um em Contatos pelo ícone da extensão, no perfil da pessoa. Muita vaga aparece primeiro no post de alguém do time."
     searches:
@@ -164,6 +165,7 @@ tasks:
 
   - key: x
     cadence: weekly
+    collapsed: true
     title: "Buscas no X"
     action: "Passe por 3 a 5 buscas na aba “Mais recentes”."
     searches:
@@ -190,6 +192,7 @@ tasks:
 
   - key: google
     cadence: weekly
+    collapsed: true
     title: "Google"
     action: "Rode com o filtro Semana. Achou vaga boa? Salve pela extensão: se ela estiver num Greenhouse, Lever, Ashby ou Workable, a empresa entra sozinha em Empresas-alvo."
     filters: [g_period]

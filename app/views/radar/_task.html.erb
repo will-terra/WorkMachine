@@ -1,11 +1,19 @@
-<%# The frame reloads only this task when one of its filters changes (the searches' links follow the filters). %>
+<%# The frame reloads only this task when one of its filters changes (the searches' links follow the filters).
+    Each task folds by its title; "collapsed" ones in radar.yml start folded, except when the frame
+    reloads them (a filter changed, so the task was open). %>
 <%= turbo_frame_tag "radar_#{task["key"]}" do %>
-  <article id="<%= task["key"] %>" class="scroll-mt-6" aria-labelledby="<%= task["key"] %>_title">
-    <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-      <div class="max-w-[72ch]">
-        <h3 id="<%= task["key"] %>_title" class="text-[20px]"><%= task["title"] %></h3>
-        <p class="mt-1.5 text-[14.5px] leading-[1.55]"><%= task["action"] %></p>
-      </div>
+  <details id="<%= task["key"] %>" class="group/task scroll-mt-6" <%= "open" if !task["collapsed"] || @open_task == task["key"] %>>
+    <summary class="flex list-none flex-wrap items-baseline gap-x-2.5 gap-y-1 [&::-webkit-details-marker]:hidden">
+      <span class="font-mono text-xs text-muted group-open/task:rotate-90" aria-hidden="true">▸</span>
+      <h3 id="<%= task["key"] %>_title" class="text-[20px]"><%= task["title"] %></h3>
+      <% if task["searches"].present? %>
+        <span class="font-mono text-xs text-muted"><%= t(".searches_count", count: task["searches"].size) %></span>
+      <% elsif task["links"].present? %>
+        <span class="font-mono text-xs text-muted"><%= t(".links_count", count: task["links"].size) %></span>
+      <% end %>
+    </summary>
+    <div class="mt-1.5 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+      <p class="max-w-[72ch] text-[14.5px] leading-[1.55]"><%= task["action"] %></p>
       <% if task["filters"].present? && task["searches"].present? && !task["checkable"] %>
         <%= render "radar/filters", task_key: task["key"], names: task["filters"], filters: @filters, available: @config["filters"] %>
       <% end %>
@@ -62,5 +70,5 @@
     <% end %>
 
     <%= render "radar/registrations", registrations: @registrations, keywords: Radar.profile_keywords(@profile) if task["registrations"] %>
-  </article>
+  </details>
 <% end %>

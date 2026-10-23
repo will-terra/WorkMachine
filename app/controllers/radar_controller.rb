@@ -5,6 +5,8 @@ class RadarController < ApplicationController
     @config = Radar.config
     @profile = Profile.current
     @tasks = Radar.tasks_for(@profile).group_by { it["cadence"] }
+    # A filter reloads only its task's frame ("radar_google"): that task comes back open.
+    @open_task = request.headers["Turbo-Frame"].to_s.delete_prefix("radar_").presence
     @alerts_summary = Radar.alerts_summary(@profile)
     @automated = Radar.automated
     @gmail_configured = LinkedinAlerts::Importer.configured?

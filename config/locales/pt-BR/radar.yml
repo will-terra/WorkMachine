@@ -34,6 +34,12 @@ pt-BR:
       save: Salvar
     task:
       apply: Aplicar
+      searches_count:
+        one: 1 busca
+        other: "%{count} buscas"
+      links_count:
+        one: 1 link
+        other: "%{count} links"
       set_up_gmail: Configure em Ajustes para os alertas serem importados
       no_alerts_chip: nenhum alerta ainda
       no_alerts: Nenhum alerta importado do Gmail até agora.

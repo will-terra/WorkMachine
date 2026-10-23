@@ -34,6 +34,12 @@ en:
       save: Save
     task:
       apply: Apply
+      searches_count:
+        one: 1 search
+        other: "%{count} searches"
+      links_count:
+        one: 1 link
+        other: "%{count} links"
       set_up_gmail: Set it up in Settings for the alerts to be imported
       no_alerts_chip: no alerts yet
       no_alerts: No alert imported from Gmail so far.

@@ -76,6 +76,17 @@ RSpec.describe "Radar" do
     end
   end
 
+  it "folds the long search lists, keeping LinkedIn posts open, and reopens the one whose filter changed" do
+    get radar_path
+
+    expect(response.body).to include('<details id="feed" class="group/task scroll-mt-6" open>', '<details id="google" class="group/task scroll-mt-6" >')
+    expect(response.body).to match(/id="pessoas"[^>]*\s>/).and match(/id="x"[^>]*\s>/)
+
+    get radar_path(g_period: "m"), headers: { "Turbo-Frame" => "radar_google" }
+
+    expect(response.body).to include('<details id="google" class="group/task scroll-mt-6" open>')
+  end
+
   it "applies and remembers the filters" do
     get radar_path(li_region: "world_remote", li_period: "r2592000")
     get radar_path
