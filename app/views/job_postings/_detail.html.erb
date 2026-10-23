@@ -40,6 +40,7 @@
         <%= button_to "#{dream ? "★" : "☆"} #{t(".dream")}", dream_job_posting_path(job_posting), class: "btn btn-ghost",
                       title: dream ? t(".dream_remove") : t(".dream_add", max: Profile::MAX_DREAM_POSTINGS), aria: { pressed: dream } %>
         <%= link_to t(".message"), message_templates_path(job_posting_id: job_posting.id), class: "btn btn-ghost", data: { turbo_frame: "_top" } %>
+        <%= link_to t(".prepare"), edit_job_application_path(application, anchor: "entrevista"), class: "btn btn-ghost", data: { turbo_frame: "_top" } if application&.interview_stage? %>
         <%= external_link t(".open"), job_posting.url, class: "btn btn-ghost" %>
       </div>
     </div>

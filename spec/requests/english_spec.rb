@@ -41,6 +41,8 @@ RSpec.describe "English interface" do
       application = create(:job_application, company: "Globex", role: "Backend Engineer", status: "applied", applied_on: 3.days.ago.to_date,
                                              next_follow_up_on: Date.current, job_posting: posting)
       create(:application_email, job_application: application, subject: "Your application", summary: "They want an interview.", category: "interview")
+      interview = create(:job_application, company: "Initech", role: "Rails Developer", status: "tech_interview", interview_at: 2.days.from_now)
+      create(:ai_artifact, job_posting: nil, job_application: interview, kind: "interview_prep", content: "What the job values most")
       create(:contact, name: "Mary Smith", headline: "Tech Recruiter", company: "Initech")
       create(:contact, name: "John Doe", headline: "Engineering Manager", company: "Acme Inc.")
       create(:message_template, name: "Recruiter note", language: "en", body: "Hi {{nome}}, about the {{cargo}} role at {{empresa}}.", max_chars: 200)
@@ -57,11 +59,12 @@ RSpec.describe "English interface" do
 
     # Grows with the translation: every screen goes in this list once it is translated.
     it "shows the translated screens in English" do
-      application = JobApplication.last
+      application = JobApplication.find_by!(company: "Globex")
       posting = JobPosting.last
       [
         job_postings_path, job_postings_path(selected: posting.id), job_posting_path(posting), new_job_posting_path,
         job_applications_path(view: "board"), job_applications_path(view: "table"), new_job_application_path, edit_job_application_path(application),
+        edit_job_application_path(JobApplication.find_by!(company: "Initech")),
         root_path, metrics_path, radar_path, message_templates_path, message_templates_path(job_application_id: application.id),
         new_message_template_path, edit_message_template_path(MessageTemplate.last), routine_path,
         contacts_path, new_contact_path, edit_contact_path(Contact.last),

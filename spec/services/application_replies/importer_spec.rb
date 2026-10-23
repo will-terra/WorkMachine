@@ -57,6 +57,18 @@ RSpec.describe ApplicationReplies::Importer do
     expect(Setting.current.replies_checked_at).to eq(Time.zone.local(2026, 10, 20, 12))
   end
 
+  it "keeps the interview date the e-mail sets" do
+    interview_at = Time.zone.local(2026, 10, 23, 14)
+    allow(classifier).to receive(:call).and_return(
+      ApplicationReplies::Classifier::Result.new(category: "interview", summary: "Entrevista técnica marcada.", interview_type: "technical",
+                                                 classified_by: "ai", interview_at:)
+    )
+
+    travel_to(Time.zone.local(2026, 10, 20, 12)) { importer.call }
+
+    expect(acme.reload).to have_attributes(status: "tech_interview", interview_at:)
+  end
+
   it "never reads the same e-mail twice and searches since the last check" do
     allow(classifier).to receive(:call).and_return(answer("confirmation"))
     importer.call

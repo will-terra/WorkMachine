@@ -19,7 +19,7 @@
         <p class="text-[15px] leading-relaxed whitespace-pre-line" data-clipboard-target="source"><%= ai_artifact.content %></p>
         <div class="mt-3 flex gap-2">
           <button type="button" class="btn btn-sm" data-clipboard-target="button" data-action="clipboard#copy"><%= t(".copy") %></button>
-          <%= button_to t(".delete"), ai_artifact_path(ai_artifact), method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: "posting_detail", turbo_confirm: t(".delete_confirm") } } %>
+          <%= button_to t(".delete"), ai_artifact_path(ai_artifact), method: :delete, class: "btn btn-ghost btn-sm", form: { data: { turbo_frame: ai_artifact.interview_prep? ? "_top" : "posting_detail", turbo_confirm: t(".delete_confirm") } } %>
         </div>
       </div>
     <% end %>

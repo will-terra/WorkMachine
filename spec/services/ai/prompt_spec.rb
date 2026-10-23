@@ -16,6 +16,26 @@ RSpec.describe Ai::Prompt do
     expect(text).not_to include("years of professional experience")
   end
 
+  it "prepares an interview with the stage, the sheet in the interface language and the company's e-mails" do
+    application = create(:job_application, company: "Acme", role: "Rails Engineer", status: "ai_interview", notes: "Falar com a Bia.",
+                                           job_posting: create(:job_posting, title: "Rails Engineer", company: "Acme", description: "Rails 8 and Hotwire"))
+    create(:application_email, job_application: application, summary: "Entrevista gravada no HireVue, prazo de 5 dias.", category: "interview")
+    create(:application_email, job_application: application, summary: "Newsletter.", category: "unrelated")
+
+    text = described_class.user_text("interview_prep", nil, application:)
+
+    expect(text).to include("has an asynchronous interview", "preparation sheet in Brazilian Portuguese", "Perguntas técnicas prováveis",
+                            "[complete com um exemplo seu]", "Rails 8 and Hotwire", "<application_history>", "HireVue", "Falar com a Bia.")
+    expect(text).not_to include("Newsletter")
+    expect(I18n.with_locale(:en) { described_class.user_text("interview_prep", nil, application:) }).to include("Likely technical questions", "[complete with your own example]")
+  end
+
+  it "prepares from the application alone when it has no posting" do
+    application = create(:job_application, company: "Globex", role: "Backend Developer", status: "hr_interview")
+
+    expect(described_class.user_text("interview_prep", nil, application:)).to include("an interview with HR", "Title: Backend Developer", "Company: Globex", "prepare from the title")
+  end
+
   it "adds the dream jobs and the goal of the profile" do
     dream = create(:job_posting, title: "Staff Rails Engineer", company: "Dream Co", description: "Build Rails apps")
     Profile.current.update!(dream_posting_ids: [ dream.id ], salary_usd_min: 4000, salary_usd_max: 6000)

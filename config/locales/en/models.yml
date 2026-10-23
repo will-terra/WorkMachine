@@ -46,6 +46,7 @@ en:
         status: Status
         applied_on: Applied on
         next_follow_up_on: Next follow-up
+        interview_at: Interview on
         contact_name: Contact
         contact_url: Link of the contact or the job
         salary_range: Salary range
@@ -217,5 +218,6 @@ en:
     ai_artifact:
       kind:
         fit_analysis: Fit analysis
+        interview_prep: Interview preparation
         cv_summary: CV summary
         message: Message to recruiter

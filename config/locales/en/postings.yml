@@ -110,6 +110,7 @@ en:
       dream_add: Use as a reference of what you look for (up to %{max})
       message: Message
       open: Open job ↗
+      prepare: Prepare for the interview
       breakdown: Score breakdown
       facts:
         company: Company

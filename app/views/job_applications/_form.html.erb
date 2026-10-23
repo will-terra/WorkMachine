@@ -38,6 +38,10 @@
     <%= form.label :salary_range, class: "label" %>
     <%= form.text_field :salary_range, placeholder: t(".salary_placeholder"), class: "input" %>
   </div>
+  <div>
+    <%= form.label :interview_at, class: "label" %>
+    <%= form.datetime_field :interview_at, class: "input" %>
+  </div>
   <div class="sm:col-span-2">
     <%= form.label :notes, class: "label" %>
     <%= form.text_area :notes, rows: 4, class: "input" %>

@@ -6,6 +6,10 @@
   <p class="mt-3 text-sm text-muted"><%= t(".from_posting_html", link: link_to(@job_application.job_posting.title, job_postings_path(selected: @job_application.job_posting.id, triage: "all"))) %></p>
 <% end %>
 
+<% if @job_application.interview_stage? || @job_application.interview_at || @job_application.ai_artifacts.interview_prep.exists? %>
+  <%= render "job_applications/interview", job_application: @job_application %>
+<% end %>
+
 <% emails = @job_application.application_emails.visible.latest_first %>
 <section class="mt-12 max-w-[72ch]" aria-labelledby="emails_title">
   <h2 id="emails_title"><%= t(".emails") %></h2>

@@ -1,11 +1,13 @@
-# Generates one AI result (fit analysis, CV summary or recruiter message) in the background.
+# Generates one AI result (fit analysis, CV summary, recruiter message or interview preparation) in the background.
 class GenerateAiArtifactJob < ApplicationJob
   queue_as :default
 
   def perform(artifact, client: Ai::Client.new)
     return unless artifact.status_pending?
 
-    result = client.generate(artifact.kind, artifact.job_posting, language: artifact.language || "pt")
+    options = { language: artifact.language || "pt" }
+    options[:application] = artifact.job_application if artifact.job_application
+    result = client.generate(artifact.kind, artifact.job_posting, **options)
     attributes = {
       model: result.model.to_s,
       input_tokens: result.input_tokens,
@@ -16,7 +18,7 @@ class GenerateAiArtifactJob < ApplicationJob
     }
 
     if result.refused?
-      artifact.update!(attributes.merge(status: "failed", error_message: "A IA recusou o pedido."))
+      artifact.update!(attributes.merge(status: "failed", error_message: I18n.t("ai.errors.refused")))
     else
       note = "\n\n#{I18n.t("ai.errors.truncated")}" if result.truncated?
       artifact.update!(attributes.merge(status: "completed", content: "#{result.text}#{note}"))

@@ -34,6 +34,8 @@ pt-BR:
       applied_on: Aplicou em
       follow_up: follow-up %{date}
       next_follow_up: Próximo follow-up
+      interview: entrevista %{date}
+      prepare: Preparar entrevista
       edit: Editar
       message: Mensagem
       open: Abrir vaga
@@ -61,6 +63,13 @@ pt-BR:
       salary_placeholder: R$ 9–12 mil ou US$ 3–4k
       save: Salvar
       cancel: Cancelar
+    interview:
+      title: Preparação de entrevista
+      note: "Uma folha feita pela IA a partir da vaga, do seu perfil e dos e-mails da empresa: o que a vaga mais valoriza, perguntas prováveis, histórias suas e perguntas para fazer. Ela nunca inventa experiência; o que faltar fica marcado para você completar."
+      scheduled: Entrevista marcada para %{date}. O lembrete chega na véspera, a partir das 18h.
+      no_date: Sem data marcada. Preencha "Entrevista em" acima para receber um lembrete na véspera.
+      prepare: Preparar entrevista
+      prepare_again: Preparar de novo
     edit:
       eyebrow: candidaturas
       delete: Apagar

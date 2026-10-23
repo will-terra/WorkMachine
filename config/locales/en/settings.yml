@@ -31,6 +31,8 @@ en:
         replies_note: When a company you applied to replies in Gmail.
         follow_ups: Today's follow-ups
         follow_ups_note: At 8 a.m., the applications with no reply for 5 days or more.
+        interviews: Interview reminder
+        interviews_note: The day before, from 6 p.m., with the time and the preparation.
         min_score: Notify jobs scoring at least
       dismissal:
         title: Auto-dismiss

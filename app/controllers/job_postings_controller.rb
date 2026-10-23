@@ -11,7 +11,7 @@ class JobPostingsController < ApplicationController
     @total = @filter.scope.count
     @job_postings = @filter.ordered.limit(PER_PAGE).offset(@page * PER_PAGE).to_a
     @selected = JobPosting.find_by(id: params[:selected]) || @job_postings.first
-    @ai_artifacts = @selected&.ai_artifacts&.latest_first
+    @ai_artifacts = @selected&.ai_artifacts&.for_posting&.latest_first
     @triage_counts = triage_counts
     @source_runs = SourceRun.latest_per_source.where(source: JobPosting::SOURCES)
   end
@@ -26,7 +26,7 @@ class JobPostingsController < ApplicationController
   end
 
   def show
-    @ai_artifacts = @job_posting.ai_artifacts.latest_first
+    @ai_artifacts = @job_posting.ai_artifacts.for_posting.latest_first
   end
 
   def new
@@ -143,7 +143,7 @@ class JobPostingsController < ApplicationController
           flash.now[:undo] = undo
           render turbo_stream: [
             turbo_stream.replace("posting_detail", partial: "job_postings/detail",
-                                                   locals: { job_posting: @job_posting, ai_artifacts: @job_posting.ai_artifacts.latest_first, standalone: params[:standalone].present? }),
+                                                   locals: { job_posting: @job_posting, ai_artifacts: @job_posting.ai_artifacts.for_posting.latest_first, standalone: params[:standalone].present? }),
             turbo_stream.replace(@job_posting, partial: "job_postings/job_posting", locals: { job_posting: @job_posting }),
             *triage_counts.map { |triage, count| turbo_stream.update("triage_count_#{triage}", count.to_s) },
             turbo_stream.update("nav_count", JobPosting.triage_new.count.nonzero?.to_s),

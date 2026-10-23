@@ -48,7 +48,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
   end
 
   create_table "ai_artifacts", force: :cascade do |t|
-    t.integer "job_posting_id", null: false
+    t.integer "job_posting_id"
     t.string "kind", null: false
     t.string "status", default: "pending", null: false
     t.string "language"
@@ -62,6 +62,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.integer "cache_write_tokens"
     t.integer "cache_read_tokens"
     t.decimal "cost_usd", precision: 10, scale: 6
+    t.integer "job_application_id"
+    t.index ["job_application_id"], name: "index_ai_artifacts_on_job_application_id"
     t.index ["job_posting_id", "kind"], name: "index_ai_artifacts_on_job_posting_id_and_kind"
     t.index ["job_posting_id"], name: "index_ai_artifacts_on_job_posting_id"
   end
@@ -125,6 +127,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.datetime "updated_at", null: false
     t.datetime "board_checked_at"
     t.date "responded_on"
+    t.datetime "interview_at"
+    t.datetime "interview_reminded_at"
     t.index ["job_posting_id"], name: "index_job_applications_on_job_posting_id"
     t.index ["next_follow_up_on"], name: "index_job_applications_on_next_follow_up_on"
     t.index ["status", "position"], name: "index_job_applications_on_status_and_position"
@@ -299,6 +303,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_160400) do
     t.datetime "routines_seeded_at"
     t.string "locale", default: "auto", null: false
     t.string "detected_locale"
+    t.boolean "notify_interviews", default: true, null: false
   end
 
   create_table "source_runs", force: :cascade do |t|

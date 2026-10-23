@@ -32,6 +32,8 @@ en:
       dismiss: Dismiss
       read: Read the job
       no_postings: No new jobs. The aggregator runs every 3 hours.
+      interviews: Upcoming interviews
+      prepare: Prepare
       follow_ups: Today's follow-ups
       follow_up: Follow-up
       edit: Edit

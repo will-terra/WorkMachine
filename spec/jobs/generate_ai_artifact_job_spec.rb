@@ -19,6 +19,16 @@ RSpec.describe GenerateAiArtifactJob do
     expect(artifact.cost_usd.to_f).to eq(0.00438)
   end
 
+  it "prepares an interview from the application" do
+    application = create(:job_application, status: "tech_interview")
+    prep = create(:ai_artifact, job_posting: nil, job_application: application, kind: "interview_prep", status: "pending", content: nil, language: "pt")
+    allow(client).to receive(:generate).with("interview_prep", nil, language: "pt", application:).and_return(result(text: "O que a vaga mais valoriza"))
+
+    described_class.perform_now(prep, client:)
+
+    expect(prep.reload).to have_attributes(status: "completed", content: "O que a vaga mais valoriza")
+  end
+
   it "flags answers cut at max_tokens" do
     allow(client).to receive(:generate).and_return(result(finish_reason: "length"))
 
