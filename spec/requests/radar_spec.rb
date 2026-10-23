@@ -53,7 +53,17 @@ RSpec.describe "Radar" do
 
       get radar_path
 
-      expect(response.body).to include("Buscas antigas que continuam ativadas", "Cargos alvo", "Desenvolvedor Python")
+      expect(response.body).to include("Buscas antigas que continuam ativadas", "Cargos alvo", "Desenvolvedor Python",
+                                       "1 alerta antigo para desligar no LinkedIn")
+    end
+
+    it "keeps the link to the alerts when they are all on" do
+      searches.each { ActivatedAlert.create!(search_key: it["key"], query: it["query"]) }
+
+      get radar_path
+
+      expect(response.body).to include("Os #{searches.size} alertas do LinkedIn estão ativados", 'href="#linkedin_alerts"')
+      expect(response.body).not_to include("para ativar")
     end
 
     it "hides the notice while the profile is empty" do

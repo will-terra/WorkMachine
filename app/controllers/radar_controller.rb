@@ -5,7 +5,7 @@ class RadarController < ApplicationController
     @config = Radar.config
     @profile = Profile.current
     @tasks = Radar.tasks_for(@profile).group_by { it["cadence"] }
-    @pending_alerts = Radar.pending_alerts(@profile)
+    @alerts_summary = Radar.alerts_summary(@profile)
     @automated = Radar.automated
     @gmail_configured = LinkedinAlerts::Importer.configured?
     @alerts = { emails: ProcessedEmail.count, last_received_at: ProcessedEmail.maximum(:received_at) }

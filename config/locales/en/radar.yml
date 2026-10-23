@@ -13,10 +13,16 @@ en:
       pending_alerts:
         one: 1 LinkedIn alert to turn on
         other: "%{count} LinkedIn alerts to turn on"
-    pending_alerts:
-      chip:
+    alerts_summary:
+      pending:
         one: 1 LinkedIn alert to turn on
         other: "%{count} LinkedIn alerts to turn on"
+      outdated:
+        one: 1 old alert to turn off on LinkedIn
+        other: "%{count} old alerts to turn off on LinkedIn"
+      all_on:
+        one: The LinkedIn alert is on
+        other: "All %{count} LinkedIn alerts are on"
       link: See the alerts
     alerts:
       total: "%{done} of %{total} alerts turned on"

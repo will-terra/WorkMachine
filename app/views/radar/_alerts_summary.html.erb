@@ -1,0 +1,10 @@
+<%# Always on top of the Radar while there are LinkedIn alerts, so the link to them never goes away:
+    what is left to turn on or off, or that they are all on. %>
+<% if summary && (summary.total + summary.outdated).positive? %>
+  <p class="mb-6 flex flex-wrap items-center gap-x-4 gap-y-2" role="status">
+    <% if summary.pending.positive? %><span class="chip chip-warn"><%= t(".pending", count: summary.pending) %></span><% end %>
+    <% if summary.outdated.positive? %><span class="chip chip-warn"><%= t(".outdated", count: summary.outdated) %></span><% end %>
+    <% if summary.pending.zero? && summary.outdated.zero? %><span class="chip chip-ok"><%= t(".all_on", count: summary.total) %></span><% end %>
+    <a href="#linkedin_alerts"><%= t(".link") %></a>
+  </p>
+<% end %>

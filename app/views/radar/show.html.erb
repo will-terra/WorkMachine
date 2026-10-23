@@ -6,7 +6,8 @@
           <%= radio_button_tag :cadence, cadence["key"], index.zero?, id: "cadence_#{cadence["key"]}", data: { cadence_target: "option", action: "cadence#change" } %>
           <%= cadence["title"] %>
           <% if @tasks.fetch(cadence["key"], []).any? { it["checkable"] } %>
-            <span id="pending_alerts_count" class="font-mono text-[11.5px]"<% if @pending_alerts.positive? %> title="<%= t(".pending_alerts", count: @pending_alerts) %>"<% end %>><%= @pending_alerts if @pending_alerts.positive? %></span>
+            <% pending = @alerts_summary&.pending.to_i %>
+            <span id="pending_alerts_count" class="font-mono text-[11.5px]"<% if pending.positive? %> title="<%= t(".pending_alerts", count: pending) %>"<% end %>><%= pending if pending.positive? %></span>
           <% end %>
         </label>
       <% end %>
@@ -20,7 +21,7 @@
     </p>
   <% end %>
 
-  <div id="pending_alerts"><%= render "radar/pending_alerts", count: @pending_alerts %></div>
+  <div id="alerts_summary"><%= render "radar/alerts_summary", summary: @alerts_summary %></div>
 
   <%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
 
