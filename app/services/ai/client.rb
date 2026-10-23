@@ -64,8 +64,8 @@ module Ai
       end
     end
 
-    def generate(kind, posting, language: "pt")
-      request(payload(kind, posting, language))
+    def generate(kind, posting, language: "pt", application: nil)
+      request(payload(kind, posting, language, application))
     end
 
     # A one-off request (the reply classifier): JSON answers when json: true.
@@ -77,8 +77,8 @@ module Ai
     end
 
     # Text the request sends, for the token estimate (OpenRouter has no token-counting endpoint).
-    def self.request_text(kind, posting, language: "pt")
-      [ Prompt.system_text, Prompt.user_text(kind, posting, language:) ].join("\n")
+    def self.request_text(kind, posting, language: "pt", application: nil)
+      [ Prompt.system_text, Prompt.user_text(kind, posting, language:, application:) ].join("\n")
     end
 
     private
@@ -92,12 +92,12 @@ module Ai
         raise Error.new(error_message(e), status: e.status)
       end
 
-      def payload(kind, posting, language)
+      def payload(kind, posting, language, application = nil)
         {
           model: self.class.model,
           messages: [
             { role: "system", content: system_content },
-            { role: "user", content: Prompt.user_text(kind, posting, language:) }
+            { role: "user", content: Prompt.user_text(kind, posting, language:, application:) }
           ],
           max_tokens: MAX_TOKENS,
           reasoning: { effort: EFFORT },

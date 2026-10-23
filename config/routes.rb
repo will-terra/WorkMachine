@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       post :check_replies
     end
     member { patch :move }
+    resources :ai_artifacts, path: "ia", only: :create do
+      collection { get :estimate, path: "estimativa" }
+    end
   end
   resources :contacts, path: "contatos", except: :show
   resources :job_postings, path: "vagas", only: %i[ index show new create ] do

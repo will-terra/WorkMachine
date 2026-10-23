@@ -36,6 +36,10 @@ module Ai
       "cv_summary" => <<~TASK,
         Write %<name>s's CV summary tailored to the job posting below: 4 to 5 lines (60 to 90 words), in the language the posting is written in (Portuguese or English). Start with their title, without pronouns (for example "Full Stack Engineer with..."). Lead with what this job needs most and reuse the posting's keywords only where they are true for %<name>s. Output only the summary.
       TASK
+      "interview_prep" => <<~TASK,
+        %<name>s has %<stage>s for the job posting below. Write their preparation sheet in %<interface_language>s, with exactly these sections:
+        %<prep_sections>s
+      TASK
       "message" => <<~TASK
         Write a short LinkedIn message from %<name>s to the recruiter or hiring manager of the job posting below, in %<language>s, up to 600 characters. Use the reference templates for tone and structure, adapt them to this job, mention one or two facts from the profile that match its requirements and end with a question or a clear next step. If the person's name is unknown, keep the placeholder {{nome}}. Output only the message.
 
@@ -72,12 +76,44 @@ module Ai
 
     module_function
 
+    # The interview preparation is read in the app too.
+    PREP_SECTIONS = {
+      "pt" => <<~SECTIONS.chomp,
+        O que a vaga mais valoriza: 3 to 5 bullets with what this job needs most, each tied to a fact from the profile when there is one.
+        Perguntas técnicas prováveis: 5 questions about the stack and the responsibilities of the posting, each followed by one line with what a good answer covers, using the profile.
+        Perguntas comportamentais e de RH: 4 questions, each followed by one line on how %<name>s can answer from the profile.
+        Histórias (situação, ação, resultado): 3 short stories built only from facts in the profile. Where the profile lacks a detail, write the skeleton and put [complete com um exemplo seu] in place of the missing fact.
+        Perguntas para fazer à empresa: 4 questions about the team, the work and the next steps.
+        Dicas para esta etapa: 2 or 3 bullets specific to this stage.
+      SECTIONS
+      "en" => <<~SECTIONS.chomp
+        What the job values most: 3 to 5 bullets with what this job needs most, each tied to a fact from the profile when there is one.
+        Likely technical questions: 5 questions about the stack and the responsibilities of the posting, each followed by one line with what a good answer covers, using the profile.
+        Behavioral and HR questions: 4 questions, each followed by one line on how %<name>s can answer from the profile.
+        Stories (situation, action, result): 3 short stories built only from facts in the profile. Where the profile lacks a detail, write the skeleton and put [complete with your own example] in place of the missing fact.
+        Questions to ask the company: 4 questions about the team, the work and the next steps.
+        Tips for this stage: 2 or 3 bullets specific to this stage.
+      SECTIONS
+    }.freeze
+
+    STAGES = {
+      "ai_interview" => "an asynchronous interview (recorded video or audio answers, or an interview run by an AI)",
+      "hr_interview" => "an interview with HR or the recruiter",
+      "tech_interview" => "a live technical interview",
+      "take_home" => "a take-home test or coding challenge"
+    }.freeze
+    NEXT_STAGE = "the next interview".freeze
+
     def system_text(profile = Profile.current)
       format(SYSTEM, name: name(profile), profile: profile_text(profile), dream_jobs: dream_jobs(profile), experience: experience_rule(profile))
     end
 
-    def user_text(kind, posting, language: "pt", profile: Profile.current)
-      "#{task(kind, language, profile)}\n#{posting_block(posting)}"
+    # The task and the job. For an application (interview preparation), its stage and the
+    # company's e-mails go along, and the job is the application's when it has no posting.
+    def user_text(kind, posting, language: "pt", profile: Profile.current, application: nil)
+      posting ||= application&.job_posting
+      job = posting ? posting_block(posting) : application_block(application)
+      [ task(kind, language, profile, application), job, (emails_block(application) if application) ].compact.join("\n")
     end
 
     # The language of the texts read in the app (fit analysis, reply summaries).
@@ -89,11 +125,12 @@ module Ai
       I18n.locale.to_s.start_with?("pt") ? "pt" : "en"
     end
 
-    def task(kind, language, profile = Profile.current)
+    def task(kind, language, profile = Profile.current, application = nil)
       template = TASKS.fetch(kind.to_s).sub("%<fit_sections>s") { FIT_SECTIONS.fetch(interface_key) }
+                                       .sub("%<prep_sections>s") { PREP_SECTIONS.fetch(interface_key) }
       templates = MessageTemplate.where(language: language).ordered.map { "#{it.name}:\n#{it.body_for(profile)}" }.join("\n\n")
       format(template, name: name(profile), goal: goal(profile), language: LANGUAGES.fetch(language.to_s, LANGUAGES["pt"]), interface_language:,
-                       templates: templates.presence || "(none)")
+                       templates: templates.presence || "(none)", stage: STAGES.fetch(application&.status.to_s, NEXT_STAGE))
     end
 
     def posting_block(posting)
@@ -107,6 +144,29 @@ module Ai
         #{posting.description.presence || "(no description; judge from the title and location only)"}
         </job_posting>
       POSTING
+    end
+
+    # An application typed by hand: only what it has.
+    def application_block(application)
+      <<~POSTING
+        <job_posting>
+        Title: #{application.role}
+        Company: #{application.company}
+        Description:
+        (no description; prepare from the title, the company and the profile)
+        </job_posting>
+      POSTING
+    end
+
+    # What the company wrote (summaries of the e-mails read from Gmail) and the person's notes.
+    def emails_block(application)
+      lines = application.application_emails.visible.latest_first.limit(5).filter_map do |email|
+        "- #{email.received_at&.to_date}: #{email.summary.presence || email.subject}" if email.summary.present? || email.subject.present?
+      end
+      lines << "Notes from #{name(Profile.current)}: #{application.notes.squish.truncate(600)}" if application.notes.present?
+      return if lines.empty?
+
+      "<application_history>\n#{lines.join("\n")}\n</application_history>"
     end
 
     def name(profile)

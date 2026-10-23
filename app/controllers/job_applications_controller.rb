@@ -94,6 +94,6 @@ class JobApplicationsController < ApplicationController
 
     def job_application_params
       params.expect(job_application: %i[ company role origin status applied_on next_follow_up_on
-                                         contact_name contact_url salary_range notes ])
+                                         contact_name contact_url salary_range notes interview_at ])
     end
 end

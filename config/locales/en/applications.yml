@@ -34,6 +34,8 @@ en:
       applied_on: Applied on
       follow_up: follow-up %{date}
       next_follow_up: Next follow-up
+      interview: interview %{date}
+      prepare: Prepare for the interview
       edit: Edit
       message: Message
       open: Open job
@@ -61,6 +63,13 @@ en:
       salary_placeholder: USD 3–4k or BRL 9–12k
       save: Save
       cancel: Cancel
+    interview:
+      title: Interview preparation
+      note: "A sheet the AI writes from the job, your profile and the company's e-mails: what the job values most, likely questions, your stories and questions to ask. It never invents experience; whatever is missing is marked for you to fill in."
+      scheduled: Interview scheduled for %{date}. The reminder arrives the day before, from 6 p.m.
+      no_date: No date yet. Fill in "Interview on" above to get a reminder the day before.
+      prepare: Prepare for the interview
+      prepare_again: Prepare again
     edit:
       eyebrow: applications
       delete: Delete

@@ -46,6 +46,7 @@ pt-BR:
         status: Status
         applied_on: Aplicou em
         next_follow_up_on: Próximo follow-up
+        interview_at: Entrevista em
         contact_name: Contato
         contact_url: Link do contato ou da vaga
         salary_range: Faixa salarial
@@ -217,5 +218,6 @@ pt-BR:
     ai_artifact:
       kind:
         fit_analysis: Análise de fit
+        interview_prep: Preparação de entrevista
         cv_summary: Resumo de CV
         message: Mensagem para recrutador

@@ -60,6 +60,7 @@ module ApplicationReplies
       def record(application, message_id:, from_name:, from_address:, subject:, body:, received_at:)
         result = @classifier.call(application:, from: "#{from_name} <#{from_address}>", subject:, body:)
         status_before = application.status
+        application.interview_at = result.interview_at if result.category == "interview" && result.interview_at
         moved = result.category.in?(ApplicationEmail::ANSWERS) && move(application, result, received_at)
 
         ApplicationEmail.create!(job_application: application, message_id:, from_name:, from_address:, subject: subject.to_s.truncate(250),

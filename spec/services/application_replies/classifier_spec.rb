@@ -23,6 +23,21 @@ RSpec.describe ApplicationReplies::Classifier do
     expect(client).to have_received(:complete).with(hash_including(json: true, user: include("Rails Dev at Acme")))
   end
 
+  it "reads the interview date and time, in the profile's time zone, only when it is ahead" do
+    allow(client).to receive(:complete).and_return(
+      ai_answer('{"category":"interview","summary":"Entrevista marcada.","interview_type":"hr","interview_at":"2026-10-23T14:30"}'),
+      ai_answer('{"category":"interview","summary":"Entrevista passada.","interview_type":"hr","interview_at":"2026-10-01T10:00"}'),
+      ai_answer('{"category":"interview","summary":"Sem data.","interview_type":"hr","interview_at":"quinta à tarde"}')
+    )
+
+    travel_to Time.zone.local(2026, 10, 20, 9) do
+      expect(classify(subject: "Entrevista", configured: true).interview_at).to eq(Time.zone.local(2026, 10, 23, 14, 30))
+      expect(classify(subject: "Entrevista", configured: true).interview_at).to be_nil
+      expect(classify(subject: "Entrevista", configured: true).interview_at).to be_nil
+    end
+    expect(client).to have_received(:complete).with(hash_including(system: include("Brasilia", "Tuesday, 2026-10-20"))).at_least(:once)
+  end
+
   it "asks for the summary in the interface language" do
     allow(client).to receive(:complete).and_return(ai_answer('{"category":"offer","summary":"An offer."}'))
 

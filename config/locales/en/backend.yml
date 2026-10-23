@@ -31,6 +31,9 @@ en:
     more: and %{count} more
     follow_up_one: "Follow-up today: %{company}"
     follow_up_many: "%{count} follow-ups for today"
+    interview_tomorrow: "Interview tomorrow: %{company}"
+    interview_today: "Interview today: %{company}"
+    interview_body: "%{time} · %{role}. The preparation is in the app."
     follow_up_body: "No reply for %{days}+ days: %{names}. The follow-up message comes filled in."
     replies:
       rejection: rejection
