@@ -1,8 +1,9 @@
 <%# The frame reloads only this task when one of its filters changes (the searches' links follow the filters).
-    Each task folds by its title; "collapsed" ones in radar.yml start folded, except when the frame
-    reloads them (a filter changed, so the task was open). %>
+    Each task folds by its title and stays as the person left it (@folds); otherwise "collapsed" ones
+    in radar.yml start folded. A frame reload (a filter changed) means the task was open. %>
 <%= turbo_frame_tag "radar_#{task["key"]}" do %>
-  <details id="<%= task["key"] %>" class="group/task scroll-mt-6" <%= "open" if !task["collapsed"] || @open_task == task["key"] %>>
+  <details id="<%= task["key"] %>" class="group/task scroll-mt-6" data-action="toggle->radar-folds#remember"
+           <%= "open" if @open_task == task["key"] || @folds.fetch(task["key"]) { !task["collapsed"] } %>>
     <summary class="flex list-none flex-wrap items-baseline gap-x-2.5 gap-y-1 [&::-webkit-details-marker]:hidden">
       <span class="font-mono text-xs text-muted group-open/task:rotate-90" aria-hidden="true">▸</span>
       <h3 id="<%= task["key"] %>_title" class="text-[20px]"><%= task["title"] %></h3>

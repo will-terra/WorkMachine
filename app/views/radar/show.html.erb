@@ -24,7 +24,7 @@
 <%= render "radar/status", automated: @automated, gmail_configured: @gmail_configured %>
 
 <%# Every frequency on the same page, "Uma vez" last; the buttons on top only jump to each one. %>
-<div data-controller="open-linked" data-action="hashchange@window->open-linked#open">
+<div data-controller="open-linked radar-folds" data-action="hashchange@window->open-linked#open">
   <% @config["cadences"].each do |cadence| %>
     <section id="<%= cadence["key"] %>" class="mt-12 scroll-mt-6" aria-labelledby="<%= cadence["key"] %>_title">
       <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-line pb-3">

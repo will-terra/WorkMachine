@@ -3,6 +3,11 @@ require "rails_helper"
 RSpec.describe "Radar" do
   before { sign_in }
 
+  # Which sections came open: { "feed" => true, "google" => false… }
+  def folds
+    Nokogiri::HTML(response.body).css("section details[id]").to_h { [ it["id"], it.key?("open") ] }
+  end
+
   it "shows the manual tasks by frequency with a summary of the automated sources" do
     create(:consultancy, name: "RailsDevs", kind: "platform", registered_on: Date.current)
     create(:consultancy, name: "Yoctoo", kind: "tech")
@@ -79,12 +84,28 @@ RSpec.describe "Radar" do
   it "folds the long search lists, keeping LinkedIn posts open, and reopens the one whose filter changed" do
     get radar_path
 
-    expect(response.body).to include('<details id="feed" class="group/task scroll-mt-6" open>', '<details id="google" class="group/task scroll-mt-6" >')
-    expect(response.body).to match(/id="pessoas"[^>]*\s>/).and match(/id="x"[^>]*\s>/)
+    expect(folds).to include("feed" => true, "telegram" => true, "pessoas" => false, "x" => false, "google" => false, "linkedin_alerts" => true)
 
     get radar_path(g_period: "m"), headers: { "Turbo-Frame" => "radar_google" }
 
-    expect(response.body).to include('<details id="google" class="group/task scroll-mt-6" open>')
+    expect(folds).to include("google" => true, "x" => false)
+  end
+
+  it "opens and folds the sections as the person left them" do
+    cookies[:radar_folds] = { feed: 0, google: 1, unknown: 1 }.to_json
+
+    get radar_path
+
+    expect(folds).to include("feed" => false, "google" => true, "x" => false)
+    expect(folds).not_to have_key("unknown")
+  end
+
+  it "ignores a broken folds cookie" do
+    cookies[:radar_folds] = "{not json"
+
+    get radar_path
+
+    expect(folds).to include("feed" => true, "google" => false)
   end
 
   it "applies and remembers the filters" do
