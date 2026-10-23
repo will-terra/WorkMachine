@@ -305,6 +305,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_211636) do
     t.string "detected_locale"
     t.datetime "manual_fetch_at"
     t.boolean "notify_interviews", default: true, null: false
+    t.json "dismissed_suggestions", default: [], null: false
   end
 
   create_table "source_runs", force: :cascade do |t|

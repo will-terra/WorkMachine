@@ -1,5 +1,9 @@
 en:
   flash:
+    suggestions:
+      applied: Profile updated (%{term}). The job scores will be recalculated.
+      dismissed: Suggestion dismissed.
+      gone: That suggestion no longer holds.
     applications:
       created: Application created.
       updated: Application updated.

@@ -8,6 +8,8 @@
   <button type="submit" form="profile_form" class="btn btn-primary"><%= t(".save") %></button>
 <% end %>
 
+<%= render "profiles/suggestions", suggestions: @suggestions if @suggestions.present? %>
+
 <% areas = Area.all.to_h { [ it.key, { skills: it.suggested_skills, titles_pt: it.titles_pt, titles_en: it.titles_en } ] } %>
 <div class="flex flex-wrap items-start gap-x-[clamp(36px,5vw,72px)] gap-y-10" data-controller="profile-form" data-profile-form-areas-value="<%= areas.to_json %>">
   <div class="flex min-w-0 flex-[7_1_520px] flex-col gap-10">

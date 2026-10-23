@@ -53,6 +53,9 @@ RSpec.describe "English interface" do
       Profile.current.update!(skills: [ { "name" => "Rails", "level" => "essential", "synonyms" => [ "Ruby on Rails" ] }, { "name" => "React", "level" => "extra" } ],
                               domains: [ "fintech" ], languages: "English")
       ActivatedAlert.create!(search_key: "alert_cargos", query: Radar.alert_searches.find { it["key"] == "alert_cargos" }["query"])
+      # Enough triage for the profile suggestions (Perfil and Painel).
+      create_list(:job_posting, 10, triage: "saved", description: "Ruby on Rails")
+      create_list(:job_posting, 30, triage: "dismissed", description: "PHP and Laravel")
       # The ready-made routines are copied in the language of the first visit.
       I18n.with_locale(:en) { Routine.current }
     end

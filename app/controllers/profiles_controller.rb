@@ -6,6 +6,7 @@ class ProfilesController < ApplicationController
       @profile.apply_draft
       @from_draft = true
     end
+    @suggestions = @from_draft ? [] : ProfileSuggestions.current(@profile)
   end
 
   def update

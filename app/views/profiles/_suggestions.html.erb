@@ -1,0 +1,19 @@
+<%# Suggestions learned from the triage (ProfileSuggestions), each applied or dismissed with one click. Locals: suggestions. %>
+<section id="sugestoes" class="card mb-8 scroll-mt-20 gap-3 border border-accent-line" aria-labelledby="suggestions_title">
+  <div>
+    <h2 id="suggestions_title" class="text-lg"><%= t("profiles.suggestions.title") %></h2>
+    <p class="mt-0.5 text-[13.5px] text-muted"><%= t("profiles.suggestions.note") %></p>
+  </div>
+  <ul class="flex flex-col">
+    <% suggestions.each do |suggestion| %>
+      <% level = (Profile.human_enum(:levels, suggestion.level).sub(/\s*\(.*\)/, "") if suggestion.level) %>
+      <li class="flex flex-wrap items-center justify-between gap-x-5 gap-y-2 border-t border-line py-2.5">
+        <p class="min-w-0 flex-[1_1_320px] text-[14.5px]"><%= suggestion_text(suggestion) %></p>
+        <div class="flex flex-none items-center gap-1">
+          <%= button_to t("profiles.suggestions.actions.#{suggestion.kind}", level:), apply_profile_suggestions_path, params: { key: suggestion.key }, class: "btn btn-sm btn-primary" %>
+          <%= button_to t("profiles.suggestions.dismiss"), dismiss_profile_suggestions_path, params: { key: suggestion.key }, class: "btn btn-ghost btn-sm" %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</section>
