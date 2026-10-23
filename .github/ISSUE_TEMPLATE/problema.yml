@@ -23,7 +23,7 @@ body:
     attributes:
       label: Versão do WorkMachine
       description: Aparece no topo de Ajustes.
-      placeholder: "2.2.0"
+      placeholder: "2.3.0"
   - type: dropdown
     id: sistema
     attributes:
